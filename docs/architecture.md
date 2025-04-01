@@ -1,0 +1,5 @@
+# Arquitectura
+
+```mermaid
+info
+```
