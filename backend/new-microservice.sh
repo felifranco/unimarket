@@ -110,9 +110,9 @@ cp ../assets/create-micro/$DATABASE_NAME/.env .env
 cp ../assets/create-micro/$DATABASE_NAME/app.module.ts src/app.module.ts
 
 echo -e "\n📁 Copiando el archivo main.ts..."
-cp ../assets/main.ts src/main.ts
+cp ../assets/create-micro/main.ts src/main.ts
 
 echo -e "\n📁 Copiando el archivo app.controller.ts..."
-cp ../assets/app.controller.ts src/app.controller.ts
+cp ../assets/create-micro/app.controller.ts src/app.controller.ts
 
 # ---------------- OTHER ----------------
