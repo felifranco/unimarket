@@ -20,7 +20,7 @@ Cada microservicio estará **contenedorizado** con **Docker** y orquestado con *
 - **PostgreSQL & MongoDB** → Bases de datos relacional y NoSQL.
 - **Redis** → Para caché y optimización de consultas.
 
-### Diagrama general
+### 🔶 Diagrama general
 
 ![alt text](assets/ArquitecturaTransparente.png)
 
@@ -42,7 +42,7 @@ La arquitectura se divide en los siguientes **microservicios independientes**, c
 
 Cada uno de estos servicios se comunica a través de **APIs REST** y eventos asincrónicos en **RabbitMQ**.
 
-### **API Contracts (Contratos de cada Microservicio)**
+### 🔶 **API Contracts (Contratos de cada Microservicio)**
 
 Los contratos API (API Contracts) son acuerdos formales que describen cómo se deben comunicar los servicios que interactúan mediante una API. Con los siguientes contratos se podrá integrar el software de manera correcta manteniendo un intercambio de datos ordenado:
 
