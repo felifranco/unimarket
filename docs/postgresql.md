@@ -72,4 +72,4 @@ Una vez creada la conexión entre el cliente y la base de datos, se pueden crear
 
 ### 🔶 Tabla de prueba
 
-Se utilizará una tabla temporal para probar conexión y gestión de datos desde los microservicios, para eso crearemos una tabla con nombre `temporal` que tendrá algunas columnas. La definición completa de la tabla se encuentra en el archivo [database/temporal.sql](database/temporal.sql).
+Se utilizará una tabla temporal para probar conexión y gestión de datos desde los microservicios, para eso crearemos una tabla con nombre `temporal` que tendrá algunas columnas. La definición completa de la tabla se encuentra en el archivo [database/temporal.sql](../database/temporal.sql).
