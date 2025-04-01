@@ -53,9 +53,9 @@ docker inspect -f "{{ .NetworkSettings.IPAddress }}" local_postgres
 
 #### Credenciales
 
-Según la [documentación](https://hub.docker.com/_/postgres) de la imagen de Docker, el password es requerido para la creación del contenedor por lo que el parámetro `POSTGRES_PASSWORD` es enviado en el comando anterior, y el _superusuario_ predeterminado es **postgres** si no es modificado con el parámetro `POSTGRES_USER`.
+Según la [documentación](https://hub.docker.com/_/postgres) de la imagen PostgreSQL de Docker, el password es requerido para la creación del contenedor por lo que el parámetro `POSTGRES_PASSWORD` es enviado en el comando anterior, y el _superusuario_ predeterminado es **postgres** si no es modificado con el parámetro `POSTGRES_USER`.
 
-```json
+```
 user: "postgres"
 password: "pass123"
 ```
