@@ -7,8 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Service')
-    .setDescription('The service API description')
+    .setTitle('Review Service (Valoraciones y Comentarios)')
+    .setDescription(
+      'Gestiona puntuaciones y comentarios sobre usuarios y productos',
+    )
     .setVersion('1.0')
     //.addTag('tag')
     .build();
