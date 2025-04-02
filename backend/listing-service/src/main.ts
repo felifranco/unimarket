@@ -7,8 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Service')
-    .setDescription('The service API description')
+    .setTitle('Listings Service (Gestión de Publicaciones)')
+    .setDescription(' Creación y gestión de publicaciones')
     .setVersion('1.0')
     //.addTag('tag')
     .build();

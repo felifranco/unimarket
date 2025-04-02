@@ -4,7 +4,9 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ListingsModule } from './listings/listings.module';
 import configurations from './config/configurations';
+import { Listing } from './listings/entities/listing.entity';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import configurations from './config/configurations';
         username: configService.get<string>('DB_USER', 'postgres'),
         password: configService.get<string>('DB_PASS'),
         database: configService.get<string>('DB_DATABASE', 'postgres'),
-        entities: [],
+        entities: [Listing],
         synchronize: true,
         //ssl: true,
         //extra: {
@@ -29,6 +31,7 @@ import configurations from './config/configurations';
       }),
       inject: [ConfigService],
     }),
+    ListingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
