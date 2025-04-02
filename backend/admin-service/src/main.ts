@@ -7,8 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Service')
-    .setDescription('The service API description')
+    .setTitle('Admin Service (Panel de Administración y Moderación)')
+    .setDescription(
+      'Permite a los administradores gestionar usuarios, publicaciones y reportes',
+    )
     .setVersion('1.0')
     //.addTag('tag')
     .build();

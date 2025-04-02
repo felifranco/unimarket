@@ -4,7 +4,9 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
 import configurations from './config/configurations';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import configurations from './config/configurations';
         username: configService.get<string>('DB_USER', 'postgres'),
         password: configService.get<string>('DB_PASS'),
         database: configService.get<string>('DB_DATABASE', 'postgres'),
-        entities: [],
+        entities: [User],
         synchronize: true,
         //ssl: true,
         //extra: {
@@ -29,6 +31,7 @@ import configurations from './config/configurations';
       }),
       inject: [ConfigService],
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
