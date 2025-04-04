@@ -13,7 +13,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   username: string;
 
   @ApiProperty()
-  password_hash: string;
+  password: string;
 
   @ApiProperty()
   rol: string;

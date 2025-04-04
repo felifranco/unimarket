@@ -11,11 +11,8 @@ export class CreateUserDto {
   username: string;
 
   @ApiProperty()
-  password_hash: string;
+  password: string;
 
   @ApiProperty()
   rol: string;
-
-  @ApiProperty()
-  fecha_creacion: Date;
 }

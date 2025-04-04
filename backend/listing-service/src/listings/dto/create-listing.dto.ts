@@ -18,7 +18,4 @@ export class CreateListingDto {
 
   @ApiProperty()
   ubicacion: string;
-
-  @ApiProperty()
-  fecha_creacion: Date;
 }

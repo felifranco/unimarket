@@ -4,6 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { userStatus } from 'src/constants/user.constants';
+import { hashPassword } from 'src/utils/hash.util';
 
 @Injectable()
 export class UsersService {
@@ -12,8 +14,16 @@ export class UsersService {
     private readonly userRepo: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    const newUser = this.userRepo.create(createUserDto);
+  async create(createUserDto: CreateUserDto) {
+    const hashedPassword = await hashPassword(createUserDto.password); // Hashear la contraseña
+
+    const newUser = this.userRepo.create({
+      nombre_completo: createUserDto.nombre_completo,
+      correo: createUserDto.correo,
+      username: createUserDto.username,
+      password_hash: hashedPassword,
+      estado: userStatus.ACTIVO, // Estado por defecto
+    });
     return this.userRepo.save(newUser);
   }
 
