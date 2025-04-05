@@ -1,34 +1,55 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import RouteScrollToTop from "./helper/RouteScrollToTop";
+import HomePageOne from "./pages/HomePageOne";
+import HomePageTwo from "./pages/HomePageTwo";
+import HomePageThree from "./pages/HomePageThree";
+import ShopPage from "./pages/ShopPage";
+import ProductDetailsPageOne from "./pages/ProductDetailsPageOne";
+import ProductDetailsPageTwo from "./pages/ProductDetailsPageTwo";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import AccountPage from "./pages/AccountPage";
+import BlogPage from "./pages/BlogPage";
+import BlogDetailsPage from "./pages/BlogDetailsPage";
+import ContactPage from "./pages/ContactPage";
+import PhosphorIconInit from "./helper/PhosphorIconInit";
+import VendorPage from "./pages/VendorPage";
+import VendorDetailsPage from "./pages/VendorDetailsPage";
+import VendorTwoPage from "./pages/VendorTwoPage";
+import VendorTwoDetailsPage from "./pages/VendorTwoDetailsPage";
+import BecomeSellerPage from "./pages/BecomeSellerPage";
+import WishlistPage from "./pages/WishlistPage";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <RouteScrollToTop />
+      <PhosphorIconInit />
+
+      <Routes>
+        <Route path="/" element={<HomePageOne />} />
+        <Route path="/index-two" element={<HomePageTwo />} />
+        <Route path="/index-three" element={<HomePageThree />} />
+        <Route path="/shop" element={<ShopPage />} />
+        <Route path="/product-details" element={<ProductDetailsPageOne />} />
+        <Route
+          path="/product-details-two"
+          element={<ProductDetailsPageTwo />}
+        />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/become-seller" element={<BecomeSellerPage />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
+        <Route path="/account" element={<AccountPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog-details" element={<BlogDetailsPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/vendor" element={<VendorPage />} />
+        <Route path="/vendor-details" element={<VendorDetailsPage />} />
+        <Route path="/vendor-two" element={<VendorTwoPage />} />
+        <Route path="/vendor-two-details" element={<VendorTwoDetailsPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
