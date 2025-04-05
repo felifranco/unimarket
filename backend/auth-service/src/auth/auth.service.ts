@@ -1,9 +1,13 @@
+import { UnauthorizedException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { RegisterAuthDto } from './dto/register-auth.dto';
+import { LoginAuthDto } from './dto/login-auth.dto';
+import { LogoutAuthDto } from './dto/logout-auth.dto';
 import { Auth } from './entities/auth.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { AuthStatus } from 'src/constants/auth.constants';
+import { hashPassword, comparePassword } from 'src/utils/hash.util';
 
 @Injectable()
 export class AuthService {
@@ -12,33 +16,66 @@ export class AuthService {
     private readonly authRepo: Repository<Auth>,
   ) {}
 
-  create(createAuthDto: CreateAuthDto) {
-    const newAuth = this.authRepo.create(createAuthDto);
-    return this.authRepo.save(newAuth);
+  async register(registerAuthDto: RegisterAuthDto) {
+    // Crear un nuevo usuario con los datos proporcionados
+    const hashedPassword = await hashPassword(registerAuthDto.password); // Hashear la contraseña
+
+    const newAuth = this.authRepo.create({
+      nombre_completo: registerAuthDto.nombre_completo,
+      correo: registerAuthDto.correo,
+      username: registerAuthDto.username,
+      password_hash: hashedPassword,
+      estado: AuthStatus.ACTIVO, // Estado por defecto
+    });
+    return this.authRepo.save(newAuth); // Guardar el usuario en la base de datos
   }
 
-  findAll() {
-    return this.authRepo.find();
+  async login(loginAuthDto: LoginAuthDto) {
+    const { correo, password } = loginAuthDto;
+
+    // Buscar al usuario por correo
+    return this.authRepo.findOneBy({ correo }).then((user) => {
+      if (!user) {
+        throw new UnauthorizedException('Credenciales inválidas');
+      }
+
+      // Verificar la contraseña
+      return comparePassword(password, user.password_hash).then((isMatch) => {
+        if (!isMatch) {
+          throw new UnauthorizedException('Credenciales inválidas');
+        }
+
+        // Aquí puedes generar un token JWT o devolver los datos del usuario
+        return {
+          message: 'Inicio de sesión exitoso',
+          user: {
+            id_usuario: user.id_usuario,
+            nombre_completo: user.nombre_completo,
+            correo: user.correo,
+          },
+        };
+      });
+    });
   }
 
-  findOne(id: number) {
-    return this.authRepo.findOneBy({ id_usuario: id });
+  logout(logoutAuthDto: LogoutAuthDto) {
+    // Aquí puedes implementar lógica adicional, como invalidar un token JWT
+    console.log('Logout:', logoutAuthDto);
+    return { message: 'Sesión cerrada exitosamente' };
   }
 
-  async update(id: number, updateAuthDto: UpdateAuthDto) {
-    const auth = await this.authRepo.findOneBy({ id_usuario: id });
-    if (!auth) {
-      return null;
-    }
-    this.authRepo.merge(auth, updateAuthDto);
-    return this.authRepo.save(auth);
-  }
-
-  async remove(id: number) {
-    const auth = await this.authRepo.findOneBy({ id_usuario: id });
-    if (!auth) {
-      return null;
-    }
-    return this.authRepo.remove(auth);
+  async me(id: number) {
+    // Buscar y devolver los datos del usuario autenticado por su ID
+    return this.authRepo.findOneBy({ id_usuario: id }).then((user) => {
+      if (!user) {
+        throw new UnauthorizedException('Usuario no encontrado');
+      }
+      return {
+        id_usuario: user.id_usuario,
+        nombre_completo: user.nombre_completo,
+        correo: user.correo,
+        username: user.username,
+      };
+    });
   }
 }

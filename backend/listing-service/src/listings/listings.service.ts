@@ -4,6 +4,7 @@ import { UpdateListingDto } from './dto/update-listing.dto';
 import { Listing } from './entities/listing.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ListingStatus } from 'src/constants/listing.constants';
 
 @Injectable()
 export class ListingsService {
@@ -13,7 +14,10 @@ export class ListingsService {
   ) {}
 
   create(createListingDto: CreateListingDto) {
-    const newListing = this.listingRepo.create(createListingDto);
+    const newListing = this.listingRepo.create({
+      ...createListingDto,
+      estado: ListingStatus.ACTIVA, // Estado por defecto
+    });
     return this.listingRepo.save(newListing);
   }
 

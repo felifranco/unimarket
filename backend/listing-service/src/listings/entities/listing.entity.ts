@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('publicacion')
 export class Listing {
@@ -17,18 +23,21 @@ export class Listing {
   @Column()
   descripcion: string;
 
-  @Column()
+  @Column({ type: 'numeric', precision: 10, scale: 2 })
   precio: number;
 
   @Column()
   ubicacion: string;
 
-  @Column()
+  @Column({ nullable: true })
+  estado: string;
+
+  @CreateDateColumn({ type: 'timestamptz' })
   fecha_creacion: Date;
 
-  //@Column()
-  //estado: string;
-  //
+  @UpdateDateColumn({ type: 'timestamptz' })
+  fecha_modificacion: Date;
+
   //@Column()
   //categoria: string;
 }

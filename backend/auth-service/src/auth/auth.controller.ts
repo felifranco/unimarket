@@ -1,15 +1,8 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { RegisterAuthDto } from './dto/register-auth.dto';
+import { LoginAuthDto } from './dto/login-auth.dto';
+import { LogoutAuthDto } from './dto/logout-auth.dto';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 
 @ApiTags('auth')
@@ -17,47 +10,40 @@ import { ApiTags, ApiResponse } from '@nestjs/swagger';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
+  @Post('register')
   @ApiResponse({
     status: 201,
     description: 'Operación exitosa.',
   })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  register(@Body() registerAuthDto: RegisterAuthDto) {
+    return this.authService.register(registerAuthDto);
   }
 
-  @Get()
+  @Post('login')
+  @ApiResponse({
+    status: 201,
+    description: 'Operación exitosa.',
+  })
+  @ApiResponse({ status: 403, description: 'Prohibido.' })
+  login(@Body() loginAuthDto: LoginAuthDto) {
+    return this.authService.login(loginAuthDto);
+  }
+
+  @Post('logout')
+  @ApiResponse({
+    status: 201,
+    description: 'Operación exitosa.',
+  })
+  @ApiResponse({ status: 403, description: 'Prohibido.' })
+  logout(@Body() logoutAuthDto: LogoutAuthDto) {
+    return this.authService.logout(logoutAuthDto);
+  }
+
+  @Get('me/:id')
   @ApiResponse({ status: 201, description: 'Operación exitosa.' })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
-  findAll() {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  @ApiResponse({ status: 201, description: 'Operación exitosa.' })
-  @ApiResponse({ status: 403, description: 'Prohibido.' })
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  @ApiResponse({
-    status: 201,
-    description: 'Operación exitosa.',
-  })
-  @ApiResponse({ status: 403, description: 'Prohibido.' })
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  @ApiResponse({
-    status: 201,
-    description: 'Operación exitosa.',
-  })
-  @ApiResponse({ status: 403, description: 'Prohibido.' })
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  findMe(@Param('id') id: number) {
+    return this.authService.me(id);
   }
 }

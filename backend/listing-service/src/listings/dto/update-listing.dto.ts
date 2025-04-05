@@ -4,9 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateListingDto extends PartialType(CreateListingDto) {
   @ApiProperty()
-  id_usuario: number;
-
-  @ApiProperty()
   tipo: string;
 
   @ApiProperty()
@@ -22,5 +19,5 @@ export class UpdateListingDto extends PartialType(CreateListingDto) {
   ubicacion: string;
 
   @ApiProperty()
-  fecha_creacion: Date;
+  estado: string;
 }
