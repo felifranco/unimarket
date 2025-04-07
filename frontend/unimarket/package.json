@@ -13,13 +13,28 @@
     "format:check": "prettier . --check"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
+    "animate.css": "^4.1.1",
+    "bootstrap": "^5.3.5",
+    "isotope-layout": "^3.0.6",
+    "jquery": "^3.7.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-fast-marquee": "^1.6.5",
+    "react-router-dom": "^7.5.0",
+    "react-slick": "^0.30.3",
+    "select2": "^4.1.0-rc.0",
+    "slick-carousel": "^1.8.1",
+    "wowjs": "^1.1.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/jquery": "^3.5.32",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/react-slick": "^0.23.13",
+    "@types/react-slider": "^1.3.6",
+    "@types/select2": "^4.0.63",
     "@vitejs/plugin-react-swc": "^3.8.0",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.1.1",
@@ -28,6 +43,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
     "prettier": "3.5.3",
+    "sass": "^1.86.3",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0"
