@@ -36,7 +36,7 @@ const PromotionalThree = () => {
           <div className="col-sm-6">
             <div
               className="promo-three-item bg-img rounded-16 overflow-hidden"
-              data-background-image="assets/images/thumbs/promo-three-img-2.png"
+              data-background-image="src/assets/images/thumbs/promo-three-img-2.png"
               style={{
                 backgroundImage: `url('assets/images/thumbs/promo-three-img-2.png')`,
               }}

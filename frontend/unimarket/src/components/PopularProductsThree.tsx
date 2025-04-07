@@ -16,7 +16,7 @@ const PopularProductsThree = () => {
                   className="w-100 h-100 flex-center"
                 >
                   <img
-                    src="assets/images/thumbs/trending-three-img7.png"
+                    src="src/assets/images/thumbs/trending-three-img7.png"
                     alt=""
                     className="w-auto max-w-unset"
                   />
@@ -119,7 +119,7 @@ const PopularProductsThree = () => {
                   className="w-100 h-100 flex-center"
                 >
                   <img
-                    src="assets/images/thumbs/trending-three-img3.png"
+                    src="src/assets/images/thumbs/trending-three-img3.png"
                     alt=""
                     className="w-auto max-w-unset"
                   />
@@ -222,7 +222,7 @@ const PopularProductsThree = () => {
                   className="w-100 h-100 flex-center"
                 >
                   <img
-                    src="assets/images/thumbs/trending-three-img8.png"
+                    src="src/assets/images/thumbs/trending-three-img8.png"
                     alt=""
                     className="w-auto max-w-unset"
                   />
@@ -325,7 +325,7 @@ const PopularProductsThree = () => {
                   className="w-100 h-100 flex-center"
                 >
                   <img
-                    src="assets/images/thumbs/trending-three-img9.png"
+                    src="src/assets/images/thumbs/trending-three-img9.png"
                     alt=""
                     className="w-auto max-w-unset"
                   />
@@ -428,7 +428,7 @@ const PopularProductsThree = () => {
                   className="w-100 h-100 flex-center"
                 >
                   <img
-                    src="assets/images/thumbs/trending-three-img3.png"
+                    src="src/assets/images/thumbs/trending-three-img3.png"
                     alt=""
                     className="w-auto max-w-unset"
                   />
@@ -531,7 +531,7 @@ const PopularProductsThree = () => {
                   className="w-100 h-100 flex-center"
                 >
                   <img
-                    src="assets/images/thumbs/trending-three-img5.png"
+                    src="src/assets/images/thumbs/trending-three-img5.png"
                     alt=""
                     className="w-auto max-w-unset"
                   />
@@ -634,7 +634,7 @@ const PopularProductsThree = () => {
                   className="w-100 h-100 flex-center"
                 >
                   <img
-                    src="assets/images/thumbs/trending-three-img10.png"
+                    src="src/assets/images/thumbs/trending-three-img10.png"
                     alt=""
                     className="w-auto max-w-unset"
                   />
@@ -737,7 +737,7 @@ const PopularProductsThree = () => {
                   className="w-100 h-100 flex-center"
                 >
                   <img
-                    src="assets/images/thumbs/trending-three-img6.png"
+                    src="src/assets/images/thumbs/trending-three-img6.png"
                     alt=""
                     className="w-auto max-w-unset"
                   />

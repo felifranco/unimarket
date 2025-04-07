@@ -11,7 +11,7 @@ const FooterThree = () => {
               <div className="footer-item__logo">
                 <Link to="/">
                   {" "}
-                  <img src="assets/images/logo/logo-two-black.png" alt="" />
+                  <img src="src/assets/images/logo/logo-two-black.png" alt="" />
                 </Link>
               </div>
               <p className="mb-24">
@@ -330,13 +330,13 @@ const FooterThree = () => {
               <p className="mb-16">Marketpro App is available. Get it now</p>
               <div className="flex-align gap-8 my-32">
                 <Link to="https://www.apple.com/store" className="">
-                  <img src="assets/images/thumbs/store-img1.png" alt="" />
+                  <img src="src/assets/images/thumbs/store-img1.png" alt="" />
                 </Link>
                 <Link
                   to="https://play.google.com/store/apps?hl=en"
                   className=""
                 >
-                  <img src="assets/images/thumbs/store-img2.png" alt="" />
+                  <img src="src/assets/images/thumbs/store-img2.png" alt="" />
                 </Link>
               </div>
               <ul className="flex-align gap-16">
@@ -386,7 +386,7 @@ const FooterThree = () => {
             </p>
             <div className="flex-align gap-8 flex-wrap ">
               <span className="text-heading text-sm">We Are Accepting</span>
-              <img src="assets/images/thumbs/payment-method.png" alt="" />
+              <img src="src/assets/images/thumbs/payment-method.png" alt="" />
             </div>
           </div>
         </div>

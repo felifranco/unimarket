@@ -44,7 +44,7 @@ const WishListSection = () => {
                             className="table-product__thumb border border-gray-100 rounded-8 flex-center "
                           >
                             <img
-                              src="assets/images/thumbs/product-two-img1.png"
+                              src="src/assets/images/thumbs/product-two-img1.png"
                               alt=""
                             />
                           </Link>
@@ -127,7 +127,7 @@ const WishListSection = () => {
                             className="table-product__thumb border border-gray-100 rounded-8 flex-center "
                           >
                             <img
-                              src="assets/images/thumbs/product-two-img3.png"
+                              src="src/assets/images/thumbs/product-two-img3.png"
                               alt=""
                             />
                           </Link>
@@ -210,7 +210,7 @@ const WishListSection = () => {
                             className="table-product__thumb border border-gray-100 rounded-8 flex-center "
                           >
                             <img
-                              src="assets/images/thumbs/product-two-img14.png"
+                              src="src/assets/images/thumbs/product-two-img14.png"
                               alt=""
                             />
                           </Link>
@@ -293,7 +293,7 @@ const WishListSection = () => {
                             className="table-product__thumb border border-gray-100 rounded-8 flex-center "
                           >
                             <img
-                              src="assets/images/thumbs/product-two-img2.png"
+                              src="src/assets/images/thumbs/product-two-img2.png"
                               alt=""
                             />
                           </Link>

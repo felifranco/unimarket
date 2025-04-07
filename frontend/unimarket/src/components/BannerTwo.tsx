@@ -25,7 +25,7 @@ const BannerTwo = () => {
               </button>
               <div className="logo px-16 d-lg-none d-block">
                 <Link to="/" className="link">
-                  <img src="assets/images/logo/logo.png" alt="Logo" />
+                  <img src="src/assets/images/logo/logo.png" alt="Logo" />
                 </Link>
               </div>
               <ul className="responsive-dropdown__list scroll-sm p-0 py-8 overflow-y-auto ">
@@ -539,7 +539,7 @@ const BannerTwo = () => {
           </div>
           <div className="banner-item-two-wrapper rounded-24 overflow-hidden position-relative arrow-center flex-grow-1 mb-0">
             <img
-              src="assets/images/bg/banner-two-bg.png"
+              src="src/assets/images/bg/banner-two-bg.png"
               alt=""
               className="banner-img position-absolute inset-block-start-0 inset-inline-start-0 w-100 h-100 z-n1 object-fit-cover rounded-24"
             />
@@ -564,7 +564,7 @@ const BannerTwo = () => {
                     </Link>
                   </div>
                   <div className="banner-item-two__thumb position-absolute bottom-0">
-                    <img src="assets/images/thumbs/banner-two-img.png" alt="" />
+                    <img src="src/assets/images/thumbs/banner-two-img.png" alt="" />
                   </div>
                 </div>
                 <div className="banner-item-two">
@@ -587,7 +587,7 @@ const BannerTwo = () => {
                   </div>
                   <div className="banner-item-two__thumb position-absolute bottom-0">
                     <img
-                      src="assets/images/thumbs/banner-two-img2.png"
+                      src="src/assets/images/thumbs/banner-two-img2.png"
                       alt=""
                     />
                   </div>
