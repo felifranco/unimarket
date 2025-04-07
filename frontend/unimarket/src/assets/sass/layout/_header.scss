@@ -125,7 +125,7 @@
 .common-dropdown {
     position: absolute;
     inset-inline-start: 0;
-    @extend .box-shadow-lg; 
+    @extend .box-shadow-lg !optional; 
     inset-block-start: 100%;
     width: max-content;
     background-color: hsl(var(--white));
@@ -195,7 +195,7 @@
     width: 300px;
     inset-inline-start: 100%;
     inset-block-start: 0px;
-    @extend .box-shadow-lg;
+    @extend .box-shadow-lg !optional;
     border-radius: 6px;
     visibility: hidden;
     opacity: 0;
