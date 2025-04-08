@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RouteScrollToTop from "./helper/RouteScrollToTop";
+import HomePageOne from "./pages/HomePageOne";
 import HomePageTwo from "./pages/HomePageTwo";
 import HomePageThree from "./pages/HomePageThree";
 import ShopPage from "./pages/ShopPage";
@@ -27,6 +28,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePageTwo />} />
+        <Route path="/index-one" element={<HomePageOne />} />
         <Route path="/index-two" element={<HomePageTwo />} />
         <Route path="/index-three" element={<HomePageThree />} />
         <Route path="/shop" element={<ShopPage />} />

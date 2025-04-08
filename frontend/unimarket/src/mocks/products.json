@@ -1,0 +1,181 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Electrónica",
+      "description": "Dispositivos electrónicos y accesorios.",
+      "subcategories": [
+        {
+          "id": 101,
+          "name": "Teléfonos móviles",
+          "description": "Smartphones y accesorios."
+        },
+        {
+          "id": 102,
+          "name": "Computadoras",
+          "description": "Laptops, desktops y accesorios."
+        },
+        {
+          "id": 103,
+          "name": "Televisores",
+          "description": "Pantallas y televisores de última generación."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Hogar y Cocina",
+      "description": "Artículos para el hogar y utensilios de cocina.",
+      "subcategories": [
+        {
+          "id": 201,
+          "name": "Electrodomésticos",
+          "description": "Refrigeradores, microondas, licuadoras, etc."
+        },
+        {
+          "id": 202,
+          "name": "Muebles",
+          "description": "Sofás, mesas, sillas y más."
+        },
+        {
+          "id": 203,
+          "name": "Decoración",
+          "description": "Cuadros, alfombras, lámparas y otros artículos decorativos."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Ropa y Moda",
+      "description": "Prendas de vestir y accesorios de moda.",
+      "subcategories": [
+        {
+          "id": 301,
+          "name": "Hombres",
+          "description": "Ropa, calzado y accesorios para hombres."
+        },
+        {
+          "id": 302,
+          "name": "Mujeres",
+          "description": "Ropa, calzado y accesorios para mujeres."
+        },
+        {
+          "id": 303,
+          "name": "Niños",
+          "description": "Ropa, calzado y accesorios para niños."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Deportes y Aire Libre",
+      "description": "Equipos y accesorios para deportes y actividades al aire libre.",
+      "subcategories": [
+        {
+          "id": 401,
+          "name": "Fitness",
+          "description": "Pesas, bandas de resistencia, ropa deportiva, etc."
+        },
+        {
+          "id": 402,
+          "name": "Camping",
+          "description": "Tiendas de campaña, mochilas, linternas y más."
+        },
+        {
+          "id": 403,
+          "name": "Ciclismo",
+          "description": "Bicicletas, cascos y accesorios para ciclismo."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Juguetes y Juegos",
+      "description": "Juguetes para niños y juegos de mesa.",
+      "subcategories": [
+        {
+          "id": 501,
+          "name": "Juguetes educativos",
+          "description": "Juguetes que fomentan el aprendizaje."
+        },
+        {
+          "id": 502,
+          "name": "Juegos de mesa",
+          "description": "Juegos para disfrutar en familia o con amigos."
+        },
+        {
+          "id": 503,
+          "name": "Muñecos y figuras",
+          "description": "Muñecos, figuras de acción y más."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Alimentos y Bebidas",
+      "description": "Productos alimenticios y bebidas.",
+      "subcategories": [
+        {
+          "id": 601,
+          "name": "Frutas y Verduras",
+          "description": "Productos frescos y orgánicos."
+        },
+        {
+          "id": 602,
+          "name": "Carnes y Pescados",
+          "description": "Carne de res, pollo, pescado y más."
+        },
+        {
+          "id": 603,
+          "name": "Bebidas",
+          "description": "Jugos, refrescos, agua y bebidas alcohólicas."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Libros y Papelería",
+      "description": "Libros, útiles escolares y artículos de oficina.",
+      "subcategories": [
+        {
+          "id": 701,
+          "name": "Libros",
+          "description": "Ficción, no ficción, educativos y más."
+        },
+        {
+          "id": 702,
+          "name": "Útiles escolares",
+          "description": "Cuadernos, lápices, mochilas y más."
+        },
+        {
+          "id": 703,
+          "name": "Artículos de oficina",
+          "description": "Sillas, escritorios, organizadores y más."
+        }
+      ]
+    },
+
+    {
+      "id": 8,
+      "name": "Tecnología",
+      "description": "Últimos gadgets y dispositivos tecnológicos.",
+      "subcategories": [
+        {
+          "id": 801,
+          "name": "Computadoras",
+          "description": "Laptops, desktops y accesorios."
+        },
+        {
+          "id": 802,
+          "name": "Teléfonos",
+          "description": "Smartphones y accesorios."
+        },
+        {
+          "id": 803,
+          "name": "Televisores",
+          "description": "Pantallas y televisores de última generación."
+        }
+      ]
+    }
+  ]
+}

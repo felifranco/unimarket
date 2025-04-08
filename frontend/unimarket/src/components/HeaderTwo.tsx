@@ -4,6 +4,7 @@ import select2 from "select2";
 import { Link, NavLink } from "react-router-dom";
 import LanguageList from "./LanguageList";
 import { useTranslation } from "react-i18next";
+import mockData from "../mocks/products.json";
 
 select2($);
 
@@ -83,7 +84,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
             <input
               type="text"
               className="form-control py-16 px-24 text-xl rounded-pill pe-64"
-              placeholder="Search for a product or brand"
+              placeholder={t("search_product")}
             />
             <button
               type="submit"
@@ -118,97 +119,15 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
           <div className="mobile-menu__menu">
             {/* Nav Menu Start */}
             <ul className="nav-menu flex-align nav-menu--mobile">
-              <li
-                onClick={() => handleMenuClick(0)}
-                className={`on-hover-item nav-menu__item has-submenu ${
-                  activeIndex === 0 ? "d-block" : ""
-                }`}
-              >
-                <Link to="#" className="nav-menu__link">
+              <li className="nav-menu__item">
+                <Link to="/" className="nav-menu__link">
                   {t("home")}
                 </Link>
-                <ul
-                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
-                    activeIndex === 0 ? "open" : ""
-                  }`}
-                >
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {" "}
-                      {t("home-grocery")}
-                    </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/index-two"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {" "}
-                      {t("home-electronics")}
-                    </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/index-three"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {" "}
-                      {t("home-fashion")}
-                    </Link>
-                  </li>
-                </ul>
               </li>
-              <li
-                onClick={() => handleMenuClick(1)}
-                className={`on-hover-item nav-menu__item has-submenu ${
-                  activeIndex === 1 ? "d-block" : ""
-                }`}
-              >
-                <Link to="#" className="nav-menu__link">
+              <li className="nav-menu__item">
+                <Link to="/shop" className="nav-menu__link">
                   {t("shop")}
                 </Link>
-                <ul
-                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
-                    activeIndex === 1 ? "open" : ""
-                  }`}
-                >
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/shop"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {" "}
-                      {t("shop")}
-                    </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/product-details"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {" "}
-                      {t("shop-details")}
-                    </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/product-details-two"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {" "}
-                      {t("shop-details-two")}
-                    </Link>
-                  </li>
-                </ul>
               </li>
               <li
                 onClick={() => handleMenuClick(2)}
@@ -261,7 +180,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       to="/become-seller"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      {t("become-seller")}
+                      {t("become_seller")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -295,28 +214,10 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   <li className="common-dropdown__item nav-submenu__item">
                     <Link
                       onClick={() => setActiveIndex(null)}
-                      to="/vendor"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {t("vendors")}
-                    </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/vendor-details"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {t("vendor-details")}
-                    </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
                       to="/vendor-two"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      {t("vendors-two")}
+                      {t("vendors_two")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -325,50 +226,14 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       to="/vendor-two-details"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      {t("vendor-details-two")}
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-              <li
-                onClick={() => handleMenuClick(4)}
-                className={`on-hover-item nav-menu__item has-submenu ${
-                  activeIndex === 4 ? "d-block" : ""
-                }`}
-              >
-                <Link to="#" className="nav-menu__link">
-                  {t("blog")}
-                </Link>
-                <ul
-                  className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
-                    activeIndex === 4 ? "open" : ""
-                  }`}
-                >
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/blog"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {" "}
-                      {t("blog")}
-                    </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/blog-details"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {" "}
-                      {t("blog-details")}
+                      {t("vendor_details_two")}
                     </Link>
                   </li>
                 </ul>
               </li>
               <li className="nav-menu__item">
                 <Link to="/contact" className="nav-menu__link">
-                  {t("contact-us")}
+                  {t("contact_us")}
                 </Link>
               </li>
             </ul>
@@ -504,23 +369,18 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     className="js-example-basic-single border border-gray-200 border-end-0 rounded-0 border-0"
                     name="state"
                   >
-                    <option value={1}>All Categories</option>
-                    <option value={1}>Grocery</option>
-                    <option value={1}>Breakfast &amp; Dairy</option>
-                    <option value={1}>Vegetables</option>
-                    <option value={1}>Milks and Dairies</option>
-                    <option value={1}>Pet Foods &amp; Toy</option>
-                    <option value={1}>Breads &amp; Bakery</option>
-                    <option value={1}>Fresh Seafood</option>
-                    <option value={1}>Fronzen Foods</option>
-                    <option value={1}>Noodles &amp; Rice</option>
-                    <option value={1}>Ice Cream</option>
+                    <option value={0}>{t("all_categories")}</option>
+                    {mockData.categories.map((obj, index) => (
+                      <option key={index} value={obj.name}>
+                        {obj.name}
+                      </option>
+                    ))}
                   </select>
                   <div className="search-form__wrapper position-relative">
                     <input
                       type="text"
                       className="search-form__input common-input py-13 ps-16 pe-18 rounded-0 border-0"
-                      placeholder="Search for a product or brand"
+                      placeholder={t("search_product")}
                     />
                   </div>
                   <button
@@ -627,7 +487,9 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   <span className="icon text-2xl d-xs-flex d-none">
                     <i className="ph ph-dots-nine" />
                   </span>
-                  <span className="d-sm-flex d-none">All</span> Categories
+                  <span className="d-sm-flex d-none">
+                    {t("all_categories")}
+                  </span>
                   <span className="arrow-icon text-xl d-flex">
                     <i className="ph ph-caret-down" />
                   </span>
@@ -653,638 +515,41 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     </Link>
                   </div>
                   <ul className="scroll-sm p-0 py-8 overflow-y-auto">
-                    <li
-                      onClick={() => handleCatClick(0)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 0 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        onClick={() => setActiveIndexCat(null)}
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Cell Phone</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 0 ? "open" : ""
+                    {mockData.categories.map((obj, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleCatClick(index)}
+                        className={`has-submenus-submenu ${
+                          activeIndexCat === index ? "active" : ""
                         }`}
                       >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Cell Phone
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(1)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 1 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Wear</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 1 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Wear
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(2)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 2 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Computer</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 2 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Computer
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(3)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 3 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Headphone</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 3 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Headphone
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(4)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 4 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Smart Screen</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 4 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Smart Screen
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(5)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 5 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Smart Home</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 5 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Smart Home
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(6)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 6 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Digital Accessories</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 6 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Digital Accessories
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(7)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 7 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span> Value Added Services</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 7 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          {" "}
-                          Value Added Services
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(8)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 8 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Car Products</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 8 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Car Products
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(9)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 9 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Ecological Products</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 9 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Ecological Products
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(10)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 10 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Flat</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 10 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Flat
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(11)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 11 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Commercial Terminal</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 11 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Commercial Terminal
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(12)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 12 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Headphone</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 12 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Headphone
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      onClick={() => handleCatClick(13)}
-                      className={`has-submenus-submenu ${
-                        activeIndexCat === 13 ? "active" : ""
-                      }`}
-                    >
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span>Smart Screen</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div
-                        className={`submenus-submenu py-16 ${
-                          activeIndexCat === 13 ? "open" : ""
-                        }`}
-                      >
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Smart Screen
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Samsung</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Iphone</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Vivo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Oppo</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Itel</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Realme</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
+                        <Link
+                          to="#"
+                          className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
+                        >
+                          <span>{obj.name}</span>
+                          <span className="icon text-md d-flex ms-auto">
+                            <i className="ph ph-caret-right" />
+                          </span>
+                        </Link>
+                        <div
+                          className={`submenus-submenu py-16 ${
+                            activeIndexCat === index ? "open" : ""
+                          }`}
+                        >
+                          <h6 className="text-lg px-16 submenus-submenu__title">
+                            {obj.name}
+                          </h6>
+                          <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
+                            {obj.subcategories.map((subcat, subIndex) => (
+                              <li key={subIndex}>
+                                <Link to="/shop">{subcat.name}</Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -1300,7 +565,9 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   <span className="icon text-2xl d-xs-flex d-none">
                     <i className="ph ph-dots-nine" />
                   </span>
-                  <span className="d-sm-flex d-none">All</span> Categories
+                  <span className="d-sm-flex d-none">
+                    {t("all_categories")}
+                  </span>
                   <span className="arrow-icon text-xl d-flex">
                     <i className="ph ph-caret-down" />
                   </span>
@@ -1318,279 +585,34 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     </Link>
                   </div>
                   <ul className="scroll-sm p-0 py-8 w-300 max-h-400 overflow-y-auto">
-                    <li className="has-submenus-submenu">
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span className="text-xl d-flex">
-                          <i className="ph ph-carrot" />
-                        </span>
-                        <span>Vegetables &amp; Fruit</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div className="submenus-submenu py-16">
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Vegetables &amp; Fruit
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Potato &amp; Tomato</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Cucumber &amp; Capsicum</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Leafy Vegetables</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Root Vegetables</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Beans &amp; Okra</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Cabbage &amp; Cauliflower</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Gourd &amp; Drumstick</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Specialty</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li className="has-submenus-submenu">
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span className="text-xl d-flex">
-                          <i className="ph ph-brandy" />
-                        </span>
-                        <span>Beverages</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div className="submenus-submenu py-16">
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Beverages
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop">Soda &amp; Cocktail Mix </Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Sports &amp; Energy Drinks</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Non Alcoholic Drinks</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Packaged Water </Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Spring Water</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Flavoured Water </Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li className="has-submenus-submenu">
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span className="text-xl d-flex">
-                          <i className="ph ph-brandy" />
-                        </span>
-                        <span>Meats &amp; Seafood</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div className="submenus-submenu py-16">
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Meats &amp; Seafood
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop"> Fresh Meat </Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Frozen Meat</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Marinated Meat</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Fresh &amp; Frozen Meat</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li className="has-submenus-submenu">
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span className="text-xl d-flex">
-                          <i className="ph ph-brandy" />
-                        </span>
-                        <span>Breakfast &amp; Dairy</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div className="submenus-submenu py-16">
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Breakfast &amp; Dairy
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop"> Oats &amp; Porridge</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Kids Cereal</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Muesli</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Flakes</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Granola &amp; Cereal Bars</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Instant Noodles</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li className="has-submenus-submenu">
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span className="text-xl d-flex">
-                          <i className="ph ph-brandy" />
-                        </span>
-                        <span>Frozen Foods</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div className="submenus-submenu py-16">
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Frozen Foods
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop"> Instant Noodles </Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Hakka Noodles</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Cup Noodles</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Vermicelli</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Instant Pasta</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li className="has-submenus-submenu">
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span className="text-xl d-flex">
-                          <i className="ph ph-brandy" />
-                        </span>
-                        <span>Biscuits &amp; Snacks</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div className="submenus-submenu py-16">
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Biscuits &amp; Snacks
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop"> Salted Biscuits </Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Marie, Health, Digestive</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">
-                              {" "}
-                              Cream Biscuits &amp; Wafers{" "}
-                            </Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Glucose &amp; Milk biscuits</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Cookies</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li className="has-submenus-submenu">
-                      <Link
-                        to="#"
-                        className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
-                      >
-                        <span className="text-xl d-flex">
-                          <i className="ph ph-brandy" />
-                        </span>
-                        <span>Grocery &amp; Staples</span>
-                        <span className="icon text-md d-flex ms-auto">
-                          <i className="ph ph-caret-right" />
-                        </span>
-                      </Link>
-                      <div className="submenus-submenu py-16">
-                        <h6 className="text-lg px-16 submenus-submenu__title">
-                          Grocery &amp; Staples
-                        </h6>
-                        <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
-                          <li>
-                            <Link to="/shop"> Lemon, Ginger &amp; Garlic </Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Indian &amp; Exotic Herbs</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Orangic Vegetables</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop">Orangic Fruits </Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Orangic Dry Fruits</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Orangic Dals &amp; pulses</Link>
-                          </li>
-                          <li>
-                            <Link to="/shop"> Orangic Millet &amp; Flours</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
+                    {mockData.categories.map((obj, index) => (
+                      <li key={index} className="has-submenus-submenu">
+                        <Link
+                          to="#"
+                          className="text-gray-500 text-15 py-12 px-16 flex-align gap-8 rounded-0"
+                        >
+                          <span className="text-xl d-flex">
+                            <i className="ph ph-carrot" />
+                          </span>
+                          <span>{obj.name}</span>
+                          <span className="icon text-md d-flex ms-auto">
+                            <i className="ph ph-caret-right" />
+                          </span>
+                        </Link>
+                        <div className="submenus-submenu py-16">
+                          <h6 className="text-lg px-16 submenus-submenu__title">
+                            {obj.name}
+                          </h6>
+                          <ul className="submenus-submenu__list max-h-300 overflow-y-auto scroll-sm">
+                            {obj.subcategories.map((subObj, subIndex) => (
+                              <li key={subIndex}>
+                                <Link to="/shop">{subObj.name}</Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -1599,96 +621,29 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
               <div className="header-menu d-lg-block d-none">
                 {/* Nav Menu Start */}
                 <ul className="nav-menu flex-align ">
-                  <li className="on-hover-item nav-menu__item has-submenu">
-                    <Link to="#" className="nav-menu__link">
+                  <li className="nav-menu__item">
+                    <NavLink
+                      to="/"
+                      className={navData =>
+                        navData.isActive
+                          ? "nav-menu__link activePage"
+                          : "nav-menu__link"
+                      }
+                    >
                       {t("home")}
-                    </Link>
-                    <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {" "}
-                          {t("home-grocery")}
-                        </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/index-two"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {" "}
-                          {t("home-electronics")}
-                        </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/index-three"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {" "}
-                          {t("home-fashion")}
-                        </NavLink>
-                      </li>
-                    </ul>
+                    </NavLink>
                   </li>
-                  <li className="on-hover-item nav-menu__item has-submenu">
-                    <Link to="#" className="nav-menu__link">
+                  <li className="nav-menu__item">
+                    <NavLink
+                      to="/shop"
+                      className={navData =>
+                        navData.isActive
+                          ? "nav-menu__link activePage"
+                          : "nav-menu__link"
+                      }
+                    >
                       {t("shop")}
-                    </Link>
-                    <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/shop"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {t("shop")}
-                        </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/product-details"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {" "}
-                          {t("shop-details")}
-                        </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/product-details-two"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {" "}
-                          {t("shop-details-two")}
-                        </NavLink>
-                      </li>
-                    </ul>
+                    </NavLink>
                   </li>
                   <li className="on-hover-item nav-menu__item has-submenu">
                     <span className="badge-notification bg-warning-600 text-white text-sm py-2 px-8 rounded-4">
@@ -1698,30 +653,6 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       {t("pages")}
                     </Link>
                     <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/cart"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {t("cart")}
-                        </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/wishlist"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {t("whishlist")}
-                        </NavLink>
-                      </li>
                       <li className="common-dropdown__item nav-submenu__item">
                         <NavLink
                           to="/checkout"
@@ -1743,19 +674,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          {t("become-seller")}
-                        </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/account"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {t("account")}
+                          {t("become_seller")}
                         </NavLink>
                       </li>
                     </ul>
@@ -1770,30 +689,6 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
                       <li className="common-dropdown__item nav-submenu__item">
                         <NavLink
-                          to="/vendor"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {t("vendors")}
-                        </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/vendor-details"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {t("vendor-details")}
-                        </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
                           to="/vendor-two"
                           className={navData =>
                             navData.isActive
@@ -1801,7 +696,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          {t("vendors-two")}
+                          {t("vendors_two")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1813,39 +708,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          {t("vendor-details-two")}
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="on-hover-item nav-menu__item has-submenu">
-                    <Link to="#" className="nav-menu__link">
-                      {t("blog")}
-                    </Link>
-                    <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/blog"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {t("blog")}
-                        </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/blog-details"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {" "}
-                          {t("blog-details")}
+                          {t("vendor_details_two")}
                         </NavLink>
                       </li>
                     </ul>
@@ -1859,7 +722,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           : "nav-menu__link"
                       }
                     >
-                      {t("contact-us")}
+                      {t("contact_us")}
                     </NavLink>
                   </li>
                 </ul>
