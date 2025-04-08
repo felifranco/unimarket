@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-//import query from "jquery";
+import $ from "jquery";
+import select2 from "select2";
 import { Link, NavLink } from "react-router-dom";
+
+select2($);
 
 const HeaderOne = () => {
   const [scroll, setScroll] = useState(false);
@@ -13,14 +16,16 @@ const HeaderOne = () => {
       }
       return () => (window.onscroll = null);
     };
-    //const selectElement = query(".js-example-basic-single");
-    //selectElement.select2();
-    //
-    //return () => {
-    //  if (selectElement.data("select2")) {
-    //    selectElement.select2("destroy");
-    //  }
-    //};
+
+    const selectElement = $(".js-example-basic-single");
+
+    selectElement.select2();
+
+    return () => {
+      if (selectElement.data("select2")) {
+        selectElement.select2("destroy");
+      }
+    };
   }, []);
 
   // Set the default language
