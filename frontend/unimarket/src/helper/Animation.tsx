@@ -1,4 +1,5 @@
-import Aos from "aos";
+import * as Aos from "aos";
+import "aos/dist/aos.css";
 import { useEffect } from "react";
 //import ScrollToTop from "react-scroll-to-top";
 
