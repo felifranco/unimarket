@@ -3,10 +3,13 @@ import $ from "jquery";
 import select2 from "select2";
 import { Link, NavLink } from "react-router-dom";
 import LanguageList from "./LanguageList";
+import { useTranslation } from "react-i18next";
 
 select2($);
 
 const HeaderTwo = ({ category }: { category: boolean }) => {
+  const { t } = useTranslation("HeaderTwo");
+
   const [scroll, setScroll] = useState(false);
   useEffect(() => {
     window.onscroll = () => {
@@ -122,7 +125,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                 }`}
               >
                 <Link to="#" className="nav-menu__link">
-                  Home
+                  {t("home")}
                 </Link>
                 <ul
                   className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
@@ -136,7 +139,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {" "}
-                      Home Grocery
+                      {t("home-grocery")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -146,7 +149,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {" "}
-                      Home Electronics
+                      {t("home-electronics")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -156,7 +159,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {" "}
-                      Home Fashion
+                      {t("home-fashion")}
                     </Link>
                   </li>
                 </ul>
@@ -168,7 +171,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                 }`}
               >
                 <Link to="#" className="nav-menu__link">
-                  Shop
+                  {t("shop")}
                 </Link>
                 <ul
                   className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
@@ -182,7 +185,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {" "}
-                      Shop
+                      {t("shop")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -192,7 +195,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {" "}
-                      Shop Details
+                      {t("shop-details")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -202,7 +205,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {" "}
-                      Shop Details Two
+                      {t("shop-details-two")}
                     </Link>
                   </li>
                 </ul>
@@ -214,10 +217,10 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                 }`}
               >
                 <span className="badge-notification bg-warning-600 text-white text-sm py-2 px-8 rounded-4">
-                  New
+                  {t("new")}
                 </span>
                 <Link to="#" className="nav-menu__link">
-                  Pages
+                  {t("pages")}
                 </Link>
                 <ul
                   className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
@@ -231,7 +234,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {" "}
-                      Cart
+                      {t("cart")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -240,7 +243,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       to="/wishlist"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      Wishlist
+                      {t("whishlist")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -249,7 +252,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       to="/checkout"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      Checkout
+                      {t("checkout")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -258,7 +261,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       to="/become-seller"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      Become Seller
+                      {t("become-seller")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -267,7 +270,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       to="/account"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      Account
+                      {t("account")}
                     </Link>
                   </li>
                 </ul>
@@ -279,10 +282,10 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                 }`}
               >
                 <span className="badge-notification bg-tertiary-600 text-white text-sm py-2 px-8 rounded-4">
-                  New
+                  {t("new")}
                 </span>
                 <Link to="#" className="nav-menu__link">
-                  Vendors
+                  {t("vendors")}
                 </Link>
                 <ul
                   className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
@@ -295,7 +298,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       to="/vendor"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      Vendors
+                      {t("vendors")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -304,7 +307,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       to="/vendor-details"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      Vendor Details
+                      {t("vendor-details")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -313,7 +316,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       to="/vendor-two"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      Vendors Two
+                      {t("vendors-two")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -322,7 +325,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       to="/vendor-two-details"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      Vendors Two Details
+                      {t("vendor-details-two")}
                     </Link>
                   </li>
                 </ul>
@@ -334,7 +337,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                 }`}
               >
                 <Link to="#" className="nav-menu__link">
-                  Blog
+                  {t("blog")}
                 </Link>
                 <ul
                   className={`on-hover-dropdown common-dropdown nav-submenu scroll-sm ${
@@ -348,7 +351,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {" "}
-                      Blog
+                      {t("blog")}
                     </Link>
                   </li>
                   <li className="common-dropdown__item nav-submenu__item">
@@ -358,14 +361,14 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {" "}
-                      Blog Details
+                      {t("blog-details")}
                     </Link>
                   </li>
                 </ul>
               </li>
               <li className="nav-menu__item">
                 <Link to="/contact" className="nav-menu__link">
-                  Contact Us
+                  {t("contact-us")}
                 </Link>
               </li>
             </ul>
@@ -549,7 +552,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     <i className="ph ph-user" />
                   </span>
                   <span className="text-md text-white item-hover__text d-none d-lg-flex">
-                    Profile
+                    {t("profile")}
                   </span>
                 </Link>
                 <Link
@@ -563,7 +566,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     </span>
                   </span>
                   <span className="text-md text-white item-hover__text d-none d-lg-flex">
-                    Wishlist
+                    {t("whishlist")}
                   </span>
                 </Link>
                 <Link
@@ -577,7 +580,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     </span>
                   </span>
                   <span className="text-md text-white item-hover__text d-none d-lg-flex">
-                    Compare
+                    {t("compare")}
                   </span>
                 </Link>
                 <Link
@@ -591,7 +594,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     </span>
                   </span>
                   <span className="text-md text-white item-hover__text d-none d-lg-flex">
-                    Cart
+                    {t("cart")}
                   </span>
                 </Link>
               </div>
@@ -1598,7 +1601,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                 <ul className="nav-menu flex-align ">
                   <li className="on-hover-item nav-menu__item has-submenu">
                     <Link to="#" className="nav-menu__link">
-                      Home
+                      {t("home")}
                     </Link>
                     <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1611,7 +1614,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           }
                         >
                           {" "}
-                          Home Grocery
+                          {t("home-grocery")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1624,7 +1627,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           }
                         >
                           {" "}
-                          Home Electronics
+                          {t("home-electronics")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1637,14 +1640,14 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           }
                         >
                           {" "}
-                          Home Fashion
+                          {t("home-fashion")}
                         </NavLink>
                       </li>
                     </ul>
                   </li>
                   <li className="on-hover-item nav-menu__item has-submenu">
                     <Link to="#" className="nav-menu__link">
-                      Shop
+                      {t("shop")}
                     </Link>
                     <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1656,7 +1659,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Shop
+                          {t("shop")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1669,7 +1672,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           }
                         >
                           {" "}
-                          Shop Details
+                          {t("shop-details")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1682,17 +1685,17 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           }
                         >
                           {" "}
-                          Shop Details Two
+                          {t("shop-details-two")}
                         </NavLink>
                       </li>
                     </ul>
                   </li>
                   <li className="on-hover-item nav-menu__item has-submenu">
                     <span className="badge-notification bg-warning-600 text-white text-sm py-2 px-8 rounded-4">
-                      New
+                      {t("new")}
                     </span>
                     <Link to="#" className="nav-menu__link">
-                      Pages
+                      {t("pages")}
                     </Link>
                     <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1704,7 +1707,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Cart
+                          {t("cart")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1716,7 +1719,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Wishlist
+                          {t("whishlist")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1728,7 +1731,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Checkout
+                          {t("checkout")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1740,7 +1743,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Become Seller
+                          {t("become-seller")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1752,17 +1755,17 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Account
+                          {t("account")}
                         </NavLink>
                       </li>
                     </ul>
                   </li>
                   <li className="on-hover-item nav-menu__item has-submenu">
                     <span className="badge-notification bg-tertiary-600 text-white text-sm py-2 px-8 rounded-4">
-                      New
+                      {t("new")}
                     </span>
                     <Link to="#" className="nav-menu__link">
-                      Vendors
+                      {t("vendors")}
                     </Link>
                     <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1774,7 +1777,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Vendor
+                          {t("vendors")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1786,7 +1789,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Vendor Details
+                          {t("vendor-details")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1798,7 +1801,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Vendor Two
+                          {t("vendors-two")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1810,14 +1813,14 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Vendor Two Details
+                          {t("vendor-details-two")}
                         </NavLink>
                       </li>
                     </ul>
                   </li>
                   <li className="on-hover-item nav-menu__item has-submenu">
                     <Link to="#" className="nav-menu__link">
-                      Blog
+                      {t("blog")}
                     </Link>
                     <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1829,7 +1832,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          Blog
+                          {t("blog")}
                         </NavLink>
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
@@ -1842,7 +1845,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           }
                         >
                           {" "}
-                          Blog Details
+                          {t("blog-details")}
                         </NavLink>
                       </li>
                     </ul>
@@ -1856,7 +1859,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           : "nav-menu__link"
                       }
                     >
-                      Contact Us
+                      {t("contact-us")}
                     </NavLink>
                   </li>
                 </ul>
@@ -1989,7 +1992,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       <i className="ph ph-user" />
                     </span>
                     <span className="text-md text-white item-hover__text d-none d-lg-flex">
-                      Profile
+                      {t("profile")}
                     </span>
                   </Link>
                   <Link
@@ -2003,7 +2006,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       </span>
                     </span>
                     <span className="text-md text-white item-hover__text d-none d-lg-flex">
-                      Wishlist
+                      {t("whishlist")}
                     </span>
                   </Link>
                   <Link
@@ -2017,7 +2020,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       </span>
                     </span>
                     <span className="text-md text-white item-hover__text d-none d-lg-flex">
-                      Compare
+                      {t("compare")}
                     </span>
                   </Link>
                   <Link
@@ -2031,7 +2034,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       </span>
                     </span>
                     <span className="text-md text-white item-hover__text d-none d-lg-flex">
-                      Cart
+                      {t("cart")}
                     </span>
                   </Link>
                 </div>
