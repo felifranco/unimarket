@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import $ from "jquery";
 import select2 from "select2";
 import { Link, NavLink } from "react-router-dom";
+import LanguageList from "./LanguageList";
 
 select2($);
 
@@ -25,12 +26,6 @@ const HeaderThree = () => {
       }
     };
   }, []);
-
-  // Set the default language
-  const [selectedLanguage, setSelectedLanguage] = useState("EngLish");
-  const handleLanguageChange = (language: string) => {
-    setSelectedLanguage(language);
-  };
 
   // Set the default currency
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
@@ -398,98 +393,7 @@ const HeaderThree = () => {
                 {/* Dropdown Select Start */}
                 <ul className="header-top__right style-two flex-align flex-wrap">
                   <li className="on-hover-item border-right-item border-right-item-sm-space has-submenu arrow-white">
-                    <Link
-                      to="#"
-                      className="selected-text text-heading text-sm py-8"
-                    >
-                      {selectedLanguage}
-                    </Link>
-                    <ul className="selectable-text-list on-hover-dropdown common-dropdown common-dropdown--sm max-h-200 scroll-sm px-0 py-8">
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("English")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag1.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          English
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("Japan")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag2.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          Japan
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("French")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag3.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          French
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("Germany")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag4.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          Germany
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("Bangladesh")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag6.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          Bangladesh
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("South Korea")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag5.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          South Korea
-                        </Link>
-                      </li>
-                    </ul>
+                    <LanguageList style="text-heading" />
                   </li>
                   <li className="on-hover-item border-right-item border-right-item-sm-space has-submenu arrow-white">
                     <Link
@@ -1954,98 +1858,7 @@ const HeaderThree = () => {
                 {/* Dropdown Select Start */}
                 <ul className="header-top__right style-two flex-align flex-wrap">
                   <li className="on-hover-item border-right-item border-right-item-sm-space has-submenu arrow-white">
-                    <Link
-                      to="#"
-                      className="selected-text text-heading text-sm py-8"
-                    >
-                      {selectedLanguage}
-                    </Link>
-                    <ul className="selectable-text-list on-hover-dropdown common-dropdown common-dropdown--sm max-h-200 scroll-sm px-0 py-8">
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("English")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag1.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          English
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("Japan")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag2.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          Japan
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("French")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag3.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          French
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("Germany")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag4.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          Germany
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("Bangladesh")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag6.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          Bangladesh
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleLanguageChange("South Korea")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag5.png"
-                            alt=""
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          South Korea
-                        </Link>
-                      </li>
-                    </ul>
+                    <LanguageList style="text-heading" />
                   </li>
                   <li className="on-hover-item border-right-item border-right-item-sm-space has-submenu arrow-white">
                     <Link
