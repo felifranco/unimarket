@@ -112,7 +112,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
         </button>
         <div className="mobile-menu__inner">
           <Link to="/" className="mobile-menu__logo">
-            <img src="src/assets/images/logo/logo.png" alt="Logo" />
+            <img src="assets/images/logo/logo.png" alt="Logo" />
           </Link>
           <div className="mobile-menu__menu">
             {/* Nav Menu Start */}
@@ -383,7 +383,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
             {/* Logo Start */}
             <div className="logo">
               <Link to="/" className="link">
-                <img src="src/assets/images/logo/logo-two.png" alt="Logo" />
+                <img src="assets/images/logo/logo-two.png" alt="Logo" />
               </Link>
             </div>
             {/* Logo End  */}
@@ -408,7 +408,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("English")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag1.png"
+                            src="assets/images/thumbs/flag1.png"
                             alt="English"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -422,7 +422,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("Japan")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag2.png"
+                            src="assets/images/thumbs/flag2.png"
                             alt="Japan"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -436,7 +436,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("French")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag3.png"
+                            src="assets/images/thumbs/flag3.png"
                             alt="French"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -450,7 +450,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("Germany")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag4.png"
+                            src="assets/images/thumbs/flag4.png"
                             alt="Germany"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -464,7 +464,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("Bangladesh")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag6.png"
+                            src="assets/images/thumbs/flag6.png"
                             alt="Bangladesh"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -478,7 +478,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("South Korea")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag5.png"
+                            src="assets/images/thumbs/flag5.png"
                             alt="South Korea"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -503,7 +503,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("USD")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag1.png"
+                            src="assets/images/thumbs/flag1.png"
                             alt="USD"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -517,7 +517,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("Yen")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag2.png"
+                            src="assets/images/thumbs/flag2.png"
                             alt="Yen"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -531,7 +531,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("Franc")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag3.png"
+                            src="assets/images/thumbs/flag3.png"
                             alt="Franc"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -545,7 +545,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("EURO")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag4.png"
+                            src="assets/images/thumbs/flag4.png"
                             alt="EURO"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -559,7 +559,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("BDT")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag6.png"
+                            src="assets/images/thumbs/flag6.png"
                             alt="BDT"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -573,7 +573,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("WON")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag5.png"
+                            src="assets/images/thumbs/flag5.png"
                             alt="WON"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -740,7 +740,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   </button>
                   <div className="logo px-16 d-lg-none d-block">
                     <Link to="/" className="link">
-                      <img src="src/assets/images/logo/logo.png" alt="Logo" />
+                      <img src="assets/images/logo/logo.png" alt="Logo" />
                     </Link>
                   </div>
                   <ul className="scroll-sm p-0 py-8 overflow-y-auto">
@@ -1405,7 +1405,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   </button>
                   <div className="logo px-16 d-lg-none d-block">
                     <Link to="/" className="link">
-                      <img src="src/assets/images/logo/logo.png" alt="Logo" />
+                      <img src="assets/images/logo/logo.png" alt="Logo" />
                     </Link>
                   </div>
                   <ul className="scroll-sm p-0 py-8 w-300 max-h-400 overflow-y-auto">
@@ -1979,7 +1979,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("English")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag1.png"
+                            src="assets/images/thumbs/flag1.png"
                             alt="English"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -1993,7 +1993,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("Japan")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag2.png"
+                            src="assets/images/thumbs/flag2.png"
                             alt="Japan"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -2007,7 +2007,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("French")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag3.png"
+                            src="assets/images/thumbs/flag3.png"
                             alt="French"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -2021,7 +2021,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("Germany")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag4.png"
+                            src="assets/images/thumbs/flag4.png"
                             alt="Germany"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -2035,7 +2035,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("Bangladesh")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag6.png"
+                            src="assets/images/thumbs/flag6.png"
                             alt="Bangladesh"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -2049,7 +2049,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleLanguageChange("South Korea")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag5.png"
+                            src="assets/images/thumbs/flag5.png"
                             alt="South Korea"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -2074,7 +2074,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("USD")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag1.png"
+                            src="assets/images/thumbs/flag1.png"
                             alt="USD"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -2088,7 +2088,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("Yen")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag2.png"
+                            src="assets/images/thumbs/flag2.png"
                             alt="Yen"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -2102,7 +2102,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("Franc")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag3.png"
+                            src="assets/images/thumbs/flag3.png"
                             alt="Franc"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -2116,7 +2116,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("EURO")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag4.png"
+                            src="assets/images/thumbs/flag4.png"
                             alt="EURO"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -2130,7 +2130,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("BDT")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag6.png"
+                            src="assets/images/thumbs/flag6.png"
                             alt="BDT"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />
@@ -2144,7 +2144,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                           onClick={() => handleCurrencyChange("WON")}
                         >
                           <img
-                            src="src/assets/images/thumbs/flag5.png"
+                            src="assets/images/thumbs/flag5.png"
                             alt="WON"
                             className="w-16 h-12 rounded-4 border border-gray-100"
                           />

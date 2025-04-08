@@ -93,7 +93,7 @@ const InstagramSection = () => {
           <Slider {...settings}>
             <div>
               <div className="instagram-item rounded-24 overflow-hidden position-relative">
-                <img src="src/assets/images/thumbs/instagram-img1.png" alt="" />
+                <img src="assets/images/thumbs/instagram-img1.png" alt="" />
                 <Link
                   to="https://www.instagram.com"
                   className="w-72 h-72 bg-black bg-opacity-50 text-white text-32 position-absolute top-50 start-50 translate-middle flex-center rounded-circle hover-bg-main-two-600 hover-text-white"
@@ -104,7 +104,7 @@ const InstagramSection = () => {
             </div>
             <div>
               <div className="instagram-item rounded-24 overflow-hidden position-relative">
-                <img src="src/assets/images/thumbs/instagram-img2.png" alt="" />
+                <img src="assets/images/thumbs/instagram-img2.png" alt="" />
                 <Link
                   to="https://www.instagram.com"
                   className="w-72 h-72 bg-black bg-opacity-50 text-white text-32 position-absolute top-50 start-50 translate-middle flex-center rounded-circle hover-bg-main-two-600 hover-text-white"
@@ -115,7 +115,7 @@ const InstagramSection = () => {
             </div>
             <div>
               <div className="instagram-item rounded-24 overflow-hidden position-relative">
-                <img src="src/assets/images/thumbs/instagram-img3.png" alt="" />
+                <img src="assets/images/thumbs/instagram-img3.png" alt="" />
                 <Link
                   to="https://www.instagram.com"
                   className="w-72 h-72 bg-black bg-opacity-50 text-white text-32 position-absolute top-50 start-50 translate-middle flex-center rounded-circle hover-bg-main-two-600 hover-text-white"
@@ -126,7 +126,7 @@ const InstagramSection = () => {
             </div>
             <div>
               <div className="instagram-item rounded-24 overflow-hidden position-relative">
-                <img src="src/assets/images/thumbs/instagram-img4.png" alt="" />
+                <img src="assets/images/thumbs/instagram-img4.png" alt="" />
                 <Link
                   to="https://www.instagram.com"
                   className="w-72 h-72 bg-black bg-opacity-50 text-white text-32 position-absolute top-50 start-50 translate-middle flex-center rounded-circle hover-bg-main-two-600 hover-text-white"
@@ -137,7 +137,7 @@ const InstagramSection = () => {
             </div>
             <div>
               <div className="instagram-item rounded-24 overflow-hidden position-relative">
-                <img src="src/assets/images/thumbs/instagram-img2.png" alt="" />
+                <img src="assets/images/thumbs/instagram-img2.png" alt="" />
                 <Link
                   to="https://www.instagram.com"
                   className="w-72 h-72 bg-black bg-opacity-50 text-white text-32 position-absolute top-50 start-50 translate-middle flex-center rounded-circle hover-bg-main-two-600 hover-text-white"

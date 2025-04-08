@@ -97,12 +97,12 @@ const HotDealsOne = () => {
           <div className="col-md-4">
             <div className="hot-deals position-relative rounded-16 bg-main-600 overflow-hidden p-28 z-1 text-center">
               <img
-                src="src/assets/images/shape/offer-shape.png"
+                src="assets/images/shape/offer-shape.png"
                 alt=""
                 className="position-absolute inset-block-start-0 inset-inline-start-0 z-n1 w-100 h-100 opacity-6"
               />
               <div className="hot-deals__thumb">
-                <img src="src/assets/images/thumbs/hot-deals-img.png" alt="" />
+                <img src="assets/images/thumbs/hot-deals-img.png" alt="" />
               </div>
               <div className="py-xl-4">
                 <h4 className="text-white mb-8">Fresh Vegetables</h4>
@@ -151,7 +151,7 @@ const HotDealsOne = () => {
                       to="/product-details"
                       className="product-card__thumb flex-center"
                     >
-                      <img src="src/assets/images/thumbs/product-img8.png" alt="" />
+                      <img src="assets/images/thumbs/product-img8.png" alt="" />
                     </Link>
                     <div className="product-card__content p-sm-2">
                       <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -212,7 +212,7 @@ const HotDealsOne = () => {
                       to="/product-details"
                       className="product-card__thumb flex-center"
                     >
-                      <img src="src/assets/images/thumbs/product-img9.png" alt="" />
+                      <img src="assets/images/thumbs/product-img9.png" alt="" />
                     </Link>
                     <div className="product-card__content p-sm-2">
                       <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -274,7 +274,7 @@ const HotDealsOne = () => {
                       className="product-card__thumb flex-center"
                     >
                       <img
-                        src="src/assets/images/thumbs/product-img10.png"
+                        src="assets/images/thumbs/product-img10.png"
                         alt=""
                       />
                     </Link>
@@ -338,7 +338,7 @@ const HotDealsOne = () => {
                       className="product-card__thumb flex-center"
                     >
                       <img
-                        src="src/assets/images/thumbs/product-img18.png"
+                        src="assets/images/thumbs/product-img18.png"
                         alt=""
                       />
                     </Link>
@@ -401,7 +401,7 @@ const HotDealsOne = () => {
                       to="/product-details"
                       className="product-card__thumb flex-center"
                     >
-                      <img src="src/assets/images/thumbs/product-img9.png" alt="" />
+                      <img src="assets/images/thumbs/product-img9.png" alt="" />
                     </Link>
                     <div className="product-card__content p-sm-2">
                       <h6 className="title text-lg fw-semibold mt-12 mb-8">

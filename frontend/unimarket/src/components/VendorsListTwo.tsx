@@ -24,7 +24,7 @@ const VendorsListTwo = () => {
               <div className="d-flex flex-column gap-12 px-lg-0 px-16 py-lg-0 py-24">
                 <div className="vendor-card style-two text-center px-16 pb-24 bg-main-50">
                   <img
-                    src="src/assets/images/thumbs/vendor-logo2.png"
+                    src="assets/images/thumbs/vendor-logo2.png"
                     alt=""
                     className="vendor-card__logo m-12"
                   />
@@ -408,7 +408,7 @@ const VendorsListTwo = () => {
                   </span>
                   <h5 className="text-32 text-main-600">Up to 25% Off</h5>
                   <div className="mt-52">
-                    <img src="src/assets/images/thumbs/advertiser-img.png" alt="" />
+                    <img src="assets/images/thumbs/advertiser-img.png" alt="" />
                   </div>
                 </div>
               </div>
@@ -465,7 +465,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img7.png" alt="" />
+                    <img src="assets/images/thumbs/product-img7.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -523,7 +523,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img8.png" alt="" />
+                    <img src="assets/images/thumbs/product-img8.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -581,7 +581,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img9.png" alt="" />
+                    <img src="assets/images/thumbs/product-img9.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -639,7 +639,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img10.png" alt="" />
+                    <img src="assets/images/thumbs/product-img10.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -694,7 +694,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img11.png" alt="" />
+                    <img src="assets/images/thumbs/product-img11.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -749,7 +749,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img13.png" alt="" />
+                    <img src="assets/images/thumbs/product-img13.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -807,7 +807,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img14.png" alt="" />
+                    <img src="assets/images/thumbs/product-img14.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -865,7 +865,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img15.png" alt="" />
+                    <img src="assets/images/thumbs/product-img15.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -923,7 +923,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img16.png" alt="" />
+                    <img src="assets/images/thumbs/product-img16.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -981,7 +981,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img17.png" alt="" />
+                    <img src="assets/images/thumbs/product-img17.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -1036,7 +1036,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img7.png" alt="" />
+                    <img src="assets/images/thumbs/product-img7.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -1094,7 +1094,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img8.png" alt="" />
+                    <img src="assets/images/thumbs/product-img8.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -1152,7 +1152,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img9.png" alt="" />
+                    <img src="assets/images/thumbs/product-img9.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -1210,7 +1210,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img10.png" alt="" />
+                    <img src="assets/images/thumbs/product-img10.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -1265,7 +1265,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img11.png" alt="" />
+                    <img src="assets/images/thumbs/product-img11.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -1320,7 +1320,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img13.png" alt="" />
+                    <img src="assets/images/thumbs/product-img13.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -1378,7 +1378,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img14.png" alt="" />
+                    <img src="assets/images/thumbs/product-img14.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -1436,7 +1436,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img15.png" alt="" />
+                    <img src="assets/images/thumbs/product-img15.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -1494,7 +1494,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img16.png" alt="" />
+                    <img src="assets/images/thumbs/product-img16.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">
@@ -1552,7 +1552,7 @@ const VendorsListTwo = () => {
                     to="/product-details"
                     className="product-card__thumb flex-center"
                   >
-                    <img src="src/assets/images/thumbs/product-img17.png" alt="" />
+                    <img src="assets/images/thumbs/product-img17.png" alt="" />
                   </Link>
                   <div className="product-card__content p-sm-2 w-100">
                     <h6 className="title text-lg fw-semibold mt-12 mb-8">

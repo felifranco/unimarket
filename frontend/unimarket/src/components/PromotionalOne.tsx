@@ -8,7 +8,7 @@ const PromotionalOne = () => {
           <div className="col-xl-3 col-sm-6 col-xs-6">
             <div className="promotional-banner-item position-relative rounded-24 overflow-hidden z-1">
               <img
-                src="src/assets/images/thumbs/promotional-banner-img1.png"
+                src="assets/images/thumbs/promotional-banner-img1.png"
                 alt=""
                 className="position-absolute inset-block-start-0 inset-inline-start-0 w-100 h-100 object-fit-cover z-n1"
               />
@@ -31,7 +31,7 @@ const PromotionalOne = () => {
           <div className="col-xl-3 col-sm-6 col-xs-6">
             <div className="promotional-banner-item position-relative rounded-24 overflow-hidden z-1">
               <img
-                src="src/assets/images/thumbs/promotional-banner-img2.png"
+                src="assets/images/thumbs/promotional-banner-img2.png"
                 alt=""
                 className="position-absolute inset-block-start-0 inset-inline-start-0 w-100 h-100 object-fit-cover z-n1"
               />
@@ -54,7 +54,7 @@ const PromotionalOne = () => {
           <div className="col-xl-3 col-sm-6 col-xs-6">
             <div className="promotional-banner-item position-relative rounded-24 overflow-hidden z-1">
               <img
-                src="src/assets/images/thumbs/promotional-banner-img3.png"
+                src="assets/images/thumbs/promotional-banner-img3.png"
                 alt=""
                 className="position-absolute inset-block-start-0 inset-inline-start-0 w-100 h-100 object-fit-cover z-n1"
               />
@@ -77,7 +77,7 @@ const PromotionalOne = () => {
           <div className="col-xl-3 col-sm-6 col-xs-6">
             <div className="promotional-banner-item position-relative rounded-24 overflow-hidden z-1">
               <img
-                src="src/assets/images/thumbs/promotional-banner-img4.png"
+                src="assets/images/thumbs/promotional-banner-img4.png"
                 alt=""
                 className="position-absolute inset-block-start-0 inset-inline-start-0 w-100 h-100 object-fit-cover z-n1"
               />
