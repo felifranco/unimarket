@@ -30,7 +30,7 @@ const TestimonialOne = () => {
   const mainSliderSettings = {
     slidesToShow: 1,
     slidesToScroll: 1,
-    asNavFor: thumbSliderRef.current,
+    asNavFor: (thumbSliderRef.current as Slider | null) || undefined,
     dots: false,
     arrows: false,
     fade: true,
@@ -40,7 +40,7 @@ const TestimonialOne = () => {
   const thumbSliderSettings = {
     slidesToShow: 4,
     slidesToScroll: 1,
-    asNavFor: mainSliderRef.current,
+    asNavFor: (mainSliderRef.current as Slider | null) || undefined,
     dots: false,
     arrows: true,
     infinite: true,

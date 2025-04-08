@@ -1,29 +1,29 @@
-import { useEffect } from "react";
+//import { useEffect } from "react";
 import Slider from "react-slick";
-import { WOW } from "wowjs";
+//import { WOW } from "wowjs";
 import "animate.css";
 import { Link } from "react-router-dom";
 
 const BannerThree = () => {
-  useEffect(() => {
-    const wow = new WOW({
-      live: false,
-    });
-    wow.init();
-  }, []);
+  //useEffect(() => {
+  //  const wow = new WOW({
+  //    live: false,
+  //  });
+  //  wow.init();
+  //}, []);
 
-  let itItWow = () => {
-    const wow = new WOW({
-      live: false,
-    });
-    wow.init();
-  };
+  //let itItWow = () => {
+  //  const wow = new WOW({
+  //    live: false,
+  //  });
+  //  wow.init();
+  //};
 
   const NextArrow = ({ onClick }: { onClick?: () => void }) => (
     <button
       onClick={() => {
         onClick?.();
-        itItWow();
+        //itItWow();
       }}
       type="button"
       id="banner-three-next"
@@ -37,7 +37,7 @@ const BannerThree = () => {
     <button
       onClick={() => {
         onClick?.();
-        itItWow();
+        //itItWow();
       }}
       type="button"
       id="banner-three-prev"
