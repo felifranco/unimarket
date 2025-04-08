@@ -1,0 +1,21 @@
+@use "../abstracts/variable";
+
+/* Font Size Class Start */
+.text {
+    &-inherit {
+        font-size: inherit;
+    }
+}
+
+@each $property, $value in variable.$font-sizes {
+    .text-#{$property} {
+      font-size: $value !important;
+    }
+}  
+
+@each $property, $value in variable.$spaces {
+    .text-#{$property} {
+      font-size: $value !important;
+    }
+}  
+/* Font Size Class End */

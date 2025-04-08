@@ -1,0 +1,7 @@
+@use "../../abstracts/functions";
+
+/* ============================== Promotional Banner Three Start ==========================  */
+.promo-three-item {
+    padding: functions.clampCal(32, 118) functions.clampCal(24, 64);
+}
+/* ============================== Promotional Banner Three End ==========================  */

@@ -1,0 +1,17 @@
+@use "../../abstracts/mixins";
+
+/* ======================= Offer Css Start =========================== */
+.offer-card {
+    &__thumb {
+        img {
+            @include mixins.xxl-screen {
+                max-width: 246px;
+                width: 100%;
+            }
+            @include mixins.lg-screen {
+                max-width: 163px;
+            }
+        }
+    }
+}
+/* ======================= Offer Css End =========================== */

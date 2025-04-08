@@ -1,0 +1,35 @@
+@use "../../abstracts/mixins";
+
+/* ============================== Vendor Two Details Css Start =============================== */
+.grid-cols-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+    gap: 24px;
+    @include mixins.xl-screen {
+        grid-template-columns: 1fr 1fr 1fr !important;
+    }
+    @include mixins.lg-screen {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    @include mixins.msm-screen {
+        grid-template-columns: 1fr !important;
+    }
+    &.list-view {
+        grid-template-columns: 1fr 1fr !important;
+        @include mixins.xl-screen {
+            grid-template-columns: 1fr !important;
+        }
+    }
+}
+
+
+.vendor-two-details {
+    .shop-sidebar {
+        width: 332px;
+    }
+    &__contents {
+        flex-grow: 1;
+        width: calc(100% - 356px);
+    }
+}
+/* ============================== Vendor Two Details Css End =============================== */
