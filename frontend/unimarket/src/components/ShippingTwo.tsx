@@ -1,4 +1,8 @@
+import { useTranslation } from "react-i18next";
+
 const ShippingTwo = () => {
+  const { t } = useTranslation("ShippingTwo");
+
   return (
     <section className="shipping mb-80" id="shipping">
       <div className="container container-lg">
@@ -9,9 +13,9 @@ const ShippingTwo = () => {
                 <i className="ph-fill ph-car-profile" />
               </span>
               <div className="">
-                <h6 className="mb-0">Free Shipping</h6>
+                <h6 className="mb-0">{t("shipping_title")}</h6>
                 <span className="text-sm text-heading">
-                  Free shipping all over the US
+                  {t("shipping_description")}
                 </span>
               </div>
             </div>
@@ -22,9 +26,9 @@ const ShippingTwo = () => {
                 <i className="ph-fill ph-hand-heart" />
               </span>
               <div className="">
-                <h6 className="mb-0"> 100% Satisfaction</h6>
+                <h6 className="mb-0">{t("satisfaction_title")}</h6>
                 <span className="text-sm text-heading">
-                  Free shipping all over the US
+                  {t("satisfaction_description")}
                 </span>
               </div>
             </div>
@@ -35,9 +39,9 @@ const ShippingTwo = () => {
                 <i className="ph-fill ph-credit-card" />
               </span>
               <div className="">
-                <h6 className="mb-0"> Secure Payments</h6>
+                <h6 className="mb-0">{t("payment_title")}</h6>
                 <span className="text-sm text-heading">
-                  Free shipping all over the US
+                  {t("payment_description")}
                 </span>
               </div>
             </div>
@@ -48,9 +52,9 @@ const ShippingTwo = () => {
                 <i className="ph-fill ph-chats" />
               </span>
               <div className="">
-                <h6 className="mb-0"> 24/7 Support</h6>
+                <h6 className="mb-0"> {t("support_title")}</h6>
                 <span className="text-sm text-heading">
-                  Free shipping all over the US
+                  {t("support_description")}
                 </span>
               </div>
             </div>

@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 //import ReactSlider from "react-slider";
+import { useTranslation } from "react-i18next";
+import mockData from "../mocks/products.json";
 
 const ShopSection = () => {
+  const { t } = useTranslation("ShopSection");
+
   let [grid, setGrid] = useState(false);
 
   let [active, setActive] = useState(false);
@@ -27,118 +31,24 @@ const ShopSection = () => {
               </button>
               <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
                 <h6 className="text-xl border-bottom border-gray-100 pb-24 mb-24">
-                  Product Category
+                  {t("product_category")}
                 </h6>
                 <ul className="max-h-540 overflow-y-auto scroll-sm">
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Mobile &amp; Accessories (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Laptop (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Electronics (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Smart Watch (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Storage (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Portable Devices (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Action Camera (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Smart Gadget (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Monitor (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Smart TV (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Camera (12)
-                    </Link>
-                  </li>
-                  <li className="mb-24">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Monitor Stand (12)
-                    </Link>
-                  </li>
-                  <li className="mb-0">
-                    <Link
-                      to="/product-details-two"
-                      className="text-gray-900 hover-text-main-600"
-                    >
-                      Headphone (12)
-                    </Link>
-                  </li>
+                  {mockData.categories.map((category, index) => (
+                    <li key={index} className="mb-24">
+                      <Link
+                        to="#"
+                        className="text-gray-900 hover-text-main-600"
+                      >
+                        {`${category.name} (${category.subcategories.length})`}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
                 <h6 className="text-xl border-bottom border-gray-100 pb-24 mb-24">
-                  Filter by Price
+                  {t("filter_by_price")}
                 </h6>
                 <div className="custom--range">
                   {/*<ReactSlider
@@ -167,7 +77,7 @@ const ShopSection = () => {
                       type="button"
                       className="btn btn-main h-40 flex-align"
                     >
-                      Filter{" "}
+                      {t("filter")}{" "}
                     </button>
                   </div>
                 </div>
@@ -175,7 +85,7 @@ const ShopSection = () => {
 
               <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
                 <h6 className="text-xl border-bottom border-gray-100 pb-24 mb-24">
-                  Filter by Rating
+                  {t("filter_by_rating")}
                 </h6>
                 <div className="flex-align gap-8 position-relative mb-20">
                   <label
@@ -415,7 +325,7 @@ const ShopSection = () => {
               </div>
               <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
                 <h6 className="text-xl border-bottom border-gray-100 pb-24 mb-24">
-                  Filter by Color
+                  {t("filter_by_color")}
                 </h6>
                 <ul className="max-h-540 overflow-y-auto scroll-sm">
                   <li className="mb-24">
@@ -513,7 +423,7 @@ const ShopSection = () => {
               </div>
               <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
                 <h6 className="text-xl border-bottom border-gray-100 pb-24 mb-24">
-                  Filter by Brand
+                  {t("filter_by_brand")}
                 </h6>
                 <ul className="max-h-540 overflow-y-auto scroll-sm">
                   <li className="mb-24">
@@ -619,7 +529,9 @@ const ShopSection = () => {
           <div className="col-lg-9">
             {/* Top Start */}
             <div className="flex-between gap-16 flex-wrap mb-40 ">
-              <span className="text-gray-900">Showing 1-20 of 85 result</span>
+              <span className="text-gray-900">
+                {t("showing")} 1-20 {t("of")} 85 {t("results")}
+              </span>
               <div className="position-relative flex-align gap-16 flex-wrap">
                 <div className="list-grid-btns flex-align gap-16">
                   <button
@@ -642,17 +554,17 @@ const ShopSection = () => {
                     htmlFor="sorting"
                     className="text-inherit flex-shrink-0"
                   >
-                    Sort by:{" "}
+                    {t("sort_by")}:{" "}
                   </label>
                   <select
                     defaultValue={1}
                     className="form-control common-input px-14 py-14 text-inherit rounded-6 w-auto"
                     id="sorting"
                   >
-                    <option value={1}>Popular</option>
-                    <option value={1}>Latest</option>
-                    <option value={1}>Trending</option>
-                    <option value={1}>Matches</option>
+                    <option value={1}>{t("popular")}</option>
+                    <option value={1}>{t("latest")}</option>
+                    <option value={1}>{t("trending")}</option>
+                    <option value={1}>{t("matches")}</option>
                   </select>
                 </div>
                 <button
@@ -677,7 +589,7 @@ const ShopSection = () => {
                     className="w-auto max-w-unset"
                   />
                   <span className="product-card__badge bg-primary-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                    Best Sale{" "}
+                    {t("best_sale")}{" "}
                   </span>
                 </Link>
                 <div className="product-card__content mt-16">
@@ -714,7 +626,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -731,7 +643,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -780,7 +692,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -797,7 +709,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -846,7 +758,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -863,7 +775,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -873,7 +785,7 @@ const ShopSection = () => {
                   className="product-card__thumb flex-center rounded-8 bg-gray-50 position-relative"
                 >
                   <span className="product-card__badge bg-danger-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                    Sale 50%{" "}
+                    {t("sale")} 50%{" "}
                   </span>
                   <img
                     src="assets/images/thumbs/product-two-img4.png"
@@ -915,7 +827,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -932,7 +844,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -981,7 +893,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -998,7 +910,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1047,7 +959,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1064,7 +976,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1113,7 +1025,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1130,7 +1042,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1179,7 +1091,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1196,7 +1108,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1206,7 +1118,7 @@ const ShopSection = () => {
                   className="product-card__thumb flex-center rounded-8 bg-gray-50 position-relative"
                 >
                   <span className="product-card__badge bg-danger-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                    Sale 50%{" "}
+                    {t("sale")} 50%{" "}
                   </span>
                   <img
                     src="assets/images/thumbs/product-two-img9.png"
@@ -1248,7 +1160,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1265,7 +1177,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1314,7 +1226,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1331,7 +1243,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1380,7 +1292,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1397,7 +1309,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1407,7 +1319,7 @@ const ShopSection = () => {
                   className="product-card__thumb flex-center rounded-8 bg-gray-50 position-relative"
                 >
                   <span className="product-card__badge bg-warning-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                    New
+                    {t("new")}
                   </span>
                   <img
                     src="assets/images/thumbs/product-two-img12.png"
@@ -1449,7 +1361,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1466,7 +1378,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1515,7 +1427,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1532,7 +1444,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1581,7 +1493,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1598,7 +1510,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1608,7 +1520,7 @@ const ShopSection = () => {
                   className="product-card__thumb flex-center rounded-8 bg-gray-50 position-relative"
                 >
                   <span className="product-card__badge bg-primary-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                    Best Sale{" "}
+                    {t("best_sale")}{" "}
                   </span>
                   <img
                     src="assets/images/thumbs/product-two-img15.png"
@@ -1650,7 +1562,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1667,7 +1579,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1677,7 +1589,7 @@ const ShopSection = () => {
                   className="product-card__thumb flex-center rounded-8 bg-gray-50 position-relative"
                 >
                   <span className="product-card__badge bg-warning-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                    New
+                    {t("new")}
                   </span>
                   <img
                     src="assets/images/thumbs/product-two-img15.png"
@@ -1719,7 +1631,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1736,7 +1648,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1751,7 +1663,7 @@ const ShopSection = () => {
                     className="w-auto max-w-unset"
                   />
                   <span className="product-card__badge bg-primary-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                    Best Sale{" "}
+                    {t("best_sale")}{" "}
                   </span>
                 </Link>
                 <div className="product-card__content mt-16">
@@ -1788,7 +1700,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1805,7 +1717,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1854,7 +1766,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1871,7 +1783,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1920,7 +1832,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -1937,7 +1849,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>
@@ -1947,7 +1859,7 @@ const ShopSection = () => {
                   className="product-card__thumb flex-center rounded-8 bg-gray-50 position-relative"
                 >
                   <span className="product-card__badge bg-danger-600 px-8 py-4 text-sm text-white position-absolute inset-inline-start-0 inset-block-start-0">
-                    Sale 50%{" "}
+                    {t("sale")} 50%{" "}
                   </span>
                   <img
                     src="assets/images/thumbs/product-two-img4.png"
@@ -1989,7 +1901,7 @@ const ShopSection = () => {
                       />
                     </div>
                     <span className="text-gray-900 text-xs fw-medium mt-8">
-                      Sold: 18/35
+                      {t("sold")}: 18/35
                     </span>
                   </div>
                   <div className="product-card__price my-20">
@@ -2006,7 +1918,7 @@ const ShopSection = () => {
                     className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
                     tabIndex={0}
                   >
-                    Add To Cart <i className="ph ph-shopping-cart" />
+                    {t("add_to_cart")} <i className="ph ph-shopping-cart" />
                   </Link>
                 </div>
               </div>

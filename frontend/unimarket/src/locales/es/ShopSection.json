@@ -1,0 +1,21 @@
+{
+  "product_category": "Categoría de producto",
+  "filter_by_price": "Filtrar por precio",
+  "filter_by_rating": "Filtrar por calificación",
+  "filter_by_color": "Filtrar por color",
+  "filter_by_brand": "Filtrar por marca",
+  "filter": "Filtrar",
+  "showing": "Mostrando",
+  "of": "de",
+  "results": "resultados",
+  "sort_by": "Ordenar por",
+  "popular": "Popular",
+  "latest": "Último",
+  "trending": "Tendencia",
+  "matches": "Coincidencias",
+  "new": "Nuevo",
+  "best_sale": "Mejor venta",
+  "sale": "Venta",
+  "add_to_cart": "Agregar al carrito",
+  "sold": "Vendido"
+}

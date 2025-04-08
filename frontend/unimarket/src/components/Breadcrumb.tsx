@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Breadcrumb = ({ title }: { title: string }) => {
+  const { t } = useTranslation("Breadcrumb");
+
   return (
     <div className="breadcrumb mb-0 py-26 bg-main-two-50">
       <div className="container container-lg">
@@ -13,7 +16,7 @@ const Breadcrumb = ({ title }: { title: string }) => {
                 className="text-gray-900 flex-align gap-8 hover-text-main-600"
               >
                 <i className="ph ph-house" />
-                Home
+                {t("home")}
               </Link>
             </li>
             <li className="flex-align">

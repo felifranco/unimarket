@@ -6,8 +6,11 @@ import ShippingTwo from "../components/ShippingTwo";
 import FooterTwo from "../components/FooterTwo";
 import ColorInit from "../helper/ColorInit";
 //import ScrollToTop from "react-scroll-to-top";
+import { useTranslation } from "react-i18next";
 
 const ShopPage = () => {
+  const { t } = useTranslation("ShopPage");
+
   return (
     <>
       {/* ColorInit */}
@@ -23,7 +26,7 @@ const ShopPage = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"Shop"} />
+      <Breadcrumb title={t("title")} />
 
       {/* ShopSection */}
       <ShopSection />
