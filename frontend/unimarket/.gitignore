@@ -31,3 +31,6 @@ dist-ssr
 .env.local
 
 package-lock.json
+
+.vite
+public
