@@ -1,181 +1,184 @@
 {
-  "categories": [
+  "products": [
     {
-      "id": 1,
-      "name": "Electrónica",
-      "description": "Dispositivos electrónicos y accesorios.",
-      "subcategories": [
-        {
-          "id": 101,
-          "name": "Teléfonos móviles",
-          "description": "Smartphones y accesorios."
-        },
-        {
-          "id": 102,
-          "name": "Computadoras",
-          "description": "Laptops, desktops y accesorios."
-        },
-        {
-          "id": 103,
-          "name": "Televisores",
-          "description": "Pantallas y televisores de última generación."
-        }
-      ]
+      "id_product": 1,
+      "name": "Smartphone XYZ",
+      "description": "Un smartphone de última generación con cámara de alta resolución.",
+      "stars": 4.8,
+      "rating": 4.5,
+      "sold": 18,
+      "stock": 50,
+      "currency_symbol": "$",
+      "old_price": 599.99,
+      "price": 499.99,
+      "badge": "Nuevo",
+      "images": [
+        "assets/images/thumbs/product-two-img1.png",
+        "assets/images/thumbs/product-two-img1.png"
+      ],
+      "cover_image": "assets/images/thumbs/product-two-img1.png"
     },
     {
-      "id": 2,
-      "name": "Hogar y Cocina",
-      "description": "Artículos para el hogar y utensilios de cocina.",
-      "subcategories": [
-        {
-          "id": 201,
-          "name": "Electrodomésticos",
-          "description": "Refrigeradores, microondas, licuadoras, etc."
-        },
-        {
-          "id": 202,
-          "name": "Muebles",
-          "description": "Sofás, mesas, sillas y más."
-        },
-        {
-          "id": 203,
-          "name": "Decoración",
-          "description": "Cuadros, alfombras, lámparas y otros artículos decorativos."
-        }
-      ]
+      "id_product": 2,
+      "name": "Laptop ABC",
+      "description": "Laptop potente para juegos y trabajo.",
+      "stars": 4.7,
+      "rating": 4.6,
+      "sold": 25,
+      "stock": 30,
+      "currency_symbol": "$",
+      "old_price": 1299.99,
+      "price": 1099.99,
+      "badge": "Rebaja",
+      "images": [
+        "assets/images/thumbs/product-two-img1.png",
+        "assets/images/thumbs/product-two-img1.png"
+      ],
+      "cover_image": "assets/images/thumbs/product-two-img1.png"
     },
     {
-      "id": 3,
-      "name": "Ropa y Moda",
-      "description": "Prendas de vestir y accesorios de moda.",
-      "subcategories": [
-        {
-          "id": 301,
-          "name": "Hombres",
-          "description": "Ropa, calzado y accesorios para hombres."
-        },
-        {
-          "id": 302,
-          "name": "Mujeres",
-          "description": "Ropa, calzado y accesorios para mujeres."
-        },
-        {
-          "id": 303,
-          "name": "Niños",
-          "description": "Ropa, calzado y accesorios para niños."
-        }
-      ]
+      "id_product": 3,
+      "name": "Auriculares Inalámbricos",
+      "description": "Auriculares con cancelación de ruido y sonido envolvente.",
+      "stars": 4.5,
+      "rating": 4.4,
+      "sold": 10,
+      "stock": 20,
+      "currency_symbol": "$",
+      "old_price": 199.99,
+      "price": 149.99,
+      "badge": "",
+      "images": [
+        "assets/images/thumbs/product-two-img1.png",
+        "assets/images/thumbs/product-two-img1.png"
+      ],
+      "cover_image": "assets/images/thumbs/product-two-img1.png"
     },
     {
-      "id": 4,
-      "name": "Deportes y Aire Libre",
-      "description": "Equipos y accesorios para deportes y actividades al aire libre.",
-      "subcategories": [
-        {
-          "id": 401,
-          "name": "Fitness",
-          "description": "Pesas, bandas de resistencia, ropa deportiva, etc."
-        },
-        {
-          "id": 402,
-          "name": "Camping",
-          "description": "Tiendas de campaña, mochilas, linternas y más."
-        },
-        {
-          "id": 403,
-          "name": "Ciclismo",
-          "description": "Bicicletas, cascos y accesorios para ciclismo."
-        }
-      ]
+      "id_product": 4,
+      "name": "Tablet DEF",
+      "description": "Tablet ligera y potente con pantalla de alta resolución.",
+      "stars": 4.6,
+      "rating": 4.3,
+      "sold": 15,
+      "stock": 40,
+      "currency_symbol": "$",
+      "old_price": 399.99,
+      "price": 349.99,
+      "badge": "Popular",
+      "images": [
+        "assets/images/thumbs/product-two-img1.png",
+        "assets/images/thumbs/product-two-img1.png"
+      ],
+      "cover_image": "assets/images/thumbs/product-two-img1.png"
     },
     {
-      "id": 5,
-      "name": "Juguetes y Juegos",
-      "description": "Juguetes para niños y juegos de mesa.",
-      "subcategories": [
-        {
-          "id": 501,
-          "name": "Juguetes educativos",
-          "description": "Juguetes que fomentan el aprendizaje."
-        },
-        {
-          "id": 502,
-          "name": "Juegos de mesa",
-          "description": "Juegos para disfrutar en familia o con amigos."
-        },
-        {
-          "id": 503,
-          "name": "Muñecos y figuras",
-          "description": "Muñecos, figuras de acción y más."
-        }
-      ]
+      "id_product": 5,
+      "name": "Smartwatch GHI",
+      "description": "Reloj inteligente con múltiples funciones de salud y deporte.",
+      "stars": 4.4,
+      "rating": 4.2,
+      "sold": 20,
+      "stock": 35,
+      "currency_symbol": "$",
+      "old_price": 249.99,
+      "price": 199.99,
+      "badge": "Oferta",
+      "images": [
+        "assets/images/thumbs/product-two-img1.png",
+        "assets/images/thumbs/product-two-img1.png"
+      ],
+      "cover_image": "assets/images/thumbs/product-two-img1.png"
     },
     {
-      "id": 6,
-      "name": "Alimentos y Bebidas",
-      "description": "Productos alimenticios y bebidas.",
-      "subcategories": [
-        {
-          "id": 601,
-          "name": "Frutas y Verduras",
-          "description": "Productos frescos y orgánicos."
-        },
-        {
-          "id": 602,
-          "name": "Carnes y Pescados",
-          "description": "Carne de res, pollo, pescado y más."
-        },
-        {
-          "id": 603,
-          "name": "Bebidas",
-          "description": "Jugos, refrescos, agua y bebidas alcohólicas."
-        }
-      ]
+      "id_product": 6,
+      "name": "Cámara Digital JKL",
+      "description": "Cámara compacta con lente de alta calidad y múltiples modos.",
+      "stars": 4.7,
+      "rating": 4.5,
+      "sold": 12,
+      "stock": 25,
+      "currency_symbol": "$",
+      "old_price": 799.99,
+      "price": 699.99,
+      "badge": "Nuevo",
+      "images": [
+        "assets/images/thumbs/product-two-img1.png",
+        "assets/images/thumbs/product-two-img1.png"
+      ],
+      "cover_image": "assets/images/thumbs/product-two-img1.png"
     },
     {
-      "id": 7,
-      "name": "Libros y Papelería",
-      "description": "Libros, útiles escolares y artículos de oficina.",
-      "subcategories": [
-        {
-          "id": 701,
-          "name": "Libros",
-          "description": "Ficción, no ficción, educativos y más."
-        },
-        {
-          "id": 702,
-          "name": "Útiles escolares",
-          "description": "Cuadernos, lápices, mochilas y más."
-        },
-        {
-          "id": 703,
-          "name": "Artículos de oficina",
-          "description": "Sillas, escritorios, organizadores y más."
-        }
-      ]
+      "id_product": 7,
+      "name": "Teclado Mecánico MNO",
+      "description": "Teclado mecánico con retroiluminación RGB y teclas programables.",
+      "stars": 4.8,
+      "rating": 4.7,
+      "sold": 30,
+      "stock": 50,
+      "currency_symbol": "$",
+      "old_price": 129.99,
+      "price": 99.99,
+      "badge": "Rebaja",
+      "images": [
+        "assets/images/thumbs/product-two-img1.png",
+        "assets/images/thumbs/product-two-img1.png"
+      ],
+      "cover_image": "assets/images/thumbs/product-two-img1.png"
     },
-
     {
-      "id": 8,
-      "name": "Tecnología",
-      "description": "Últimos gadgets y dispositivos tecnológicos.",
-      "subcategories": [
-        {
-          "id": 801,
-          "name": "Computadoras",
-          "description": "Laptops, desktops y accesorios."
-        },
-        {
-          "id": 802,
-          "name": "Teléfonos",
-          "description": "Smartphones y accesorios."
-        },
-        {
-          "id": 803,
-          "name": "Televisores",
-          "description": "Pantallas y televisores de última generación."
-        }
-      ]
+      "id_product": 8,
+      "name": "Mouse Inalámbrico PQR",
+      "description": "Mouse ergonómico con conexión inalámbrica y batería recargable.",
+      "stars": 4.3,
+      "rating": 4.1,
+      "sold": 18,
+      "stock": 60,
+      "currency_symbol": "$",
+      "old_price": 49.99,
+      "price": 39.99,
+      "badge": "",
+      "images": [
+        "assets/images/thumbs/product-two-img1.png",
+        "assets/images/thumbs/product-two-img1.png"
+      ],
+      "cover_image": "assets/images/thumbs/product-two-img1.png"
+    },
+    {
+      "id_product": 9,
+      "name": "Monitor Ultra HD STU",
+      "description": "Monitor 4K Ultra HD con colores vibrantes y diseño elegante.",
+      "stars": 4.9,
+      "rating": 4.8,
+      "sold": 22,
+      "stock": 15,
+      "currency_symbol": "$",
+      "old_price": 499.99,
+      "price": 449.99,
+      "badge": "Popular",
+      "images": [
+        "assets/images/thumbs/product-two-img1.png",
+        "assets/images/thumbs/product-two-img1.png"
+      ],
+      "cover_image": "assets/images/thumbs/product-two-img1.png"
+    },
+    {
+      "id_product": 10,
+      "name": "Altavoz Bluetooth VWX",
+      "description": "Altavoz portátil con sonido potente y conexión Bluetooth.",
+      "stars": 4.5,
+      "rating": 4.3,
+      "sold": 35,
+      "stock": 45,
+      "currency_symbol": "$",
+      "old_price": 99.99,
+      "price": 79.99,
+      "badge": "Oferta",
+      "images": [
+        "assets/images/thumbs/product-two-img1.png",
+        "assets/images/thumbs/product-two-img1.png"
+      ],
+      "cover_image": "assets/images/thumbs/product-two-img1.png"
     }
   ]
 }

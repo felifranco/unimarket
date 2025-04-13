@@ -4,7 +4,7 @@ import select2 from "select2";
 import { Link, NavLink } from "react-router-dom";
 import LanguageList from "./LanguageList";
 import { useTranslation } from "react-i18next";
-import mockData from "../mocks/products.json";
+import { categories } from "../mocks/categories.json";
 
 select2($);
 
@@ -370,7 +370,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     name="state"
                   >
                     <option value={0}>{t("all_categories")}</option>
-                    {mockData.categories.map((obj, index) => (
+                    {categories.map((obj, index) => (
                       <option key={index} value={obj.name}>
                         {obj.name}
                       </option>
@@ -515,7 +515,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     </Link>
                   </div>
                   <ul className="scroll-sm p-0 py-8 overflow-y-auto">
-                    {mockData.categories.map((obj, index) => (
+                    {categories.map((obj, index) => (
                       <li
                         key={index}
                         onClick={() => handleCatClick(index)}
@@ -585,7 +585,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     </Link>
                   </div>
                   <ul className="scroll-sm p-0 py-8 w-300 max-h-400 overflow-y-auto">
-                    {mockData.categories.map((obj, index) => (
+                    {categories.map((obj, index) => (
                       <li key={index} className="has-submenus-submenu">
                         <Link
                           to="#"

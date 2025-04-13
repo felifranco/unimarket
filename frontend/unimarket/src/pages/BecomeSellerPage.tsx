@@ -8,7 +8,7 @@ import WhyBecomeSeller from "../components/WhyBecomeSeller";
 import CounterSection from "../components/CounterSection";
 import StepsSection from "../components/StepsSection";
 import TestimonialOne from "../components/TestimonialOne";
-import ShippingOne from "../components/ShippingOne";
+import ShippingTwo from "../components/ShippingTwo";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
 
@@ -47,8 +47,8 @@ const BecomeSellerPage = () => {
         <TestimonialOne />
       </section>
 
-      {/* ShippingOne */}
-      <ShippingOne />
+      {/* ShippingTwo */}
+      <ShippingTwo />
 
       {/* FooterTwo */}
       <FooterTwo />

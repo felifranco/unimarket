@@ -4,7 +4,7 @@ import Preloader from "../helper/Preloader";
 import HeaderTwo from "../components/HeaderTwo";
 import Breadcrumb from "../components/Breadcrumb";
 import VendorTwoDetails from "../components/VendorTwoDetails";
-import ShippingOne from "../components/ShippingOne";
+import ShippingTwo from "../components/ShippingTwo";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
 
@@ -29,8 +29,8 @@ const VendorTwoDetailsPage = () => {
       {/* VendorTwoDetails */}
       <VendorTwoDetails />
 
-      {/* ShippingOne */}
-      <ShippingOne />
+      {/* ShippingTwo */}
+      <ShippingTwo />
 
       {/* FooterTwo */}
       <FooterTwo />

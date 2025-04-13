@@ -5,6 +5,7 @@ import ShopSection from "../components/ShopSection";
 import ShippingTwo from "../components/ShippingTwo";
 import FooterTwo from "../components/FooterTwo";
 import ColorInit from "../helper/ColorInit";
+import BottomFooter from "../components/BottomFooter";
 //import ScrollToTop from "react-scroll-to-top";
 import { useTranslation } from "react-i18next";
 
@@ -36,6 +37,9 @@ const ShopPage = () => {
 
       {/* FooterTwo */}
       <FooterTwo />
+
+      {/* BottomFooter */}
+      <BottomFooter />
     </>
   );
 };

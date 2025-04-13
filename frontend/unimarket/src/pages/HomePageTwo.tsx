@@ -15,7 +15,7 @@ import DaySaleOne from "../components/DaySaleOne";
 import RecentlyViewedOne from "../components/RecentlyViewedOne";
 import BrandTwo from "../components/BrandTwo";
 import ShippingTwo from "../components/ShippingTwo";
-import NewsletterTwo from "../components/NewsletterTwo";
+//import NewsletterTwo from "../components/NewsletterTwo";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
 import ColorInit from "../helper/ColorInit";
@@ -82,7 +82,7 @@ const HomePageTwo = () => {
       <ShippingTwo />
 
       {/* NewsletterTwo */}
-      <NewsletterTwo />
+      {/* <NewsletterTwo /> */}
 
       {/* FooterTwo */}
       <FooterTwo />

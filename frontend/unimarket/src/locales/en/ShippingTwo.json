@@ -1,10 +1,10 @@
 {
-  "shipping_title": "Free Shipping",
-  "shipping_description": "Get free shipping on all orders over $50.00",
-  "satisfaction_title": "Satisfaction Guaranteed",
-  "satisfaction_description": "We guarantee your satisfaction with our products. If you're not happy, we'll make it right.",
-  "payment_title": "Secure Payment",
-  "payment_description": "Your payment information is secure with us. We use the latest encryption technology to protect your data.",
-  "support_title": "24/7 Customer Support",
-  "support_description": "Our customer support team is available 24/7 to assist you with any questions or concerns."
+  "collaborative_exchange": "Collaborative Exchange",
+  "collaborative_exchange_description": "Connect students to share academic resources at no cost",
+  "flexible_options": "Flexible Options",
+  "flexible_options_description": "Post resources for exchange, donation, purchase, or rental",
+  "management_publications": "Publication Management",
+  "management_publications_description": "Manage your resources from a simple and intuitive panel",
+  "rating_system": "Rating System",
+  "rating_system_description": "Evaluate and comment to foster trust among users"
 }
