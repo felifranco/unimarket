@@ -68,7 +68,7 @@ const ShopProductCard = ({
   return (
     <div className="product-card h-100 p-16 border border-gray-100 hover-border-main-600 rounded-16 position-relative transition-2">
       <Link
-        to="/product-details-two"
+        to="/product-details"
         className="product-card__thumb flex-center rounded-8 bg-gray-50 position-relative"
       >
         <img src={cover_image} alt="" className="w-auto max-w-unset" />
@@ -76,11 +76,7 @@ const ShopProductCard = ({
       </Link>
       <div className="product-card__content mt-16" style={{ width: "100%" }}>
         <h6 className="title text-lg fw-semibold mt-12 mb-8">
-          <Link
-            to="/product-details-two"
-            className="link text-line-2"
-            tabIndex={0}
-          >
+          <Link to="/product-details" className="link text-line-2" tabIndex={0}>
             {name}
           </Link>
         </h6>

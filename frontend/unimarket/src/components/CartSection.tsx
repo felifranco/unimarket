@@ -33,7 +33,7 @@ const CartSection = () => {
                       <td>
                         <div className="table-product d-flex align-items-center gap-24">
                           <Link
-                            to="/product-details-two"
+                            to="/product-details"
                             className="table-product__thumb border border-gray-100 rounded-8 flex-center "
                           >
                             <img
@@ -111,7 +111,7 @@ const CartSection = () => {
                       <td>
                         <div className="table-product d-flex align-items-center gap-24">
                           <Link
-                            to="/product-details-two"
+                            to="/product-details"
                             className="table-product__thumb border border-gray-100 rounded-8 flex-center "
                           >
                             <img
@@ -189,7 +189,7 @@ const CartSection = () => {
                       <td>
                         <div className="table-product d-flex align-items-center gap-24">
                           <Link
-                            to="/product-details-two"
+                            to="/product-details"
                             className="table-product__thumb border border-gray-100 rounded-8 flex-center "
                           >
                             <img
@@ -267,7 +267,7 @@ const CartSection = () => {
                       <td>
                         <div className="table-product d-flex align-items-center gap-24">
                           <Link
-                            to="/product-details-two"
+                            to="/product-details"
                             className="table-product__thumb border border-gray-100 rounded-8 flex-center "
                           >
                             <img

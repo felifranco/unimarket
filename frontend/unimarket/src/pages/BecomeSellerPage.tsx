@@ -7,7 +7,6 @@ import BreadcrumbImage from "../components/BreadcrumbImage";
 import WhyBecomeSeller from "../components/WhyBecomeSeller";
 import CounterSection from "../components/CounterSection";
 import StepsSection from "../components/StepsSection";
-import TestimonialOne from "../components/TestimonialOne";
 import ShippingTwo from "../components/ShippingTwo";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
@@ -41,11 +40,6 @@ const BecomeSellerPage = () => {
 
       {/* StepsSection */}
       <StepsSection />
-
-      {/* TestimonialOne */}
-      <section className="pb-120">
-        <TestimonialOne />
-      </section>
 
       {/* ShippingTwo */}
       <ShippingTwo />

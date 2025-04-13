@@ -214,7 +214,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   <li className="common-dropdown__item nav-submenu__item">
                     <Link
                       onClick={() => setActiveIndex(null)}
-                      to="/vendor-two"
+                      to="/vendor"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {t("vendors_two")}
@@ -223,7 +223,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   <li className="common-dropdown__item nav-submenu__item">
                     <Link
                       onClick={() => setActiveIndex(null)}
-                      to="/vendor-two-details"
+                      to="/vendor-details"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
                       {t("vendor_details_two")}
@@ -689,7 +689,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
                       <li className="common-dropdown__item nav-submenu__item">
                         <NavLink
-                          to="/vendor-two"
+                          to="/vendor"
                           className={navData =>
                             navData.isActive
                               ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
@@ -701,7 +701,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       </li>
                       <li className="common-dropdown__item nav-submenu__item">
                         <NavLink
-                          to="/vendor-two-details"
+                          to="/vendor-details"
                           className={navData =>
                             navData.isActive
                               ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"

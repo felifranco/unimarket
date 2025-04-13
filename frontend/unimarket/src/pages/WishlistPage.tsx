@@ -4,7 +4,7 @@ import Preloader from "../helper/Preloader";
 import HeaderTwo from "../components/HeaderTwo";
 import Breadcrumb from "../components/Breadcrumb";
 import WishListSection from "../components/WishListSection";
-import ShippingOne from "../components/ShippingOne";
+import ShippingTwo from "../components/ShippingTwo";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
 
@@ -29,8 +29,8 @@ function WishlistPage() {
       {/* WishListSection */}
       <WishListSection />
 
-      {/* ShippingOne */}
-      <ShippingOne />
+      {/* ShippingTwo */}
+      <ShippingTwo />
 
       {/* FooterTwo */}
       <FooterTwo />
