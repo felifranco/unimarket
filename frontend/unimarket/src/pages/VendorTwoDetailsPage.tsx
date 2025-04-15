@@ -4,7 +4,7 @@ import Preloader from "../helper/Preloader";
 import HeaderTwo from "../components/HeaderTwo";
 import Breadcrumb from "../components/Breadcrumb";
 import VendorTwoDetails from "../components/VendorTwoDetails";
-import ShippingOne from "../components/ShippingOne";
+import ShippingTwo from "../components/ShippingTwo";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
 
@@ -24,13 +24,13 @@ const VendorTwoDetailsPage = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"Vendor Details"} />
+      <Breadcrumb title={"vendor_details"} />
 
       {/* VendorTwoDetails */}
       <VendorTwoDetails />
 
-      {/* ShippingOne */}
-      <ShippingOne />
+      {/* ShippingTwo */}
+      <ShippingTwo />
 
       {/* FooterTwo */}
       <FooterTwo />

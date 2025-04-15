@@ -81,7 +81,7 @@ const VendorTwo = () => {
                   <ul className="max-h-540 overflow-y-auto scroll-sm">
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Mobile &amp; Accessories (12)
@@ -89,7 +89,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Laptop (12)
@@ -97,7 +97,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Electronics (12)
@@ -105,7 +105,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Smart Watch (12)
@@ -113,7 +113,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Storage (12)
@@ -121,7 +121,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Portable Devices (12)
@@ -129,7 +129,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Action Camera (12)
@@ -137,7 +137,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Smart Gadget (12)
@@ -145,7 +145,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Monitor (12)
@@ -153,7 +153,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Smart TV (12)
@@ -161,7 +161,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Camera (12)
@@ -169,7 +169,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-24">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Monitor Stand (12)
@@ -177,7 +177,7 @@ const VendorTwo = () => {
                     </li>
                     <li className="mb-0">
                       <Link
-                        to="/product-details-two"
+                        to="/product-details"
                         className="text-gray-900 hover-text-main-600"
                       >
                         Headphone (12)
@@ -505,7 +505,7 @@ const VendorTwo = () => {
                     </div>
                     <div className="mt-16">
                       <h6 className="text-white fw-semibold mb-12">
-                        <Link to="/vendor-two-details" className="">
+                        <Link to="/vendor-details" className="">
                           e-Mart Shop
                         </Link>
                       </h6>
@@ -571,7 +571,7 @@ const VendorTwo = () => {
                     </div>
                   </div>
                   <Link
-                    to="/vendor-two-details"
+                    to="/vendor-details"
                     className="btn bg-neutral-600 hover-bg-neutral-700 text-white py-12 px-24 rounded-8 flex-center gap-8 fw-medium mt-24"
                   >
                     Visit Store
@@ -608,7 +608,7 @@ const VendorTwo = () => {
                     </div>
                     <div className="mt-16">
                       <h6 className="text-white fw-semibold mb-12">
-                        <Link to="/vendor-two-details" className="">
+                        <Link to="/vendor-details" className="">
                           Baishakhi
                         </Link>
                       </h6>
@@ -674,7 +674,7 @@ const VendorTwo = () => {
                     </div>
                   </div>
                   <Link
-                    to="/vendor-two-details"
+                    to="/vendor-details"
                     className="btn bg-neutral-600 hover-bg-neutral-700 text-white py-12 px-24 rounded-8 flex-center gap-8 fw-medium mt-24"
                   >
                     Visit Store
@@ -711,7 +711,7 @@ const VendorTwo = () => {
                     </div>
                     <div className="mt-16">
                       <h6 className="text-white fw-semibold mb-12">
-                        <Link to="/vendor-two-details" className="">
+                        <Link to="/vendor-details" className="">
                           e-zone Shop
                         </Link>
                       </h6>
@@ -777,7 +777,7 @@ const VendorTwo = () => {
                     </div>
                   </div>
                   <Link
-                    to="/vendor-two-details"
+                    to="/vendor-details"
                     className="btn bg-neutral-600 hover-bg-neutral-700 text-white py-12 px-24 rounded-8 flex-center gap-8 fw-medium mt-24"
                   >
                     Visit Store
@@ -814,7 +814,7 @@ const VendorTwo = () => {
                     </div>
                     <div className="mt-16">
                       <h6 className="text-white fw-semibold mb-12">
-                        <Link to="/vendor-two-details" className="">
+                        <Link to="/vendor-details" className="">
                           Cloth &amp; Fashion Shop
                         </Link>
                       </h6>
@@ -880,7 +880,7 @@ const VendorTwo = () => {
                     </div>
                   </div>
                   <Link
-                    to="/vendor-two-details"
+                    to="/vendor-details"
                     className="btn bg-neutral-600 hover-bg-neutral-700 text-white py-12 px-24 rounded-8 flex-center gap-8 fw-medium mt-24"
                   >
                     Visit Store
@@ -917,7 +917,7 @@ const VendorTwo = () => {
                     </div>
                     <div className="mt-16">
                       <h6 className="text-white fw-semibold mb-12">
-                        <Link to="/vendor-two-details" className="">
+                        <Link to="/vendor-details" className="">
                           New Market Shop
                         </Link>
                       </h6>
@@ -983,7 +983,7 @@ const VendorTwo = () => {
                     </div>
                   </div>
                   <Link
-                    to="/vendor-two-details"
+                    to="/vendor-details"
                     className="btn bg-neutral-600 hover-bg-neutral-700 text-white py-12 px-24 rounded-8 flex-center gap-8 fw-medium mt-24"
                   >
                     Visit Store
@@ -1020,7 +1020,7 @@ const VendorTwo = () => {
                     </div>
                     <div className="mt-16">
                       <h6 className="text-white fw-semibold mb-12">
-                        <Link to="/vendor-two-details" className="">
+                        <Link to="/vendor-details" className="">
                           Zeilla Shop
                         </Link>
                       </h6>
@@ -1086,7 +1086,7 @@ const VendorTwo = () => {
                     </div>
                   </div>
                   <Link
-                    to="/vendor-two-details"
+                    to="/vendor-details"
                     className="btn bg-neutral-600 hover-bg-neutral-700 text-white py-12 px-24 rounded-8 flex-center gap-8 fw-medium mt-24"
                   >
                     Visit Store
@@ -1123,7 +1123,7 @@ const VendorTwo = () => {
                     </div>
                     <div className="mt-16">
                       <h6 className="text-white fw-semibold mb-12">
-                        <Link to="/vendor-two-details" className="">
+                        <Link to="/vendor-details" className="">
                           Ever Green Shop
                         </Link>
                       </h6>
@@ -1189,7 +1189,7 @@ const VendorTwo = () => {
                     </div>
                   </div>
                   <Link
-                    to="/vendor-two-details"
+                    to="/vendor-details"
                     className="btn bg-neutral-600 hover-bg-neutral-700 text-white py-12 px-24 rounded-8 flex-center gap-8 fw-medium mt-24"
                   >
                     Visit Store
@@ -1226,7 +1226,7 @@ const VendorTwo = () => {
                     </div>
                     <div className="mt-16">
                       <h6 className="text-white fw-semibold mb-12">
-                        <Link to="/vendor-two-details" className="">
+                        <Link to="/vendor-details" className="">
                           Maple Shop
                         </Link>
                       </h6>
@@ -1292,7 +1292,7 @@ const VendorTwo = () => {
                     </div>
                   </div>
                   <Link
-                    to="/vendor-two-details"
+                    to="/vendor-details"
                     className="btn bg-neutral-600 hover-bg-neutral-700 text-white py-12 px-24 rounded-8 flex-center gap-8 fw-medium mt-24"
                   >
                     Visit Store
@@ -1329,7 +1329,7 @@ const VendorTwo = () => {
                     </div>
                     <div className="mt-16">
                       <h6 className="text-white fw-semibold mb-12">
-                        <Link to="/vendor-two-details" className="">
+                        <Link to="/vendor-details" className="">
                           New Mart
                         </Link>
                       </h6>
@@ -1395,7 +1395,7 @@ const VendorTwo = () => {
                     </div>
                   </div>
                   <Link
-                    to="/vendor-two-details"
+                    to="/vendor-details"
                     className="btn bg-neutral-600 hover-bg-neutral-700 text-white py-12 px-24 rounded-8 flex-center gap-8 fw-medium mt-24"
                   >
                     Visit Store

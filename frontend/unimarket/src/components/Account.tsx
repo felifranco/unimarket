@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Account = () => {
+  const { t } = useTranslation("Account");
+
   return (
     <section className="account py-80">
       <div className="container container-lg">
@@ -9,20 +12,20 @@ const Account = () => {
             {/* Login Card Start */}
             <div className="col-xl-6 pe-xl-5">
               <div className="border border-gray-100 hover-border-main-600 transition-1 rounded-16 px-24 py-40 h-100">
-                <h6 className="text-xl mb-32">Login</h6>
+                <h6 className="text-xl mb-32">{t("login")}</h6>
                 <div className="mb-24">
                   <label
                     htmlFor="username"
                     className="text-neutral-900 text-lg mb-8 fw-medium"
                   >
-                    Username or email address{" "}
+                    {t("username_or_email")}{" "}
                     <span className="text-danger">*</span>{" "}
                   </label>
                   <input
                     type="text"
                     className="common-input"
                     id="username"
-                    placeholder="First Name"
+                    placeholder={t("enter_username")}
                   />
                 </div>
                 <div className="mb-24">
@@ -30,14 +33,14 @@ const Account = () => {
                     htmlFor="password"
                     className="text-neutral-900 text-lg mb-8 fw-medium"
                   >
-                    Password
+                    {t("password")}
                   </label>
                   <div className="position-relative">
                     <input
                       type="password"
                       className="common-input"
                       id="password"
-                      placeholder="Enter Password"
+                      placeholder={t("enter_password")}
                       defaultValue="password"
                     />
                     <span
@@ -49,7 +52,7 @@ const Account = () => {
                 <div className="mb-24 mt-48">
                   <div className="flex-align gap-48 flex-wrap">
                     <button type="submit" className="btn btn-main py-18 px-40">
-                      Log in
+                      {t("log-in")}
                     </button>
                     <div className="form-check common-check">
                       <input
@@ -62,7 +65,7 @@ const Account = () => {
                         className="form-check-label flex-grow-1"
                         htmlFor="remember"
                       >
-                        Remember me
+                        {t("remember-me")}
                       </label>
                     </div>
                   </div>
@@ -72,7 +75,7 @@ const Account = () => {
                     to="#"
                     className="text-danger-600 text-sm fw-semibold hover-text-decoration-underline"
                   >
-                    Forgot your password?
+                    {t("forgot-password")}
                   </Link>
                 </div>
               </div>
@@ -81,19 +84,19 @@ const Account = () => {
             {/* Register Card Start */}
             <div className="col-xl-6">
               <div className="border border-gray-100 hover-border-main-600 transition-1 rounded-16 px-24 py-40">
-                <h6 className="text-xl mb-32">Register</h6>
+                <h6 className="text-xl mb-32">{t("register")}</h6>
                 <div className="mb-24">
                   <label
                     htmlFor="usernameTwo"
                     className="text-neutral-900 text-lg mb-8 fw-medium"
                   >
-                    Username <span className="text-danger">*</span>{" "}
+                    {t("username")} <span className="text-danger">*</span>{" "}
                   </label>
                   <input
                     type="text"
                     className="common-input"
                     id="usernameTwo"
-                    placeholder="Write a username"
+                    placeholder={t("enter_username")}
                   />
                 </div>
                 <div className="mb-24">
@@ -101,14 +104,14 @@ const Account = () => {
                     htmlFor="emailTwo"
                     className="text-neutral-900 text-lg mb-8 fw-medium"
                   >
-                    Email address
+                    {t("email-address")}{" "}
                     <span className="text-danger">*</span>{" "}
                   </label>
                   <input
                     type="email"
                     className="common-input"
                     id="emailTwo"
-                    placeholder="Enter Email Address"
+                    placeholder={t("enter_email_address")}
                   />
                 </div>
                 <div className="mb-24">
@@ -116,15 +119,14 @@ const Account = () => {
                     htmlFor="enter-password"
                     className="text-neutral-900 text-lg mb-8 fw-medium"
                   >
-                    Password
-                    <span className="text-danger">*</span>
+                    {t("password")} <span className="text-danger">*</span>
                   </label>
                   <div className="position-relative">
                     <input
                       type="password"
                       className="common-input"
                       id="enter-password"
-                      placeholder="Enter Password"
+                      placeholder={t("enter_password")}
                       defaultValue="password"
                     />
                     <span
@@ -135,22 +137,20 @@ const Account = () => {
                 </div>
                 <div className="my-48">
                   <p className="text-gray-500">
-                    Your personal data will be used to process your order,
-                    support your experience throughout this website, and for
-                    other purposes described in our
+                    {t("share-data-text")}{" "}
                     <Link
                       to="#"
                       className="text-main-600 text-decoration-underline"
                     >
                       {" "}
-                      privacy policy
+                      {t("privacy-policy")}
                     </Link>
                     .
                   </p>
                 </div>
                 <div className="mt-48">
                   <button type="submit" className="btn btn-main py-18 px-40">
-                    Register
+                    {t("Register")}
                   </button>
                 </div>
               </div>

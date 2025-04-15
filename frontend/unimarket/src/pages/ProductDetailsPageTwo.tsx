@@ -4,8 +4,7 @@ import HeaderTwo from "../components/HeaderTwo";
 import Breadcrumb from "../components/Breadcrumb";
 import ProductDetailsTwo from "../components/ProductDetailsTwo";
 import NewArrivalTwo from "../components/NewArrivalTwo";
-import ShippingOne from "../components/ShippingOne";
-import NewsletterOne from "../components/NewsletterOne";
+import ShippingTwo from "../components/ShippingTwo";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
 //import ScrollToTop from "react-scroll-to-top";
@@ -26,7 +25,7 @@ const ProductDetailsPageTwo = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"Product Details"} />
+      <Breadcrumb title={"product_details"} />
 
       {/* ProductDetailsTwo */}
       <ProductDetailsTwo />
@@ -34,11 +33,8 @@ const ProductDetailsPageTwo = () => {
       {/* NewArrivalTwo */}
       <NewArrivalTwo />
 
-      {/* ShippingOne */}
-      <ShippingOne />
-
-      {/* NewsletterOne */}
-      <NewsletterOne />
+      {/* ShippingTwo */}
+      <ShippingTwo />
 
       {/* FooterTwo */}
       <FooterTwo />

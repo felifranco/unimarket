@@ -4,7 +4,7 @@ import HeaderTwo from "../components/HeaderTwo";
 import Breadcrumb from "../components/Breadcrumb";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
-import ShippingOne from "../components/ShippingOne";
+import ShippingTwo from "../components/ShippingTwo";
 import Checkout from "../components/Checkout";
 //import ScrollToTop from "react-scroll-to-top";
 
@@ -24,13 +24,13 @@ const CheckoutPage = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"Checkout"} />
+      <Breadcrumb title={"checkout"} />
 
       {/* Checkout */}
       <Checkout />
 
-      {/* ShippingOne */}
-      <ShippingOne />
+      {/* ShippingTwo */}
+      <ShippingTwo />
 
       {/* FooterTwo */}
       <FooterTwo />

@@ -1,0 +1,16 @@
+{
+  "product_category": "Product Category",
+  "filter_by_price": "Filter by Price",
+  "filter_by_rating": "Filter by Rating",
+  "filter_by_color": "Filter by Color",
+  "filter_by_brand": "Filter by Brand",
+  "filter": "Filter",
+  "showing": "Showing",
+  "of": "of",
+  "results": "results",
+  "sort_by": "Sort by",
+  "popular": "Popular",
+  "latest": "Latest",
+  "trending": "Trending",
+  "matches": "Matches"
+}

@@ -1,0 +1,24 @@
+{
+  "serviceHighlights": [
+    {
+      "icon": "ph ph-arrows-clockwise",
+      "title": "collaborative_exchange",
+      "description": "collaborative_exchange_description"
+    },
+    {
+      "icon": "ph ph-shapes",
+      "title": "flexible_options",
+      "description": "flexible_options_description"
+    },
+    {
+      "icon": "ph ph-monitor-arrow-up",
+      "title": "management_publications",
+      "description": "management_publications_description"
+    },
+    {
+      "icon": "ph ph-star",
+      "title": "rating_system",
+      "description": "rating_system_description"
+    }
+  ]
+}

@@ -30,7 +30,7 @@ const DealsSection = () => {
                     <div className="products-group__card product-card w-100 p-16 border border-gray-100 hover-border-main-600 max-w-340 rounded-16 transition-2 bg-white position-absolute bottom-100 start-50 min-width-max-content rotate-10 transition-2">
                       <div className="product-card__thumb rounded-8 bg-gray-50 position-relative">
                         <Link
-                          to="/product-details-two"
+                          to="/product-details"
                           className="w-100 h-100 flex-center"
                         >
                           <img
@@ -49,7 +49,7 @@ const DealsSection = () => {
                       <div className="product-card__content mt-16 w-100">
                         <h6 className="title text-2xl fw-semibold my-8">
                           <Link
-                            to="/product-details-two"
+                            to="/product-details"
                             className="link text-line-2"
                             tabIndex={0}
                           >
@@ -85,7 +85,7 @@ const DealsSection = () => {
                     <div className="products-group__card product-card w-100 p-16 border border-gray-100 hover-border-main-600 max-w-340 rounded-16 transition-2 bg-white position-absolute bottom-100 start-50 min-width-max-content rotate-10 transition-2">
                       <div className="product-card__thumb rounded-8 bg-gray-50 position-relative">
                         <Link
-                          to="/product-details-two"
+                          to="/product-details"
                           className="w-100 h-100 flex-center"
                         >
                           <img
@@ -104,7 +104,7 @@ const DealsSection = () => {
                       <div className="product-card__content mt-16 w-100">
                         <h6 className="title text-2xl fw-semibold my-8">
                           <Link
-                            to="/product-details-two"
+                            to="/product-details"
                             className="link text-line-2"
                             tabIndex={0}
                           >
@@ -140,7 +140,7 @@ const DealsSection = () => {
                     <div className="products-group__card product-card w-100 p-16 border border-gray-100 hover-border-main-600 max-w-340 rounded-16 transition-2 bg-white position-absolute bottom-100 start-50 min-width-max-content rotate-10 transition-2">
                       <div className="product-card__thumb rounded-8 bg-gray-50 position-relative">
                         <Link
-                          to="/product-details-two"
+                          to="/product-details"
                           className="w-100 h-100 flex-center"
                         >
                           <img
@@ -159,7 +159,7 @@ const DealsSection = () => {
                       <div className="product-card__content mt-16 w-100">
                         <h6 className="title text-2xl fw-semibold my-8">
                           <Link
-                            to="/product-details-two"
+                            to="/product-details"
                             className="link text-line-2"
                             tabIndex={0}
                           >
