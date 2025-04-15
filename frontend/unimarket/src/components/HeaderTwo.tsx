@@ -135,9 +135,6 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   activeIndex === 2 ? "d-block" : ""
                 }`}
               >
-                <span className="badge-notification bg-warning-600 text-white text-sm py-2 px-8 rounded-4">
-                  {t("new")}
-                </span>
                 <Link to="#" className="nav-menu__link">
                   {t("pages")}
                 </Link>
@@ -200,9 +197,6 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   activeIndex === 3 ? "d-block" : ""
                 }`}
               >
-                <span className="badge-notification bg-tertiary-600 text-white text-sm py-2 px-8 rounded-4">
-                  {t("new")}
-                </span>
                 <Link to="#" className="nav-menu__link">
                   {t("vendors")}
                 </Link>
@@ -260,101 +254,6 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                 <ul className="header-top__right style-two flex-align flex-wrap">
                   <li className="on-hover-item border-right-item border-right-item-sm-space has-submenu arrow-white">
                     <LanguageList style="text-heading" />
-                  </li>
-                  <li className="on-hover-item border-right-item border-right-item-sm-space has-submenu arrow-white">
-                    {/* Display the selected currency */}
-                    <Link
-                      to="#"
-                      className="selected-text text-heading text-sm py-8"
-                    >
-                      {selectedCurrency}
-                    </Link>
-                    <ul className="selectable-text-list on-hover-dropdown common-dropdown common-dropdown--sm max-h-200 scroll-sm px-0 py-8">
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("USD")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag1.png"
-                            alt="USD"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          USD
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("Yen")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag2.png"
-                            alt="Yen"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          Yen
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("Franc")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag3.png"
-                            alt="Franc"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          Franc
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("EURO")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag4.png"
-                            alt="EURO"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          EURO
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("BDT")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag6.png"
-                            alt="BDT"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          BDT
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("WON")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag5.png"
-                            alt="WON"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          WON
-                        </Link>
-                      </li>
-                    </ul>
                   </li>
                 </ul>
                 {/* Dropdown Select End */}
@@ -646,9 +545,6 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     </NavLink>
                   </li>
                   <li className="on-hover-item nav-menu__item has-submenu">
-                    <span className="badge-notification bg-warning-600 text-white text-sm py-2 px-8 rounded-4">
-                      {t("new")}
-                    </span>
                     <Link to="#" className="nav-menu__link">
                       {t("pages")}
                     </Link>
@@ -680,9 +576,6 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     </ul>
                   </li>
                   <li className="on-hover-item nav-menu__item has-submenu">
-                    <span className="badge-notification bg-tertiary-600 text-white text-sm py-2 px-8 rounded-4">
-                      {t("new")}
-                    </span>
                     <Link to="#" className="nav-menu__link">
                       {t("vendors")}
                     </Link>
@@ -737,101 +630,6 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                 <ul className="header-top__right style-two flex-align flex-wrap">
                   <li className="on-hover-item border-right-item border-right-item-sm-space has-submenu arrow-white">
                     <LanguageList style="text-heading" />
-                  </li>
-                  <li className="on-hover-item border-right-item border-right-item-sm-space has-submenu arrow-white">
-                    {/* Display the selected currency */}
-                    <Link
-                      to="#"
-                      className="selected-text text-heading text-sm py-8"
-                    >
-                      {selectedCurrency}
-                    </Link>
-                    <ul className="selectable-text-list on-hover-dropdown common-dropdown common-dropdown--sm max-h-200 scroll-sm px-0 py-8">
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("USD")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag1.png"
-                            alt="USD"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          USD
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("Yen")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag2.png"
-                            alt="Yen"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          Yen
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("Franc")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag3.png"
-                            alt="Franc"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          Franc
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("EURO")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag4.png"
-                            alt="EURO"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          EURO
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("BDT")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag6.png"
-                            alt="BDT"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          BDT
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="#"
-                          className="hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"
-                          onClick={() => handleCurrencyChange("WON")}
-                        >
-                          <img
-                            src="assets/images/thumbs/flag5.png"
-                            alt="WON"
-                            className="w-16 h-12 rounded-4 border border-gray-100"
-                          />
-                          WON
-                        </Link>
-                      </li>
-                    </ul>
                   </li>
                 </ul>
                 {/* Dropdown Select End */}

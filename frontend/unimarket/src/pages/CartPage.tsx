@@ -24,7 +24,7 @@ const CartPage = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"Cart"} />
+      <Breadcrumb title={"cart"} />
 
       {/* CartSection */}
       <CartSection />

@@ -24,7 +24,7 @@ function WishlistPage() {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"My Wishlist"} />
+      <Breadcrumb title={"my_wishlist"} />
 
       {/* WishListSection */}
       <WishListSection />

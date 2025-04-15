@@ -3,12 +3,15 @@
   "login": "Login",
   "username_or_email": "Username or email address",
   "password": "Password",
+  "enter_password": "Enter password",
   "log-in": "Log in",
   "remember-me": "Remember me",
   "forgot-password": "Forgot your password?",
   "register": "Register",
   "username": "Username",
+  "enter_username": "Enter username",
   "email-address": "Email address",
+  "enter_email_address": "Enter Email Address",
   "share-data-text": "Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our",
   "privacy-policy": "Privacy policy"
 }

@@ -25,7 +25,7 @@ const AccountPage = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"Account"} />
+      <Breadcrumb title={"account"} />
 
       {/* Account */}
       <Account />

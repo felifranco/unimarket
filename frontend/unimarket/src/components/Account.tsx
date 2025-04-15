@@ -25,7 +25,7 @@ const Account = () => {
                     type="text"
                     className="common-input"
                     id="username"
-                    placeholder="First Name"
+                    placeholder={t("enter_username")}
                   />
                 </div>
                 <div className="mb-24">
@@ -40,7 +40,7 @@ const Account = () => {
                       type="password"
                       className="common-input"
                       id="password"
-                      placeholder="Enter Password"
+                      placeholder={t("enter_password")}
                       defaultValue="password"
                     />
                     <span
@@ -96,7 +96,7 @@ const Account = () => {
                     type="text"
                     className="common-input"
                     id="usernameTwo"
-                    placeholder="Write a username"
+                    placeholder={t("enter_username")}
                   />
                 </div>
                 <div className="mb-24">
@@ -111,7 +111,7 @@ const Account = () => {
                     type="email"
                     className="common-input"
                     id="emailTwo"
-                    placeholder="Enter Email Address"
+                    placeholder={t("enter_email_address")}
                   />
                 </div>
                 <div className="mb-24">
@@ -126,7 +126,7 @@ const Account = () => {
                       type="password"
                       className="common-input"
                       id="enter-password"
-                      placeholder="Enter Password"
+                      placeholder={t("enter_password")}
                       defaultValue="password"
                     />
                     <span

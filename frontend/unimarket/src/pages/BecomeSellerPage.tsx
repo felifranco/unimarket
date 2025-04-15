@@ -27,7 +27,7 @@ const BecomeSellerPage = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"Become Seller"} />
+      <Breadcrumb title={"become_seller"} />
 
       {/* BreadcrumbImage */}
       <BreadcrumbImage />

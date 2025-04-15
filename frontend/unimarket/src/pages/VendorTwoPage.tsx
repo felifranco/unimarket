@@ -24,7 +24,7 @@ const VendorTwoPage = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"All Vendors"} />
+      <Breadcrumb title={"all_vendors"} />
 
       {/* VendorTwo */}
       <VendorTwo />

@@ -23,7 +23,7 @@ const ContactPage = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"Contact"} />
+      <Breadcrumb title={"contact"} />
 
       {/* Contact */}
       <Contact />

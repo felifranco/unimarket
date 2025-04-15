@@ -24,7 +24,7 @@ const CheckoutPage = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"Checkout"} />
+      <Breadcrumb title={"checkout"} />
 
       {/* Checkout */}
       <Checkout />
