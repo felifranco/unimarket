@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { AppConstants } from 'src/constants/auth.constants';
 
 export const hashPassword = (password: string): Promise<string> => {

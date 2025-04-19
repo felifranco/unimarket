@@ -1,9 +1,18 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Request,
+  UseGuards,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { LogoutAuthDto } from './dto/logout-auth.dto';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { PayloadAuthDto } from './dto/payload-auth.dto';
+import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -26,24 +35,20 @@ export class AuthController {
     description: 'Operación exitosa.',
   })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
-  login(@Body() loginAuthDto: LoginAuthDto) {
-    return this.authService.login(loginAuthDto);
+  async login(@Body() loginAuthDto: LoginAuthDto) {
+    const user: PayloadAuthDto | null =
+      await this.authService.validateUser(loginAuthDto);
+    if (!user) throw new UnauthorizedException('Credenciales inválidas');
+    return this.authService.login(user);
   }
 
-  @Post('logout')
-  @ApiResponse({
-    status: 201,
-    description: 'Operación exitosa.',
-  })
-  @ApiResponse({ status: 403, description: 'Prohibido.' })
-  logout(@Body() logoutAuthDto: LogoutAuthDto) {
-    return this.authService.logout(logoutAuthDto);
-  }
-
-  @Get('me/:id')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @Get('me')
   @ApiResponse({ status: 201, description: 'Operación exitosa.' })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
-  findMe(@Param('id') id: number) {
-    return this.authService.me(id);
+  findMe(@Request() req: { user: PayloadAuthDto }) {
+    const { id_usuario } = req.user;
+    return this.authService.me(id_usuario);
   }
 }

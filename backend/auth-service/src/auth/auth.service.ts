@@ -2,18 +2,20 @@ import { UnauthorizedException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { LogoutAuthDto } from './dto/logout-auth.dto';
+import { PayloadAuthDto } from './dto/payload-auth.dto';
 import { Auth } from './entities/auth.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AuthStatus } from 'src/constants/auth.constants';
 import { hashPassword, comparePassword } from 'src/utils/hash.util';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(Auth)
     private readonly authRepo: Repository<Auth>,
+    private jwtService: JwtService,
   ) {}
 
   async register(registerAuthDto: RegisterAuthDto) {
@@ -30,43 +32,30 @@ export class AuthService {
     return this.authRepo.save(newAuth); // Guardar el usuario en la base de datos
   }
 
-  async login(loginAuthDto: LoginAuthDto) {
+  async validateUser(
+    loginAuthDto: LoginAuthDto,
+  ): Promise<PayloadAuthDto | null> {
     const { correo, password } = loginAuthDto;
-
-    // Buscar al usuario por correo
-    return this.authRepo.findOneBy({ correo }).then((user) => {
-      if (!user) {
-        throw new UnauthorizedException('Credenciales inválidas');
-      }
-
-      // Verificar la contraseña
-      return comparePassword(password, user.password_hash).then((isMatch) => {
-        if (!isMatch) {
-          throw new UnauthorizedException('Credenciales inválidas');
-        }
-
-        // Aquí puedes generar un token JWT o devolver los datos del usuario
-        return {
-          message: 'Inicio de sesión exitoso',
-          user: {
-            id_usuario: user.id_usuario,
-            nombre_completo: user.nombre_completo,
-            correo: user.correo,
-          },
-        };
-      });
-    });
+    const user = await this.authRepo.findOneBy({ correo });
+    if (user && (await comparePassword(password, user.password_hash))) {
+      const result: PayloadAuthDto = {
+        id_usuario: user.id_usuario,
+        correo: user.correo,
+      };
+      return result;
+    }
+    return null;
   }
 
-  logout(logoutAuthDto: LogoutAuthDto) {
-    // Aquí puedes implementar lógica adicional, como invalidar un token JWT
-    console.log('Logout:', logoutAuthDto);
-    return { message: 'Sesión cerrada exitosamente' };
+  async login(payloadAuthDto: PayloadAuthDto) {
+    return {
+      access_token: await this.jwtService.signAsync(payloadAuthDto),
+    };
   }
 
-  async me(id: number) {
+  async me(id_usuario: number) {
     // Buscar y devolver los datos del usuario autenticado por su ID
-    return this.authRepo.findOneBy({ id_usuario: id }).then((user) => {
+    return this.authRepo.findOneBy({ id_usuario }).then((user) => {
       if (!user) {
         throw new UnauthorizedException('Usuario no encontrado');
       }
