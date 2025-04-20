@@ -10,6 +10,6 @@ export const defaultValues = {
     DB_DATABASE: 'postgres',
   },
 
-  JWT_SECRET: 'ALTERNATIVE SECRET',
+  JWT_SECRET: 'ALTERNATIVE SECRET cufefrufraphI69ez#dO',
   JWT_EXPIRATION_TIME: '15m',
 };

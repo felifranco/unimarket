@@ -13,3 +13,12 @@ export const defaultValues = {
   JWT_SECRET: 'ALTERNATIVE SECRET cufefrufraphI69ez#dO',
   JWT_EXPIRATION_TIME: '15m',
 };
+
+export enum ListingStatus {
+  ACTIVA = 'activa',
+  INACTIVA = 'inactiva',
+  PENDIENTE = 'pendiente',
+  SUSPENDIDA = 'suspendida',
+  ELIMINADA = 'eliminada',
+  VENDIDA = 'vendida',
+}
