@@ -1,4 +1,4 @@
-import { defaultValues } from 'src/constants/auth.constants';
+import { defaultValues } from 'src/constants/app.constants';
 
 export default () => ({
   appPort: parseInt(process.env.APP_PORT!, 10) || defaultValues.APP_PORT,

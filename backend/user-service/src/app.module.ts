@@ -14,12 +14,14 @@ import { User } from './users/entities/user.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DB_HOST', 'localhost'),
-        port: configService.get<number>('DB_PORT', 5432),
-        username: configService.get<string>('DB_USER', 'postgres'),
-        password: configService.get<string>('DB_PASS'),
-        database: configService.get<string>('DB_DATABASE', 'postgres'),
+        type: configService.get<
+          'postgres' | 'mysql' | 'sqlite' | 'mariadb' | 'oracle' | 'mssql'
+        >('database.type', 'postgres'),
+        host: configService.get<string>('database.host'),
+        port: configService.get<number>('database.port'),
+        username: configService.get<string>('database.username'),
+        password: configService.get<string>('database.password'),
+        database: configService.get<string>('database.database'),
         entities: [User],
         synchronize: true,
         //ssl: true,

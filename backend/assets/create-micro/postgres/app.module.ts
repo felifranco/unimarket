@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import { ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import configurations from './config/configurations';
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import configurations from "./config/configurations";
 
 @Module({
   imports: [
@@ -12,12 +12,14 @@ import configurations from './config/configurations';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DB_HOST', 'localhost'),
-        port: configService.get<number>('DB_PORT', 5432),
-        username: configService.get<string>('DB_USER', 'postgres'),
-        password: configService.get<string>('DB_PASS'),
-        database: configService.get<string>('DB_DATABASE', 'postgres'),
+        type: configService.get<
+          "postgres" | "mysql" | "sqlite" | "mariadb" | "oracle" | "mssql"
+        >("database.type", "postgres"),
+        host: configService.get<string>("database.host"),
+        port: configService.get<number>("database.port"),
+        username: configService.get<string>("database.username"),
+        password: configService.get<string>("database.password"),
+        database: configService.get<string>("database.database"),
         entities: [],
         synchronize: true,
         //ssl: true,

@@ -4,9 +4,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from './entities/auth.entity';
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from 'src/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { defaultValues } from 'src/constants/auth.constants';
+import { defaultValues } from 'src/constants/app.constants';
 
 @Module({
   imports: [

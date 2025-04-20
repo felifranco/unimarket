@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { AppConstants } from 'src/constants/user.constants';
+import { AppConstants } from 'src/constants/app.constants';
 
 export const hashPassword = (password: string): Promise<string> => {
   return bcrypt.hash(password, AppConstants.SALT_ROUNDS);
