@@ -27,6 +27,7 @@ export class UsersController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
+
   @Get()
   @ApiResponse({ status: 201, description: 'Operación exitosa.' })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
