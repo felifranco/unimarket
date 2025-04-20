@@ -4,7 +4,7 @@ import { UpdateListingDto } from './dto/update-listing.dto';
 import { Listing } from './entities/listing.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ListingStatus } from 'src/constants/listing.constants';
+import { ListingStatus } from 'src/constants/app.constants';
 
 @Injectable()
 export class ListingsService {

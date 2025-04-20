@@ -13,6 +13,7 @@ async function bootstrap() {
     )
     .setVersion('1.0')
     //.addTag('tag')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -25,4 +26,7 @@ async function bootstrap() {
 
   await app.listen(configurations().appPort);
 }
-bootstrap();
+
+bootstrap().catch((error) => {
+  console.error('Error during application bootstrap:', error);
+});

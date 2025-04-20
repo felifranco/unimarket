@@ -1,4 +1,4 @@
-export enum AuthStatus {
+export enum userStatus {
   ACTIVO = 'activo',
   INACTIVO = 'inactivo',
   PENDIENTE = 'pendiente',
@@ -9,7 +9,6 @@ export enum AuthStatus {
 
 export const AppConstants = {
   SALT_ROUNDS: 10,
-  TOKEN_EXPIRATION: '1h',
 };
 
 export const defaultValues = {
@@ -25,5 +24,5 @@ export const defaultValues = {
   },
 
   JWT_SECRET: 'ALTERNATIVE SECRET cufefrufraphI69ez#dO',
-  JWT_EXPIRATION_TIME: '3600',
+  JWT_EXPIRATION_TIME: '15m',
 };

@@ -6,7 +6,7 @@ import { PayloadAuthDto } from './dto/payload-auth.dto';
 import { Auth } from './entities/auth.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AuthStatus } from 'src/constants/auth.constants';
+import { AuthStatus } from 'src/constants/app.constants';
 import { hashPassword, comparePassword } from 'src/utils/hash.util';
 import { JwtService } from '@nestjs/jwt';
 

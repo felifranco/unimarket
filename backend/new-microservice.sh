@@ -71,6 +71,13 @@ npm install --save @nestjs/swagger
 # Install the @nestjs/microservices package
 #npm install --save @nestjs/microservices
 
+# ---------------- AUTH ----------------
+echo -e "\n📦 Instalando dependencias: @nestjs/jwt @nestjs/passport passport passport-jwt bcryptjs"
+npm install --save @nestjs/jwt @nestjs/passport passport passport-jwt bcryptjs
+
+echo -e "\n📦 Instalando dependencias: @types/passport-jwt @types/bcryptjs"
+npm install --save-dev @types/passport-jwt @types/bcryptjs
+
 # ---------------- DATABASE ----------------
 
 echo -e "\n📦 Instalando dependencia @nestjs/mapped-types..."
@@ -81,9 +88,6 @@ npm install --save @nestjs/typeorm
 
 echo -e "\n📦 Instalando dependencia typeorm..."
 npm install --save typeorm
-
-echo -e "\n📁 Creando directorio de configuración..."
-mkdir -p src/config
 
 case $DATABASE_NAME in
   "mongodb")
@@ -100,6 +104,17 @@ case $DATABASE_NAME in
     ;;
 esac
 
+# ---------------- DIRECTORIES ----------------
+
+echo -e "\n📁 Creando directorio de configuración..."
+mkdir -p src/config
+
+echo -e "\n📁 Creando directorio de constantes..."
+mkdir -p src/constants
+
+echo -e "\n📁 Creando directorio de autenticación..."
+mkdir -p src/auth/dto
+
 # ---------------- COPY FILES ----------------
 
 echo -e "\n📁 Copiando el archivo configurations.ts..."
@@ -115,4 +130,20 @@ cp ../assets/create-micro/main.ts src/main.ts
 echo -e "\n📁 Copiando el archivo app.controller.ts..."
 cp ../assets/create-micro/app.controller.ts src/app.controller.ts
 
+echo -e "\n📁 Copiando el archivo jwt.strategy.ts..."
+cp ../assets/create-micro/jwt.strategy.ts src/jwt.strategy.ts
+
+echo -e "\n📁 Copiando el archivo app.constants.ts..."
+cp ../assets/create-micro/app.constants.ts src/constants/app.constants.ts
+
+echo -e "\n📁 Copiando el archivo payload-auth.dto.ts..."
+cp ../assets/create-micro/payload-auth.dto.ts src/auth/dto/payload-auth.dto.ts
+
+echo -e "\n📁 Copiando el archivo jwt-auth.guard.ts..."
+cp ../assets/create-micro/jwt-auth.guard.ts src/auth/jwt-auth.guard.ts
+
 # ---------------- OTHER ----------------
+
+# -> PRETTIER
+echo -e "\n📦 Corregir formato con prettier..."
+npm run format
