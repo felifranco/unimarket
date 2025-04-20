@@ -38,6 +38,7 @@ Fuente: [https://stateofjs.com/en-US](https://2024.stateofjs.com/en-US/other-too
     - [🔶 Importar SwaggerModule](#-importar-swaggermodule)
     - [🔶 Modificación a DTOs](#-modificación-a-dtos)
   - [📌 Variables de entorno](#-variables-de-entorno)
+- [JWT](#jwt)
 - [Referencias](#referencias)
 
 ## 📌 Nuevo microservicio con NestJS
@@ -347,6 +348,13 @@ CREATE src/auth/dto/create-auth.dto.ts (30 bytes)
 CREATE src/auth/dto/update-auth.dto.ts (164 bytes)
 CREATE src/auth/entities/auth.entity.ts (21 bytes)
 UPDATE src/app.module.ts (1275 bytes)
+```
+
+# JWT
+
+```shell
+npm i @nestjs/jwt @nestjs/passport passport passport-jwt bcryptjs
+npm i -D @types/passport-jwt @types/bcryptjs
 ```
 
 # Referencias
