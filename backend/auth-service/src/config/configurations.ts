@@ -13,5 +13,7 @@ export default () => ({
   },
   jwt: {
     secret: process.env.JWT_SECRET || defaultValues.JWT_SECRET,
+    expiresIn:
+      process.env.JWT_EXPIRATION_TIME || defaultValues.JWT_EXPIRATION_TIME,
   },
 });

@@ -6,14 +6,13 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
 
+@ApiBearerAuth()
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
@@ -28,9 +27,6 @@ export class UsersController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-
-  @UseGuards(AuthGuard('jwt'))
-  @ApiBearerAuth()
   @Get()
   @ApiResponse({ status: 201, description: 'Operación exitosa.' })
   @ApiResponse({ status: 403, description: 'Prohibido.' })

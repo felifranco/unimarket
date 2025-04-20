@@ -18,6 +18,12 @@ import { defaultValues } from 'src/constants/app.constants';
           'jwt.secret',
           defaultValues.JWT_SECRET,
         ),
+        signOptions: {
+          expiresIn: configService.get<string>(
+            'jwt.expiresIn',
+            defaultValues.JWT_EXPIRATION_TIME,
+          ),
+        },
       }),
       inject: [ConfigService],
     }),

@@ -139,6 +139,9 @@ cp ../assets/create-micro/app.constants.ts src/constants/app.constants.ts
 echo -e "\n📁 Copiando el archivo payload-auth.dto.ts..."
 cp ../assets/create-micro/payload-auth.dto.ts src/auth/dto/payload-auth.dto.ts
 
+echo -e "\n📁 Copiando el archivo jwt-auth.guard.ts..."
+cp ../assets/create-micro/jwt-auth.guard.ts src/auth/jwt-auth.guard.ts
+
 # ---------------- OTHER ----------------
 
 # -> PRETTIER

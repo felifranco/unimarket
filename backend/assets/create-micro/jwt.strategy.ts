@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ignoreExpiration: false, // Rechaza tokens expirados
       secretOrKey: configService.get<string>(
         'jwt.secret',
-        defaultValues.JWT_SECRET
+        defaultValues.JWT_SECRET,
       ),
     });
   }

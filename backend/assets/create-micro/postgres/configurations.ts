@@ -1,4 +1,4 @@
-import { defaultValues } from "src/constants/app.constants";
+import { defaultValues } from 'src/constants/app.constants';
 
 export default () => ({
   appPort: parseInt(process.env.APP_PORT!, 10) || defaultValues.APP_PORT,
@@ -13,5 +13,7 @@ export default () => ({
   },
   jwt: {
     secret: process.env.JWT_SECRET || defaultValues.JWT_SECRET,
+    expiresIn:
+      process.env.JWT_EXPIRATION_TIME || defaultValues.JWT_EXPIRATION_TIME,
   },
 });

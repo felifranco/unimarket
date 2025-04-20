@@ -11,5 +11,5 @@ export const defaultValues = {
   },
 
   JWT_SECRET: 'ALTERNATIVE SECRET',
-  JWT_EXPIRATION_TIME: '3600',
+  JWT_EXPIRATION_TIME: '15m',
 };
