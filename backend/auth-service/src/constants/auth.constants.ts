@@ -12,8 +12,18 @@ export const AppConstants = {
   TOKEN_EXPIRATION: '1h',
 };
 
-export const jwtConstants = {
-  secret:
-    process.env.JWT_SECRET ||
-    'DO NOT USE THIS VALUE. INSTEAD, CREATE A COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.',
+export const defaultValues = {
+  APP_PORT: 3000,
+  NODE_ENV: 'development',
+  database: {
+    DB_TYPE: 'postgres',
+    DB_HOST: 'localhost',
+    DB_PORT: 5432,
+    DB_USER: 'postgres',
+    //DB_PASS: '',
+    DB_DATABASE: 'postgres',
+  },
+
+  JWT_SECRET: 'ALTERNATIVE SECRET cufefrufraphI69ez#dO',
+  JWT_EXPIRATION_TIME: '3600',
 };
