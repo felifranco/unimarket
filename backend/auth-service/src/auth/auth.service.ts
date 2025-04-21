@@ -29,7 +29,8 @@ export class AuthService {
       password_hash: hashedPassword,
       estado: AuthStatus.ACTIVO, // Estado por defecto
     });
-    return this.authRepo.save(newAuth); // Guardar el usuario en la base de datos
+    await this.authRepo.save(newAuth); // Guardar el usuario en la base de datos
+    return;
   }
 
   async validateUser(
