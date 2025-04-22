@@ -13,7 +13,7 @@ select2($);
 const HeaderTwo = ({ category }: { category: boolean }) => {
   const { t } = useTranslation("HeaderTwo");
 
-  const token = useAppSelector(state => state.auth.token);
+  const first_name = useAppSelector(state => state.auth.first_name);
 
   const [scroll, setScroll] = useState(false);
   useEffect(() => {
@@ -62,10 +62,10 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
   };
 
   const ProfileOption = () => {
-    const name = token ? "Nombre" : t("log_in");
-    const icon = token ? "ph-fill ph-user-check" : "ph ph-user";
-    const color = token ? "text-main-two-600" : "text-white";
-    const to = token ? "/account" : "/login";
+    const name = first_name ? first_name : t("log_in");
+    const icon = first_name ? "ph-fill ph-user-check" : "ph ph-user";
+    const color = first_name ? "text-main-two-600" : "text-white";
+    const to = first_name ? "/account" : "/login";
     return (
       <Link to={to} className="flex-align flex-column gap-8 item-hover-two">
         <span
@@ -81,7 +81,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
   };
 
   const LogOut = () => {
-    return token ? (
+    return first_name ? (
       <Link
         to="/"
         onClick={() => {

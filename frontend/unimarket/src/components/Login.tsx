@@ -3,12 +3,13 @@ import { useAppSelector } from "../hooks";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../hooks";
-import { login } from "../store/auth/authSlice";
+import { login, me } from "../store/auth/authSlice";
 
 const Login = () => {
   const { t } = useTranslation("Login");
 
   const token = useAppSelector(state => state.auth.token);
+  const first_name = useAppSelector(state => state.auth.first_name);
 
   const dispatch = useAppDispatch();
 
@@ -25,10 +26,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (token && !first_name) {
+      dispatch(me(token));
       window.location.href = "/";
     }
-  }, [token]);
+  }, [token, first_name, dispatch]);
 
   return (
     <section className="account py-80">
