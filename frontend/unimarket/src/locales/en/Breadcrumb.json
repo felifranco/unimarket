@@ -1,5 +1,7 @@
 {
   "home": "Home",
+  "login": "Login",
+  "register": "Register",
   "account": "Account",
   "become_seller": "Become Seller",
   "cart": "Cart",

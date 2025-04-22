@@ -1,17 +1,23 @@
 {
-  "title": "Cuenta",
-  "login": "Iniciar sesión",
-  "username_or_email": "Nombre de usuario o dirección de correo electrónico",
-  "password": "Contraseña",
-  "enter_password": "Ingrese contraseña",
-  "log-in": "Iniciar sesión",
-  "remember-me": "Recuérdame",
-  "forgot-password": "¿Olvidaste tu contraseña?",
-  "register": "Registrarse",
-  "username": "Nombre de usuario",
-  "enter_username": "Escribe un nombre de usuario",
-  "email-address": "Dirección de correo electrónico",
-  "enter_email_address": "Escribe su dirección de correo electrónico",
-  "share-data-text": "Tu datos personales serán utilizados para procesar tu pedido, apoyar tu experiencia en este sitio web y para otros propósitos descritos en nuestra",
-  "privacy-policy": "Política de privacidad"
+  "edit": "Editar",
+  "followers": "Seguidores",
+  "about_store": "Acerca de la tienda",
+  "products": "Productos",
+  "return_policy": "Política de devoluciones",
+  "shipping_policy": "Política de envíos",
+  "contact_seller": "Contacta con el vendedor",
+  "product_category": "Categoría del producto",
+  "best_selling_products": "Productos más vendidos",
+  "search": "Buscar",
+  "showing": "Mostrando",
+  "of": "de",
+  "results": "resultados",
+  "sort_by": "Ordenar por",
+  "sort_by_options": {
+    "latest": "Últimos",
+    "oldest": "Más antiguos"
+  },
+  "hot": "Populares",
+  "add_to_cart": "Añadir al carrito",
+  "fullfilled_by_unimarket": "Cumplido por UniMarket"
 }

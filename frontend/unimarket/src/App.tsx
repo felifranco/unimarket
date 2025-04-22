@@ -6,6 +6,8 @@ import ProductDetailsPageTwo from "./pages/ProductDetailsPageTwo";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import AccountPage from "./pages/AccountPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import ContactPage from "./pages/ContactPage";
 import PhosphorIconInit from "./helper/PhosphorIconInit";
 import VendorTwoPage from "./pages/VendorTwoPage";
@@ -18,7 +20,6 @@ function App() {
     <BrowserRouter>
       <RouteScrollToTop />
       <PhosphorIconInit />
-
       <Routes>
         <Route path="/" element={<HomePageTwo />} />
         <Route path="/shop" element={<ShopPage />} />
@@ -28,6 +29,8 @@ function App() {
         <Route path="/become-seller" element={<BecomeSellerPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/vendor" element={<VendorTwoPage />} />
         <Route path="/vendor-details" element={<VendorTwoDetailsPage />} />

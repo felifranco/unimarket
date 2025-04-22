@@ -1,0 +1,15 @@
+{
+  "register": "Register",
+  "name": "Full name",
+  "enter_name": "Enter your full name",
+  "username": "Username",
+  "enter_username": "Enter username",
+  "email_address": "Email address",
+  "enter_email_address": "Enter Email Address",
+  "password": "Password",
+  "enter_password": "Enter password",
+  "confirm_password": "Confirm password",
+  "enter_confirm_password": "Enter password again",
+  "share_data_text": "Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our",
+  "privacy_policy": "Privacy policy"
+}
