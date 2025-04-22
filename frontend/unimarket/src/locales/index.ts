@@ -18,6 +18,14 @@ import BottomFooterEn from "./en/BottomFooter.json";
 import BottomFooterEs from "./es/BottomFooter.json";
 import ShopProductCardEn from "./en/ShopProductCard.json";
 import ShopProductCardEs from "./es/ShopProductCard.json";
+import LoginEn from "./en/Login.json";
+import LoginEs from "./es/Login.json";
+import RegisterEn from "./en/Register.json";
+import RegisterEs from "./es/Register.json";
+import AccountProductCardEn from "./en/AccountProductCard.json";
+import AccountProductCardEs from "./es/AccountProductCard.json";
+import AccountSellingProductCardEn from "./en/AccountSellingProductCard.json";
+import AccountSellingProductCardEs from "./es/AccountSellingProductCard.json";
 
 const resources = {
   en: {
@@ -31,6 +39,10 @@ const resources = {
     FooterTwo: FooterTwoEn,
     BottomFooter: BottomFooterEn,
     ShopProductCard: ShopProductCardEn,
+    Login: LoginEn,
+    Register: RegisterEn,
+    AccountProductCard: AccountProductCardEn,
+    AccountSellingProductCard: AccountSellingProductCardEn,
   },
   es: {
     Account: AccountEs,
@@ -43,6 +55,10 @@ const resources = {
     FooterTwo: FooterTwoEs,
     BottomFooter: BottomFooterEs,
     ShopProductCard: ShopProductCardEs,
+    Login: LoginEs,
+    Register: RegisterEs,
+    AccountProductCard: AccountProductCardEs,
+    AccountSellingProductCard: AccountSellingProductCardEs,
   },
 };
 

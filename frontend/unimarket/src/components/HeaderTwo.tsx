@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
+import { useAppSelector } from "../hooks";
 import $ from "jquery";
 import select2 from "select2";
 import { Link, NavLink } from "react-router-dom";
 import LanguageList from "./LanguageList";
 import { useTranslation } from "react-i18next";
 import { categories } from "../mocks/categories.json";
+import { persistor } from "../store";
 
 select2($);
 
 const HeaderTwo = ({ category }: { category: boolean }) => {
   const { t } = useTranslation("HeaderTwo");
+
+  const token = useAppSelector(state => state.auth.token);
 
   const [scroll, setScroll] = useState(false);
   useEffect(() => {
@@ -30,12 +34,6 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
       }
     };
   }, []);
-
-  // Set the default currency
-  const [selectedCurrency, setSelectedCurrency] = useState("USD");
-  const handleCurrencyChange = (currency: string) => {
-    setSelectedCurrency(currency);
-  };
 
   // Mobile menu support
   const [menuActive, setMenuActive] = useState(false);
@@ -61,6 +59,44 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
   const [activeIndexCat, setActiveIndexCat] = useState<number | null>(null);
   const handleCatClick = (index: number) => {
     setActiveIndexCat(activeIndexCat === index ? null : index);
+  };
+
+  const ProfileOption = () => {
+    const name = token ? "Nombre" : t("log_in");
+    const icon = token ? "ph-fill ph-user-check" : "ph ph-user";
+    const color = token ? "text-main-two-600" : "text-white";
+    const to = token ? "/account" : "/login";
+    return (
+      <Link to={to} className="flex-align flex-column gap-8 item-hover-two">
+        <span
+          className={`text-2xl ${color} d-flex position-relative item-hover__text`}
+        >
+          <i className={icon} />
+        </span>
+        <span className={`text-md ${color} item-hover__text d-none d-lg-flex`}>
+          {name}
+        </span>
+      </Link>
+    );
+  };
+
+  const LogOut = () => {
+    return token ? (
+      <Link
+        to="/"
+        onClick={() => {
+          persistor.purge();
+        }}
+        className="flex-align flex-column gap-8 item-hover-two"
+      >
+        <span className="text-2xl text-white d-flex position-relative me-6 mt-6 item-hover__text">
+          <i className="ph ph-sign-out" />
+        </span>
+        <span className="text-md text-white item-hover__text d-none d-lg-flex">
+          {t("log_out")}
+        </span>
+      </Link>
+    ) : null;
   };
 
   return (
@@ -303,17 +339,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     <i className="ph ph-magnifying-glass" />
                   </span>
                 </button>
-                <Link
-                  to="/account"
-                  className="flex-align flex-column gap-8 item-hover-two"
-                >
-                  <span className="text-2xl text-white d-flex position-relative item-hover__text">
-                    <i className="ph ph-user" />
-                  </span>
-                  <span className="text-md text-white item-hover__text d-none d-lg-flex">
-                    {t("profile")}
-                  </span>
-                </Link>
+                <ProfileOption />
                 <Link
                   to="/wishlist"
                   className="flex-align flex-column gap-8 item-hover-two"
@@ -356,6 +382,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     {t("cart")}
                   </span>
                 </Link>
+                <LogOut />
               </div>
             </div>
             {/* Header Middle Right End  */}

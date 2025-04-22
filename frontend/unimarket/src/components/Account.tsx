@@ -1,163 +1,263 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import AccountProductCard from "./AccountProductCard";
+import AccountSellingProductCard from "./AccountSellingProductCard";
+import { categories } from "../mocks/categories.json";
+import { products } from "../mocks/products.json";
 
 const Account = () => {
   const { t } = useTranslation("Account");
 
+  const name = "Baishakhi Plus";
+  const followers = 480589;
+  const stars = 4.8;
+  const votes = "12k";
+
+  let [grid, setGrid] = useState(false);
+
+  let [active, setActive] = useState(false);
+  let sidebarController = () => {
+    setActive(!active);
+  };
+
+  const handleEdit = () => {};
+
   return (
-    <section className="account py-80">
+    <section className="vendor-two-details py-80">
+      <div className={`side-overlay ${active && "show"}`}></div>
       <div className="container container-lg">
-        <form action="#">
-          <div className="row gy-4">
-            {/* Login Card Start */}
-            <div className="col-xl-6 pe-xl-5">
-              <div className="border border-gray-100 hover-border-main-600 transition-1 rounded-16 px-24 py-40 h-100">
-                <h6 className="text-xl mb-32">{t("login")}</h6>
-                <div className="mb-24">
-                  <label
-                    htmlFor="username"
-                    className="text-neutral-900 text-lg mb-8 fw-medium"
-                  >
-                    {t("username_or_email")}{" "}
-                    <span className="text-danger">*</span>{" "}
-                  </label>
-                  <input
-                    type="text"
-                    className="common-input"
-                    id="username"
-                    placeholder={t("enter_username")}
-                  />
-                </div>
-                <div className="mb-24">
-                  <label
-                    htmlFor="password"
-                    className="text-neutral-900 text-lg mb-8 fw-medium"
-                  >
-                    {t("password")}
-                  </label>
-                  <div className="position-relative">
-                    <input
-                      type="password"
-                      className="common-input"
-                      id="password"
-                      placeholder={t("enter_password")}
-                      defaultValue="password"
+        <div className="vendor-two-details-wrapper d-flex flex-wrap align-items-start gap-24">
+          {/* Shop Sidebar Start */}
+          <div className={`shop-sidebar ${active && "active"}`}>
+            <button
+              onClick={sidebarController}
+              type="button"
+              className="shop-sidebar__close d-lg-none d-flex w-32 h-32 flex-center border border-gray-100 rounded-circle hover-bg-main-600 bg-main-600 position-absolute inset-inline-end-0 me-10 mt-8 text-white border-main-600"
+            >
+              <i className="ph ph-x" />
+            </button>
+            <div className="d-flex flex-column gap-12 px-lg-0 px-3 py-lg-0 py-4">
+              <div className="bg-neutral-600 rounded-8 p-24">
+                <div className="d-flex align-items-center justify-content-between">
+                  <span className="w-80 h-80 flex-center bg-white rounded-8 flex-shrink-0">
+                    <img
+                      src="assets/images/thumbs/vendors-two-icon1.png"
+                      alt=""
                     />
-                    <span
-                      className="toggle-password position-absolute top-50 inset-inline-end-0 me-16 translate-middle-y cursor-pointer ph ph-eye-slash"
-                      id="#password"
-                    />
-                  </div>
-                </div>
-                <div className="mb-24 mt-48">
-                  <div className="flex-align gap-48 flex-wrap">
-                    <button type="submit" className="btn btn-main py-18 px-40">
-                      {t("log-in")}
+                  </span>
+                  <div className="d-flex flex-column gap-24">
+                    <button
+                      type="button"
+                      onClick={handleEdit}
+                      className="text-uppercase group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8 w-100"
+                    >
+                      {t("edit")}
+                      <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
+                        {" "}
+                        <i className="ph ph-pencil-simple" />
+                      </span>
                     </button>
-                    <div className="form-check common-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        defaultValue=""
-                        id="remember"
-                      />
-                      <label
-                        className="form-check-label flex-grow-1"
-                        htmlFor="remember"
-                      >
-                        {t("remember-me")}
-                      </label>
-                    </div>
                   </div>
                 </div>
-                <div className="mt-48">
+                <div className="mt-32">
+                  <h6 className="text-white fw-semibold mb-12">
+                    <Link to="/vendor-details" className="">
+                      {name}
+                    </Link>
+                  </h6>
+                  <span className="text-xs text-white mb-12">
+                    {followers} {t("followers")}
+                  </span>
+                  <div className="flex-align gap-6">
+                    <div className="flex-align gap-8">
+                      <span className="text-15 fw-medium text-warning-600 d-flex">
+                        <i className="ph-fill ph-star" />
+                      </span>
+                      <span className="text-15 fw-medium text-warning-600 d-flex">
+                        <i className="ph-fill ph-star" />
+                      </span>
+                      <span className="text-15 fw-medium text-warning-600 d-flex">
+                        <i className="ph-fill ph-star" />
+                      </span>
+                      <span className="text-15 fw-medium text-warning-600 d-flex">
+                        <i className="ph-fill ph-star" />
+                      </span>
+                      <span className="text-15 fw-medium text-warning-600 d-flex">
+                        <i className="ph-fill ph-star" />
+                      </span>
+                    </div>
+                    <span className="text-xs fw-medium text-white">
+                      {stars}
+                    </span>
+                    <span className="text-xs fw-medium text-white">
+                      ({votes})
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-32 d-flex flex-column gap-8">
                   <Link
                     to="#"
-                    className="text-danger-600 text-sm fw-semibold hover-text-decoration-underline"
+                    className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
                   >
-                    {t("forgot-password")}
+                    {t("about_store")}
+                  </Link>
+                  <Link
+                    to="#"
+                    className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
+                  >
+                    {t("products")}
+                  </Link>
+                  <Link
+                    to="#"
+                    className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
+                  >
+                    {t("return_policy")}
+                  </Link>
+                  <Link
+                    to="#"
+                    className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
+                  >
+                    {t("shipping_policy")}
+                  </Link>
+                  <Link
+                    to="#"
+                    className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
+                  >
+                    {t("concact_seller")}
                   </Link>
                 </div>
               </div>
-            </div>
-            {/* Login Card End */}
-            {/* Register Card Start */}
-            <div className="col-xl-6">
-              <div className="border border-gray-100 hover-border-main-600 transition-1 rounded-16 px-24 py-40">
-                <h6 className="text-xl mb-32">{t("register")}</h6>
-                <div className="mb-24">
-                  <label
-                    htmlFor="usernameTwo"
-                    className="text-neutral-900 text-lg mb-8 fw-medium"
-                  >
-                    {t("username")} <span className="text-danger">*</span>{" "}
-                  </label>
-                  <input
-                    type="text"
-                    className="common-input"
-                    id="usernameTwo"
-                    placeholder={t("enter_username")}
-                  />
-                </div>
-                <div className="mb-24">
-                  <label
-                    htmlFor="emailTwo"
-                    className="text-neutral-900 text-lg mb-8 fw-medium"
-                  >
-                    {t("email-address")}{" "}
-                    <span className="text-danger">*</span>{" "}
-                  </label>
-                  <input
-                    type="email"
-                    className="common-input"
-                    id="emailTwo"
-                    placeholder={t("enter_email_address")}
-                  />
-                </div>
-                <div className="mb-24">
-                  <label
-                    htmlFor="enter-password"
-                    className="text-neutral-900 text-lg mb-8 fw-medium"
-                  >
-                    {t("password")} <span className="text-danger">*</span>
-                  </label>
-                  <div className="position-relative">
-                    <input
-                      type="password"
-                      className="common-input"
-                      id="enter-password"
-                      placeholder={t("enter_password")}
-                      defaultValue="password"
-                    />
-                    <span
-                      className="toggle-password position-absolute top-50 inset-inline-end-0 me-16 translate-middle-y cursor-pointer ph ph-eye-slash"
-                      id="#enter-password"
-                    />
-                  </div>
-                </div>
-                <div className="my-48">
-                  <p className="text-gray-500">
-                    {t("share-data-text")}{" "}
-                    <Link
-                      to="#"
-                      className="text-main-600 text-decoration-underline"
-                    >
-                      {" "}
-                      {t("privacy-policy")}
-                    </Link>
-                    .
-                  </p>
-                </div>
-                <div className="mt-48">
-                  <button type="submit" className="btn btn-main py-18 px-40">
-                    {t("Register")}
-                  </button>
+              <div className="border border-gray-50 rounded-8 p-24">
+                <h6 className="text-xl border-bottom border-gray-100 pb-24 mb-24">
+                  {t("product_category")}
+                </h6>
+                <ul className="max-h-540 overflow-y-auto scroll-sm">
+                  {categories.map((category, index) => (
+                    <li key={index} className="mb-24">
+                      <Link
+                        to="#"
+                        className="text-gray-900 hover-text-main-600"
+                      >
+                        {`${category.name} (${category.subcategories.length})`}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="blog-sidebar border border-gray-100 rounded-8 p-32 mb-40">
+                <h6 className="text-xl mb-32 pb-32 border-bottom border-gray-100">
+                  {t("best_selling_products")}
+                </h6>
+                <div className="d-flex flex-column gap-24">
+                  {products.map((product, index) => (
+                    <AccountSellingProductCard key={index} {...product} />
+                  ))}
                 </div>
               </div>
             </div>
-            {/* Register Card End */}
           </div>
-        </form>
+          {/* Shop Sidebar End */}
+          <div className="vendor-two-details__contents">
+            {/* Inner Banner Start */}
+            <div
+              className="inner-banner-two bg-img rounded-16 overflow-hidden"
+              style={{
+                backgroundImage: `url('assets/images/thumbs/inner-banner-two-bg.png')`,
+              }}
+            >
+              <div className="row">
+                <div className="col-6 d-xl-block d-none" />
+                <div className="col-xl-6 d-xl-flex">
+                  <div className="text-center py-32">
+                    <h6 className="text-white">Daily Offer</h6>
+                    <h3 className="my-32 text-white">SALE 48% OFF</h3>
+                    <Link
+                      to="/shop"
+                      className="btn btn-main d-inline-flex align-items-center rounded-8 gap-8"
+                    >
+                      Shop Now
+                      <span className="icon text-xl d-flex">
+                        <i className="ph ph-shopping-cart" />
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Inner Banner End */}
+            {/* Search Filter Start */}
+            <div className="d-flex align-items-center justify-content-between flex-wrap mt-40 mb-32 gap-16">
+              <form action="#" className="input-group w-100 max-w-418">
+                <input
+                  type="text"
+                  className="form-control common-input rounded-start-3"
+                  placeholder={`${t("search")}...`}
+                />
+                <button
+                  type="submit"
+                  className="input-group-text border-0 bg-main-two-600 rounded-end-3 text-white text-2xl hover-bg-main-two-700 px-24"
+                >
+                  <i className="ph ph-magnifying-glass" />
+                </button>
+              </form>
+              <div className="d-flex align-items-center justify-content-between justify-content-sm-end gap-16 flex-grow-1">
+                <span className="text-gray-900">
+                  {t("showing")} 1-20 {t("of")} 85 {t("results")}
+                </span>
+                <div className="d-flex align-items-center gap-8 d-sm-flex d-none">
+                  <button
+                    onClick={() => setGrid(true)}
+                    type="button"
+                    className={`w-44 h-44 flex-center border rounded-6 text-2xl list-btn border-gray-100 ${
+                      grid === true && "border-main-600 text-white bg-main-600"
+                    }`}
+                  >
+                    <i className="ph-bold ph-list-dashes" />
+                  </button>
+                  <button
+                    onClick={() => setGrid(false)}
+                    type="button"
+                    className={`w-44 h-44 flex-center border rounded-6 text-2xl grid-btn border-gray-100 ${
+                      grid === false && "border-main-600 text-white bg-main-600"
+                    }`}
+                  >
+                    <i className="ph ph-squares-four" />
+                  </button>
+                </div>
+                <div className="flex-align gap-8">
+                  <span className="text-gray-900 flex-shrink-0 d-sm-block d-none">
+                    {t("sort_by")}:
+                  </span>
+                  <select
+                    className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
+                    defaultValue={1}
+                  >
+                    <option value={1}>{t("sort_by_options.latest")}</option>
+                    <option value={1}>{t("sort_by_options.oldest")}</option>
+                  </select>
+                </div>
+                <button
+                  onClick={sidebarController}
+                  type="button"
+                  className="w-48 h-48 d-lg-none d-flex flex-center border border-gray-100 rounded-6 text-2xl sidebar-btn"
+                >
+                  <i className="ph-bold ph-funnel" />
+                </button>
+              </div>
+            </div>
+            {/* Search Filter End */}
+            {/* Products Start */}
+            <div
+              className={`list-grid-wrapper grid-cols-4 ${grid && "list-view"}`}
+            >
+              {products.map((product, index) => {
+                return <AccountProductCard key={index} {...product} />;
+              })}
+            </div>
+            {/* Products End */}
+          </div>
+        </div>
       </div>
     </section>
   );

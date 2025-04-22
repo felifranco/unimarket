@@ -122,7 +122,10 @@ const FooterTwo = () => {
             <h6 className="footer-item__title">{t("information")}</h6>
             <ul className="footer-menu">
               <li className="mb-16">
-                <Link to="/shop" className="text-gray-600 hover-text-main-600">
+                <Link
+                  to="/register"
+                  className="text-gray-600 hover-text-main-600"
+                >
                   {t("become_vendor")}
                 </Link>
               </li>
