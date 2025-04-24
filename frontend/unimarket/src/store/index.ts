@@ -11,8 +11,12 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // usa localStorage
 import authReducer from "./auth/authSlice";
+import listingReducer from "./listing/listingSlice";
 
-const rootReducer = combineReducers({ auth: authReducer });
+const rootReducer = combineReducers({
+  auth: authReducer,
+  listing: listingReducer,
+});
 
 const persistConfig = {
   key: "root",

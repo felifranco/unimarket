@@ -80,6 +80,20 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
     );
   };
 
+  const NewPost = () => {
+    const to = first_name ? "/new-post" : "/login";
+    return (
+      <Link to={to} className="flex-align flex-column gap-8 item-hover-two">
+        <span className="text-2xl text-white d-flex position-relative me-6 mt-6 item-hover__text">
+          <i className="ph ph-newspaper-clipping" />
+        </span>
+        <span className="text-md text-white item-hover__text d-none d-lg-flex">
+          {t("new_post")}
+        </span>
+      </Link>
+    );
+  };
+
   const LogOut = () => {
     return first_name ? (
       <Link
@@ -354,7 +368,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     {t("whishlist")}
                   </span>
                 </Link>
-                <Link
+                {/*<Link
                   to="/cart"
                   className="flex-align flex-column gap-8 item-hover-two"
                 >
@@ -367,7 +381,8 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   <span className="text-md text-white item-hover__text d-none d-lg-flex">
                     {t("compare")}
                   </span>
-                </Link>
+                </Link>*/}
+                <NewPost />
                 <Link
                   to="/cart"
                   className="flex-align flex-column gap-8 item-hover-two"

@@ -42,6 +42,13 @@ export class ListingsController {
     return this.listingsService.findOne(+id);
   }
 
+  @Get('/user/:id')
+  @ApiResponse({ status: 201, description: 'Operación exitosa.' })
+  @ApiResponse({ status: 403, description: 'Prohibido.' })
+  findAllByUser(@Param('id') id_usuario: string) {
+    return this.listingsService.findAllByUser(+id_usuario);
+  }
+
   @Patch(':id')
   @ApiResponse({
     status: 201,

@@ -1,0 +1,27 @@
+{
+  "title": "Title",
+  "overview": "Overview",
+  "colours": "Colours",
+  "publication_type": "Publication type",
+  "currency": "Currency",
+  "price": "Price",
+  "old_price": "Old price",
+  "stock": "Stock",
+  "save_all": "Save post",
+  "edit": "Edit",
+  "edit_section": "Edit section",
+  "delete": "Delete",
+  "delete_section": "Delete section",
+  "add_section": "Add section",
+  "product_description": "Product description",
+  "currency_types": {
+    "USD": "United States Dollar",
+    "GTQ": "Guatemalan Quetzal"
+  },
+  "publication_types": {
+    "sale": "Sale",
+    "exchange": "Exchange",
+    "donation": "Donation",
+    "rent": "Rent"
+  }
+}

@@ -1,18 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-interface ShopProductCardProps {
-  name: string;
-  stars: number;
-  rating: number;
-  sold: number;
-  stock: number;
-  currency_symbol: string;
-  old_price: number;
-  price: number;
-  badge: string;
-  cover_image: string;
-}
+import { listingInterface } from "../interfaces/listings";
 
 const ProductCardBadge = ({ type, text }: { type: string; text: string }) => {
   //const { t } = useTranslation("ShopProductCard");
@@ -52,17 +40,17 @@ const ProductCardBadge = ({ type, text }: { type: string; text: string }) => {
 };
 
 const ShopProductCard = ({
-  name,
-  stars,
-  rating,
-  sold,
-  stock,
-  currency_symbol,
-  old_price,
-  price,
-  badge,
-  cover_image,
-}: ShopProductCardProps) => {
+  titulo,
+  estrellas,
+  calificacion,
+  vendidos,
+  existencias,
+  simbolo_moneda,
+  precio_anterior,
+  precio,
+  insignia,
+  imagen_portada,
+}: listingInterface) => {
   const { t } = useTranslation("ShopProductCard");
 
   return (
@@ -71,21 +59,23 @@ const ShopProductCard = ({
         to="/product-details"
         className="product-card__thumb flex-center rounded-8 bg-gray-50 position-relative"
       >
-        <img src={cover_image} alt="" className="w-auto max-w-unset" />
-        {badge ? <ProductCardBadge type={badge} text={badge} /> : null}
+        <img src={imagen_portada} alt="" className="w-auto max-w-unset" />
+        {insignia ? <ProductCardBadge type={insignia} text={insignia} /> : null}
       </Link>
       <div className="product-card__content mt-16" style={{ width: "100%" }}>
         <h6 className="title text-lg fw-semibold mt-12 mb-8">
           <Link to="/product-details" className="link text-line-2" tabIndex={0}>
-            {name}
+            {titulo}
           </Link>
         </h6>
         <div className="flex-align mb-20 mt-16 gap-6">
-          <span className="text-xs fw-medium text-gray-500">{stars}</span>
+          <span className="text-xs fw-medium text-gray-500">{estrellas}</span>
           <span className="text-15 fw-medium text-warning-600 d-flex">
             <i className="ph-fill ph-star" />
           </span>
-          <span className="text-xs fw-medium text-gray-500">({rating}k)</span>
+          <span className="text-xs fw-medium text-gray-500">
+            ({calificacion}k)
+          </span>
         </div>
         <div className="mt-8">
           <div
@@ -102,17 +92,17 @@ const ShopProductCard = ({
             />
           </div>
           <span className="text-gray-900 text-xs fw-medium mt-8">
-            {t("sold")}: {`${sold}/${stock}`}
+            {t("vendidos")}: {`${vendidos}/${existencias}`}
           </span>
         </div>
         <div className="product-card__price my-20">
           <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
-            {currency_symbol}
-            {old_price}
+            {simbolo_moneda}
+            {precio_anterior}
           </span>
           <span className="text-heading text-md fw-semibold ">
-            {currency_symbol}
-            {price}{" "}
+            {simbolo_moneda}
+            {precio}{" "}
           </span>
         </div>
         <Link

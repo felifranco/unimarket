@@ -14,8 +14,38 @@ export class CreateListingDto {
   descripcion: string;
 
   @ApiProperty()
+  ubicacion: string;
+
+  @ApiProperty()
+  estado: string;
+
+  @ApiProperty()
+  estrellas: number;
+
+  @ApiProperty()
+  calificacion: number;
+
+  @ApiProperty()
+  vendidos: number;
+
+  @ApiProperty()
+  existencias: number;
+
+  @ApiProperty()
+  simbolo_moneda: string;
+
+  @ApiProperty()
+  precio_anterior: number;
+
+  @ApiProperty()
   precio: number;
 
   @ApiProperty()
-  ubicacion: string;
+  insignia: string;
+
+  @ApiProperty()
+  imagenes: string;
+
+  @ApiProperty()
+  imagen_portada: string;
 }

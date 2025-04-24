@@ -1,13 +1,21 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ShopProductCard from "./ShopProductCard";
 //import ReactSlider from "react-slider";
 import { useTranslation } from "react-i18next";
 import { categories } from "../mocks/categories.json";
-import { products } from "../mocks/products.json";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { fetchListings } from "../store/listing/listingSlice";
 
 const ShopSection = () => {
   const { t } = useTranslation("ShopSection");
+
+  const dispatch = useAppDispatch();
+
+  const token = useAppSelector(state => state.auth.token);
+
+  const listings = useAppSelector(state => state.listing.listings);
 
   let [grid, setGrid] = useState(false);
 
@@ -15,6 +23,11 @@ const ShopSection = () => {
   let sidebarController = () => {
     setActive(!active);
   };
+
+  useEffect(() => {
+    if (!token) return;
+    dispatch(fetchListings(token));
+  }, [dispatch, token]);
 
   return (
     <section className="shop py-80">
@@ -581,7 +594,7 @@ const ShopSection = () => {
             {/* Top End */}
             {/* Product List Start */}
             <div className={`list-grid-wrapper ${grid && "list-view"}`}>
-              {products.map((product, index) => {
+              {listings.map((product, index) => {
                 return <ShopProductCard key={index} {...product} />;
               })}
             </div>

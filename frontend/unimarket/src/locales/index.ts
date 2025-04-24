@@ -26,6 +26,8 @@ import AccountProductCardEn from "./en/AccountProductCard.json";
 import AccountProductCardEs from "./es/AccountProductCard.json";
 import AccountSellingProductCardEn from "./en/AccountSellingProductCard.json";
 import AccountSellingProductCardEs from "./es/AccountSellingProductCard.json";
+import PostEn from "./en/Post.json";
+import PostEs from "./es/Post.json";
 
 const resources = {
   en: {
@@ -43,6 +45,7 @@ const resources = {
     Register: RegisterEn,
     AccountProductCard: AccountProductCardEn,
     AccountSellingProductCard: AccountSellingProductCardEn,
+    Post: PostEn,
   },
   es: {
     Account: AccountEs,
@@ -59,6 +62,7 @@ const resources = {
     Register: RegisterEs,
     AccountProductCard: AccountProductCardEs,
     AccountSellingProductCard: AccountSellingProductCardEs,
+    Post: PostEs,
   },
 };
 

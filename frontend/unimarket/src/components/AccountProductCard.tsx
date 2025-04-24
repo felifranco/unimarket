@@ -1,32 +1,23 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-interface AccountProductCardProps {
-  name: string;
-  stars: number;
-  rating: number;
-  currency_symbol: string;
-  old_price: number;
-  price: number;
-  cover_image: string;
-}
+import { listingInterface } from "../interfaces/listings";
 
 const AccountProductCard = ({
-  name,
-  stars,
-  rating,
-  currency_symbol,
-  old_price,
-  price,
-  cover_image,
-}: AccountProductCardProps) => {
+  titulo,
+  estrellas,
+  calificacion,
+  simbolo_moneda,
+  precio_anterior,
+  precio,
+  imagen_portada,
+}: listingInterface) => {
   const { t } = useTranslation("AccountProductCard");
 
   return (
     <div className="product-card h-100 p-16 border border-gray-100 hover-border-main-600 rounded-16 position-relative transition-2">
       <div className="product-card__thumb rounded-8 bg-gray-50 position-relative">
         <Link to="/product-details" className="w-100 h-100 flex-center">
-          <img src={cover_image} alt="" className="w-auto max-w-unset" />
+          <img src={imagen_portada} alt="" className="w-auto max-w-unset" />
         </Link>
         <div className="position-absolute inset-block-start-0 inset-inline-start-0 mt-16 ms-16 z-1 d-flex flex-column gap-8">
           <span className="text-main-two-600 w-40 h-40 d-flex justify-content-center align-items-center bg-white rounded-circle shadow-sm text-xs fw-semibold">
@@ -68,7 +59,7 @@ const AccountProductCard = ({
       <div className="product-card__content mt-16 w-100">
         <h6 className="title text-lg fw-semibold my-16">
           <Link to="/product-details" className="link text-line-2" tabIndex={0}>
-            {name}
+            {titulo}
           </Link>
         </h6>
         <div className="flex-align gap-6">
@@ -89,9 +80,9 @@ const AccountProductCard = ({
               <i className="ph-fill ph-star" />
             </span>
           </div>
-          <span className="text-xs fw-medium text-gray-500">{stars}</span>
+          <span className="text-xs fw-medium text-gray-500">{estrellas}</span>
           <span className="text-xs fw-medium text-gray-500">
-            (`${rating}K`)
+            (`${calificacion}K`)
           </span>
         </div>
         <span className="py-2 px-8 text-xs rounded-pill text-main-two-600 bg-main-two-50 mt-16">
@@ -99,12 +90,12 @@ const AccountProductCard = ({
         </span>
         <div className="product-card__price mt-16 mb-30">
           <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
-            {currency_symbol}
-            {old_price}
+            {simbolo_moneda}
+            {precio_anterior}
           </span>
           <span className="text-heading text-md fw-semibold ">
-            {currency_symbol}
-            {price} <span className="text-gray-500 fw-normal"></span>
+            {simbolo_moneda}
+            {precio} <span className="text-gray-500 fw-normal"></span>
           </span>
         </div>
         <Link
