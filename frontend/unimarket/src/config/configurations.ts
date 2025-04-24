@@ -1,4 +1,4 @@
-import constants from "../constants/app";
+import constants from "../constants/app.constants";
 
 export const service = {
   AUTH_SERVICE: import.meta.env.VITE_AUTH_SERVICE,

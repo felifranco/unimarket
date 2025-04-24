@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Language, LANGUAGES } from "../constants/languages";
+import { LANGUAGES } from "../constants/languages.constants";
+import { Language } from "../interfaces/languages.interfaces";
 import { useTranslation } from "react-i18next";
 
 const LanguageList = ({ style = "text-white" }: { style: string }) => {

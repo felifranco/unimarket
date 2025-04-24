@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { listingInterface } from "../interfaces/listings";
+import { listingInterface } from "../interfaces/listings.interfaces";
 
 const AccountProductCard = ({
   titulo,

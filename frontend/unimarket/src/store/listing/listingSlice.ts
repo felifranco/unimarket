@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { service } from "../../config/configurations";
 import { get, post, patch, put, del } from "../../utils/axios.util";
 import { ApiResponse } from "../../utils/apiResponse.util";
-import { listingInterface } from "../../interfaces/listings";
+import { listingInterface } from "../../interfaces/listings.interfaces";
 import { PURGE } from "redux-persist";
 
 const LISTING_SERVICE = service.LISTING_SERVICE;

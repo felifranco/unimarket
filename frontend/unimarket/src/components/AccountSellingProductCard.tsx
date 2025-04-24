@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { listingInterface } from "../interfaces/listings";
+import { listingInterface } from "../interfaces/listings.interfaces";
 
 const AccountSellingProductCard = ({
   titulo,

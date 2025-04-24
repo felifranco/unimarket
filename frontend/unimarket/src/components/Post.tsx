@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { useTranslation } from "react-i18next";
-import { publicationTypes, currenciesTypes } from "../constants/post";
-import { PublicationType, CurrencyType } from "../interfaces/post";
+import { publicationTypes, currenciesTypes } from "../constants/post.constants";
+import { PublicationType, CurrencyType } from "../interfaces/post.interfaces";
 import new_product from "../mocks/new_product.json";
 
 const Post = () => {
@@ -169,6 +169,7 @@ const Post = () => {
                     id="type"
                     name="type"
                     className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
+                    value={publication_type}
                   >
                     {publicationTypes.map((type: PublicationType) => (
                       <option key={type.code} value={type.code}>
@@ -185,6 +186,7 @@ const Post = () => {
                     id="currency"
                     name="currency"
                     className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
+                    value={currency}
                   >
                     {currenciesTypes.map((type: CurrencyType) => (
                       <option key={type.code} value={type.code}>
