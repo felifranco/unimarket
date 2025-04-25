@@ -28,6 +28,8 @@ import AccountSellingProductCardEn from "./en/AccountSellingProductCard.json";
 import AccountSellingProductCardEs from "./es/AccountSellingProductCard.json";
 import PostEn from "./en/Post.json";
 import PostEs from "./es/Post.json";
+import ModalEn from "./en/Modal.json";
+import ModalEs from "./es/Modal.json";
 
 const resources = {
   en: {
@@ -46,6 +48,7 @@ const resources = {
     AccountProductCard: AccountProductCardEn,
     AccountSellingProductCard: AccountSellingProductCardEn,
     Post: PostEn,
+    Modal: ModalEn,
   },
   es: {
     Account: AccountEs,
@@ -63,6 +66,7 @@ const resources = {
     AccountProductCard: AccountProductCardEs,
     AccountSellingProductCard: AccountSellingProductCardEs,
     Post: PostEs,
+    Modal: ModalEs,
   },
 };
 

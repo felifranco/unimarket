@@ -68,7 +68,7 @@ const Account = () => {
                       {t("edit")}
                       <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
                         {" "}
-                        <i className="ph ph-pencil-simple" />
+                        <i className="ph-fill ph-pencil-simple" />
                       </span>
                     </button>
                   </div>

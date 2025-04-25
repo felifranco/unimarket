@@ -47,12 +47,12 @@
         "list": [
           {
             "type": "key-value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": { "key": "Product Type", "value": "Chips & Dips" }
           },
           {
             "type": "key-value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": {
               "key": "Product Name",
               "value": "Potato Chips Classic"
@@ -60,27 +60,27 @@
           },
           {
             "type": "key-value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": { "key": "Brand", "value": "Lay's" }
           },
           {
             "type": "key-value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": { "key": "FSA Eligible", "value": "No" }
           },
           {
             "type": "key-value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": { "key": "Size/Count", "value": "8.0oz" }
           },
           {
             "type": "key-value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": { "key": "Item Code", "value": "331539" }
           },
           {
             "type": "key-value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": {
               "key": "Ingredients",
               "value": "Potatoes, Vegetable Oil, and Salt."
@@ -93,27 +93,27 @@
         "list": [
           {
             "type": "key",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": { "key": "Total Fat 10g 13%" }
           },
           {
             "type": "key",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": { "key": "Saturated Fat 1.5g 7%" }
           },
           {
             "type": "key",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": { "key": "Cholesterol 0mg 0%" }
           },
           {
             "type": "key",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": { "key": "Sodium 170mg 7%" }
           },
           {
             "type": "key",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": { "key": "Potassium 350mg 6%" }
           }
         ]
@@ -123,28 +123,28 @@
         "list": [
           {
             "type": "value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": {
               "value": "Lunarlon midsole delivers ultra-plush responsiveness"
             }
           },
           {
             "type": "value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": {
               "value": "Encapsulated Air-Sole heel unit for lightweight cushioning"
             }
           },
           {
             "type": "value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": {
               "value": "Colour Shown: Ale Brown/Black/Goldtone/Ale Brown"
             }
           },
           {
             "type": "value",
-            "icon": "ph ph-check",
+            "icon": "check",
             "content": {
               "value": "Style: 805899-202"
             }

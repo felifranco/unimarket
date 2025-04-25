@@ -2,9 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { useTranslation } from "react-i18next";
-import { publicationTypes, currenciesTypes } from "../constants/post.constants";
-import { PublicationType, CurrencyType } from "../interfaces/post.interfaces";
+import {
+  publicationTypes,
+  currenciesTypes,
+  icons,
+} from "../constants/post.constants";
+import {
+  PublicationType,
+  CurrencyType,
+  NewProductType,
+} from "../interfaces/post.interfaces";
 import new_product from "../mocks/new_product.json";
+import Modal from "./common/Modal";
 
 const Post = () => {
   const { t } = useTranslation("Post");
@@ -32,8 +41,8 @@ const Post = () => {
     focusOnSelect: true,
   };
 
-  const handleEdit = () => {
-    console.log("Edit button clicked");
+  const handleSaveProductDescription = () => {
+    console.log("handleSaveProductDescription button clicked");
   };
 
   const handleSave = () => {
@@ -92,9 +101,8 @@ const Post = () => {
                       minWidth: "100%",
                     }}
                     rows={2}
-                  >
-                    {title}
-                  </textarea>
+                    defaultValue={title}
+                  />
                 </div>
                 <div className="mb-24">
                   <label className="text-neutral-900 text-lg mb-8 fw-medium">
@@ -106,7 +114,7 @@ const Post = () => {
                     name="sku"
                     placeholder="SKU"
                     className="common-input"
-                    value={"EB4DRP"}
+                    defaultValue={"EB4DRP"}
                   />
                 </div>
                 <div className="mb-24">
@@ -120,9 +128,8 @@ const Post = () => {
                     className="common-input"
                     style={{ minWidth: "100%" }}
                     rows={7}
-                  >
-                    {overview}
-                  </textarea>
+                    defaultValue={overview}
+                  />
                 </div>
                 <div className="mb-24">
                   <label className="text-neutral-900 text-lg mb-8 fw-medium">
@@ -169,7 +176,7 @@ const Post = () => {
                     id="type"
                     name="type"
                     className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
-                    value={publication_type}
+                    defaultValue={publication_type}
                   >
                     {publicationTypes.map((type: PublicationType) => (
                       <option key={type.code} value={type.code}>
@@ -186,7 +193,7 @@ const Post = () => {
                     id="currency"
                     name="currency"
                     className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
-                    value={currency}
+                    defaultValue={currency}
                   >
                     {currenciesTypes.map((type: CurrencyType) => (
                       <option key={type.code} value={type.code}>
@@ -205,7 +212,7 @@ const Post = () => {
                     name="price"
                     placeholder="Precio"
                     className="common-input"
-                    value={price}
+                    defaultValue={price}
                   />
                 </div>
                 <div className="mb-24">
@@ -218,7 +225,7 @@ const Post = () => {
                     name="old_price"
                     placeholder="Precio anterior (opcional)"
                     className="common-input"
-                    value={old_price}
+                    defaultValue={old_price}
                   />
                 </div>
                 <div className="mb-24">
@@ -232,7 +239,7 @@ const Post = () => {
                     placeholder="Cantidad"
                     min={1}
                     className="common-input"
-                    value={stock}
+                    defaultValue={stock}
                   />
                 </div>
                 <Link
@@ -240,7 +247,7 @@ const Post = () => {
                   className="btn btn-main flex-center gap-8 rounded-8 py-16 fw-normal mt-48"
                   onClick={handleSave}
                 >
-                  <i className="ph ph-floppy-disk text-lg" />
+                  <i className="ph-fill ph-floppy-disk text-lg" />
                   {t("save_all")}
                 </Link>
               </div>
@@ -250,13 +257,15 @@ const Post = () => {
         <div className="pt-80">
           <div className="product-dContent border hover-border-main-600 transition-1 rounded-24">
             <div className="product-dContent__header border-bottom border-gray-100 flex-between flex-wrap gap-16 justify-content-end">
-              <Link
-                to="#"
+              <button
+                type="button"
                 className="btn btn-main rounded-16 flex-align gap-8"
-                onClick={handleEdit}
+                data-bs-toggle="modal"
+                data-bs-target="#editProductDescriptionModal"
               >
+                <i className="ph-fill ph-pencil-simple text-lg" />
                 {t("edit")}
-              </Link>
+              </button>
             </div>
             <div className="product-dContent__box">
               <div className="tab-content" id="pills-tabContent">
@@ -286,7 +295,10 @@ const Post = () => {
 
                         case "list":
                           item = (
-                            <ul className="list-inside mt-32 mb-32 ms-16">
+                            <ul
+                              key={index}
+                              className="list-inside mt-32 mb-32 ms-16"
+                            >
                               {paragraph.items?.map((item, pIndex) => (
                                 <li key={pIndex} className="text-gray-400 mb-4">
                                   {item}
@@ -314,7 +326,12 @@ const Post = () => {
                                 className="text-gray-400 mb-14 flex-align gap-14"
                               >
                                 <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                                  <i className={item.icon} />
+                                  <i
+                                    className={
+                                      icons.find(x => x.label == item.icon)
+                                        ?.code
+                                    }
+                                  />
                                 </span>
                                 <span className="text-heading fw-medium">
                                   {"key" in item.content
@@ -342,7 +359,104 @@ const Post = () => {
           </div>
         </div>
       </div>
+      <Modal
+        id="editProductDescriptionModal"
+        title={t("product_description")}
+        Content={<ProductDescription {...product_description} />}
+        size="modal-xl"
+        onSave={handleSaveProductDescription}
+      />
     </section>
+  );
+};
+
+const ProductDescription = ({
+  paragraphs,
+  sections,
+}: NewProductType["product_description"]) => {
+  return (
+    <div className="product-dContent__box">
+      <div className="tab-content" id="pills-tabContent">
+        <div
+          className="tab-pane fade show active"
+          id="pills-description"
+          role="tabpanel"
+          aria-labelledby="pills-description-tab"
+          tabIndex={0}
+        >
+          <div className="mb-40">
+            {paragraphs.map((paragraph, index) => {
+              let item = null;
+              switch (paragraph.type) {
+                case "text":
+                  item = (
+                    <p
+                      key={index}
+                      className="text-gray-400"
+                      style={{ textAlign: "justify" }}
+                    >
+                      {paragraph.text}
+                    </p>
+                  );
+                  break;
+
+                case "list":
+                  item = (
+                    <ul key={index} className="list-inside mt-32 mb-32 ms-16">
+                      {paragraph.items?.map((item, pIndex) => (
+                        <li key={pIndex} className="text-gray-400 mb-4">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  );
+                  break;
+
+                default:
+                  break;
+              }
+              return item;
+            })}
+          </div>
+          {sections.map((section, secIndex) => {
+            return (
+              <div key={secIndex} className="mb-40">
+                <h6 className="mb-24">{section.title}</h6>
+                <ul className="mt-32">
+                  {section.list.map((item, isecIndex) => {
+                    return (
+                      <li
+                        key={isecIndex}
+                        className="text-gray-400 mb-14 flex-align gap-14"
+                      >
+                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
+                          <i
+                            className={
+                              icons.find(x => x.label == item.icon)?.code
+                            }
+                          />
+                        </span>
+                        <span className="text-heading fw-medium">
+                          {"key" in item.content ? item.content.key : ""}
+                          <span className="text-gray-500">
+                            {" "}
+                            {"value" in item.content
+                              ? item.type == "key-value"
+                                ? `: ${item.content.value}`
+                                : item.content.value
+                              : ""}
+                          </span>
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 };
 

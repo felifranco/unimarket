@@ -9,3 +9,9 @@ export const currenciesTypes = [
   { code: "USD", label: "United States Dollar", symbol: "$" },
   { code: "GTQ", label: "Guatemalan Quetzal", symbol: "Q" },
 ];
+
+export const icons = [
+  { code: "ph ph-check", label: "check" },
+  { code: "ph ph-x", label: "x" },
+  { code: "ph ph-warning", label: "warning" },
+];
