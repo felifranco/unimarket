@@ -1,17 +1,46 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { listingInterface } from "../interfaces/listings.interfaces";
+import Modal from "./common/Modal";
+import Post from "./Post";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import {
+  fetchListingById,
+  fetchMyListings,
+  deleteListing,
+} from "../store/listing/listingSlice";
 
-const AccountProductCard = ({
-  titulo,
-  estrellas,
-  calificacion,
-  simbolo_moneda,
-  precio_anterior,
-  precio,
-  imagen_portada,
-}: listingInterface) => {
+const AccountProductCard = (Product: listingInterface) => {
   const { t } = useTranslation("AccountProductCard");
+
+  const dispatch = useAppDispatch();
+
+  const {
+    id_publicacion,
+    titulo,
+    estrellas,
+    calificacion,
+    simbolo_moneda,
+    precio_anterior,
+    precio,
+    imagen_portada,
+  } = Product;
+
+  const token = useAppSelector(state => state.auth.token);
+  const id_usuario = useAppSelector(state => state.auth.id_usuario);
+
+  const handleEdit = async () => {
+    if (token && id_publicacion) {
+      await dispatch(fetchListingById({ token, id: id_publicacion }));
+    }
+  };
+
+  const handleDelete = async () => {
+    if (token && id_publicacion) {
+      await dispatch(deleteListing({ token, id: id_publicacion }));
+      dispatch(fetchMyListings({ token, id_usuario }));
+    }
+  };
 
   return (
     <div className="product-card h-100 p-16 border border-gray-100 hover-border-main-600 rounded-16 position-relative transition-2">
@@ -19,42 +48,6 @@ const AccountProductCard = ({
         <Link to="/product-details" className="w-100 h-100 flex-center">
           <img src={imagen_portada} alt="" className="w-auto max-w-unset" />
         </Link>
-        <div className="position-absolute inset-block-start-0 inset-inline-start-0 mt-16 ms-16 z-1 d-flex flex-column gap-8">
-          <span className="text-main-two-600 w-40 h-40 d-flex justify-content-center align-items-center bg-white rounded-circle shadow-sm text-xs fw-semibold">
-            -29%
-          </span>
-          <span className="text-neutral-600 w-40 h-40 d-flex justify-content-center align-items-center bg-white rounded-circle shadow-sm text-xs fw-semibold">
-            {t("hot")}
-          </span>
-        </div>
-        <div className="group bg-white p-2 rounded-pill z-1 position-absolute inset-inline-end-0 inset-block-start-0 me-16 mt-16 shadow-sm">
-          <button
-            type="button"
-            className="expand-btn w-40 h-40 text-md d-flex justify-content-center align-items-center rounded-circle hover-bg-main-two-600 hover-text-white"
-          >
-            <i className="ph ph-plus" />
-          </button>
-          <div className="expand-icons gap-20 my-20">
-            <button
-              type="button"
-              className="text-neutral-600 text-xl flex-center hover-text-main-two-600 wishlist-btn"
-            >
-              <i className="ph ph-heart" />
-            </button>
-            <button
-              type="button"
-              className="text-neutral-600 text-xl flex-center hover-text-main-two-600"
-            >
-              <i className="ph ph-eye" />
-            </button>
-            <button
-              type="button"
-              className="text-neutral-600 text-xl flex-center hover-text-main-two-600"
-            >
-              <i className="ph ph-shuffle" />
-            </button>
-          </div>
-        </div>
       </div>
       <div className="product-card__content mt-16 w-100">
         <h6 className="title text-lg fw-semibold my-16">
@@ -85,9 +78,6 @@ const AccountProductCard = ({
             (`${calificacion}K`)
           </span>
         </div>
-        <span className="py-2 px-8 text-xs rounded-pill text-main-two-600 bg-main-two-50 mt-16">
-          {t("fullfilled_by_unimarket")}
-        </span>
         <div className="product-card__price mt-16 mb-30">
           <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
             {simbolo_moneda}
@@ -98,14 +88,34 @@ const AccountProductCard = ({
             {precio} <span className="text-gray-500 fw-normal"></span>
           </span>
         </div>
-        <Link
-          to="/cart"
-          className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
-          tabIndex={0}
-        >
-          {t("add_to_cart")} <i className="ph ph-shopping-cart" />
-        </Link>
+        <div className="d-flex flex-row justify-content-center">
+          <button
+            type="button"
+            className="btn text-main-600 hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 rounded-16 flex-align ms-4 me-4"
+            data-bs-toggle="modal"
+            data-bs-target="#editPublication"
+            onClick={handleEdit}
+          >
+            <i className="ph-fill ph-pencil-simple text-lg" />
+            {t("edit")}
+          </button>
+          <button
+            type="button"
+            className="btn text-main-600 hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 rounded-16 flex-align ms-4 me-4"
+            onClick={handleDelete}
+          >
+            <i className="ph-fill ph-trash-simple text-lg" />
+            {t("delete")}
+          </button>
+        </div>
       </div>
+
+      <Modal
+        title="Editar Publicación"
+        Content={<Post {...Product} />}
+        size="modal-fullscreen"
+        id="editPublication"
+      />
     </div>
   );
 };

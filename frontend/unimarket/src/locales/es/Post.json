@@ -2,8 +2,9 @@
   "title": "Título",
   "overview": "Descripción general",
   "colours": "Colores",
+  "location": "Ubicación",
   "publication_type": "Tipo de publicacion",
-  "currency": "Moneda",
+  "currency_symbol": "Moneda",
   "price": "Precio",
   "old_price": "Precio anterior",
   "stock": "Existencias",
@@ -14,6 +15,10 @@
   "delete_section": "Eliminar sección",
   "add_section": "Agregar sección",
   "product_description": "Descripción del producto",
+  "badge": "Insignia",
+  "badge_types": {
+    "new": "Nuevo"
+  },
   "currency_types": {
     "USD": "Dólar estadounidense",
     "GTQ": "Quetzal guatemalteco"
@@ -23,5 +28,7 @@
     "exchange": "Intercambio",
     "donation": "Donación",
     "rent": "Alquiler"
-  }
+  },
+  "publication_date": "Publicado el",
+  "last_updated": "Última actualización el"
 }

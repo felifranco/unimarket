@@ -5,13 +5,19 @@ export class CreateListingDto {
   id_usuario: number;
 
   @ApiProperty()
-  tipo: string;
+  tipo_publicacion: string;
 
   @ApiProperty()
   titulo: string;
 
   @ApiProperty()
-  descripcion: string;
+  descripcion_general: string;
+
+  @ApiProperty()
+  sku: string;
+
+  @ApiProperty()
+  categorias: string;
 
   @ApiProperty()
   ubicacion: string;
@@ -30,6 +36,9 @@ export class CreateListingDto {
 
   @ApiProperty()
   existencias: number;
+
+  @ApiProperty()
+  descripcion_producto: string;
 
   @ApiProperty()
   simbolo_moneda: string;

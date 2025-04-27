@@ -4,13 +4,19 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateListingDto extends PartialType(CreateListingDto) {
   @ApiProperty()
-  tipo: string;
+  tipo_publicacion: string;
 
   @ApiProperty()
   titulo: string;
 
   @ApiProperty()
-  descripcion: string;
+  descripcion_general: string;
+
+  @ApiProperty()
+  sku: string;
+
+  @ApiProperty()
+  categorias: string;
 
   @ApiProperty()
   ubicacion: string;
@@ -29,6 +35,9 @@ export class UpdateListingDto extends PartialType(CreateListingDto) {
 
   @ApiProperty()
   existencias: number;
+
+  @ApiProperty()
+  descripcion_producto: string;
 
   @ApiProperty()
   simbolo_moneda: string;

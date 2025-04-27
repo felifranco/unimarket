@@ -2,8 +2,9 @@
   "title": "Title",
   "overview": "Overview",
   "colours": "Colours",
+  "location": "Location",
   "publication_type": "Publication type",
-  "currency": "Currency",
+  "currency_symbol": "Currency",
   "price": "Price",
   "old_price": "Old price",
   "stock": "Stock",
@@ -14,6 +15,10 @@
   "delete_section": "Delete section",
   "add_section": "Add section",
   "product_description": "Product description",
+  "badge": "Badge",
+  "badge_types": {
+    "new": "Nuevo"
+  },
   "currency_types": {
     "USD": "United States Dollar",
     "GTQ": "Guatemalan Quetzal"
@@ -23,5 +28,7 @@
     "exchange": "Exchange",
     "donation": "Donation",
     "rent": "Rent"
-  }
+  },
+  "publication_date": "Published on",
+  "last_updated": "Last updated on"
 }

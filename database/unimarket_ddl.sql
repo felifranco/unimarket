@@ -1,6 +1,6 @@
 
 CREATE TABLE public.usuario (
-	id_usuario bigserial NOT NULL PRIMARY KEY,
+	id_usuario int NOT NULL,
 	nombre_completo varchar NOT NULL,
 	correo varchar NOT NULL,
 	username varchar NOT NULL,
@@ -8,21 +8,25 @@ CREATE TABLE public.usuario (
 	rol varchar NULL,
 	estado varchar NULL,
 	fecha_creacion timestamp NULL,
-	fecha_modificacion timestamp NULL
+	fecha_modificacion timestamp NULL,
+	CONSTRAINT usuario_pk PRIMARY KEY (id_usuario)
 );
 
 CREATE TABLE public.publicacion (
-	id_publicacion bigserial NOT NULL PRIMARY KEY,
+	id_publicacion int NOT NULL,
 	id_usuario int NOT NULL,
-	tipo varchar NULL,
+	tipo_publicacion varchar NULL,
 	titulo varchar NOT NULL,
-	descripcion varchar NOT NULL,
+	descripcion_general varchar NOT NULL,
+	sku varchar NULL,
+	categorias varchar NULL,
 	ubicacion varchar NULL,
 	estado varchar NULL,
 	estrellas numeric NULL,
 	calificacion numeric NULL,
 	vendidos numeric NULL,
 	existencias numeric NULL,
+	descripcion_producto varchar NULL,
 	simbolo_moneda varchar NULL,
 	precio_anterior numeric NULL,
 	precio numeric NULL,
@@ -31,6 +35,7 @@ CREATE TABLE public.publicacion (
 	imagen_portada varchar NULL,
 	fecha_creacion timestamp NULL,
 	fecha_modificacion timestamp NULL,
+	CONSTRAINT publicacion_pk PRIMARY KEY (id_publicacion),
 	CONSTRAINT publicacion_usuario_fk FOREIGN KEY (id_usuario) REFERENCES public.usuario(id_usuario) ON DELETE RESTRICT
 );
 

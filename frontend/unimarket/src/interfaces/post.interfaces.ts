@@ -9,6 +9,11 @@ export interface CurrencyType {
   symbol: string;
 }
 
+export interface BadgeType {
+  code: string;
+  label: string;
+}
+
 export interface NewProductType {
   title: string;
   overview: string;

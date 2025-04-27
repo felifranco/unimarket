@@ -63,7 +63,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
 
   const ProfileOption = () => {
     const name = first_name ? first_name : t("log_in");
-    const icon = first_name ? "ph-fill ph-user-check" : "ph ph-user";
+    const icon = "ph-fill ph-user"; //first_name ? "ph-fill ph-user-check" : "ph ph-user";
     const color = first_name ? "text-main-two-600" : "text-white";
     const to = first_name ? "/account" : "/login";
     return (

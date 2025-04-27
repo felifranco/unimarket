@@ -15,13 +15,19 @@ export class Listing {
   id_usuario: number;
 
   @Column({ nullable: true })
-  tipo: string;
+  tipo_publicacion: string;
 
   @Column()
   titulo: string;
 
   @Column()
-  descripcion: string;
+  descripcion_general: string;
+
+  @Column({ nullable: true })
+  sku: string;
+
+  @Column({ nullable: true })
+  categorias: string;
 
   @Column({ nullable: true })
   ubicacion: string;
@@ -29,22 +35,25 @@ export class Listing {
   @Column({ nullable: true })
   estado: string;
 
-  @Column({ type: 'numeric', precision: 10, scale: 2 })
+  @Column({ type: 'numeric', precision: 10, scale: 2, default: 0 })
   estrellas: number;
 
-  @Column({ type: 'numeric', precision: 10, scale: 2 })
+  @Column({ type: 'numeric', precision: 10, scale: 2, default: 0 })
   calificacion: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: 0 })
   vendidos: number;
 
   @Column({ nullable: true })
   existencias: number;
 
   @Column({ nullable: true })
+  descripcion_producto: string;
+
+  @Column({ nullable: true })
   simbolo_moneda: string;
 
-  @Column({ type: 'numeric', precision: 10, scale: 2 })
+  @Column({ type: 'numeric', precision: 10, scale: 2, default: 0 })
   precio_anterior: number;
 
   @Column({ type: 'numeric', precision: 10, scale: 2 })
@@ -64,7 +73,4 @@ export class Listing {
 
   @UpdateDateColumn({ type: 'timestamptz' })
   fecha_modificacion: Date;
-
-  //@Column()
-  //categoria: string;
 }

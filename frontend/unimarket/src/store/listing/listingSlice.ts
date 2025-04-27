@@ -12,14 +12,37 @@ const endpoint = "listings";
 interface ListingState {
   listings: Array<listingInterface> | [];
   myListings: Array<listingInterface> | [];
-  listing: listingInterface | object;
+  listing: listingInterface;
   loading: boolean;
   error: string | null;
 }
 const initialState: ListingState = {
   listings: [],
   myListings: [],
-  listing: {},
+  listing: {
+    id_publicacion: -1,
+    id_usuario: -1,
+    tipo_publicacion: undefined,
+    titulo: undefined,
+    descripcion_general: undefined,
+    sku: undefined,
+    categorias: undefined,
+    ubicacion: undefined,
+    estado: undefined,
+    estrellas: -1,
+    calificacion: -1,
+    vendidos: -1,
+    existencias: -1,
+    descripcion_producto: undefined,
+    simbolo_moneda: undefined,
+    precio_anterior: 0,
+    precio: -1,
+    insignia: undefined,
+    imagenes: undefined,
+    imagen_portada: undefined,
+    fecha_creacion: new Date(),
+    fecha_modificacion: new Date(),
+  },
   loading: false,
   error: null,
 };
@@ -36,11 +59,11 @@ export const fetchListings = createAsyncThunk(
 
 export const fetchMyListings = createAsyncThunk(
   "listings/fetchMyListings",
-  async (data: { token: string; id_usuario: number }) => {
+  async ({ token, id_usuario }: { token: string; id_usuario: number }) => {
     const response = await get(
-      `${LISTING_SERVICE}/${endpoint}/user/${data.id_usuario}`,
+      `${LISTING_SERVICE}/${endpoint}/user/${id_usuario}`,
       {
-        Authorization: `Bearer ${data.token}`,
+        Authorization: `Bearer ${token}`,
       },
     );
     return response;
@@ -49,9 +72,9 @@ export const fetchMyListings = createAsyncThunk(
 
 export const fetchListingById = createAsyncThunk(
   "listings/fetchListingById",
-  async (data: { token: string; id: number }) => {
-    const response = await get(`${LISTING_SERVICE}/${endpoint}/${data.id}`, {
-      Authorization: `Bearer ${data.token}`,
+  async ({ token, id }: { token: string; id: number }) => {
+    const response = await get(`${LISTING_SERVICE}/${endpoint}/${id}`, {
+      Authorization: `Bearer ${token}`,
     });
     return response;
   },
@@ -59,26 +82,22 @@ export const fetchListingById = createAsyncThunk(
 
 export const createListing = createAsyncThunk(
   "listings/createListing",
-  async (data: { token: string; listing: listingInterface }) => {
-    const response = await post(
-      `${LISTING_SERVICE}/${endpoint}`,
-      data.listing,
-      {
-        Authorization: `Bearer ${data.token}`,
-      },
-    );
+  async ({ token, listing }: { token: string; listing: listingInterface }) => {
+    const response = await post(`${LISTING_SERVICE}/${endpoint}`, listing, {
+      Authorization: `Bearer ${token}`,
+    });
     return response;
   },
 );
 
 export const updateListing = createAsyncThunk(
   "listings/updateListing",
-  async (data: { token: string; listing: listingInterface }) => {
+  async ({ token, listing }: { token: string; listing: listingInterface }) => {
     const response = await put(
-      `${LISTING_SERVICE}/${endpoint}/${data.listing.id_publicacion}`,
-      data.listing,
+      `${LISTING_SERVICE}/${endpoint}/${listing.id_publicacion}`,
+      listing,
       {
-        Authorization: `Bearer ${data.token}`,
+        Authorization: `Bearer ${token}`,
       },
     );
     return response;
@@ -87,12 +106,12 @@ export const updateListing = createAsyncThunk(
 
 export const patchListing = createAsyncThunk(
   "listings/patchListing",
-  async (data: { token: string; listing: listingInterface }) => {
+  async ({ token, listing }: { token: string; listing: listingInterface }) => {
     const response = await patch(
-      `${LISTING_SERVICE}/${endpoint}/${data.listing.id_publicacion}`,
-      data.listing,
+      `${LISTING_SERVICE}/${endpoint}/${listing.id_publicacion}`,
+      listing,
       {
-        Authorization: `Bearer ${data.token}`,
+        Authorization: `Bearer ${token}`,
       },
     );
     return response;
@@ -101,10 +120,11 @@ export const patchListing = createAsyncThunk(
 
 export const deleteListing = createAsyncThunk(
   "listings/deleteListing",
-  async (data: { token: string; id: number }) => {
-    const response = await del(`${LISTING_SERVICE}/${endpoint}/${data.id}`, {
-      Authorization: `Bearer ${data.token}`,
+  async ({ token, id }: { token: string; id: number }) => {
+    const response = await del(`${LISTING_SERVICE}/${endpoint}/${id}`, {
+      Authorization: `Bearer ${token}`,
     });
+
     return response;
   },
 );
@@ -194,16 +214,19 @@ export const listingSlice = createSlice({
           }
         },
       )
-      // Delete listing
+      // Patch listing
       .addCase(
-        deleteListing.fulfilled,
+        patchListing.fulfilled,
         (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          const response = action.payload as ApiResponse<any>;
-          state.listings = state.listings.filter(
-            listing => listing.id !== response.data.id,
-          );
+          const response = action.payload as ApiResponse<listingInterface>;
+          state.listing = response.data || {};
         },
       )
+      // Delete listing
+      .addCase(deleteListing.fulfilled, (state /*action*/) => {
+        //const response = action.payload as ApiResponse<listingInterface>;
+        state.listings = [];
+      })
 
       .addCase(PURGE, () => initialState);
   },

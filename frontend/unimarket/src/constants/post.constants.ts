@@ -10,6 +10,8 @@ export const currenciesTypes = [
   { code: "GTQ", label: "Guatemalan Quetzal", symbol: "Q" },
 ];
 
+export const badgeTypes = [{ code: "new", label: "New" }];
+
 export const icons = [
   { code: "ph ph-check", label: "check" },
   { code: "ph ph-x", label: "x" },

@@ -4,7 +4,7 @@ interface ModalProps {
   title: string;
   Content: React.ReactNode;
   id: string;
-  size: "modal-fullscreen" | "modal-xl" | "modal-lg" | "modal-sm";
+  size?: "modal-fullscreen" | "modal-xl" | "modal-lg" | "modal-sm";
   onClose?: () => void;
   onAccept?: () => void;
   onCancel?: () => void;

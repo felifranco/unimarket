@@ -1,11 +1,19 @@
 {
-  "title": "HP Chromebook With Intel Celeron, 4GB Memory & 64GB eMMC- Modern Gray",
-  "overview": "Geared up and ready to roll: Get the responsive performance you're looking for with an Intel processor and 64 GB eMMC storage. Stay productive with compatible apps like Microsoft Office, Google Workspace, and more. The Chrome OS gives you a fast, simple, and secure online experience with built-in virus protection.",
-  "publication_type": "exchange",
-  "currency": "USD",
-  "price": 320.99,
-  "old_price": 320.99,
-  "stock": 15,
+  "id_usuario": 1,
+  "titulo": "HP Chromebook With Intel Celeron, 4GB Memory & 64GB eMMC- Modern Gray",
+  "descripcion_general": "Geared up and ready to roll: Get the responsive performance you're looking for with an Intel processor and 64 GB eMMC storage. Stay productive with compatible apps like Microsoft Office, Google Workspace, and more. The Chrome OS gives you a fast, simple, and secure online experience with built-in virus protection.",
+  "tipo_publicacion": "exchange",
+  "simbolo_moneda": "USD",
+  "precio": 320.99,
+  "precio_anterior": 320.99,
+  "ubicacion": "Ciudad de Guatemala",
+  "estado": "activa",
+  "estrellas": 4.9,
+  "calificacion": 4.5,
+  "vendidos": 17,
+  "insignia": "Nuevo",
+  "existencias": 30,
+  "imagen_portada": "assets/images/thumbs/product-details-two-thumb1.png",
   "images": [
     "assets/images/thumbs/product-details-two-thumb1.png",
     "assets/images/thumbs/product-details-two-thumb2.png",
@@ -13,7 +21,7 @@
     "assets/images/thumbs/product-details-two-thumb1.png",
     "assets/images/thumbs/product-details-two-thumb2.png"
   ],
-  "product_description": {
+  "descripcion_producto_example": {
     "paragraphs": [
       {
         "type": "text",
@@ -152,5 +160,6 @@
         ]
       }
     ]
-  }
+  },
+  "descripcion_producto": "{\"paragraphs\":[{\"type\":\"text\",\"text\":\"Párrafo\"},{\"type\":\"list\",\"items\":[\"item1\",\"item2\"]}],\"sections\":[{\"title\":\"Product Specifications\",\"list\":[{\"type\":\"key-value\",\"icon\":\"check\",\"content\":{\"key\":\"Product Type\",\"value\":\"Chips & Dips\"}}]},{\"title\":\"Nutrition Facts\",\"list\":[{\"type\":\"key\",\"icon\":\"check\",\"content\":{\"key\":\"Total Fat 10g 13%\"}}]},{\"title\":\"More Details\",\"list\":[{\"type\":\"value\",\"icon\":\"check\",\"content\":{\"value\":\"Lunarlon midsole delivers ultra-plush responsiveness\"}}]}]}"
 }
