@@ -35,14 +35,14 @@ export class ReviewsController {
     return this.reviewsService.findAllByListing(+id);
   }
 
-  @Get('like/:id')
+  @Patch('like/:id')
   @ApiResponse({ status: 201, description: 'Operación exitosa.' })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
   likeReview(@Param('id') id: string) {
     return this.reviewsService.likeReview(+id);
   }
 
-  @Get('unlike/:id')
+  @Patch('unlike/:id')
   @ApiResponse({ status: 201, description: 'Operación exitosa.' })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
   unlikeReview(@Param('id') id: string) {
