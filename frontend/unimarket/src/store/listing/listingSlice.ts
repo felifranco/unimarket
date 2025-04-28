@@ -21,7 +21,7 @@ const initialState: ListingState = {
   myListings: [],
   listing: {
     id_publicacion: -1,
-    id_usuario: -1,
+    id_usuario: 0,
     tipo_publicacion: undefined,
     titulo: undefined,
     descripcion_general: undefined,
@@ -134,7 +134,7 @@ export const listingSlice = createSlice({
   initialState,
   reducers: {
     clearListing: state => {
-      state.listing = {};
+      state.listing = <listingInterface>{};
     },
   },
   extraReducers: builder => {
@@ -145,10 +145,7 @@ export const listingSlice = createSlice({
       })
       .addCase(
         fetchListings.fulfilled,
-        (
-          state,
-          action: PayloadAction<ApiResponse<Array<listingInterface>>>,
-        ) => {
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
           const response = action.payload as ApiResponse<
             Array<listingInterface>
           >;
@@ -168,10 +165,7 @@ export const listingSlice = createSlice({
       })
       .addCase(
         fetchMyListings.fulfilled,
-        (
-          state,
-          action: PayloadAction<ApiResponse<Array<listingInterface>>>,
-        ) => {
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
           const response = action.payload as ApiResponse<
             Array<listingInterface>
           >;
@@ -190,7 +184,7 @@ export const listingSlice = createSlice({
         fetchListingById.fulfilled,
         (state, action: PayloadAction<ApiResponse<unknown>>) => {
           const response = action.payload as ApiResponse<listingInterface>;
-          state.listing = response.data || {};
+          state.listing = response.data || <listingInterface>{};
         },
       )
       // Create listing
@@ -198,30 +192,17 @@ export const listingSlice = createSlice({
         createListing.fulfilled,
         (state, action: PayloadAction<ApiResponse<unknown>>) => {
           const response = action.payload as ApiResponse<listingInterface>;
-          state.listings.push(response.data);
-        },
-      )
-      // Update listing
-      .addCase(
-        updateListing.fulfilled,
-        (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          const response = action.payload as ApiResponse<listingInterface>;
-          const index = state.listings.findIndex(
-            listing => listing.id === response.data.id,
-          );
-          if (index !== -1) {
-            state.listings[index] = response.data;
-          }
+          state.listing = response.data || <listingInterface>{};
         },
       )
       // Patch listing
-      .addCase(
-        patchListing.fulfilled,
-        (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          const response = action.payload as ApiResponse<listingInterface>;
-          state.listing = response.data || {};
-        },
-      )
+      //.addCase(
+      //  patchListing.fulfilled,
+      //  (state, action: PayloadAction<ApiResponse<listingInterface>>) => {
+      //    const response = action.payload;
+      //    state.listing = response.data || <listingInterface>{};
+      //  },
+      //)
       // Delete listing
       .addCase(deleteListing.fulfilled, (state /*action*/) => {
         //const response = action.payload as ApiResponse<listingInterface>;

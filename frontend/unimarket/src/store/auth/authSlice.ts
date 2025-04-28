@@ -10,7 +10,7 @@ const endpoint = "auth";
 
 interface AuthState {
   token: string | null;
-  id_usuario?: number;
+  id_usuario: number;
   correo?: string;
   nombre_completo?: string;
   first_name?: string;
@@ -19,7 +19,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   token: null,
-  id_usuario: undefined,
+  id_usuario: 0,
   correo: undefined,
   nombre_completo: undefined,
   first_name: undefined,
@@ -88,62 +88,60 @@ export const authSlice = createSlice({
   },
   extraReducers: builder => {
     //LOGIN
-    builder
-      .addCase(
-        login.fulfilled,
-        (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          const response = action.payload as ApiResponse<{
-            access_token: string;
-          }>;
-          state.token = response.data?.access_token || null;
-          console.log("Login successful:", action.payload);
-        },
-      )
-      .addCase(login.rejected, (state, action) => {
-        console.error("Login failed:", action, action.error.message);
-      });
+    builder.addCase(
+      login.fulfilled,
+      (state, action: PayloadAction<ApiResponse<unknown>>) => {
+        const response = action.payload as ApiResponse<{
+          access_token: string;
+        }>;
+        state.token = response.data?.access_token || null;
+        console.log("Login successful:", action.payload);
+      },
+    );
+    //.addCase(login.rejected, (state, action) => {
+    //  console.error("Login failed:", action, action.error.message);
+    //});
 
     //REGISTER
-    builder
-      .addCase(
-        register.fulfilled,
-        (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          console.log("Register successful:", action.payload);
-        },
-      )
-      .addCase(register.rejected, (state, action) => {
-        console.error("Register failed 1:", action);
-        console.error("Register failed 2:", action.error.message);
-      });
+    builder.addCase(
+      register.fulfilled,
+      (state, action: PayloadAction<ApiResponse<unknown>>) => {
+        console.log("Register successful:", state, action.payload);
+      },
+    );
+    //.addCase(register.rejected, (state, action) => {
+    //  console.error("Register failed 1:", action);
+    //  console.error("Register failed 2:", action.error.message);
+    //});
 
     //ME
-    builder
-      .addCase(
-        me.fulfilled,
-        (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          const response = action.payload as ApiResponse<{
-            id_usuario: number;
-            correo: string;
-            nombre_completo: string;
-            username: string;
-          }>;
-          state.id_usuario = response.data?.id_usuario || undefined;
-          state.correo = response.data?.correo || undefined;
-          state.nombre_completo = response.data?.nombre_completo || undefined;
-          state.first_name =
-            response.data?.nombre_completo.split(" ")[0] || undefined;
-          state.username = response.data?.username || undefined;
-          console.log("Me successful:", action.payload);
-        },
-      )
-      .addCase(me.rejected, (state, action) => {
-        console.error("Me failed:", action);
-        console.error("Me failed:", action.error.message);
-      });
+    builder.addCase(
+      me.fulfilled,
+      (state, action: PayloadAction<ApiResponse<unknown>>) => {
+        const response = action.payload as ApiResponse<{
+          id_usuario: number;
+          correo: string;
+          nombre_completo: string;
+          username: string;
+        }>;
+        state.id_usuario = response.data?.id_usuario || 0;
+        state.correo = response.data?.correo || undefined;
+        state.nombre_completo = response.data?.nombre_completo || undefined;
+        state.first_name =
+          response.data?.nombre_completo.split(" ")[0] || undefined;
+        state.username = response.data?.username || undefined;
+        console.log("Me successful:", action.payload);
+      },
+    );
+    //.addCase(me.rejected, (state, action) => {
+    //  console.error("Me failed:", action);
+    //  console.error("Me failed:", action.error.message);
+    //});
 
     //LOGOUT
     builder.addCase(PURGE, state => {
-      return initialState;
+      state = initialState;
+      return state;
     });
   },
 });

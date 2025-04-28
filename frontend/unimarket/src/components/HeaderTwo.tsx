@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../hooks";
-import $ from "jquery";
-import select2 from "select2";
+//import $ from "jquery";
+//import select2 from "select2";
 import { Link, NavLink } from "react-router-dom";
 import LanguageList from "./LanguageList";
 import { useTranslation } from "react-i18next";
 import { categories } from "../mocks/categories.json";
 import { persistor } from "../store";
 
-select2($);
+//select2($);
 
 const HeaderTwo = ({ category }: { category: boolean }) => {
   const { t } = useTranslation("HeaderTwo");
@@ -25,14 +25,14 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
       }
       return () => (window.onscroll = null);
     };
-    const selectElement = $(".js-example-basic-single");
-    selectElement.select2();
-
-    return () => {
-      if (selectElement.data("select2")) {
-        selectElement.select2("destroy");
-      }
-    };
+    //const selectElement = $(".js-example-basic-single");
+    //selectElement.select2();
+    //
+    //return () => {
+    //  if (selectElement.data("select2")) {
+    //    selectElement.select2("destroy");
+    //  }
+    //};
   }, []);
 
   // Mobile menu support
