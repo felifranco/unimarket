@@ -36,7 +36,7 @@ const Post = (Product: listingInterface) => {
   const descripcion_producto = JSON.parse(descripcion_producto_text);
   //console.log("descripcion_producto", descripcion_producto_text, descripcion_producto);
 
-  const [productData, setProductData] = useState(Product);
+  const [productData, setProductData] = useState<listingInterface>(Product);
   const [mainImage, setMainImage] = useState(images[0]);
 
   const {
@@ -90,20 +90,57 @@ const Post = (Product: listingInterface) => {
       ubicacion,
       tipo_publicacion,
       simbolo_moneda,
-      precio,
-      precio_anterior,
-      existencias,
+      precio: +precio,
+      precio_anterior: +precio_anterior,
+      existencias: +existencias,
       insignia,
     };
 
     if (token && id_usuario) {
       if (id_publicacion) {
         await dispatch(
-          patchListing({ token, listing: { ...data, id_publicacion } }),
+          patchListing({
+            token,
+            listing: {
+              ...data,
+              id_publicacion,
+              categorias: productData.categorias || "",
+              estado: productData.estado || "",
+              estrellas: productData.estrellas || 0,
+              calificacion: productData.calificacion || 0,
+              vendidos: productData.vendidos || 0,
+              descripcion_producto: productData.descripcion_producto || "",
+              imagenes: productData.imagenes || "",
+              imagen_portada: productData.imagen_portada || "",
+              fecha_creacion:
+                productData.fecha_creacion || new Date().toISOString(),
+              fecha_modificacion:
+                productData.fecha_modificacion || new Date().toISOString(),
+            },
+          }),
         );
         //dispatch(fetchMyListings({ token, id_usuario }));
       } else {
-        dispatch(createListing({ token, listing: data }));
+        dispatch(
+          createListing({
+            token,
+            listing: {
+              ...data,
+              categorias: productData.categorias || "",
+              estado: productData.estado || "",
+              estrellas: productData.estrellas || 0,
+              calificacion: productData.calificacion || 0,
+              vendidos: productData.vendidos || 0,
+              descripcion_producto: productData.descripcion_producto || "",
+              imagenes: productData.imagenes || "",
+              imagen_portada: productData.imagen_portada || "",
+              fecha_creacion:
+                productData.fecha_creacion || new Date().toISOString(),
+              fecha_modificacion:
+                productData.fecha_modificacion || new Date().toISOString(),
+            },
+          }),
+        );
       }
     }
   };
@@ -410,7 +447,14 @@ const Post = (Product: listingInterface) => {
                     <div className="mb-40">
                       <h6 className="mb-24">{t("product_description")}</h6>
                       {descripcion_producto.paragraphs.map(
-                        (paragraph, index) => {
+                        (
+                          paragraph: {
+                            type: string;
+                            text?: string;
+                            items?: string[];
+                          },
+                          index: number,
+                        ) => {
                           let item = null;
                           switch (paragraph.type) {
                             case "text":
@@ -450,45 +494,67 @@ const Post = (Product: listingInterface) => {
                         },
                       )}
                     </div>
-                    {descripcion_producto.sections.map((section, secIndex) => {
-                      return (
-                        <div key={secIndex} className="mb-40">
-                          <h6 className="mb-24">{section.title}</h6>
-                          <ul className="mt-32">
-                            {section.list.map((item, isecIndex) => {
-                              return (
-                                <li
-                                  key={isecIndex}
-                                  className="text-gray-400 mb-14 flex-align gap-14"
-                                >
-                                  <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                                    <i
-                                      className={
-                                        icons.find(x => x.label == item.icon)
-                                          ?.code
-                                      }
-                                    />
-                                  </span>
-                                  <span className="text-heading fw-medium">
-                                    {"key" in item.content
-                                      ? item.content.key
-                                      : ""}
-                                    <span className="text-gray-500">
-                                      {" "}
-                                      {"value" in item.content
-                                        ? item.type == "key-value"
-                                          ? `: ${item.content.value}`
-                                          : item.content.value
-                                        : ""}
-                                    </span>
-                                  </span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      );
-                    })}
+                    {descripcion_producto.sections.map(
+                      (
+                        section: {
+                          title: string;
+                          list: Array<{
+                            type: string;
+                            icon: string;
+                            content: { key?: string; value?: string };
+                          }>;
+                        },
+                        secIndex: number,
+                      ) => {
+                        return (
+                          <div key={secIndex} className="mb-40">
+                            <h6 className="mb-24">{section.title}</h6>
+                            <ul className="mt-32">
+                              {section.list.map(
+                                (
+                                  item: {
+                                    type: string;
+                                    icon: string;
+                                    content: { key?: string; value?: string };
+                                  },
+                                  isecIndex: number,
+                                ) => {
+                                  return (
+                                    <li
+                                      key={isecIndex}
+                                      className="text-gray-400 mb-14 flex-align gap-14"
+                                    >
+                                      <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
+                                        <i
+                                          className={
+                                            icons.find(
+                                              x => x.label == item.icon,
+                                            )?.code
+                                          }
+                                        />
+                                      </span>
+                                      <span className="text-heading fw-medium">
+                                        {"key" in item.content
+                                          ? item.content.key
+                                          : ""}
+                                        <span className="text-gray-500">
+                                          {" "}
+                                          {"value" in item.content
+                                            ? item.type == "key-value"
+                                              ? `: ${item.content.value}`
+                                              : item.content.value
+                                            : ""}
+                                        </span>
+                                      </span>
+                                    </li>
+                                  );
+                                },
+                              )}
+                            </ul>
+                          </div>
+                        );
+                      },
+                    )}
                   </div>
                 </div>
               </div>
@@ -510,7 +576,7 @@ const Post = (Product: listingInterface) => {
 const ProductDescription = ({
   paragraphs,
   sections,
-}: NewProductType["descripcion_producto"]) => {
+}: NewProductType["product_description"]) => {
   return (
     <div className="product-dContent__box">
       <div className="tab-content" id="pills-tabContent">
