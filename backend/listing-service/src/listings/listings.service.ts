@@ -25,6 +25,13 @@ export class ListingsService {
     return this.listingRepo.find();
   }
 
+  findAllByUser(id_usuario: number) {
+    return this.listingRepo.find({
+      where: { id_usuario },
+      //relations: ['usuario'],
+    });
+  }
+
   findOne(id: number) {
     return this.listingRepo.findOneBy({ id_publicacion: id });
   }

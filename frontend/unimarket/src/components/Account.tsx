@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import AccountProductCard from "./AccountProductCard";
 import AccountSellingProductCard from "./AccountSellingProductCard";
 import { categories } from "../mocks/categories.json";
-import { products } from "../mocks/products.json";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { fetchMyListings } from "../store/listing/listingSlice";
 
 const Account = () => {
   const { t } = useTranslation("Account");
 
-  const name = "Baishakhi Plus";
+  const dispatch = useAppDispatch();
+
+  const token = useAppSelector(state => state.auth.token);
+  const id_usuario = useAppSelector(state => state.auth.id_usuario);
+  const nombre_completo = useAppSelector(state => state.auth.nombre_completo);
+
+  const myListings = useAppSelector(state => state.listing.myListings);
+
   const followers = 480589;
   const stars = 4.8;
   const votes = "12k";
@@ -22,6 +30,11 @@ const Account = () => {
   };
 
   const handleEdit = () => {};
+
+  useEffect(() => {
+    if (!token || !id_usuario) return;
+    dispatch(fetchMyListings({ token, id_usuario }));
+  }, [dispatch, token, id_usuario]);
 
   return (
     <section className="vendor-two-details py-80">
@@ -55,7 +68,7 @@ const Account = () => {
                       {t("edit")}
                       <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
                         {" "}
-                        <i className="ph ph-pencil-simple" />
+                        <i className="ph-fill ph-pencil-simple" />
                       </span>
                     </button>
                   </div>
@@ -63,7 +76,7 @@ const Account = () => {
                 <div className="mt-32">
                   <h6 className="text-white fw-semibold mb-12">
                     <Link to="/vendor-details" className="">
-                      {name}
+                      {nombre_completo}
                     </Link>
                   </h6>
                   <span className="text-xs text-white mb-12">
@@ -150,7 +163,7 @@ const Account = () => {
                   {t("best_selling_products")}
                 </h6>
                 <div className="d-flex flex-column gap-24">
-                  {products.map((product, index) => (
+                  {myListings.map((product, index) => (
                     <AccountSellingProductCard key={index} {...product} />
                   ))}
                 </div>
@@ -251,7 +264,7 @@ const Account = () => {
             <div
               className={`list-grid-wrapper grid-cols-4 ${grid && "list-view"}`}
             >
-              {products.map((product, index) => {
+              {myListings.map((product, index) => {
                 return <AccountProductCard key={index} {...product} />;
               })}
             </div>

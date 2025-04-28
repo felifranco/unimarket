@@ -26,9 +26,12 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (token && !first_name) {
-      dispatch(me(token));
-      window.location.href = "/";
+    if (token) {
+      if (!first_name) {
+        dispatch(me(token));
+      } else {
+        window.location.href = "/";
+      }
     }
   }, [token, first_name, dispatch]);
 

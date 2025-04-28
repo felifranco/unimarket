@@ -1,0 +1,34 @@
+{
+  "title": "Título",
+  "overview": "Descripción general",
+  "colours": "Colores",
+  "location": "Ubicación",
+  "publication_type": "Tipo de publicacion",
+  "currency_symbol": "Moneda",
+  "price": "Precio",
+  "old_price": "Precio anterior",
+  "stock": "Existencias",
+  "save_all": "Guardar publicación",
+  "edit": "Editar",
+  "edit_section": "Editar sección",
+  "delete": "Eliminar",
+  "delete_section": "Eliminar sección",
+  "add_section": "Agregar sección",
+  "product_description": "Descripción del producto",
+  "badge": "Insignia",
+  "badge_types": {
+    "new": "Nuevo"
+  },
+  "currency_types": {
+    "USD": "Dólar estadounidense",
+    "GTQ": "Quetzal guatemalteco"
+  },
+  "publication_types": {
+    "sale": "Venta",
+    "exchange": "Intercambio",
+    "donation": "Donación",
+    "rent": "Alquiler"
+  },
+  "publication_date": "Publicado el",
+  "last_updated": "Última actualización el"
+}

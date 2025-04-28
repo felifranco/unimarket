@@ -1,20 +1,13 @@
 import { Link } from "react-router-dom";
-
-interface AccountSellingProductCardProps {
-  name: string;
-  rating: number;
-  sold: number;
-  currency_symbol: string;
-  price: number;
-}
+import { listingInterface } from "../interfaces/listings.interfaces";
 
 const AccountSellingProductCard = ({
-  name,
-  rating,
-  sold,
-  currency_symbol,
-  price,
-}: AccountSellingProductCardProps) => {
+  titulo,
+  calificacion,
+  vendidos,
+  simbolo_moneda,
+  precio,
+}: listingInterface) => {
   return (
     <div className="d-flex align-items-center flex-sm-nowrap flex-wrap gap-16">
       <Link
@@ -30,7 +23,7 @@ const AccountSellingProductCard = ({
       <div className="flex-grow-1">
         <h6 className="text-lg mb-8 fw-medium">
           <Link to="/product-details" className="text-line-3">
-            {name}
+            {titulo}
           </Link>
         </h6>
         <div className="flex-align gap-6">
@@ -51,12 +44,14 @@ const AccountSellingProductCard = ({
               <i className="ph-fill ph-star" />
             </span>
           </div>
-          <span className="text-xs fw-medium text-neutral-500">{rating}</span>
           <span className="text-xs fw-medium text-neutral-500">
-            ({`${sold}k`})
+            {calificacion}
+          </span>
+          <span className="text-xs fw-medium text-neutral-500">
+            ({`${vendidos}k`})
           </span>
         </div>
-        <h6 className="text-md mb-0 mt-4">{`${currency_symbol}${price}`}</h6>
+        <h6 className="text-md mb-0 mt-4">{`${simbolo_moneda}${precio}`}</h6>
       </div>
     </div>
   );

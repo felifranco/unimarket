@@ -1,0 +1,165 @@
+{
+  "id_usuario": 1,
+  "titulo": "HP Chromebook With Intel Celeron, 4GB Memory & 64GB eMMC- Modern Gray",
+  "descripcion_general": "Geared up and ready to roll: Get the responsive performance you're looking for with an Intel processor and 64 GB eMMC storage. Stay productive with compatible apps like Microsoft Office, Google Workspace, and more. The Chrome OS gives you a fast, simple, and secure online experience with built-in virus protection.",
+  "tipo_publicacion": "exchange",
+  "simbolo_moneda": "USD",
+  "precio": 320.99,
+  "precio_anterior": 320.99,
+  "ubicacion": "Ciudad de Guatemala",
+  "estado": "activa",
+  "estrellas": 4.9,
+  "calificacion": 4.5,
+  "vendidos": 17,
+  "insignia": "Nuevo",
+  "existencias": 30,
+  "imagen_portada": "assets/images/thumbs/product-details-two-thumb1.png",
+  "images": [
+    "assets/images/thumbs/product-details-two-thumb1.png",
+    "assets/images/thumbs/product-details-two-thumb2.png",
+    "assets/images/thumbs/product-details-two-thumb3.png",
+    "assets/images/thumbs/product-details-two-thumb1.png",
+    "assets/images/thumbs/product-details-two-thumb2.png"
+  ],
+  "descripcion_producto_example": {
+    "paragraphs": [
+      {
+        "type": "text",
+        "text": "Wherever celebrations and good times happen, the LAY'S brand will be there just as it has been for more than 75 years. With flavors almost as rich as our history, we have a chip or crisp flavor guaranteed to bring a smile on your face."
+      },
+      {
+        "type": "text",
+        "text": "Morbi ut sapien vitae odio accumsan gravida. Morbi vitae erat auctor, eleifend nunc a, lobortis neque. Praesent aliquam dignissim viverra. Maecenas lacus odio, feugiat eu nunc sit amet, maximus sagittis dolor. Vivamus nisi sapien, elementum sit amet eros sit amet, ultricies cursus ipsum. Sed consequat luctus ligula. Curabitur laoreet rhoncus blandit. Aenean vel diam ut arcu pharetra dignissim ut sed leo. Vivamus faucibus, ipsum in vestibulum vulputate, lorem orci convallis quam, sit amet consequat nulla felis pharetra lacus. Duis semper erat mauris, sed egestas purus commodo vel."
+      },
+      {
+        "type": "list",
+        "items": [
+          "8.0 oz. bag of LAY'S Classic Potato Chips",
+          "Tasty LAY's potato chips are a great snack",
+          "Includes three ingredients: potatoes, oil, and salt",
+          "Gluten free product"
+        ]
+      },
+      {
+        "type": "text",
+        "text": "Made in USA"
+      },
+      {
+        "type": "text",
+        "text": "Ready To Eat."
+      }
+    ],
+    "sections": [
+      {
+        "title": "Product Specifications",
+        "list": [
+          {
+            "type": "key-value",
+            "icon": "check",
+            "content": { "key": "Product Type", "value": "Chips & Dips" }
+          },
+          {
+            "type": "key-value",
+            "icon": "check",
+            "content": {
+              "key": "Product Name",
+              "value": "Potato Chips Classic"
+            }
+          },
+          {
+            "type": "key-value",
+            "icon": "check",
+            "content": { "key": "Brand", "value": "Lay's" }
+          },
+          {
+            "type": "key-value",
+            "icon": "check",
+            "content": { "key": "FSA Eligible", "value": "No" }
+          },
+          {
+            "type": "key-value",
+            "icon": "check",
+            "content": { "key": "Size/Count", "value": "8.0oz" }
+          },
+          {
+            "type": "key-value",
+            "icon": "check",
+            "content": { "key": "Item Code", "value": "331539" }
+          },
+          {
+            "type": "key-value",
+            "icon": "check",
+            "content": {
+              "key": "Ingredients",
+              "value": "Potatoes, Vegetable Oil, and Salt."
+            }
+          }
+        ]
+      },
+      {
+        "title": "Nutrition Facts",
+        "list": [
+          {
+            "type": "key",
+            "icon": "check",
+            "content": { "key": "Total Fat 10g 13%" }
+          },
+          {
+            "type": "key",
+            "icon": "check",
+            "content": { "key": "Saturated Fat 1.5g 7%" }
+          },
+          {
+            "type": "key",
+            "icon": "check",
+            "content": { "key": "Cholesterol 0mg 0%" }
+          },
+          {
+            "type": "key",
+            "icon": "check",
+            "content": { "key": "Sodium 170mg 7%" }
+          },
+          {
+            "type": "key",
+            "icon": "check",
+            "content": { "key": "Potassium 350mg 6%" }
+          }
+        ]
+      },
+      {
+        "title": "More Details",
+        "list": [
+          {
+            "type": "value",
+            "icon": "check",
+            "content": {
+              "value": "Lunarlon midsole delivers ultra-plush responsiveness"
+            }
+          },
+          {
+            "type": "value",
+            "icon": "check",
+            "content": {
+              "value": "Encapsulated Air-Sole heel unit for lightweight cushioning"
+            }
+          },
+          {
+            "type": "value",
+            "icon": "check",
+            "content": {
+              "value": "Colour Shown: Ale Brown/Black/Goldtone/Ale Brown"
+            }
+          },
+          {
+            "type": "value",
+            "icon": "check",
+            "content": {
+              "value": "Style: 805899-202"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "descripcion_producto": "{\"paragraphs\":[{\"type\":\"text\",\"text\":\"Párrafo\"},{\"type\":\"list\",\"items\":[\"item1\",\"item2\"]}],\"sections\":[{\"title\":\"Product Specifications\",\"list\":[{\"type\":\"key-value\",\"icon\":\"check\",\"content\":{\"key\":\"Product Type\",\"value\":\"Chips & Dips\"}}]},{\"title\":\"Nutrition Facts\",\"list\":[{\"type\":\"key\",\"icon\":\"check\",\"content\":{\"key\":\"Total Fat 10g 13%\"}}]},{\"title\":\"More Details\",\"list\":[{\"type\":\"value\",\"icon\":\"check\",\"content\":{\"value\":\"Lunarlon midsole delivers ultra-plush responsiveness\"}}]}]}"
+}

@@ -1,8 +1,4 @@
-export interface Language {
-  code: string;
-  label: string;
-  flag: string;
-}
+import { Language } from "../interfaces/languages.interfaces";
 
 export const LANGUAGES: Language[] = [
   { code: "en", label: "English", flag: "🇬🇧" },

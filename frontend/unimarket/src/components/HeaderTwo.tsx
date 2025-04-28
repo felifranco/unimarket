@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../hooks";
-import $ from "jquery";
-import select2 from "select2";
+//import $ from "jquery";
+//import select2 from "select2";
 import { Link, NavLink } from "react-router-dom";
 import LanguageList from "./LanguageList";
 import { useTranslation } from "react-i18next";
 import { categories } from "../mocks/categories.json";
 import { persistor } from "../store";
 
-select2($);
+//select2($);
 
 const HeaderTwo = ({ category }: { category: boolean }) => {
   const { t } = useTranslation("HeaderTwo");
@@ -25,14 +25,14 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
       }
       return () => (window.onscroll = null);
     };
-    const selectElement = $(".js-example-basic-single");
-    selectElement.select2();
-
-    return () => {
-      if (selectElement.data("select2")) {
-        selectElement.select2("destroy");
-      }
-    };
+    //const selectElement = $(".js-example-basic-single");
+    //selectElement.select2();
+    //
+    //return () => {
+    //  if (selectElement.data("select2")) {
+    //    selectElement.select2("destroy");
+    //  }
+    //};
   }, []);
 
   // Mobile menu support
@@ -63,7 +63,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
 
   const ProfileOption = () => {
     const name = first_name ? first_name : t("log_in");
-    const icon = first_name ? "ph-fill ph-user-check" : "ph ph-user";
+    const icon = "ph-fill ph-user"; //first_name ? "ph-fill ph-user-check" : "ph ph-user";
     const color = first_name ? "text-main-two-600" : "text-white";
     const to = first_name ? "/account" : "/login";
     return (
@@ -75,6 +75,20 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
         </span>
         <span className={`text-md ${color} item-hover__text d-none d-lg-flex`}>
           {name}
+        </span>
+      </Link>
+    );
+  };
+
+  const NewPost = () => {
+    const to = first_name ? "/new-post" : "/login";
+    return (
+      <Link to={to} className="flex-align flex-column gap-8 item-hover-two">
+        <span className="text-2xl text-white d-flex position-relative me-6 mt-6 item-hover__text">
+          <i className="ph ph-newspaper-clipping" />
+        </span>
+        <span className="text-md text-white item-hover__text d-none d-lg-flex">
+          {t("new_post")}
         </span>
       </Link>
     );
@@ -354,7 +368,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     {t("whishlist")}
                   </span>
                 </Link>
-                <Link
+                {/*<Link
                   to="/cart"
                   className="flex-align flex-column gap-8 item-hover-two"
                 >
@@ -367,7 +381,8 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                   <span className="text-md text-white item-hover__text d-none d-lg-flex">
                     {t("compare")}
                   </span>
-                </Link>
+                </Link>*/}
+                <NewPost />
                 <Link
                   to="/cart"
                   className="flex-align flex-column gap-8 item-hover-two"
