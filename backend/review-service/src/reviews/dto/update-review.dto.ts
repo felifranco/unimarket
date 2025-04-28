@@ -4,17 +4,14 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateReviewDto extends PartialType(CreateReviewDto) {
   @ApiProperty()
-  id_usuario: number;
+  titulo: string;
 
   @ApiProperty()
-  id_publicacion: number;
+  contenido: string;
 
   @ApiProperty()
-  puntuacion: number;
+  estrellas: number;
 
   @ApiProperty()
-  comentario: string;
-
-  @ApiProperty()
-  fecha_creacion: Date;
+  estado: string;
 }
