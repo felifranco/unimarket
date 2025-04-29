@@ -8,11 +8,144 @@ import {
   publicationTypes,
 } from "../constants/post.constants";
 import { useTranslation } from "react-i18next";
-import { formatDate } from "../utils/app.util";
+import { formatDate, timeAgo } from "../utils/app.util";
 import new_product from "../mocks/new_product.json";
+import { reviewInterface } from "../interfaces/reviews.interface";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { createReview } from "../store/review/reviewSlice";
+
+const comments: Array<reviewInterface> = [
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 5,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 3,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+];
 
 const ProductDetailsTwo = () => {
   const { t } = useTranslation("ProductDetailsTwo");
+
+  const token = useAppSelector(state => state.auth.token);
+  const id_usuario = useAppSelector(state => state.auth.id_usuario);
+
+  const dispatch = useAppDispatch();
+
+  const [starsReview, setStarsReview] = useState<number>(0);
 
   const titulo =
     "HP Chromebook With Intel Celeron, 4GB Memory & 64GB eMMC - Modern Gray";
@@ -49,6 +182,28 @@ const ProductDetailsTwo = () => {
     slidesToScroll: 1,
     focusOnSelect: true,
   };
+
+  const handleNewReview = async (formData: FormData) => {
+    const titulo = formData.get("titulo") as string;
+    const contenido = formData.get("contenido") as string;
+    try {
+      const review: reviewInterface = {
+        id_usuario,
+        id_publicacion: 1,
+        nombre_usuario: "Pepito",
+        titulo,
+        contenido,
+        estrellas: starsReview,
+      };
+      console.log("handleNewReview", review);
+      if (token) {
+        await dispatch(createReview({ token, review }));
+      }
+    } catch (error) {
+      console.error("New review failed:", error);
+    }
+  };
+
   return (
     <section className="product-details py-80">
       <div className="container container-lg">
@@ -441,179 +596,106 @@ const ProductDetailsTwo = () => {
                 >
                   <div className="row g-4">
                     <div className="col-lg-6">
-                      <h6 className="mb-24">{t("comments")}</h6>
-                      <div className="d-flex align-items-start gap-24 pb-44 border-bottom border-gray-100 mb-44">
-                        <img
-                          src="assets/images/thumbs/comment-img1.png"
-                          alt=""
-                          className="w-52 h-52 object-fit-cover rounded-circle flex-shrink-0"
-                        />
-                        <div className="flex-grow-1">
-                          <div className="flex-between align-items-start gap-8 ">
-                            <div className="">
-                              <h6 className="mb-12 text-md">Nicolas cage</h6>
-                              <div className="flex-align gap-8">
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                              </div>
-                            </div>
-                            <span className="text-gray-800 text-xs">
-                              3 Days ago
-                            </span>
-                          </div>
-                          <h6 className="mb-14 text-md mt-24">
-                            Greate Product
-                          </h6>
-                          <p className="text-gray-700">
-                            There are many variations of passages of Lorem Ipsum
-                            available, but the majority have suffered alteration
-                            in some form, by injected humour
-                          </p>
-                          <div className="flex-align gap-20 mt-44">
-                            <button className="flex-align gap-12 text-gray-700 hover-text-main-600">
-                              <i className="ph-bold ph-thumbs-up" />
-                              {t("like")}
-                            </button>
-                            <Link
-                              to="#comment-form"
-                              className="flex-align gap-12 text-gray-700 hover-text-main-600"
-                            >
-                              <i className="ph-bold ph-arrow-bend-up-left" />
-                              {t("replay")}
-                            </Link>
-                          </div>
-                        </div>
+                      <div className="h-25 d-inline-block overflow-auto">
+                        <h6 className="mb-24">{t("comments")}</h6>
+                        {comments.map((comment, index) => (
+                          <Comment key={index} {...comment} />
+                        ))}
                       </div>
-                      <div className="d-flex align-items-start gap-24">
-                        <img
-                          src="assets/images/thumbs/comment-img1.png"
-                          alt=""
-                          className="w-52 h-52 object-fit-cover rounded-circle flex-shrink-0"
-                        />
-                        <div className="flex-grow-1">
-                          <div className="flex-between align-items-start gap-8 ">
-                            <div className="">
-                              <h6 className="mb-12 text-md">Nicolas cage</h6>
-                              <div className="flex-align gap-8">
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
+                      <div>
+                        <div className="mt-56 pt-44 border-top border-gray-100">
+                          <div className="">
+                            <h6 className="mb-24">{t("write_a_review")}</h6>
+                            <span className="text-heading mb-8 flex-align justify-content-center">
+                              {t("what_is_it_like_to_product")}
+                            </span>
+                            <div className="flex-align gap-8 justify-content-center">
+                              <span
+                                className={`text-15 fw-medium ${starsReview >= 1 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                onClick={() => {
+                                  if (starsReview == 1) setStarsReview(0);
+                                  else setStarsReview(1);
+                                }}
+                              >
+                                <i className="ph-fill ph-star" />
+                              </span>
+                              <span
+                                className={`text-15 fw-medium ${starsReview >= 2 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                onClick={() => {
+                                  if (starsReview == 2) setStarsReview(0);
+                                  else setStarsReview(2);
+                                }}
+                              >
+                                <i className="ph-fill ph-star" />
+                              </span>
+                              <span
+                                className={`text-15 fw-medium ${starsReview >= 3 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                onClick={() => {
+                                  if (starsReview == 3) setStarsReview(0);
+                                  else setStarsReview(3);
+                                }}
+                              >
+                                <i className="ph-fill ph-star" />
+                              </span>
+                              <span
+                                className={`text-15 fw-medium ${starsReview >= 4 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                onClick={() => {
+                                  if (starsReview == 4) setStarsReview(0);
+                                  else setStarsReview(4);
+                                }}
+                              >
+                                <i className="ph-fill ph-star" />
+                              </span>
+                              <span
+                                className={`text-15 fw-medium ${starsReview == 5 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                onClick={() => {
+                                  if (starsReview == 5) setStarsReview(0);
+                                  else setStarsReview(5);
+                                }}
+                              >
+                                <i className="ph-fill ph-star" />
+                              </span>
+                            </div>
+                          </div>
+                          <div className="mt-32">
+                            <form action={handleNewReview}>
+                              <div className="mb-32">
+                                <label
+                                  htmlFor="titulo"
+                                  className="text-neutral-600 mb-8"
+                                >
+                                  {t("review_title")}
+                                </label>
+                                <input
+                                  type="text"
+                                  className="common-input rounded-8"
+                                  id="titulo"
+                                  name="titulo"
+                                  placeholder="Great Products"
+                                />
                               </div>
-                            </div>
-                            <span className="text-gray-800 text-xs">
-                              3 Days ago
-                            </span>
-                          </div>
-                          <h6 className="mb-14 text-md mt-24">
-                            Greate Product
-                          </h6>
-                          <p className="text-gray-700">
-                            There are many variations of passages of Lorem Ipsum
-                            available, but the majority have suffered alteration
-                            in some form, by injected humour
-                          </p>
-                          <div className="flex-align gap-20 mt-44">
-                            <button className="flex-align gap-12 text-gray-700 hover-text-main-600">
-                              <i className="ph-bold ph-thumbs-up" />
-                              {t("like")}
-                            </button>
-                            <Link
-                              to="#comment-form"
-                              className="flex-align gap-12 text-gray-700 hover-text-main-600"
-                            >
-                              <i className="ph-bold ph-arrow-bend-up-left" />
-                              {t("replay")}
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-56">
-                        <div className="">
-                          <h6 className="mb-24">{t("write_a_review")}</h6>
-                          <span className="text-heading mb-8">
-                            {t("what_is_it_like_to_product")}
-                          </span>
-                          <div className="flex-align gap-8">
-                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                              <i className="ph-fill ph-star" />
-                            </span>
-                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                              <i className="ph-fill ph-star" />
-                            </span>
-                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                              <i className="ph-fill ph-star" />
-                            </span>
-                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                              <i className="ph-fill ph-star" />
-                            </span>
-                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                              <i className="ph-fill ph-star" />
-                            </span>
-                          </div>
-                        </div>
-                        <div className="mt-32">
-                          <form action="#">
-                            <div className="mb-32">
-                              <label
-                                htmlFor="title"
-                                className="text-neutral-600 mb-8"
+                              <div className="mb-32">
+                                <label
+                                  htmlFor="contenido"
+                                  className="text-neutral-600 mb-8"
+                                >
+                                  {t("review_content")}
+                                </label>
+                                <textarea
+                                  className="common-input rounded-8"
+                                  id="contenido"
+                                  name="contenido"
+                                  defaultValue={""}
+                                />
+                              </div>
+                              <button
+                                type="submit"
+                                className="btn btn-main rounded-pill mt-48"
                               >
-                                {t("review_title")}
-                              </label>
-                              <input
-                                type="text"
-                                className="common-input rounded-8"
-                                id="title"
-                                placeholder="Great Products"
-                              />
-                            </div>
-                            <div className="mb-32">
-                              <label
-                                htmlFor="desc"
-                                className="text-neutral-600 mb-8"
-                              >
-                                {t("review_content")}
-                              </label>
-                              <textarea
-                                className="common-input rounded-8"
-                                id="desc"
-                                defaultValue={
-                                  "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
-                                }
-                              />
-                            </div>
-                            <button
-                              type="submit"
-                              className="btn btn-main rounded-pill mt-48"
-                            >
-                              {t("submit_review")}
-                            </button>
-                          </form>
+                                {t("submit_review")}
+                              </button>
+                            </form>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -847,6 +929,69 @@ const ProductDetailsTwo = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+const Comment = ({
+  id_comentario,
+  nombre_usuario,
+  titulo,
+  contenido,
+  estrellas = 0,
+  fecha_creacion,
+}: reviewInterface) => {
+  const { t } = useTranslation("ProductDetailsTwo");
+
+  const handleLike = (id_comentario: number) => {
+    console.log("handleLike", id_comentario);
+  };
+
+  return (
+    <div className="d-flex align-items-start gap-24 pt-44 border-top border-gray-100 mt-44">
+      <img
+        src="assets/images/thumbs/comment-img1.png"
+        alt=""
+        className="w-52 h-52 object-fit-cover rounded-circle flex-shrink-0"
+      />
+      <div className="flex-grow-1">
+        <div className="flex-between align-items-start gap-8 ">
+          <div className="">
+            <h6 className="mb-12 text-md">{`test: ${nombre_usuario}`}</h6>
+            <div className="flex-align gap-8">
+              {Array.from({ length: estrellas }, (_, index) => (
+                <span
+                  key={index}
+                  className="text-15 fw-medium text-warning-600 d-flex"
+                >
+                  <i className="ph-fill ph-star" />
+                </span>
+              ))}
+            </div>
+          </div>
+          <span className="text-gray-800 text-xs">{`${timeAgo(fecha_creacion)} - 3 Days ago`}</span>
+        </div>
+        <h6 className="mb-14 text-md mt-24">{titulo}</h6>
+        <p className="text-gray-700">{contenido}</p>
+        <div className="flex-align gap-20 mt-44">
+          <button
+            className="flex-align gap-12 text-gray-700 hover-text-main-600"
+            onClick={() => {
+              handleLike(id_comentario);
+            }}
+          >
+            <i className="ph-bold ph-thumbs-up" />
+            {t("like")}
+          </button>
+          <Link
+            to="#comment-form"
+            className="flex-align gap-12 text-gray-700 hover-text-main-600"
+          >
+            <i className="ph-bold ph-arrow-bend-up-left" />
+            {t("replay")}
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 
