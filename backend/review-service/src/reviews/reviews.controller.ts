@@ -28,11 +28,25 @@ export class ReviewsController {
     return this.reviewsService.create(createReviewDto);
   }
 
-  @Get()
+  @Get('listing/:id')
   @ApiResponse({ status: 201, description: 'Operación exitosa.' })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
-  findAll() {
-    return this.reviewsService.findAll();
+  findAllByListing(@Param('id') id: string) {
+    return this.reviewsService.findAllByListing(+id);
+  }
+
+  @Patch('like/:id')
+  @ApiResponse({ status: 201, description: 'Operación exitosa.' })
+  @ApiResponse({ status: 403, description: 'Prohibido.' })
+  likeReview(@Param('id') id: string) {
+    return this.reviewsService.likeReview(+id);
+  }
+
+  @Patch('unlike/:id')
+  @ApiResponse({ status: 201, description: 'Operación exitosa.' })
+  @ApiResponse({ status: 403, description: 'Prohibido.' })
+  unlikeReview(@Param('id') id: string) {
+    return this.reviewsService.unlikeReview(+id);
   }
 
   @Get(':id')

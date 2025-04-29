@@ -18,7 +18,6 @@ import {
 import new_product from "../mocks/new_product.json";
 import { createListing, patchListing } from "../store/listing/listingSlice";
 import Modal from "./common/Modal";
-
 import { formatDate } from "../utils/app.util";
 
 const Post = (Product: listingInterface) => {

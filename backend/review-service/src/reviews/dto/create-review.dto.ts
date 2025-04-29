@@ -8,11 +8,14 @@ export class CreateReviewDto {
   id_publicacion: number;
 
   @ApiProperty()
-  puntuacion: number;
+  titulo: string;
 
   @ApiProperty()
-  comentario: string;
+  contenido: string;
 
   @ApiProperty()
-  fecha_creacion: Date;
+  estrellas: number;
+
+  @ApiProperty()
+  estado: string;
 }

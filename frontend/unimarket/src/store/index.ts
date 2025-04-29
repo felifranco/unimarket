@@ -12,10 +12,12 @@ import {
 import storage from "redux-persist/lib/storage"; // usa localStorage
 import authReducer from "./auth/authSlice";
 import listingReducer from "./listing/listingSlice";
+import reviewReducer from "./review/reviewSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   listing: listingReducer,
+  review: reviewReducer,
 });
 
 const persistConfig = {

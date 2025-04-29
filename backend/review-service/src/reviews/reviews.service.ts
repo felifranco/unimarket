@@ -17,16 +17,38 @@ export class ReviewsService {
     return this.reviewRepo.save(newReview);
   }
 
-  findAll() {
-    return this.reviewRepo.find();
+  findAllByListing(id_publicacion: number) {
+    return this.reviewRepo.find({ where: { id_publicacion } });
+  }
+
+  async likeReview(id_comentario: number) {
+    const review = await this.reviewRepo.findOneBy({
+      id_comentario,
+    });
+    if (!review) {
+      return null;
+    }
+    this.reviewRepo.merge(review, { likes: review.likes + 1 });
+    return this.reviewRepo.save(review);
+  }
+
+  async unlikeReview(id_comentario: number) {
+    const review = await this.reviewRepo.findOneBy({
+      id_comentario,
+    });
+    if (!review) {
+      return null;
+    }
+    this.reviewRepo.merge(review, { likes: review.likes - 1 });
+    return this.reviewRepo.save(review);
   }
 
   findOne(id: number) {
-    return this.reviewRepo.findOneBy({ id_valoracion: id });
+    return this.reviewRepo.findOneBy({ id_comentario: id });
   }
 
   async update(id: number, updateReviewDto: UpdateReviewDto) {
-    const review = await this.reviewRepo.findOneBy({ id_valoracion: id });
+    const review = await this.reviewRepo.findOneBy({ id_comentario: id });
     if (!review) {
       return null;
     }
@@ -35,7 +57,7 @@ export class ReviewsService {
   }
 
   async remove(id: number) {
-    const review = await this.reviewRepo.findOneBy({ id_valoracion: id });
+    const review = await this.reviewRepo.findOneBy({ id_comentario: id });
     if (!review) {
       return null;
     }

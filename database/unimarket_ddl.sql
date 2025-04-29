@@ -43,13 +43,18 @@ CREATE TABLE public.comentario (
 	id_comentario int NOT NULL,
 	id_usuario int NOT NULL,
 	id_publicacion int NOT NULL,
+	id_comentario_respuesta int NULL,
+	titulo varchar NOT NULL,
 	contenido varchar NOT NULL,
+	estrellas numeric NULL,
+	likes numeric NULL,
 	estado varchar NULL,
 	fecha_creacion timestamp NULL,
 	fecha_modificacion timestamp NULL,
 	CONSTRAINT comentario_pk PRIMARY KEY (id_comentario),
 	CONSTRAINT comentario_usuario_fk FOREIGN KEY (id_usuario) REFERENCES public.usuario(id_usuario) ON DELETE RESTRICT,
-	CONSTRAINT comentario_publicacion_fk FOREIGN KEY (id_publicacion) REFERENCES public.publicacion(id_publicacion) ON DELETE RESTRICT
+	CONSTRAINT comentario_publicacion_fk FOREIGN KEY (id_publicacion) REFERENCES public.publicacion(id_publicacion) ON DELETE RESTRICT,
+	CONSTRAINT comentario_comentario_fk FOREIGN KEY (id_comentario_respuesta) REFERENCES public.comentario(id_comentario) ON DELETE RESTRICT
 );
 
 CREATE TABLE public.valoracion (
