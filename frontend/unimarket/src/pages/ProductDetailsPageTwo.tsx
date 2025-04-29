@@ -3,7 +3,6 @@ import ColorInit from "../helper/ColorInit";
 import HeaderTwo from "../components/HeaderTwo";
 import Breadcrumb from "../components/Breadcrumb";
 import ProductDetailsTwo from "../components/ProductDetailsTwo";
-import NewArrivalTwo from "../components/NewArrivalTwo";
 import ShippingTwo from "../components/ShippingTwo";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
@@ -29,9 +28,6 @@ const ProductDetailsPageTwo = () => {
 
       {/* ProductDetailsTwo */}
       <ProductDetailsTwo />
-
-      {/* NewArrivalTwo */}
-      <NewArrivalTwo />
 
       {/* ShippingTwo */}
       <ShippingTwo />

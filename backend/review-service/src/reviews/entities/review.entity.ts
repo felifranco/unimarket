@@ -1,9 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity('valoracion')
+@Entity('comentario')
 export class Review {
   @PrimaryGeneratedColumn()
-  id_valoracion: number;
+  id_comentario: number;
 
   @Column()
   id_usuario: number;
@@ -11,12 +17,27 @@ export class Review {
   @Column()
   id_publicacion: number;
 
-  @Column()
-  puntuacion: number;
+  @Column({ nullable: true })
+  id_comentario_respuesta: number;
 
   @Column()
-  comentario: string;
+  titulo: string;
 
   @Column()
+  contenido: string;
+
+  @Column({ nullable: true })
+  estrellas: number;
+
+  @Column({ nullable: true })
+  likes: number;
+
+  @Column({ nullable: true })
+  estado: string;
+
+  @CreateDateColumn({ type: 'timestamptz' })
   fecha_creacion: Date;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  fecha_modificacion: Date;
 }

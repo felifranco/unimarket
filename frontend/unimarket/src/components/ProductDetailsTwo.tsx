@@ -1,25 +1,170 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
-import { getCountdown } from "../helper/Countdown";
+import {
+  badgeTypes,
+  currenciesTypes,
+  icons,
+  publicationTypes,
+} from "../constants/post.constants";
+import { useTranslation } from "react-i18next";
+import { formatDate, timeAgo } from "../utils/app.util";
+import new_product from "../mocks/new_product.json";
+import { reviewInterface } from "../interfaces/reviews.interface";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { createReview } from "../store/review/reviewSlice";
+
+const comments: Array<reviewInterface> = [
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 5,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 3,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+  {
+    id_comentario: 1,
+    id_usuario: 0,
+    id_publicacion: 0,
+    id_comentario_respuesta: 0,
+    nombre_usuario: "Nicolas Cage",
+    titulo: "Greate Product",
+    contenido:
+      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
+    estrellas: 1,
+    likes: 2,
+    estado: "",
+    fecha_creacion: new Date("04/27/2025"),
+    fecha_modificacion: new Date("04/27/2025"),
+  },
+];
 
 const ProductDetailsTwo = () => {
-  const [timeLeft, setTimeLeft] = useState(getCountdown());
+  const { t } = useTranslation("ProductDetailsTwo");
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft(getCountdown());
-    }, 1000);
+  const token = useAppSelector(state => state.auth.token);
+  const id_usuario = useAppSelector(state => state.auth.id_usuario);
 
-    return () => clearInterval(interval);
-  }, []);
-  const productImages = [
-    "assets/images/thumbs/product-details-two-thumb1.png",
-    "assets/images/thumbs/product-details-two-thumb2.png",
-    "assets/images/thumbs/product-details-two-thumb3.png",
-    "assets/images/thumbs/product-details-two-thumb1.png",
-    "assets/images/thumbs/product-details-two-thumb2.png",
-  ];
+  const dispatch = useAppDispatch();
+
+  const [starsReview, setStarsReview] = useState<number>(0);
+
+  const titulo =
+    "HP Chromebook With Intel Celeron, 4GB Memory & 64GB eMMC - Modern Gray";
+  const estrellas = 4.7;
+  const votos = 21671;
+  const sku = "EB4DRP";
+  const descripcion_general =
+    "Geared up and ready to roll: Get the responsive performance you're looking for with an Intel processor and 64 GB eMMC storage. Stay productive with compatible apps like Microsoft Office, Google Workspace, and more. The Chrome OS gives you a fast, simple, and secure online experience with built-in virus protection.";
+  const simbolo_moneda = "$";
+  const precio = 320.99;
+  const precio_anterior = 452.99;
+  const existencias = 21;
+  const fecha_creacion = new Date();
+
+  const { images, descripcion_producto: descripcion_producto_text } =
+    new_product;
+
+  const descripcion_producto = JSON.parse(descripcion_producto_text);
+  //console.log("descripcion_producto", descripcion_producto_text, descripcion_producto);
 
   // increment & decrement
   const [quantity, setQuantity] = useState(1);
@@ -27,7 +172,7 @@ const ProductDetailsTwo = () => {
   const decrementQuantity = () =>
     setQuantity(quantity > 1 ? quantity - 1 : quantity);
 
-  const [mainImage, setMainImage] = useState(productImages[0]);
+  const [mainImage, setMainImage] = useState(images[0]);
 
   const settingsThumbs = {
     dots: false,
@@ -37,6 +182,28 @@ const ProductDetailsTwo = () => {
     slidesToScroll: 1,
     focusOnSelect: true,
   };
+
+  const handleNewReview = async (formData: FormData) => {
+    const titulo = formData.get("titulo") as string;
+    const contenido = formData.get("contenido") as string;
+    try {
+      const review: reviewInterface = {
+        id_usuario,
+        id_publicacion: 1,
+        nombre_usuario: "Pepito",
+        titulo,
+        contenido,
+        estrellas: starsReview,
+      };
+      console.log("handleNewReview", review);
+      if (token) {
+        await dispatch(createReview({ token, review }));
+      }
+    } catch (error) {
+      console.error("New review failed:", error);
+    }
+  };
+
   return (
     <section className="product-details py-80">
       <div className="container container-lg">
@@ -55,7 +222,7 @@ const ProductDetailsTwo = () => {
                   <div className="mt-24">
                     <div className="product-details__images-slider">
                       <Slider {...settingsThumbs}>
-                        {productImages.map((image, index) => (
+                        {images.map((image, index) => (
                           <div
                             className="center max-w-120 max-h-120 h-100 flex-center border border-gray-100 rounded-16 p-8"
                             key={index}
@@ -75,43 +242,7 @@ const ProductDetailsTwo = () => {
               </div>
               <div className="col-xl-6">
                 <div className="product-details__content">
-                  <div className="flex-center mb-24 flex-wrap gap-16 bg-color-one rounded-8 py-16 px-24 position-relative z-1">
-                    <img
-                      src="assets/images/bg/details-offer-bg.png"
-                      alt=""
-                      className="position-absolute inset-block-start-0 inset-inline-start-0 w-100 h-100 z-n1"
-                    />
-                    <div className="flex-align gap-16">
-                      <span className="text-white text-sm">Special Offer:</span>
-                    </div>
-                    <div className="countdown" id="countdown11">
-                      <ul className="countdown-list flex-align flex-wrap">
-                        <li className="countdown-list__item text-heading flex-align gap-4 text-xs fw-medium w-28 h-28 rounded-4 border border-main-600 p-0 flex-center">
-                          {timeLeft.days}
-                          <span className="days" />
-                        </li>
-                        <li className="countdown-list__item text-heading flex-align gap-4 text-xs fw-medium w-28 h-28 rounded-4 border border-main-600 p-0 flex-center">
-                          {timeLeft.hours}
-                          <span className="hours" />
-                        </li>
-                        <li className="countdown-list__item text-heading flex-align gap-4 text-xs fw-medium w-28 h-28 rounded-4 border border-main-600 p-0 flex-center">
-                          {timeLeft.minutes}
-                          <span className="minutes" />
-                        </li>
-                        <li className="countdown-list__item text-heading flex-align gap-4 text-xs fw-medium w-28 h-28 rounded-4 border border-main-600 p-0 flex-center">
-                          {timeLeft.seconds}
-                          <span className="seconds" />
-                        </li>
-                      </ul>
-                    </div>
-                    <span className="text-white text-xs">
-                      Remains untill the end of the offer
-                    </span>
-                  </div>
-                  <h5 className="mb-12">
-                    HP Chromebook With Intel Celeron, 4GB Memory &amp; 64GB eMMC
-                    - Modern Gray
-                  </h5>
+                  <h5 className="mb-12">{titulo}</h5>
                   <div className="flex-align flex-wrap gap-12">
                     <div className="flex-align gap-12 flex-wrap">
                       <div className="flex-align gap-8">
@@ -132,123 +263,32 @@ const ProductDetailsTwo = () => {
                         </span>
                       </div>
                       <span className="text-sm fw-medium text-neutral-600">
-                        4.7 Star Rating
+                        {estrellas} {t("star_rating")}
                       </span>
                       <span className="text-sm fw-medium text-gray-500">
-                        (21,671)
+                        ({votos})
                       </span>
                     </div>
                     <span className="text-sm fw-medium text-gray-500">|</span>
                     <span className="text-gray-900">
                       {" "}
-                      <span className="text-gray-400">SKU:</span>EB4DRP{" "}
+                      <span className="text-gray-400">SKU:</span>
+                      {sku}{" "}
                     </span>
                   </div>
                   <span className="mt-32 pt-32 text-gray-700 border-top border-gray-100 d-block" />
-                  <p className="text-gray-700">
-                    Geared up and ready to roll: Get the responsive performance
-                    you're looking for with an Intel processor and 64 GB eMMC
-                    storage. Stay productive with compatible apps like Microsoft
-                    Office, Google Workspace, and more. The Chrome OS gives you
-                    a fast, simple, and secure online experience with built-in
-                    virus protection.
-                  </p>
+                  <p className="text-gray-700">{descripcion_general}</p>
                   <div className="my-32 flex-align gap-16 flex-wrap">
                     <div className="flex-align gap-8">
-                      <div className="flex-align gap-8 text-main-two-600">
-                        <i className="ph-fill ph-seal-percent text-xl" />
-                        -10%
-                      </div>
-                      <h6 className="mb-0">USD 320.99</h6>
+                      <h6 className="mb-0">{`${simbolo_moneda} ${precio}`}</h6>
                     </div>
                     <div className="flex-align gap-8">
-                      <span className="text-gray-700">Regular Price</span>
+                      <span className="text-gray-700">
+                        {t("regular_price")}
+                      </span>
                       <h6 className="text-xl text-gray-400 mb-0 fw-medium">
-                        USD 452.99
+                        {`${simbolo_moneda} ${precio_anterior}`}
                       </h6>
-                    </div>
-                  </div>
-                  <div className="my-32 flex-align flex-wrap gap-12">
-                    <Link
-                      to="#"
-                      className="px-12 py-8 text-sm rounded-8 flex-align gap-8 text-gray-900 border border-gray-200 hover-border-main-600 hover-text-main-600"
-                    >
-                      Monthyly EMI USD 15.00
-                      <i className="ph ph-caret-right" />
-                    </Link>
-                    <Link
-                      to="#"
-                      className="px-12 py-8 text-sm rounded-8 flex-align gap-8 text-gray-900 border border-gray-200 hover-border-main-600 hover-text-main-600"
-                    >
-                      Shipping Charge
-                      <i className="ph ph-caret-right" />
-                    </Link>
-                    <Link
-                      to="#"
-                      className="px-12 py-8 text-sm rounded-8 flex-align gap-8 text-gray-900 border border-gray-200 hover-border-main-600 hover-text-main-600"
-                    >
-                      Security &amp; Privacy
-                      <i className="ph ph-caret-right" />
-                    </Link>
-                  </div>
-                  <span className="mt-32 pt-32 text-gray-700 border-top border-gray-100 d-block" />
-                  <div className="mt-32">
-                    <h6 className="mb-16">Quick Overview</h6>
-                    <div className="flex-between align-items-start flex-wrap gap-16">
-                      <div>
-                        <span className="text-gray-900 d-block mb-12">
-                          Color:
-                          <span className="fw-medium">Mineral Silver</span>
-                        </span>
-                        <div className="color-list flex-align gap-8">
-                          <button
-                            type="button"
-                            className="color-list__button w-20 h-20 border border-2 border-gray-50 rounded-circle bg-info-600"
-                          />
-                          <button
-                            type="button"
-                            className="color-list__button w-20 h-20 border border-2 border-gray-50 rounded-circle bg-warning-600"
-                          />
-                          <button
-                            type="button"
-                            className="color-list__button w-20 h-20 border border-2 border-gray-50 rounded-circle bg-tertiary-600"
-                          />
-                          <button
-                            type="button"
-                            className="color-list__button w-20 h-20 border border-2 border-gray-50 rounded-circle bg-main-600"
-                          />
-                          <button
-                            type="button"
-                            className="color-list__button w-20 h-20 border border-2 border-gray-50 rounded-circle bg-gray-100"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <span className="text-gray-900 d-block mb-12">
-                          Pattern Name:
-                          <span className="fw-medium">with offer</span>
-                        </span>
-                        <div className="flex-align gap-8 flex-wrap">
-                          <Link
-                            to="#"
-                            className="px-12 py-8 text-sm rounded-8 text-gray-900 border border-gray-200 hover-border-main-600 hover-text-main-600"
-                          >
-                            with offer{" "}
-                          </Link>
-                          <Link
-                            to="#"
-                            className="px-12 py-8 text-sm rounded-8 text-gray-900 border border-gray-200 hover-border-main-600 hover-text-main-600"
-                          >
-                            12th Gen Laptop
-                          </Link>
-                          <Link
-                            to="#"
-                            className="px-12 py-8 text-sm rounded-8 text-gray-900 border border-gray-200 hover-border-main-600 hover-text-main-600"
-                          >
-                            without offer
-                          </Link>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   <span className="mt-32 pt-32 text-gray-700 border-top border-gray-100 d-block" />
@@ -256,17 +296,9 @@ const ProductDetailsTwo = () => {
                     to="/https://www.whatsapp.com"
                     className="btn btn-black flex-center gap-8 rounded-8 py-16"
                   >
-                    <i className="ph ph-whatsapp-logo text-lg" />
-                    Request More Information
+                    <i className="ph ph-chat-circle text-lg" />
+                    {t("request_more_information")}
                   </Link>
-                  <div className="mt-32">
-                    <span className="fw-medium text-gray-900">
-                      100% Guarantee Safe Checkout
-                    </span>
-                    <div className="mt-10">
-                      <img src="assets/images/thumbs/gateway-img.png" alt="" />
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -275,33 +307,10 @@ const ProductDetailsTwo = () => {
             <div className="product-details__sidebar py-40 px-32 border border-gray-100 rounded-16">
               <div className="mb-32">
                 <label
-                  htmlFor="delivery"
-                  className="h6 activePage mb-8 text-heading fw-semibold d-block"
-                >
-                  Delivery
-                </label>
-                <div className="flex-align border border-gray-100 rounded-4 px-16">
-                  <span className="text-xl d-flex text-main-600">
-                    <i className="ph ph-map-pin" />
-                  </span>
-                  <select
-                    defaultValue={1}
-                    className="common-input border-0 px-8 rounded-4"
-                    id="delivery"
-                  >
-                    <option value={1}>Maymansign</option>
-                    <option value={1}>Khulna</option>
-                    <option value={1}>Rajshahi</option>
-                    <option value={1}>Rangpur</option>
-                  </select>
-                </div>
-              </div>
-              <div className="mb-32">
-                <label
                   htmlFor="stock"
                   className="text-lg mb-8 text-heading fw-semibold d-block"
                 >
-                  Total Stock: 21
+                  {`${t("stock")}: ${existencias}`}
                 </label>
                 <span className="text-xl d-flex">
                   <i className="ph ph-location" />
@@ -332,12 +341,8 @@ const ProductDetailsTwo = () => {
               </div>
               <div className="mb-32">
                 <div className="flex-between flex-wrap gap-8 border-bottom border-gray-100 pb-16 mb-16">
-                  <span className="text-gray-500">Price</span>
-                  <h6 className="text-lg mb-0">$150.00</h6>
-                </div>
-                <div className="flex-between flex-wrap gap-8">
-                  <span className="text-gray-500">Shipping</span>
-                  <h6 className="text-lg mb-0">From $10.00</h6>
+                  <span className="text-gray-500">{t("price")}</span>
+                  <h6 className="text-lg mb-0">{`${simbolo_moneda} ${precio}`}</h6>
                 </div>
               </div>
               <Link
@@ -345,32 +350,26 @@ const ProductDetailsTwo = () => {
                 className="btn btn-main flex-center gap-8 rounded-8 py-16 fw-normal mt-48"
               >
                 <i className="ph ph-shopping-cart-simple text-lg" />
-                Add To Cart
+                {t("add_to_cart")}
               </Link>
               <Link
                 to="#"
                 className="btn btn-outline-main rounded-8 py-16 fw-normal mt-16 w-100"
               >
-                Buy Now
+                {t("buy_now")}
               </Link>
               <div className="mt-32">
                 <div className="px-16 py-8 bg-main-50 rounded-8 flex-between gap-24 mb-14">
                   <span className="w-32 h-32 bg-white text-main-600 rounded-circle flex-center text-xl flex-shrink-0">
-                    <i className="ph-fill ph-truck" />
+                    <i className="ph-fill ph-calendar" />
                   </span>
                   <span className="text-sm text-neutral-600">
-                    Ship from{" "}
-                    <span className="fw-semibold">MarketPro</span>{" "}
-                  </span>
-                </div>
-                <div className="px-16 py-8 bg-main-50 rounded-8 flex-between gap-24 mb-0">
-                  <span className="w-32 h-32 bg-white text-main-600 rounded-circle flex-center text-xl flex-shrink-0">
-                    <i className="ph-fill ph-storefront" />
-                  </span>
-                  <span className="text-sm text-neutral-600">
-                    Sold by:{" "}
+                    {t("publication_date")}{" "}
                     <span className="fw-semibold">
-                      MR Distribution LLC
+                      {formatDate(
+                        new Date(fecha_creacion),
+                        "DD/MM/YYYY HH:mm:ss",
+                      )}
                     </span>{" "}
                   </span>
                 </div>
@@ -449,7 +448,7 @@ const ProductDetailsTwo = () => {
                     aria-controls="pills-description"
                     aria-selected="true"
                   >
-                    Description
+                    {t("description")}
                   </button>
                 </li>
                 <li className="nav-item" role="presentation">
@@ -463,17 +462,10 @@ const ProductDetailsTwo = () => {
                     aria-controls="pills-reviews"
                     aria-selected="false"
                   >
-                    Reviews
+                    {t("reviews")}
                   </button>
                 </li>
               </ul>
-              <Link
-                to="#"
-                className="btn bg-color-one rounded-16 flex-align gap-8 text-main-600 hover-bg-main-600 hover-text-white"
-              >
-                <img src="assets/images/icon/satisfaction-icon.png" alt="" />
-                100% Satisfaction Guaranteed
-              </Link>
             </div>
             <div className="product-dContent__box">
               <div className="tab-content" id="pills-tabContent">
@@ -485,215 +477,115 @@ const ProductDetailsTwo = () => {
                   tabIndex={0}
                 >
                   <div className="mb-40">
-                    <h6 className="mb-24">Product Description</h6>
-                    <p>
-                      Wherever celebrations and good times happen, the LAY'S
-                      brand will be there just as it has been for more than 75
-                      years. With flavors almost as rich as our history, we have
-                      a chip or crisp flavor guaranteed to bring a smile on your
-                      face.{" "}
-                    </p>
-                    <p>
-                      Morbi ut sapien vitae odio accumsan gravida. Morbi vitae
-                      erat auctor, eleifend nunc a, lobortis neque. Praesent
-                      aliquam dignissim viverra. Maecenas lacus odio, feugiat eu
-                      nunc sit amet, maximus sagittis dolor. Vivamus nisi
-                      sapien, elementum sit amet eros sit amet, ultricies cursus
-                      ipsum. Sed consequat luctus ligula. Curabitur laoreet
-                      rhoncus blandit. Aenean vel diam ut arcu pharetra
-                      dignissim ut sed leo. Vivamus faucibus, ipsum in
-                      vestibulum vulputate, lorem orci convallis quam, sit amet
-                      consequat nulla felis pharetra lacus. Duis semper erat
-                      mauris, sed egestas purus commodo vel.
-                    </p>
-                    <ul className="list-inside mt-32 ms-16">
-                      <li className="text-gray-400 mb-4">
-                        8.0 oz. bag of LAY'S Classic Potato Chips
-                      </li>
-                      <li className="text-gray-400 mb-4">
-                        Tasty LAY's potato chips are a great snack
-                      </li>
-                      <li className="text-gray-400 mb-4">
-                        Includes three ingredients: potatoes, oil, and salt
-                      </li>
-                      <li className="text-gray-400 mb-4">
-                        Gluten free product
-                      </li>
-                    </ul>
-                    <ul className="mt-32">
-                      <li className="text-gray-400 mb-4">Made in USA</li>
-                      <li className="text-gray-400 mb-4">Ready To Eat.</li>
-                    </ul>
+                    <h6 className="mb-24">{t("product_description")}</h6>
+                    {descripcion_producto.paragraphs.map(
+                      (
+                        paragraph: {
+                          type: string;
+                          text?: string;
+                          items?: string[];
+                        },
+                        index: number,
+                      ) => {
+                        let item = null;
+                        switch (paragraph.type) {
+                          case "text":
+                            item = (
+                              <p
+                                key={index}
+                                className="text-gray-400"
+                                style={{ textAlign: "justify" }}
+                              >
+                                {paragraph.text}
+                              </p>
+                            );
+                            break;
+
+                          case "list":
+                            item = (
+                              <ul
+                                key={index}
+                                className="list-inside mt-32 mb-32 ms-16"
+                              >
+                                {paragraph.items?.map((item, pIndex) => (
+                                  <li
+                                    key={pIndex}
+                                    className="text-gray-400 mb-4"
+                                  >
+                                    {item}
+                                  </li>
+                                ))}
+                              </ul>
+                            );
+                            break;
+
+                          default:
+                            break;
+                        }
+                        return item;
+                      },
+                    )}
                   </div>
-                  <div className="mb-40">
-                    <h6 className="mb-24">Product Specifications</h6>
-                    <ul className="mt-32">
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          Product Type:
-                          <span className="text-gray-500">
-                            {" "}
-                            Chips &amp; Dips
-                          </span>
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          Product Name:
-                          <span className="text-gray-500">
-                            {" "}
-                            Potato Chips Classic{" "}
-                          </span>
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          Brand:
-                          <span className="text-gray-500"> Lay's</span>
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          FSA Eligible:
-                          <span className="text-gray-500"> No</span>
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          Size/Count:
-                          <span className="text-gray-500"> 8.0oz</span>
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          Item Code:
-                          <span className="text-gray-500"> 331539</span>
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          Ingredients:
-                          <span className="text-gray-500">
-                            {" "}
-                            Potatoes, Vegetable Oil, and Salt.
-                          </span>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="mb-40">
-                    <h6 className="mb-24">Nutrition Facts</h6>
-                    <ul className="mt-32">
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          {" "}
-                          Total Fat 10g 13%
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          {" "}
-                          Saturated Fat 1.5g 7%
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          {" "}
-                          Cholesterol 0mg 0%
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          {" "}
-                          Sodium 170mg 7%
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          {" "}
-                          Potassium 350mg 6%
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="mb-0">
-                    <h6 className="mb-24">More Details</h6>
-                    <ul className="mt-32">
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-gray-500">
-                          {" "}
-                          Lunarlon midsole delivers ultra-plush responsiveness
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-gray-500">
-                          {" "}
-                          Encapsulated Air-Sole heel unit for lightweight
-                          cushioning
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-gray-500">
-                          {" "}
-                          Colour Shown: Ale Brown/Black/Goldtone/Ale Brown
-                        </span>
-                      </li>
-                      <li className="text-gray-400 mb-14 flex-align gap-14">
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i className="ph ph-check" />
-                        </span>
-                        <span className="text-gray-500">
-                          {" "}
-                          Style: 805899-202
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
+                  {descripcion_producto.sections.map(
+                    (
+                      section: {
+                        title: string;
+                        list: Array<{
+                          type: string;
+                          icon: string;
+                          content: { key?: string; value?: string };
+                        }>;
+                      },
+                      secIndex: number,
+                    ) => {
+                      return (
+                        <div key={secIndex} className="mb-40">
+                          <h6 className="mb-24">{section.title}</h6>
+                          <ul className="mt-32">
+                            {section.list.map(
+                              (
+                                item: {
+                                  type: string;
+                                  icon: string;
+                                  content: { key?: string; value?: string };
+                                },
+                                isecIndex: number,
+                              ) => {
+                                return (
+                                  <li
+                                    key={isecIndex}
+                                    className="text-gray-400 mb-14 flex-align gap-14"
+                                  >
+                                    <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
+                                      <i
+                                        className={
+                                          icons.find(x => x.label == item.icon)
+                                            ?.code
+                                        }
+                                      />
+                                    </span>
+                                    <span className="text-heading fw-medium">
+                                      {"key" in item.content
+                                        ? item.content.key
+                                        : ""}
+                                      <span className="text-gray-500">
+                                        {" "}
+                                        {"value" in item.content
+                                          ? item.type == "key-value"
+                                            ? `: ${item.content.value}`
+                                            : item.content.value
+                                          : ""}
+                                      </span>
+                                    </span>
+                                  </li>
+                                );
+                              },
+                            )}
+                          </ul>
+                        </div>
+                      );
+                    },
+                  )}
                 </div>
                 <div
                   className="tab-pane fade"
@@ -704,185 +596,112 @@ const ProductDetailsTwo = () => {
                 >
                   <div className="row g-4">
                     <div className="col-lg-6">
-                      <h6 className="mb-24">Product Description</h6>
-                      <div className="d-flex align-items-start gap-24 pb-44 border-bottom border-gray-100 mb-44">
-                        <img
-                          src="assets/images/thumbs/comment-img1.png"
-                          alt=""
-                          className="w-52 h-52 object-fit-cover rounded-circle flex-shrink-0"
-                        />
-                        <div className="flex-grow-1">
-                          <div className="flex-between align-items-start gap-8 ">
-                            <div className="">
-                              <h6 className="mb-12 text-md">Nicolas cage</h6>
-                              <div className="flex-align gap-8">
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                              </div>
-                            </div>
-                            <span className="text-gray-800 text-xs">
-                              3 Days ago
-                            </span>
-                          </div>
-                          <h6 className="mb-14 text-md mt-24">
-                            Greate Product
-                          </h6>
-                          <p className="text-gray-700">
-                            There are many variations of passages of Lorem Ipsum
-                            available, but the majority have suffered alteration
-                            in some form, by injected humour
-                          </p>
-                          <div className="flex-align gap-20 mt-44">
-                            <button className="flex-align gap-12 text-gray-700 hover-text-main-600">
-                              <i className="ph-bold ph-thumbs-up" />
-                              Like
-                            </button>
-                            <Link
-                              to="#comment-form"
-                              className="flex-align gap-12 text-gray-700 hover-text-main-600"
-                            >
-                              <i className="ph-bold ph-arrow-bend-up-left" />
-                              Replay
-                            </Link>
-                          </div>
-                        </div>
+                      <div className="h-25 d-inline-block overflow-auto">
+                        <h6 className="mb-24">{t("comments")}</h6>
+                        {comments.map((comment, index) => (
+                          <Comment key={index} {...comment} />
+                        ))}
                       </div>
-                      <div className="d-flex align-items-start gap-24">
-                        <img
-                          src="assets/images/thumbs/comment-img1.png"
-                          alt=""
-                          className="w-52 h-52 object-fit-cover rounded-circle flex-shrink-0"
-                        />
-                        <div className="flex-grow-1">
-                          <div className="flex-between align-items-start gap-8 ">
-                            <div className="">
-                              <h6 className="mb-12 text-md">Nicolas cage</h6>
-                              <div className="flex-align gap-8">
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
-                                <span className="text-15 fw-medium text-warning-600 d-flex">
-                                  <i className="ph-fill ph-star" />
-                                </span>
+                      <div>
+                        <div className="mt-56 pt-44 border-top border-gray-100">
+                          <div className="">
+                            <h6 className="mb-24">{t("write_a_review")}</h6>
+                            <span className="text-heading mb-8 flex-align justify-content-center">
+                              {t("what_is_it_like_to_product")}
+                            </span>
+                            <div className="flex-align gap-8 justify-content-center">
+                              <span
+                                className={`text-15 fw-medium ${starsReview >= 1 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                onClick={() => {
+                                  if (starsReview == 1) setStarsReview(0);
+                                  else setStarsReview(1);
+                                }}
+                              >
+                                <i className="ph-fill ph-star" />
+                              </span>
+                              <span
+                                className={`text-15 fw-medium ${starsReview >= 2 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                onClick={() => {
+                                  if (starsReview == 2) setStarsReview(0);
+                                  else setStarsReview(2);
+                                }}
+                              >
+                                <i className="ph-fill ph-star" />
+                              </span>
+                              <span
+                                className={`text-15 fw-medium ${starsReview >= 3 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                onClick={() => {
+                                  if (starsReview == 3) setStarsReview(0);
+                                  else setStarsReview(3);
+                                }}
+                              >
+                                <i className="ph-fill ph-star" />
+                              </span>
+                              <span
+                                className={`text-15 fw-medium ${starsReview >= 4 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                onClick={() => {
+                                  if (starsReview == 4) setStarsReview(0);
+                                  else setStarsReview(4);
+                                }}
+                              >
+                                <i className="ph-fill ph-star" />
+                              </span>
+                              <span
+                                className={`text-15 fw-medium ${starsReview == 5 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                onClick={() => {
+                                  if (starsReview == 5) setStarsReview(0);
+                                  else setStarsReview(5);
+                                }}
+                              >
+                                <i className="ph-fill ph-star" />
+                              </span>
+                            </div>
+                          </div>
+                          <div className="mt-32">
+                            <form action={handleNewReview}>
+                              <div className="mb-32">
+                                <label
+                                  htmlFor="titulo"
+                                  className="text-neutral-600 mb-8"
+                                >
+                                  {t("review_title")}
+                                </label>
+                                <input
+                                  type="text"
+                                  className="common-input rounded-8"
+                                  id="titulo"
+                                  name="titulo"
+                                  placeholder="Great Products"
+                                />
                               </div>
-                            </div>
-                            <span className="text-gray-800 text-xs">
-                              3 Days ago
-                            </span>
-                          </div>
-                          <h6 className="mb-14 text-md mt-24">
-                            Greate Product
-                          </h6>
-                          <p className="text-gray-700">
-                            There are many variations of passages of Lorem Ipsum
-                            available, but the majority have suffered alteration
-                            in some form, by injected humour
-                          </p>
-                          <div className="flex-align gap-20 mt-44">
-                            <button className="flex-align gap-12 text-gray-700 hover-text-main-600">
-                              <i className="ph-bold ph-thumbs-up" />
-                              Like
-                            </button>
-                            <Link
-                              to="#comment-form"
-                              className="flex-align gap-12 text-gray-700 hover-text-main-600"
-                            >
-                              <i className="ph-bold ph-arrow-bend-up-left" />
-                              Replay
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-56">
-                        <div className="">
-                          <h6 className="mb-24">Write a Review</h6>
-                          <span className="text-heading mb-8">
-                            What is it like to Product?
-                          </span>
-                          <div className="flex-align gap-8">
-                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                              <i className="ph-fill ph-star" />
-                            </span>
-                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                              <i className="ph-fill ph-star" />
-                            </span>
-                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                              <i className="ph-fill ph-star" />
-                            </span>
-                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                              <i className="ph-fill ph-star" />
-                            </span>
-                            <span className="text-15 fw-medium text-warning-600 d-flex">
-                              <i className="ph-fill ph-star" />
-                            </span>
-                          </div>
-                        </div>
-                        <div className="mt-32">
-                          <form action="#">
-                            <div className="mb-32">
-                              <label
-                                htmlFor="title"
-                                className="text-neutral-600 mb-8"
+                              <div className="mb-32">
+                                <label
+                                  htmlFor="contenido"
+                                  className="text-neutral-600 mb-8"
+                                >
+                                  {t("review_content")}
+                                </label>
+                                <textarea
+                                  className="common-input rounded-8"
+                                  id="contenido"
+                                  name="contenido"
+                                  defaultValue={""}
+                                />
+                              </div>
+                              <button
+                                type="submit"
+                                className="btn btn-main rounded-pill mt-48"
                               >
-                                Review Title
-                              </label>
-                              <input
-                                type="text"
-                                className="common-input rounded-8"
-                                id="title"
-                                placeholder="Great Products"
-                              />
-                            </div>
-                            <div className="mb-32">
-                              <label
-                                htmlFor="desc"
-                                className="text-neutral-600 mb-8"
-                              >
-                                Review Content
-                              </label>
-                              <textarea
-                                className="common-input rounded-8"
-                                id="desc"
-                                defaultValue={
-                                  "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
-                                }
-                              />
-                            </div>
-                            <button
-                              type="submit"
-                              className="btn btn-main rounded-pill mt-48"
-                            >
-                              Submit Review
-                            </button>
-                          </form>
+                                {t("submit_review")}
+                              </button>
+                            </form>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div className="col-lg-6">
                       <div className="ms-xxl-5">
-                        <h6 className="mb-24">Customers Feedback</h6>
+                        <h6 className="mb-24">{t("customers_feedback")}</h6>
                         <div className="d-flex flex-wrap gap-44">
                           <div className="border border-gray-100 rounded-8 px-40 py-52 flex-center flex-column flex-shrink-0 text-center">
                             <h2 className="mb-6 text-main-600">4.8</h2>
@@ -904,7 +723,7 @@ const ProductDetailsTwo = () => {
                               </span>
                             </div>
                             <span className="mt-16 text-gray-500">
-                              Average Product Rating
+                              {t("average_product_rating")}
                             </span>
                           </div>
                           <div className="border border-gray-100 rounded-8 px-24 py-40 flex-grow-1">
@@ -1110,6 +929,69 @@ const ProductDetailsTwo = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+const Comment = ({
+  id_comentario,
+  nombre_usuario,
+  titulo,
+  contenido,
+  estrellas = 0,
+  fecha_creacion,
+}: reviewInterface) => {
+  const { t } = useTranslation("ProductDetailsTwo");
+
+  const handleLike = (id_comentario: number) => {
+    console.log("handleLike", id_comentario);
+  };
+
+  return (
+    <div className="d-flex align-items-start gap-24 pt-44 border-top border-gray-100 mt-44">
+      <img
+        src="assets/images/thumbs/comment-img1.png"
+        alt=""
+        className="w-52 h-52 object-fit-cover rounded-circle flex-shrink-0"
+      />
+      <div className="flex-grow-1">
+        <div className="flex-between align-items-start gap-8 ">
+          <div className="">
+            <h6 className="mb-12 text-md">{`test: ${nombre_usuario}`}</h6>
+            <div className="flex-align gap-8">
+              {Array.from({ length: estrellas }, (_, index) => (
+                <span
+                  key={index}
+                  className="text-15 fw-medium text-warning-600 d-flex"
+                >
+                  <i className="ph-fill ph-star" />
+                </span>
+              ))}
+            </div>
+          </div>
+          <span className="text-gray-800 text-xs">{`${timeAgo(fecha_creacion)} - 3 Days ago`}</span>
+        </div>
+        <h6 className="mb-14 text-md mt-24">{titulo}</h6>
+        <p className="text-gray-700">{contenido}</p>
+        <div className="flex-align gap-20 mt-44">
+          <button
+            className="flex-align gap-12 text-gray-700 hover-text-main-600"
+            onClick={() => {
+              handleLike(id_comentario);
+            }}
+          >
+            <i className="ph-bold ph-thumbs-up" />
+            {t("like")}
+          </button>
+          <Link
+            to="#comment-form"
+            className="flex-align gap-12 text-gray-700 hover-text-main-600"
+          >
+            <i className="ph-bold ph-arrow-bend-up-left" />
+            {t("replay")}
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

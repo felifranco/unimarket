@@ -30,6 +30,8 @@ import PostEn from "./en/Post.json";
 import PostEs from "./es/Post.json";
 import ModalEn from "./en/Modal.json";
 import ModalEs from "./es/Modal.json";
+import ProductDetailsTwoEn from "./en/ProductDetailsTwo.json";
+import ProductDetailsTwoEs from "./es/ProductDetailsTwo.json";
 
 const resources = {
   en: {
@@ -49,6 +51,7 @@ const resources = {
     AccountSellingProductCard: AccountSellingProductCardEn,
     Post: PostEn,
     Modal: ModalEn,
+    ProductDetailsTwo: ProductDetailsTwoEn,
   },
   es: {
     Account: AccountEs,
@@ -67,6 +70,7 @@ const resources = {
     AccountSellingProductCard: AccountSellingProductCardEs,
     Post: PostEs,
     Modal: ModalEs,
+    ProductDetailsTwo: ProductDetailsTwoEs,
   },
 };
 
