@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
-import {
-  badgeTypes,
-  currenciesTypes,
-  icons,
-  publicationTypes,
-} from "../constants/post.constants";
+import { icons } from "../constants/post.constants";
 import { useTranslation } from "react-i18next";
 import { formatDate, timeAgo } from "../utils/app.util";
 import new_product from "../mocks/new_product.json";
@@ -968,7 +963,7 @@ const Comment = ({
               ))}
             </div>
           </div>
-          <span className="text-gray-800 text-xs">{`${timeAgo(fecha_creacion)} - 3 Days ago`}</span>
+          <span className="text-gray-800 text-xs">{`${timeAgo(fecha_creacion ? fecha_creacion : new Date())} - 3 Days ago`}</span>
         </div>
         <h6 className="mb-14 text-md mt-24">{titulo}</h6>
         <p className="text-gray-700">{contenido}</p>
@@ -976,7 +971,7 @@ const Comment = ({
           <button
             className="flex-align gap-12 text-gray-700 hover-text-main-600"
             onClick={() => {
-              handleLike(id_comentario);
+              if (id_comentario) handleLike(id_comentario);
             }}
           >
             <i className="ph-bold ph-thumbs-up" />
