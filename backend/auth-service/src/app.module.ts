@@ -14,9 +14,10 @@ import { Auth } from './auth/entities/auth.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: configService.get<
-          'postgres' | 'mysql' | 'sqlite' | 'mariadb' | 'oracle' | 'mssql'
-        >('database.type', 'postgres'),
+        //type: configService.get<
+        //  'postgres' | 'mysql' | 'sqlite' | 'mariadb' | 'oracle' | 'mssql'
+        //>('database.type', 'postgres'),
+        type: 'postgres',
         host: configService.get<string>('database.host'),
         port: configService.get<number>('database.port'),
         username: configService.get<string>('database.username'),
@@ -24,12 +25,12 @@ import { Auth } from './auth/entities/auth.entity';
         database: configService.get<string>('database.database'),
         entities: [Auth],
         synchronize: true,
-        //ssl: true,
-        //extra: {
-        //  ssl: {
-        //    rejectUnauthorized: false,
-        //  },
-        //},
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
       }),
       inject: [ConfigService],
     }),
