@@ -25,4 +25,5 @@ export const defaultValues = {
 
   JWT_SECRET: 'ALTERNATIVE SECRET cufefrufraphI69ez#dO',
   JWT_EXPIRATION_TIME: '15m',
+  JWT_REFRESH_EXPIRATION_TIME: '2d',
 };

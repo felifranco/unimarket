@@ -6,7 +6,7 @@ import { defaultValues } from 'src/constants/app.constants';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Lee el token desde el header
@@ -19,9 +19,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payloadAuthDto: PayloadAuthDto) {
-    return {
-      id_usuario: payloadAuthDto.id_usuario,
-      correo: payloadAuthDto.correo,
-    };
+    return payloadAuthDto;
   }
 }

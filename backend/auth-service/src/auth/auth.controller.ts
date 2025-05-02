@@ -5,14 +5,15 @@ import {
   Body,
   Request,
   UseGuards,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { PayloadAuthDto } from './dto/payload-auth.dto';
+import { RefreshTokenAuthDto } from './dto/refresh-token-auth.dto';
 import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -36,10 +37,24 @@ export class AuthController {
   })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
   async login(@Body() loginAuthDto: LoginAuthDto) {
-    const user: PayloadAuthDto | null =
-      await this.authService.validateUser(loginAuthDto);
-    if (!user) throw new UnauthorizedException('Credenciales inválidas');
-    return this.authService.login(user);
+    return this.authService.login(loginAuthDto);
+  }
+
+  @UseGuards(AuthGuard('jwt-refresh'))
+  @Post('refresh')
+  @ApiResponse({
+    status: 201,
+    description: 'Operación exitosa.',
+  })
+  @ApiResponse({ status: 403, description: 'Prohibido.' })
+  refreshTokens(
+    @Request() req: { user: RefreshTokenAuthDto },
+    @Body() body: RefreshTokenAuthDto,
+  ) {
+    // El "body" se utiliza para que aparezca en Swagger,
+    // no es necesario agregarlo porque la información ya viene en el "req"
+    const refreshTokenAuthDto: RefreshTokenAuthDto = req.user;
+    return this.authService.refreshTokens(refreshTokenAuthDto, body);
   }
 
   @UseGuards(JwtAuthGuard)
