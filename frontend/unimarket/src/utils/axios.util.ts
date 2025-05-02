@@ -1,5 +1,30 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { ApiResponse } from "./apiResponse.util";
+import { store } from "../store";
+
+/**
+ * Crea y exporta una instancia de Axios preconfigurada.
+ * @remarks
+ * Esta instancia puede ser usada en toda la aplicación para mantener consistencia.
+ */
+const axiosInstance: AxiosInstance = axios.create({
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// Establecer accessToken para las peticiones
+axiosInstance.interceptors.request.use(
+  config => {
+    const accessToken = store.getState().auth.accessToken;
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    return config;
+  },
+  error => Promise.reject(error),
+);
 
 /**
  * Permite hacer peticiones GET.
@@ -10,9 +35,8 @@ export const get = async (
   url: string,
   headers?: Record<string, string>,
 ): Promise<ApiResponse> => {
-  const res = await axios.get<ApiResponse>(url, {
+  const res = await axiosInstance.get<ApiResponse>(url, {
     headers: {
-      "Content-Type": "application/json",
       ...headers,
     },
   });
@@ -36,9 +60,8 @@ export const post = async (
   data?: unknown,
   headers?: Record<string, string>,
 ): Promise<ApiResponse> => {
-  const res = await axios.post<ApiResponse>(url, data, {
+  const res = await axiosInstance.post<ApiResponse>(url, data, {
     headers: {
-      "Content-Type": "application/json",
       ...headers,
     },
   });
@@ -62,9 +85,8 @@ export const put = async (
   data?: unknown,
   headers?: Record<string, string>,
 ): Promise<ApiResponse> => {
-  const res = await axios.put<ApiResponse>(url, data, {
+  const res = await axiosInstance.put<ApiResponse>(url, data, {
     headers: {
-      "Content-Type": "application/json",
       ...headers,
     },
   });
@@ -86,10 +108,9 @@ export const del = <ApiResponse>(
   url: string,
   headers?: Record<string, string>,
 ): Promise<ApiResponse> =>
-  axios
+  axiosInstance
     .delete<ApiResponse>(url, {
       headers: {
-        "Content-Type": "application/json",
         ...headers,
       },
     })
@@ -106,10 +127,9 @@ export const patch = <ApiResponse>(
   data?: unknown,
   headers?: Record<string, string>,
 ): Promise<ApiResponse> =>
-  axios
+  axiosInstance
     .patch<ApiResponse>(url, data, {
       headers: {
-        "Content-Type": "application/json",
         ...headers,
       },
     })

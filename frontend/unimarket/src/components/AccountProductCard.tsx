@@ -26,19 +26,18 @@ const AccountProductCard = (Product: listingInterface) => {
     imagen_portada,
   } = Product;
 
-  const token = useAppSelector(state => state.auth.token);
   const id_usuario = useAppSelector(state => state.auth.id_usuario);
 
   const handleEdit = async () => {
-    if (token && id_publicacion) {
-      await dispatch(fetchListingById({ token, id: id_publicacion }));
+    if (id_publicacion) {
+      await dispatch(fetchListingById({ id: id_publicacion }));
     }
   };
 
   const handleDelete = async () => {
-    if (token && id_publicacion) {
-      await dispatch(deleteListing({ token, id: id_publicacion }));
-      dispatch(fetchMyListings({ token, id_usuario }));
+    if (id_publicacion) {
+      await dispatch(deleteListing({ id: id_publicacion }));
+      dispatch(fetchMyListings({ id_usuario }));
     }
   };
 

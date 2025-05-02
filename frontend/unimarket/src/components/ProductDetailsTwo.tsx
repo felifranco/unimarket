@@ -135,7 +135,6 @@ const comments: Array<reviewInterface> = [
 const ProductDetailsTwo = () => {
   const { t } = useTranslation("ProductDetailsTwo");
 
-  const token = useAppSelector(state => state.auth.token);
   const id_usuario = useAppSelector(state => state.auth.id_usuario);
 
   const dispatch = useAppDispatch();
@@ -191,9 +190,7 @@ const ProductDetailsTwo = () => {
         estrellas: starsReview,
       };
       console.log("handleNewReview", review);
-      if (token) {
-        await dispatch(createReview({ token, review }));
-      }
+      await dispatch(createReview({ review }));
     } catch (error) {
       console.error("New review failed:", error);
     }

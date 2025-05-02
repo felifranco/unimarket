@@ -8,7 +8,7 @@ import { login, me } from "../store/auth/authSlice";
 const Login = () => {
   const { t } = useTranslation("Login");
 
-  const token = useAppSelector(state => state.auth.token);
+  const accessToken = useAppSelector(state => state.auth.accessToken);
   const first_name = useAppSelector(state => state.auth.first_name);
 
   const dispatch = useAppDispatch();
@@ -26,14 +26,14 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (accessToken) {
       if (!first_name) {
-        dispatch(me(token));
+        dispatch(me());
       } else {
         window.location.href = "/";
       }
     }
-  }, [token, first_name, dispatch]);
+  }, [accessToken, first_name, dispatch]);
 
   return (
     <section className="account py-80">

@@ -23,94 +23,46 @@ const initialState: ReviewState = {
 
 export const fetchReviewsByListing = createAsyncThunk(
   "reviews/fetchReviewsByListing",
-  async ({
-    token,
-    id_publicacion,
-  }: {
-    token: string;
-    id_publicacion: number;
-  }) => {
-    const response = await get(
-      `${REVIEW_SERVICE}/${endpoint}/review/${id_publicacion}`,
-      {
-        Authorization: `Bearer ${token}`,
-      },
-    );
-    return response;
+  ({ id_publicacion }: { id_publicacion: number }) => {
+    return get(`${REVIEW_SERVICE}/${endpoint}/review/${id_publicacion}`);
   },
 );
 
 export const fetchReviewById = createAsyncThunk(
   "reviews/fetchReviewById",
-  async ({ token, id }: { token: string; id: number }) => {
-    const response = await get(`${REVIEW_SERVICE}/${endpoint}/${id}`, {
-      Authorization: `Bearer ${token}`,
-    });
-    return response;
+  ({ id }: { id: number }) => {
+    return get(`${REVIEW_SERVICE}/${endpoint}/${id}`);
   },
 );
 
 export const createReview = createAsyncThunk(
   "reviews/createReview",
-  async ({ token, review }: { token: string; review: reviewInterface }) => {
-    const response = await post(`${REVIEW_SERVICE}/${endpoint}`, review, {
-      Authorization: `Bearer ${token}`,
-    });
-    return response;
+  ({ review }: { review: reviewInterface }) => {
+    return post(`${REVIEW_SERVICE}/${endpoint}`, review);
   },
 );
 
 export const patchReview = createAsyncThunk(
   "reviews/patchReview",
-  async ({ token, review }: { token: string; review: reviewInterface }) => {
-    const response = await patch(
+  ({ review }: { review: reviewInterface }) => {
+    return patch(
       `${REVIEW_SERVICE}/${endpoint}/${review.id_publicacion}`,
       review,
-      {
-        Authorization: `Bearer ${token}`,
-      },
     );
-    return response;
   },
 );
 
 export const patchLikeReview = createAsyncThunk(
   "reviews/patchLikeReview",
-  async ({
-    token,
-    id_publicacion,
-  }: {
-    token: string;
-    id_publicacion: number;
-  }) => {
-    const response = await patch(
-      `${REVIEW_SERVICE}/${endpoint}/like/${id_publicacion}`,
-      {},
-      {
-        Authorization: `Bearer ${token}`,
-      },
-    );
-    return response;
+  ({ id_publicacion }: { id_publicacion: number }) => {
+    return patch(`${REVIEW_SERVICE}/${endpoint}/like/${id_publicacion}`, {});
   },
 );
 
 export const patchUnlikeReview = createAsyncThunk(
   "reviews/patchUnlikeReview",
-  async ({
-    token,
-    id_publicacion,
-  }: {
-    token: string;
-    id_publicacion: number;
-  }) => {
-    const response = await patch(
-      `${REVIEW_SERVICE}/${endpoint}/unlike/${id_publicacion}`,
-      {},
-      {
-        Authorization: `Bearer ${token}`,
-      },
-    );
-    return response;
+  ({ id_publicacion }: { id_publicacion: number }) => {
+    return patch(`${REVIEW_SERVICE}/${endpoint}/unlike/${id_publicacion}`, {});
   },
 );
 
