@@ -29,6 +29,9 @@ export class Auth {
   @Column({ nullable: true })
   estado: string;
 
+  @Column({ nullable: true })
+  refreshToken: string;
+
   @CreateDateColumn({ type: 'timestamptz' })
   fecha_creacion: Date;
 

@@ -13,8 +13,6 @@ const ShopSection = () => {
 
   const dispatch = useAppDispatch();
 
-  const token = useAppSelector(state => state.auth.token);
-
   const listings = useAppSelector(state => state.listing.listings);
 
   let [grid, setGrid] = useState(false);
@@ -25,9 +23,8 @@ const ShopSection = () => {
   };
 
   useEffect(() => {
-    if (!token) return;
-    dispatch(fetchListings(token));
-  }, [dispatch, token]);
+    dispatch(fetchListings());
+  }, [dispatch]);
 
   return (
     <section className="shop py-80">

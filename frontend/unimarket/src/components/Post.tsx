@@ -25,7 +25,6 @@ const Post = (Product: listingInterface) => {
 
   const dispatch = useAppDispatch();
 
-  const token = useAppSelector(state => state.auth.token);
   const id_usuario = useAppSelector(state => state.auth.id_usuario);
   const listing = useAppSelector(state => state.listing.listing);
 
@@ -95,11 +94,10 @@ const Post = (Product: listingInterface) => {
       insignia,
     };
 
-    if (token && id_usuario) {
+    if (id_usuario) {
       if (id_publicacion) {
         await dispatch(
           patchListing({
-            token,
             listing: {
               ...data,
               id_publicacion,
@@ -118,11 +116,10 @@ const Post = (Product: listingInterface) => {
             },
           }),
         );
-        //dispatch(fetchMyListings({ token, id_usuario }));
+        //dispatch(fetchMyListings({ id_usuario }));
       } else {
         dispatch(
           createListing({
-            token,
             listing: {
               ...data,
               categorias: productData.categorias || "",

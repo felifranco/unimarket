@@ -9,7 +9,8 @@ const AUTH_SERVICE = service.AUTH_SERVICE;
 const endpoint = "auth";
 
 interface AuthState {
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   id_usuario: number;
   correo?: string;
   nombre_completo?: string;
@@ -18,7 +19,8 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  token: null,
+  accessToken: null,
+  refreshToken: null,
   id_usuario: 0,
   correo: undefined,
   nombre_completo: undefined,
@@ -38,9 +40,6 @@ export const login = createAsyncThunk(
       password: credentials.password,
     });
 
-    //if (response.statusCode !== 200) {
-    //  throw new Error(response.message);
-    //}
     return response;
   },
 );
@@ -60,30 +59,27 @@ export const register = createAsyncThunk(
       password: user.password,
     });
 
-    //if (response.statusCode !== 200) {
-    //  throw new Error(response.message);
-    //}
     return response;
   },
 );
 
-export const me = createAsyncThunk("me", async (token: string) => {
-  const response = await get(`${AUTH_SERVICE}/${endpoint}/me`, {
-    Authorization: `Bearer ${token}`,
-  });
-
-  //if (response.statusCode !== 200) {
-  //  throw new Error(response.message);
-  //}
-  return response;
+export const me = createAsyncThunk("me", () => {
+  return get(`${AUTH_SERVICE}/${endpoint}/me`);
 });
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setToken: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
+    setTokens: (
+      state,
+      action: PayloadAction<{
+        accessToken: string;
+        refreshToken: string;
+      }>,
+    ) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
     },
   },
   extraReducers: builder => {
@@ -92,10 +88,12 @@ export const authSlice = createSlice({
       login.fulfilled,
       (state, action: PayloadAction<ApiResponse<unknown>>) => {
         const response = action.payload as ApiResponse<{
-          access_token: string;
+          accessToken: string;
+          refreshToken: string;
         }>;
-        state.token = response.data?.access_token || null;
-        console.log("Login successful:", action.payload);
+        state.accessToken = response.data?.accessToken || null;
+        state.refreshToken = response.data?.refreshToken || null;
+        console.log("Login successful:", response.data);
       },
     );
     //.addCase(login.rejected, (state, action) => {
@@ -146,8 +144,9 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setToken } = authSlice.actions;
+export const { setTokens } = authSlice.actions;
 
-export const selectToken = (state: { auth: AuthState }) => state.auth.token;
+export const selectAccessToken = (state: { auth: AuthState }) =>
+  state.auth.accessToken;
 
 export default authSlice.reducer;

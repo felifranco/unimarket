@@ -7,6 +7,7 @@ CREATE TABLE public.usuario (
 	password_hash varchar NOT NULL,
 	rol varchar NULL,
 	estado varchar NULL,
+	refreshToken varchar NULL,
 	fecha_creacion timestamp NULL,
 	fecha_modificacion timestamp NULL,
 	CONSTRAINT usuario_pk PRIMARY KEY (id_usuario)

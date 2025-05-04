@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { NavigateHelper } from "./helper/NavigateHelper";
 import RouteScrollToTop from "./helper/RouteScrollToTop";
 import HomePageTwo from "./pages/HomePageTwo";
 import ShopPage from "./pages/ShopPage";
@@ -19,6 +20,7 @@ import WishlistPage from "./pages/WishlistPage";
 function App() {
   return (
     <BrowserRouter basename="/unimarket">
+      <NavigateHelper />
       <RouteScrollToTop />
       <PhosphorIconInit />
       <Routes>

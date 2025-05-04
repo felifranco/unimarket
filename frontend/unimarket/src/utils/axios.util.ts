@@ -1,5 +1,121 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { ApiResponse } from "./apiResponse.util";
+import { store, persistor } from "../store";
+import { service } from "../config/configurations";
+import { setTokens } from "../store/auth/authSlice";
+import { navigateTo } from "../helper/NavigateHelper";
+
+/**
+ * Crea y exporta una instancia de Axios preconfigurada.
+ * @remarks
+ * Esta instancia puede ser usada en toda la aplicación para mantener consistencia.
+ */
+const axiosInstance: AxiosInstance = axios.create({
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// Establecer accessToken para las peticiones
+axiosInstance.interceptors.request.use(
+  config => {
+    const accessToken = store.getState().auth.accessToken;
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    return config;
+  },
+  error => Promise.reject(error),
+);
+
+let isRefreshing = false;
+let failedQueue: {
+  resolve: (token: string | null) => void;
+  reject: (error: Error | null) => void;
+}[] = [];
+
+const processQueue = (error: Error | null, token: string | null = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
+// Refresh Token
+axiosInstance.interceptors.response.use(
+  response => response,
+  async error => {
+    // Respuesta recibida del API
+    const originalRequest = error.config;
+
+    // Si es un 401 y no se está intentando refrescar
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes("/auth/refresh")
+    ) {
+      if (isRefreshing) {
+        return new Promise(function (resolve, reject) {
+          failedQueue.push({ resolve, reject });
+        })
+          .then(token => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return axiosInstance(originalRequest);
+          })
+          .catch(err => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const refreshToken = store.getState().auth.refreshToken;
+
+        const response: {
+          data: ApiResponse<{
+            accessToken: string;
+            refreshToken: string;
+          }>;
+        } = await axiosInstance.post(`${service.AUTH_SERVICE}/auth/refresh`, {
+          refreshToken,
+        });
+
+        if (response.data.data) {
+          const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+            response.data.data;
+
+          store.dispatch(
+            setTokens({
+              accessToken: newAccessToken,
+              refreshToken: newRefreshToken,
+            }),
+          );
+
+          processQueue(null, newAccessToken);
+
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        }
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        processQueue(err as Error, null);
+
+        persistor.purge();
+        navigateTo("/login");
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 /**
  * Permite hacer peticiones GET.
@@ -10,9 +126,8 @@ export const get = async (
   url: string,
   headers?: Record<string, string>,
 ): Promise<ApiResponse> => {
-  const res = await axios.get<ApiResponse>(url, {
+  const res = await axiosInstance.get<ApiResponse>(url, {
     headers: {
-      "Content-Type": "application/json",
       ...headers,
     },
   });
@@ -36,9 +151,8 @@ export const post = async (
   data?: unknown,
   headers?: Record<string, string>,
 ): Promise<ApiResponse> => {
-  const res = await axios.post<ApiResponse>(url, data, {
+  const res = await axiosInstance.post<ApiResponse>(url, data, {
     headers: {
-      "Content-Type": "application/json",
       ...headers,
     },
   });
@@ -62,9 +176,8 @@ export const put = async (
   data?: unknown,
   headers?: Record<string, string>,
 ): Promise<ApiResponse> => {
-  const res = await axios.put<ApiResponse>(url, data, {
+  const res = await axiosInstance.put<ApiResponse>(url, data, {
     headers: {
-      "Content-Type": "application/json",
       ...headers,
     },
   });
@@ -86,10 +199,9 @@ export const del = <ApiResponse>(
   url: string,
   headers?: Record<string, string>,
 ): Promise<ApiResponse> =>
-  axios
+  axiosInstance
     .delete<ApiResponse>(url, {
       headers: {
-        "Content-Type": "application/json",
         ...headers,
       },
     })
@@ -106,10 +218,9 @@ export const patch = <ApiResponse>(
   data?: unknown,
   headers?: Record<string, string>,
 ): Promise<ApiResponse> =>
-  axios
+  axiosInstance
     .patch<ApiResponse>(url, data, {
       headers: {
-        "Content-Type": "application/json",
         ...headers,
       },
     })

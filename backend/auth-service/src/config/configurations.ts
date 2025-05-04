@@ -16,4 +16,10 @@ export default () => ({
     expiresIn:
       process.env.JWT_EXPIRATION_TIME || defaultValues.JWT_EXPIRATION_TIME,
   },
+  jwtRefresh: {
+    secret: process.env.JWT_SECRET || defaultValues.JWT_SECRET,
+    expiresIn:
+      process.env.JWT_REFRESH_EXPIRATION_TIME ||
+      defaultValues.JWT_REFRESH_EXPIRATION_TIME,
+  },
 });
