@@ -11,6 +11,7 @@ import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @ApiBearerAuth()
 @ApiTags('reviews')
@@ -28,6 +29,7 @@ export class ReviewsController {
     return this.reviewsService.create(createReviewDto);
   }
 
+  @Public()
   @Get('listing/:id')
   @ApiResponse({ status: 201, description: 'Operación exitosa.' })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
