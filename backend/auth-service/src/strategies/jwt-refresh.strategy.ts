@@ -28,8 +28,6 @@ export class JwtRefreshStrategy extends PassportStrategy(
     req: Request & { body: { refreshToken: string } },
     payloadAuthDto: PayloadAuthDto,
   ): RefreshTokenAuthDto {
-    console.log('payloadAuthDto', payloadAuthDto);
-
     return {
       id_usuario: payloadAuthDto.id_usuario,
       refreshToken: req.body.refreshToken,

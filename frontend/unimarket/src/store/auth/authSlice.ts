@@ -71,8 +71,15 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setToken: (state, action: PayloadAction<string>) => {
-      state.accessToken = action.payload;
+    setTokens: (
+      state,
+      action: PayloadAction<{
+        accessToken: string;
+        refreshToken: string;
+      }>,
+    ) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
     },
   },
   extraReducers: builder => {
@@ -137,7 +144,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setToken } = authSlice.actions;
+export const { setTokens } = authSlice.actions;
 
 export const selectAccessToken = (state: { auth: AuthState }) =>
   state.auth.accessToken;

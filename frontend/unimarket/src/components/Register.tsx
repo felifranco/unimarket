@@ -2,6 +2,7 @@
 import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../hooks";
 import { register } from "../store/auth/authSlice";
+import { navigateTo } from "../helper/NavigateHelper";
 
 const Register = () => {
   const { t } = useTranslation("Register");
@@ -33,7 +34,7 @@ const Register = () => {
     try {
       await dispatch(register({ name, email, username, password }));
 
-      window.location.href = "/login";
+      navigateTo("/login");
     } catch (error) {
       console.error("Login failed:", error);
     }

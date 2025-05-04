@@ -1,6 +1,9 @@
 import axios, { AxiosInstance } from "axios";
 import { ApiResponse } from "./apiResponse.util";
-import { store } from "../store";
+import { store, persistor } from "../store";
+import { service } from "../config/configurations";
+import { setTokens } from "../store/auth/authSlice";
+import { navigateTo } from "../helper/NavigateHelper";
 
 /**
  * Crea y exporta una instancia de Axios preconfigurada.
@@ -24,6 +27,94 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   error => Promise.reject(error),
+);
+
+let isRefreshing = false;
+let failedQueue: {
+  resolve: (token: string | null) => void;
+  reject: (error: Error | null) => void;
+}[] = [];
+
+const processQueue = (error: Error | null, token: string | null = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
+// Refresh Token
+axiosInstance.interceptors.response.use(
+  response => response,
+  async error => {
+    // Respuesta recibida del API
+    const originalRequest = error.config;
+
+    // Si es un 401 y no se está intentando refrescar
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes("/auth/refresh")
+    ) {
+      if (isRefreshing) {
+        return new Promise(function (resolve, reject) {
+          failedQueue.push({ resolve, reject });
+        })
+          .then(token => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return axiosInstance(originalRequest);
+          })
+          .catch(err => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const refreshToken = store.getState().auth.refreshToken;
+
+        const response: {
+          data: ApiResponse<{
+            accessToken: string;
+            refreshToken: string;
+          }>;
+        } = await axiosInstance.post(`${service.AUTH_SERVICE}/auth/refresh`, {
+          refreshToken,
+        });
+
+        if (response.data.data) {
+          const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+            response.data.data;
+
+          store.dispatch(
+            setTokens({
+              accessToken: newAccessToken,
+              refreshToken: newRefreshToken,
+            }),
+          );
+
+          processQueue(null, newAccessToken);
+
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        }
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        processQueue(err as Error, null);
+
+        persistor.purge();
+        navigateTo("/login");
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
+    return Promise.reject(error);
+  },
 );
 
 /**

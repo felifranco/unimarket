@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../hooks";
 import { login, me } from "../store/auth/authSlice";
+import { navigateTo } from "../helper/NavigateHelper";
 
 const Login = () => {
   const { t } = useTranslation("Login");
@@ -30,7 +31,7 @@ const Login = () => {
       if (!first_name) {
         dispatch(me());
       } else {
-        window.location.href = "/";
+        navigateTo("/");
       }
     }
   }, [accessToken, first_name, dispatch]);

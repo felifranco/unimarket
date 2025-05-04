@@ -13,7 +13,7 @@ import { PayloadAuthDto } from './dto/payload-auth.dto';
 import { RefreshTokenAuthDto } from './dto/refresh-token-auth.dto';
 import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtRefreshAuthGuard } from './jwt-refresh-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -40,7 +40,7 @@ export class AuthController {
     return this.authService.login(loginAuthDto);
   }
 
-  @UseGuards(AuthGuard('jwt-refresh'))
+  @UseGuards(JwtRefreshAuthGuard)
   @Post('refresh')
   @ApiResponse({
     status: 201,
