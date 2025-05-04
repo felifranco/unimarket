@@ -11,6 +11,7 @@ import { ListingsService } from './listings.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { UpdateListingDto } from './dto/update-listing.dto';
 import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @ApiBearerAuth()
 @ApiTags('listings')
@@ -28,6 +29,7 @@ export class ListingsController {
     return this.listingsService.create(createListingDto);
   }
 
+  @Public()
   @Get()
   @ApiResponse({ status: 201, description: 'Operación exitosa.' })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
@@ -35,6 +37,7 @@ export class ListingsController {
     return this.listingsService.findAll();
   }
 
+  @Public()
   @Get(':id')
   @ApiResponse({ status: 201, description: 'Operación exitosa.' })
   @ApiResponse({ status: 403, description: 'Prohibido.' })
