@@ -2,9 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateListingDto {
   @ApiProperty()
-  id_usuario: number;
-
-  @ApiProperty()
   tipo_publicacion: string;
 
   @ApiProperty()

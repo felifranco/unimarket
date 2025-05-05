@@ -12,8 +12,11 @@ export class ReviewsService {
     private readonly reviewRepo: Repository<Review>,
   ) {}
 
-  create(createReviewDto: CreateReviewDto) {
-    const newReview = this.reviewRepo.create(createReviewDto);
+  create(id_usuario: number, createReviewDto: CreateReviewDto) {
+    const newReview = this.reviewRepo.create({
+      id_usuario,
+      ...createReviewDto,
+    });
     return this.reviewRepo.save(newReview);
   }
 

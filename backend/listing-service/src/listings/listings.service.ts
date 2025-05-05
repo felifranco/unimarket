@@ -13,8 +13,9 @@ export class ListingsService {
     private readonly listingRepo: Repository<Listing>,
   ) {}
 
-  create(createListingDto: CreateListingDto) {
+  create(id_usuario: number, createListingDto: CreateListingDto) {
     const newListing = this.listingRepo.create({
+      id_usuario,
       ...createListingDto,
       estado: ListingStatus.ACTIVA, // Estado por defecto
     });
