@@ -32,6 +32,10 @@ import ModalEn from "./en/Modal.json";
 import ModalEs from "./es/Modal.json";
 import ProductDetailsTwoEn from "./en/ProductDetailsTwo.json";
 import ProductDetailsTwoEs from "./es/ProductDetailsTwo.json";
+import ProductCardEn from "./en/ProductCard.json";
+import ProductCardEs from "./es/ProductCard.json";
+import VendorTwoDetailsEn from "./en/VendorTwoDetails.json";
+import VendorTwoDetailsEs from "./es/VendorTwoDetails.json";
 
 const resources = {
   en: {
@@ -52,6 +56,8 @@ const resources = {
     Post: PostEn,
     Modal: ModalEn,
     ProductDetailsTwo: ProductDetailsTwoEn,
+    ProductCard: ProductCardEn,
+    VendorTwoDetails: VendorTwoDetailsEn,
   },
   es: {
     Account: AccountEs,
@@ -71,6 +77,8 @@ const resources = {
     Post: PostEs,
     Modal: ModalEs,
     ProductDetailsTwo: ProductDetailsTwoEs,
+    ProductCard: ProductCardEs,
+    VendorTwoDetails: VendorTwoDetailsEs,
   },
 };
 

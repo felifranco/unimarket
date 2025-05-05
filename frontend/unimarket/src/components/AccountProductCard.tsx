@@ -54,21 +54,14 @@ const AccountProductCard = (Product: listingInterface) => {
         </h6>
         <div className="flex-align gap-6">
           <div className="flex-align gap-8">
-            <span className="text-15 fw-medium text-warning-600 d-flex">
-              <i className="ph-fill ph-star" />
-            </span>
-            <span className="text-15 fw-medium text-warning-600 d-flex">
-              <i className="ph-fill ph-star" />
-            </span>
-            <span className="text-15 fw-medium text-warning-600 d-flex">
-              <i className="ph-fill ph-star" />
-            </span>
-            <span className="text-15 fw-medium text-warning-600 d-flex">
-              <i className="ph-fill ph-star" />
-            </span>
-            <span className="text-15 fw-medium text-warning-600 d-flex">
-              <i className="ph-fill ph-star" />
-            </span>
+            {Array.from({ length: estrellas }, (_, index) => (
+              <span
+                key={index}
+                className="text-15 fw-medium text-warning-600 d-flex"
+              >
+                <i className="ph-fill ph-star" />
+              </span>
+            ))}
           </div>
           <span className="text-xs fw-medium text-gray-500">{estrellas}</span>
           <span className="text-xs fw-medium text-gray-500">

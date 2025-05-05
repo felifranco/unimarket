@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { listingInterface } from "../interfaces/listings.interfaces";
 
-const AccountSellingProductCard = ({
+const SellingProductCard = ({
   titulo,
   calificacion,
   vendidos,
   simbolo_moneda,
   precio,
+  estrellas,
 }: listingInterface) => {
   return (
     <div className="d-flex align-items-center flex-sm-nowrap flex-wrap gap-16">
@@ -28,21 +29,14 @@ const AccountSellingProductCard = ({
         </h6>
         <div className="flex-align gap-6">
           <div className="flex-align gap-4">
-            <span className="text-xs fw-medium text-warning-600 d-flex">
-              <i className="ph-fill ph-star" />
-            </span>
-            <span className="text-xs fw-medium text-warning-600 d-flex">
-              <i className="ph-fill ph-star" />
-            </span>
-            <span className="text-xs fw-medium text-warning-600 d-flex">
-              <i className="ph-fill ph-star" />
-            </span>
-            <span className="text-xs fw-medium text-warning-600 d-flex">
-              <i className="ph-fill ph-star" />
-            </span>
-            <span className="text-xs fw-medium text-warning-600 d-flex">
-              <i className="ph-fill ph-star" />
-            </span>
+            {Array.from({ length: estrellas }, (_, index) => (
+              <span
+                key={index}
+                className="text-xs fw-medium text-warning-600 d-flex"
+              >
+                <i className="ph-fill ph-star" />
+              </span>
+            ))}
           </div>
           <span className="text-xs fw-medium text-neutral-500">
             {calificacion}
@@ -57,4 +51,4 @@ const AccountSellingProductCard = ({
   );
 };
 
-export default AccountSellingProductCard;
+export default SellingProductCard;

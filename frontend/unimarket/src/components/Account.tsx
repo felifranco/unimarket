@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import AccountProductCard from "./AccountProductCard";
-import AccountSellingProductCard from "./AccountSellingProductCard";
+import SellingProductCard from "./SellingProductCard";
 import { categories } from "../mocks/categories.json";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchMyListings } from "../store/listing/listingSlice";
@@ -116,25 +116,7 @@ const Account = () => {
                     to="#"
                     className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
                   >
-                    {t("products")}
-                  </Link>
-                  <Link
-                    to="#"
-                    className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
-                  >
-                    {t("return_policy")}
-                  </Link>
-                  <Link
-                    to="#"
-                    className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
-                  >
-                    {t("shipping_policy")}
-                  </Link>
-                  <Link
-                    to="#"
-                    className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
-                  >
-                    {t("concact_seller")}
+                    {t("contact_info")}
                   </Link>
                 </div>
               </div>
@@ -161,7 +143,7 @@ const Account = () => {
                 </h6>
                 <div className="d-flex flex-column gap-24">
                   {myListings.map((product, index) => (
-                    <AccountSellingProductCard key={index} {...product} />
+                    <SellingProductCard key={index} {...product} />
                   ))}
                 </div>
               </div>
