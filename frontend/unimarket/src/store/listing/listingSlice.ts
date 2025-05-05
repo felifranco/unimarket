@@ -53,15 +53,15 @@ export const fetchListings = createAsyncThunk("listings/fetchListings", () => {
 
 export const fetchMyListings = createAsyncThunk(
   "listings/fetchMyListings",
-  ({ id_usuario }: { id_usuario: number }) => {
-    return get(`${LISTING_SERVICE}/${endpoint}/user/${id_usuario}`);
+  () => {
+    return get(`${LISTING_SERVICE}/${endpoint}/user`);
   },
 );
 
 export const fetchListingById = createAsyncThunk(
   "listings/fetchListingById",
-  ({ id }: { id: number }) => {
-    return get(`${LISTING_SERVICE}/${endpoint}/${id}`);
+  ({ id_publicacion }: { id_publicacion: number }) => {
+    return get(`${LISTING_SERVICE}/${endpoint}/${id_publicacion}`);
   },
 );
 
@@ -94,8 +94,8 @@ export const patchListing = createAsyncThunk(
 
 export const deleteListing = createAsyncThunk(
   "listings/deleteListing",
-  ({ id }: { id: number }) => {
-    return del(`${LISTING_SERVICE}/${endpoint}/${id}`);
+  ({ id_publicacion }: { id_publicacion: number }) => {
+    return del(`${LISTING_SERVICE}/${endpoint}/${id_publicacion}`);
   },
 );
 

@@ -1,6 +1,6 @@
 export interface listingInterface {
   id_publicacion?: number;
-  id_usuario: number;
+  id_usuario?: number;
   tipo_publicacion: string | undefined;
   titulo: string | undefined;
   descripcion_general: string | undefined;

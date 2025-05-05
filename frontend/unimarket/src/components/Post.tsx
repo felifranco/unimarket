@@ -25,7 +25,6 @@ const Post = (Product: listingInterface) => {
 
   const dispatch = useAppDispatch();
 
-  const id_usuario = useAppSelector(state => state.auth.id_usuario);
   const listing = useAppSelector(state => state.listing.listing);
 
   const { images, descripcion_producto: descripcion_producto_text } =
@@ -81,7 +80,6 @@ const Post = (Product: listingInterface) => {
     const insignia = formData.get("insignia") as string;
 
     const data = {
-      id_usuario,
       titulo,
       sku,
       descripcion_general,
@@ -94,50 +92,48 @@ const Post = (Product: listingInterface) => {
       insignia,
     };
 
-    if (id_usuario) {
-      if (id_publicacion) {
-        await dispatch(
-          patchListing({
-            listing: {
-              ...data,
-              id_publicacion,
-              categorias: productData.categorias || "",
-              estado: productData.estado || "",
-              estrellas: productData.estrellas || 0,
-              calificacion: productData.calificacion || 0,
-              vendidos: productData.vendidos || 0,
-              descripcion_producto: productData.descripcion_producto || "",
-              imagenes: productData.imagenes || "",
-              imagen_portada: productData.imagen_portada || "",
-              fecha_creacion:
-                productData.fecha_creacion || new Date().toISOString(),
-              fecha_modificacion:
-                productData.fecha_modificacion || new Date().toISOString(),
-            },
-          }),
-        );
-        //dispatch(fetchMyListings({ id_usuario }));
-      } else {
-        dispatch(
-          createListing({
-            listing: {
-              ...data,
-              categorias: productData.categorias || "",
-              estado: productData.estado || "",
-              estrellas: productData.estrellas || 0,
-              calificacion: productData.calificacion || 0,
-              vendidos: productData.vendidos || 0,
-              descripcion_producto: productData.descripcion_producto || "",
-              imagenes: productData.imagenes || "",
-              imagen_portada: productData.imagen_portada || "",
-              fecha_creacion:
-                productData.fecha_creacion || new Date().toISOString(),
-              fecha_modificacion:
-                productData.fecha_modificacion || new Date().toISOString(),
-            },
-          }),
-        );
-      }
+    if (id_publicacion) {
+      await dispatch(
+        patchListing({
+          listing: {
+            ...data,
+            id_publicacion,
+            categorias: productData.categorias || "",
+            estado: productData.estado || "",
+            estrellas: productData.estrellas || 0,
+            calificacion: productData.calificacion || 0,
+            vendidos: productData.vendidos || 0,
+            descripcion_producto: productData.descripcion_producto || "",
+            imagenes: productData.imagenes || "",
+            imagen_portada: productData.imagen_portada || "",
+            fecha_creacion:
+              productData.fecha_creacion || new Date().toISOString(),
+            fecha_modificacion:
+              productData.fecha_modificacion || new Date().toISOString(),
+          },
+        }),
+      );
+      //dispatch(fetchMyListings());
+    } else {
+      dispatch(
+        createListing({
+          listing: {
+            ...data,
+            categorias: productData.categorias || "",
+            estado: productData.estado || "",
+            estrellas: productData.estrellas || 0,
+            calificacion: productData.calificacion || 0,
+            vendidos: productData.vendidos || 0,
+            descripcion_producto: productData.descripcion_producto || "",
+            imagenes: productData.imagenes || "",
+            imagen_portada: productData.imagen_portada || "",
+            fecha_creacion:
+              productData.fecha_creacion || new Date().toISOString(),
+            fecha_modificacion:
+              productData.fecha_modificacion || new Date().toISOString(),
+          },
+        }),
+      );
     }
   };
 

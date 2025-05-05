@@ -1,6 +1,6 @@
 export interface reviewInterface {
   id_comentario?: number;
-  id_usuario: number;
+  id_usuario?: number;
   id_publicacion: number;
   id_comentario_respuesta?: number;
   nombre_usuario: string;

@@ -12,7 +12,6 @@ const Account = () => {
 
   const dispatch = useAppDispatch();
 
-  const id_usuario = useAppSelector(state => state.auth.id_usuario);
   const nombre_completo = useAppSelector(state => state.auth.nombre_completo);
 
   const myListings = useAppSelector(state => state.listing.myListings);
@@ -31,9 +30,8 @@ const Account = () => {
   const handleEdit = () => {};
 
   useEffect(() => {
-    if (!id_usuario) return;
-    dispatch(fetchMyListings({ id_usuario }));
-  }, [dispatch, id_usuario]);
+    dispatch(fetchMyListings());
+  }, [dispatch]);
 
   return (
     <section className="vendor-two-details py-80">
