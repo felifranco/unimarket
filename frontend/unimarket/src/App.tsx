@@ -16,10 +16,13 @@ import VendorTwoPage from "./pages/VendorTwoPage";
 import VendorTwoDetailsPage from "./pages/VendorTwoDetailsPage";
 import BecomeSellerPage from "./pages/BecomeSellerPage";
 import WishlistPage from "./pages/WishlistPage";
+import config from "./config/configurations";
 
 function App() {
   return (
-    <BrowserRouter basename="/unimarket">
+    <BrowserRouter
+      basename={config.USE_BASE_PATH ? `/${config.BASE_PATH}` : ""}
+    >
       <NavigateHelper />
       <RouteScrollToTop />
       <PhosphorIconInit />

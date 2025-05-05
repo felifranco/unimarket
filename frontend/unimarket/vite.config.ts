@@ -5,11 +5,16 @@ import config from "./src/constants/app.constants";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+
+  const USE_BASE_PATH = process.env.VITE_USE_BASE_PATH === "true";
+  const BASE_PATH = process.env.VITE_BASE_PATH;
+  const APP_PORT = parseInt(process.env.VITE_APP_PORT!, 10);
+
   return {
-    base: "/unimarket/",
+    base: USE_BASE_PATH ? `/${BASE_PATH}/` : "/",
     plugins: [react()],
     server: {
-      port: config.APP_PORT,
+      port: APP_PORT || config.APP_PORT,
     },
   };
 });
