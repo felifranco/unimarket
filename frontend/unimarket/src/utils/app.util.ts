@@ -10,7 +10,8 @@ export function formatDate(date: Date, format: string): string {
   return format.replace(/YYYY|MM|DD|HH|mm|ss/g, match => map[match]);
 }
 
-export function timeAgo(date: Date): string {
+export function timeAgo(dateString: string): string {
+  const date = new Date(dateString);
   const now = new Date();
   const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
 

@@ -5,137 +5,13 @@ import { icons } from "../constants/post.constants";
 import { useTranslation } from "react-i18next";
 import { formatDate, timeAgo } from "../utils/app.util";
 import new_product from "../mocks/new_product.json";
+import comments from "../mocks/comments.json";
 import { reviewInterface } from "../interfaces/reviews.interface";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch } from "../hooks";
 import { createReview } from "../store/review/reviewSlice";
-
-const comments: Array<reviewInterface> = [
-  {
-    id_comentario: 1,
-    id_usuario: 0,
-    id_publicacion: 0,
-    id_comentario_respuesta: 0,
-    nombre_usuario: "Nicolas Cage",
-    titulo: "Greate Product",
-    contenido:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
-    estrellas: 5,
-    likes: 2,
-    estado: "",
-    fecha_creacion: new Date("04/27/2025"),
-    fecha_modificacion: new Date("04/27/2025"),
-  },
-  {
-    id_comentario: 1,
-    id_usuario: 0,
-    id_publicacion: 0,
-    id_comentario_respuesta: 0,
-    nombre_usuario: "Nicolas Cage",
-    titulo: "Greate Product",
-    contenido:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
-    estrellas: 3,
-    likes: 2,
-    estado: "",
-    fecha_creacion: new Date("04/27/2025"),
-    fecha_modificacion: new Date("04/27/2025"),
-  },
-  {
-    id_comentario: 1,
-    id_usuario: 0,
-    id_publicacion: 0,
-    id_comentario_respuesta: 0,
-    nombre_usuario: "Nicolas Cage",
-    titulo: "Greate Product",
-    contenido:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
-    estrellas: 1,
-    likes: 2,
-    estado: "",
-    fecha_creacion: new Date("04/27/2025"),
-    fecha_modificacion: new Date("04/27/2025"),
-  },
-  {
-    id_comentario: 1,
-    id_usuario: 0,
-    id_publicacion: 0,
-    id_comentario_respuesta: 0,
-    nombre_usuario: "Nicolas Cage",
-    titulo: "Greate Product",
-    contenido:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
-    estrellas: 1,
-    likes: 2,
-    estado: "",
-    fecha_creacion: new Date("04/27/2025"),
-    fecha_modificacion: new Date("04/27/2025"),
-  },
-  {
-    id_comentario: 1,
-    id_usuario: 0,
-    id_publicacion: 0,
-    id_comentario_respuesta: 0,
-    nombre_usuario: "Nicolas Cage",
-    titulo: "Greate Product",
-    contenido:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
-    estrellas: 1,
-    likes: 2,
-    estado: "",
-    fecha_creacion: new Date("04/27/2025"),
-    fecha_modificacion: new Date("04/27/2025"),
-  },
-  {
-    id_comentario: 1,
-    id_usuario: 0,
-    id_publicacion: 0,
-    id_comentario_respuesta: 0,
-    nombre_usuario: "Nicolas Cage",
-    titulo: "Greate Product",
-    contenido:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
-    estrellas: 1,
-    likes: 2,
-    estado: "",
-    fecha_creacion: new Date("04/27/2025"),
-    fecha_modificacion: new Date("04/27/2025"),
-  },
-  {
-    id_comentario: 1,
-    id_usuario: 0,
-    id_publicacion: 0,
-    id_comentario_respuesta: 0,
-    nombre_usuario: "Nicolas Cage",
-    titulo: "Greate Product",
-    contenido:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
-    estrellas: 1,
-    likes: 2,
-    estado: "",
-    fecha_creacion: new Date("04/27/2025"),
-    fecha_modificacion: new Date("04/27/2025"),
-  },
-  {
-    id_comentario: 1,
-    id_usuario: 0,
-    id_publicacion: 0,
-    id_comentario_respuesta: 0,
-    nombre_usuario: "Nicolas Cage",
-    titulo: "Greate Product",
-    contenido:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour",
-    estrellas: 1,
-    likes: 2,
-    estado: "",
-    fecha_creacion: new Date("04/27/2025"),
-    fecha_modificacion: new Date("04/27/2025"),
-  },
-];
 
 const ProductDetailsTwo = () => {
   const { t } = useTranslation("ProductDetailsTwo");
-
-  const id_usuario = useAppSelector(state => state.auth.id_usuario);
 
   const dispatch = useAppDispatch();
 
@@ -182,7 +58,6 @@ const ProductDetailsTwo = () => {
     const contenido = formData.get("contenido") as string;
     try {
       const review: reviewInterface = {
-        id_usuario,
         id_publicacion: 1,
         nombre_usuario: "Pepito",
         titulo,

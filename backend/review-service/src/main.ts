@@ -65,6 +65,6 @@ if (require.main === module) {
       }
     })
     .catch((error) => {
-  console.error('Error during application bootstrap:', error);
-});
+      console.error('Error during application bootstrap:', error);
+    });
 }

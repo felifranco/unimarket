@@ -10,8 +10,17 @@ import {
 import { ListingsService } from './listings.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { UpdateListingDto } from './dto/update-listing.dto';
-import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { PayloadAuthDto } from 'src/auth/dto/payload-auth.dto';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiBody,
+  ApiParam,
+} from '@nestjs/swagger';
 import { Public } from 'src/common/decorators/public.decorator';
+import { User } from 'src/common/decorators/user.decorator';
+import { CommonResponses } from 'src/common/decorators/api-responses.decorator';
 
 @ApiBearerAuth()
 @ApiTags('listings')
@@ -20,54 +29,93 @@ export class ListingsController {
   constructor(private readonly listingsService: ListingsService) {}
 
   @Post()
-  @ApiResponse({
-    status: 201,
-    description: 'Operación exitosa.',
+  @ApiOperation({
+    summary: 'Crear una nueva publicación asociada al usuario autenticado',
+    description:
+      'Este endpoint permite a un usuario autenticado crear una nueva publicación. El usuario debe proporcionar un token de acceso válido en el encabezado Authorization.',
   })
-  @ApiResponse({ status: 403, description: 'Prohibido.' })
-  create(@Body() createListingDto: CreateListingDto) {
-    return this.listingsService.create(createListingDto);
+  @ApiBody({
+    description: 'Datos necesarios para crear una publicación',
+    type: CreateListingDto,
+  })
+  @CommonResponses()
+  create(
+    @User() user: PayloadAuthDto,
+    @Body() createListingDto: CreateListingDto,
+  ) {
+    return this.listingsService.create(user.id_usuario, createListingDto);
   }
 
   @Public()
   @Get()
-  @ApiResponse({ status: 201, description: 'Operación exitosa.' })
-  @ApiResponse({ status: 403, description: 'Prohibido.' })
+  @ApiOperation({
+    summary: 'Obtener todas las publicaciones',
+    description: 'Este endpoint devuelve una lista de todas las publicaciones.',
+  })
+  @CommonResponses()
   findAll() {
     return this.listingsService.findAll();
   }
 
   @Public()
   @Get(':id')
-  @ApiResponse({ status: 201, description: 'Operación exitosa.' })
-  @ApiResponse({ status: 403, description: 'Prohibido.' })
+  @ApiOperation({
+    summary: 'Obtener una publicación por ID',
+    description:
+      'Este endpoint devuelve los detalles de una publicación específica.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'ID de la publicación',
+    type: String,
+  })
+  @CommonResponses()
   findOne(@Param('id') id: string) {
     return this.listingsService.findOne(+id);
   }
 
-  @Get('/user/:id')
-  @ApiResponse({ status: 201, description: 'Operación exitosa.' })
-  @ApiResponse({ status: 403, description: 'Prohibido.' })
-  findAllByUser(@Param('id') id_usuario: string) {
-    return this.listingsService.findAllByUser(+id_usuario);
+  @Get('/user')
+  @ApiOperation({
+    summary: 'Obtener todas las publicaciones asociadas al usuario autenticado',
+    description:
+      'Este endpoint devuelve una lista de todas las publicaciones asociadas al usuario. El usuario debe proporcionar un token de acceso válido en el encabezado Authorization.',
+  })
+  @CommonResponses()
+  findAllByUser(@User() user: PayloadAuthDto) {
+    return this.listingsService.findAllByUser(user.id_usuario);
   }
 
   @Patch(':id')
-  @ApiResponse({
-    status: 201,
-    description: 'Operación exitosa.',
+  @ApiOperation({
+    summary: 'Modificar una publicación por ID',
+    description:
+      'Este endpoint actualiza parcialmente los detalles de una publicación.',
   })
-  @ApiResponse({ status: 403, description: 'Prohibido.' })
+  @ApiParam({
+    name: 'id',
+    description: 'ID de la publicación',
+    type: String,
+  })
+  @ApiBody({
+    description: 'Datos que se pueden enviar para modificar una publicación',
+    type: UpdateListingDto,
+  })
+  @CommonResponses()
   update(@Param('id') id: string, @Body() updateListingDto: UpdateListingDto) {
     return this.listingsService.update(+id, updateListingDto);
   }
 
   @Delete(':id')
-  @ApiResponse({
-    status: 201,
-    description: 'Operación exitosa.',
+  @ApiOperation({
+    summary: 'Eliminar una publicación por ID',
+    description: 'Este endpoint elimina una publicación.',
   })
-  @ApiResponse({ status: 403, description: 'Prohibido.' })
+  @ApiParam({
+    name: 'id',
+    description: 'ID de la publicación',
+    type: String,
+  })
+  @CommonResponses()
   remove(@Param('id') id: string) {
     return this.listingsService.remove(+id);
   }

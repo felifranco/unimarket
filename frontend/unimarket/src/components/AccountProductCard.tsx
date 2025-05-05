@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { listingInterface } from "../interfaces/listings.interfaces";
 import Modal from "./common/Modal";
 import Post from "./Post";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch } from "../hooks";
 import {
   fetchListingById,
   fetchMyListings,
@@ -26,18 +26,16 @@ const AccountProductCard = (Product: listingInterface) => {
     imagen_portada,
   } = Product;
 
-  const id_usuario = useAppSelector(state => state.auth.id_usuario);
-
   const handleEdit = async () => {
     if (id_publicacion) {
-      await dispatch(fetchListingById({ id: id_publicacion }));
+      await dispatch(fetchListingById({ id_publicacion }));
     }
   };
 
   const handleDelete = async () => {
     if (id_publicacion) {
-      await dispatch(deleteListing({ id: id_publicacion }));
-      dispatch(fetchMyListings({ id_usuario }));
+      await dispatch(deleteListing({ id_publicacion }));
+      dispatch(fetchMyListings());
     }
   };
 
