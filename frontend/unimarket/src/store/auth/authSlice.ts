@@ -11,6 +11,7 @@ const endpoint = "auth";
 interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
+  logged: boolean;
   id_usuario: number;
   correo?: string;
   nombre_completo?: string;
@@ -21,6 +22,7 @@ interface AuthState {
 const initialState: AuthState = {
   accessToken: null,
   refreshToken: null,
+  logged: false,
   id_usuario: 0,
   correo: undefined,
   nombre_completo: undefined,
@@ -80,6 +82,7 @@ export const authSlice = createSlice({
     ) => {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
+      state.logged = true;
     },
   },
   extraReducers: builder => {
@@ -93,7 +96,7 @@ export const authSlice = createSlice({
         }>;
         state.accessToken = response.data?.accessToken || null;
         state.refreshToken = response.data?.refreshToken || null;
-        console.log("Login successful:", response.data);
+        state.logged = true;
       },
     );
     //.addCase(login.rejected, (state, action) => {
