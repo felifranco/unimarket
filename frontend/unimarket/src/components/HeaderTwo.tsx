@@ -224,7 +224,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     activeIndex === 2 ? "open" : ""
                   }`}
                 >
-                  <li className="common-dropdown__item nav-submenu__item">
+                  {/* <li className="common-dropdown__item nav-submenu__item">
                     <Link
                       onClick={() => setActiveIndex(null)}
                       to="/cart"
@@ -233,8 +233,8 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       {" "}
                       {t("cart")}
                     </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
+                  </li> */}
+                  {/* <li className="common-dropdown__item nav-submenu__item">
                     <Link
                       onClick={() => setActiveIndex(null)}
                       to="/wishlist"
@@ -242,8 +242,8 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     >
                       {t("whishlist")}
                     </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
+                  </li> */}
+                  {/* <li className="common-dropdown__item nav-submenu__item">
                     <Link
                       onClick={() => setActiveIndex(null)}
                       to="/checkout"
@@ -251,23 +251,36 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     >
                       {t("checkout")}
                     </Link>
-                  </li>
+                  </li> */}
+                  {logged ? (
+                    <li className="common-dropdown__item nav-submenu__item">
+                      <Link
+                        onClick={() => setActiveIndex(null)}
+                        to="/account"
+                        className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
+                      >
+                        {t("account")}
+                      </Link>
+                    </li>
+                  ) : null}
+                  {logged ? (
+                    <li className="common-dropdown__item nav-submenu__item">
+                      <Link
+                        onClick={() => setActiveIndex(null)}
+                        to="/new-post"
+                        className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
+                      >
+                        {t("new_post")}
+                      </Link>
+                    </li>
+                  ) : null}
                   <li className="common-dropdown__item nav-submenu__item">
                     <Link
                       onClick={() => setActiveIndex(null)}
-                      to="/become-seller"
+                      to="#"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      {t("become_seller")}
-                    </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/account"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {t("account")}
+                      {t("policies_and_rules")}
                     </Link>
                   </li>
                 </ul>
@@ -286,22 +299,24 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                     activeIndex === 3 ? "open" : ""
                   }`}
                 >
+                  {!logged ? (
+                    <li className="common-dropdown__item nav-submenu__item">
+                      <Link
+                        onClick={() => setActiveIndex(null)}
+                        to="/register"
+                        className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
+                      >
+                        {t("become_seller")}
+                      </Link>
+                    </li>
+                  ) : null}
                   <li className="common-dropdown__item nav-submenu__item">
                     <Link
                       onClick={() => setActiveIndex(null)}
                       to="/vendor"
                       className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                     >
-                      {t("vendors_two")}
-                    </Link>
-                  </li>
-                  <li className="common-dropdown__item nav-submenu__item">
-                    <Link
-                      onClick={() => setActiveIndex(null)}
-                      to="/vendor-details"
-                      className="common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                    >
-                      {t("vendor_details_two")}
+                      {t("vendors_list")}
                     </Link>
                   </li>
                 </ul>
@@ -581,7 +596,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       {t("pages")}
                     </Link>
                     <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
-                      <li className="common-dropdown__item nav-submenu__item">
+                      {/* <li className="common-dropdown__item nav-submenu__item">
                         <NavLink
                           to="/checkout"
                           className={navData =>
@@ -592,17 +607,69 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                         >
                           {t("checkout")}
                         </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
+                      </li> */}
+                      {/* <li className="common-dropdown__item nav-submenu__item">
                         <NavLink
-                          to="/become-seller"
+                          to="/cart"
                           className={navData =>
                             navData.isActive
                               ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          {t("become_seller")}
+                          {t("cart")}
+                        </NavLink>
+                      </li> */}
+                      {/* <li className="common-dropdown__item nav-submenu__item">
+                        <NavLink
+                          to="/wishlist"
+                          className={navData =>
+                            navData.isActive
+                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
+                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
+                          }
+                        >
+                          {t("wishlist")}
+                        </NavLink>
+                      </li> */}
+                      {logged ? (
+                        <li className="common-dropdown__item nav-submenu__item">
+                          <NavLink
+                            to="/account"
+                            className={navData =>
+                              navData.isActive
+                                ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
+                                : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
+                            }
+                          >
+                            {t("account")}
+                          </NavLink>
+                        </li>
+                      ) : null}
+                      {logged ? (
+                        <li className="common-dropdown__item nav-submenu__item">
+                          <NavLink
+                            to="/new-post"
+                            className={navData =>
+                              navData.isActive
+                                ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
+                                : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
+                            }
+                          >
+                            {t("new_post")}
+                          </NavLink>
+                        </li>
+                      ) : null}
+                      <li className="common-dropdown__item nav-submenu__item">
+                        <NavLink
+                          to="#"
+                          className={navData =>
+                            navData.isActive
+                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
+                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
+                          }
+                        >
+                          {t("policies_and_rules")}
                         </NavLink>
                       </li>
                     </ul>
@@ -612,6 +679,20 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                       {t("vendors")}
                     </Link>
                     <ul className="on-hover-dropdown common-dropdown nav-submenu scroll-sm">
+                      {!logged ? (
+                        <li className="common-dropdown__item nav-submenu__item">
+                          <NavLink
+                            to="/register"
+                            className={navData =>
+                              navData.isActive
+                                ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
+                                : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
+                            }
+                          >
+                            {t("become_seller")}
+                          </NavLink>
+                        </li>
+                      ) : null}
                       <li className="common-dropdown__item nav-submenu__item">
                         <NavLink
                           to="/vendor"
@@ -621,19 +702,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
                               : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
                           }
                         >
-                          {t("vendors_two")}
-                        </NavLink>
-                      </li>
-                      <li className="common-dropdown__item nav-submenu__item">
-                        <NavLink
-                          to="/vendor-details"
-                          className={navData =>
-                            navData.isActive
-                              ? "common-dropdown__link nav-submenu__link hover-bg-neutral-100 activePage"
-                              : "common-dropdown__link nav-submenu__link hover-bg-neutral-100"
-                          }
-                        >
-                          {t("vendor_details_two")}
+                          {t("vendors_list")}
                         </NavLink>
                       </li>
                     </ul>

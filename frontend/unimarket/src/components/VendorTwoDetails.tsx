@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const VendorTwoDetails = () => {
-  let [grid, setGrid] = useState(false);
+  const [grid, setGrid] = useState(false);
 
-  let [active, setActive] = useState(false);
-  let sidebarController = () => {
+  const [active, setActive] = useState(false);
+  const sidebarController = () => {
     setActive(!active);
   };
 

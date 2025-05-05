@@ -6,7 +6,7 @@ import ShopPage from "./pages/ShopPage";
 import ProductDetailsPageTwo from "./pages/ProductDetailsPageTwo";
 import NewPostPage from "./pages/NewPostPage";
 import CartPage from "./pages/CartPage";
-import CheckoutPage from "./pages/CheckoutPage";
+//import CheckoutPage from "./pages/CheckoutPage";
 import AccountPage from "./pages/AccountPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -14,7 +14,6 @@ import ContactPage from "./pages/ContactPage";
 import PhosphorIconInit from "./helper/PhosphorIconInit";
 import VendorTwoPage from "./pages/VendorTwoPage";
 import VendorTwoDetailsPage from "./pages/VendorTwoDetailsPage";
-import BecomeSellerPage from "./pages/BecomeSellerPage";
 import WishlistPage from "./pages/WishlistPage";
 import config from "./config/configurations";
 
@@ -32,8 +31,7 @@ function App() {
         <Route path="/product-details" element={<ProductDetailsPageTwo />} />
         <Route path="/new-post" element={<NewPostPage />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/become-seller" element={<BecomeSellerPage />} />
+        {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/login" element={<LoginPage />} />

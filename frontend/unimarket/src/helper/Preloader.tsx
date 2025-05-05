@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const Preloader = () => {
-  let [active, setActive] = useState(true);
+  const [active, setActive] = useState(true);
   useEffect(() => {
     setTimeout(function () {
       setActive(false);

@@ -20,10 +20,10 @@ const Account = () => {
   const stars = 4.8;
   const votes = "12k";
 
-  let [grid, setGrid] = useState(false);
+  const [grid, setGrid] = useState(false);
 
-  let [active, setActive] = useState(false);
-  let sidebarController = () => {
+  const [active, setActive] = useState(false);
+  const sidebarController = () => {
     setActive(!active);
   };
 

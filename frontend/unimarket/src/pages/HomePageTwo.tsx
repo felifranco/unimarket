@@ -1,10 +1,10 @@
 import Preloader from "../helper/Preloader";
 import HeaderTwo from "../components/HeaderTwo";
 import BannerTwo from "../components/BannerTwo";
-import PromotionalTwo from "../components/PromotionalTwo";
-import TopSellingTwo from "../components/TopSellingTwo";
-import TopVendorsTwo from "../components/TopVendorsTwo";
-import BrandTwo from "../components/BrandTwo";
+//import PromotionalTwo from "../components/PromotionalTwo";
+//import TopSellingTwo from "../components/TopSellingTwo";
+//import TopVendorsTwo from "../components/TopVendorsTwo";
+//import BrandTwo from "../components/BrandTwo";
 import ShippingTwo from "../components/ShippingTwo";
 import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
@@ -30,16 +30,16 @@ const HomePageTwo = () => {
       <BannerTwo />
 
       {/* PromotionalTwo */}
-      <PromotionalTwo />
+      {/* <PromotionalTwo /> */}
 
       {/* TopSellingTwo */}
-      <TopSellingTwo />
+      {/* <TopSellingTwo /> */}
 
       {/* TopVendorsTwo */}
-      <TopVendorsTwo />
+      {/*<TopVendorsTwo />*/}
 
       {/* BrandTwo */}
-      <BrandTwo />
+      {/*<BrandTwo />*/}
 
       {/* ShippingTwo */}
       <ShippingTwo />

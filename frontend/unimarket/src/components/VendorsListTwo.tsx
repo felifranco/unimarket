@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 //import ReactSlider from "react-slider";
 
 const VendorsListTwo = () => {
-  let [active, setActive] = useState(false);
-  let sidebarController = () => {
+  const [active, setActive] = useState(false);
+  const sidebarController = () => {
     setActive(!active);
   };
   return (
