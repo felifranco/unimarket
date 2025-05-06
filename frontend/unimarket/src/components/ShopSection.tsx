@@ -52,7 +52,7 @@ const ShopSection = () => {
                         to="#"
                         className="text-gray-900 hover-text-main-600"
                       >
-                        {`${category.name} (${category.subcategories.length})`}
+                        {`${category.name}`}
                       </Link>
                     </li>
                   ))}
