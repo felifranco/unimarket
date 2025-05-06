@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import SellingProductCard from "./SellingProductCard";
 import { categories } from "../mocks/categories.json";
-import { products } from "../mocks/products.json";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { fetchListingsByUser } from "../store/listing/listingSlice";
 
 const VendorTwoDetails = () => {
   const { t } = useTranslation("VendorTwoDetails");
+  const dispatch = useAppDispatch();
+
   const [grid, setGrid] = useState(false);
 
   const [active, setActive] = useState(false);
@@ -15,20 +18,17 @@ const VendorTwoDetails = () => {
     setActive(!active);
   };
 
+  const listings = useAppSelector(state => state.listing.listings);
+
   const name = "Baishakhi Plus";
   const estrellas = 4.8;
   const calificaciones = "12K";
+  //const acerca_de = "";
+  //const informacion_contacto = "";
 
-  const myListings = [
-    {
-      titulo: "titulo",
-      calificacion: 10,
-      vendidos: 5,
-      simbolo_moneda: "USD",
-      precio: 10,
-      estrellas: 3,
-    },
-  ];
+  useEffect(() => {
+    dispatch(fetchListingsByUser({ id_usuario: 1 }));
+  }, [dispatch]);
 
   return (
     <section className="vendor-two-details py-80">
@@ -129,7 +129,7 @@ const VendorTwoDetails = () => {
                   {t("best_selling_products")}
                 </h6>
                 <div className="d-flex flex-column gap-24">
-                  {myListings.map((product, index) => (
+                  {listings.map((product, index) => (
                     <SellingProductCard key={index} {...product} />
                   ))}
                 </div>
@@ -230,8 +230,8 @@ const VendorTwoDetails = () => {
             <div
               className={`list-grid-wrapper grid-cols-4 ${grid && "list-view"}`}
             >
-              {products.map((product, index) => (
-                <ProductCard key={index} />
+              {listings.map((product, index) => (
+                <ProductCard key={index} {...product} />
               ))}
             </div>
             {/* Products End */}
