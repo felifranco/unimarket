@@ -12,6 +12,7 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   logged: boolean;
+  registered: boolean;
   id_usuario: number;
   correo?: string;
   nombre_completo?: string;
@@ -23,6 +24,7 @@ const initialState: AuthState = {
   accessToken: null,
   refreshToken: null,
   logged: false,
+  registered: false,
   id_usuario: 0,
   correo: undefined,
   nombre_completo: undefined,
@@ -31,43 +33,55 @@ const initialState: AuthState = {
 };
 
 export const login = createAsyncThunk(
-  "login",
-  async (credentials: {
-    username: string;
-    password: string;
-    remember: string;
-  }) => {
-    const response = await post(`${AUTH_SERVICE}/${endpoint}/login`, {
-      correo: credentials.username,
-      password: credentials.password,
-    });
-
-    return response;
+  "auth/login",
+  async (
+    credentials: { username: string; password: string; remember: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await post(`${AUTH_SERVICE}/${endpoint}/login`, {
+        correo: credentials.username,
+        password: credentials.password,
+      });
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
 export const register = createAsyncThunk(
-  "register",
-  async (user: {
-    name: string;
-    email: string;
-    username: string;
-    password: string;
-  }) => {
-    const response = await post(`${AUTH_SERVICE}/${endpoint}/register`, {
-      nombre_completo: user.name,
-      correo: user.email,
-      username: user.username,
-      password: user.password,
-    });
-
-    return response;
+  "auth/register",
+  async (
+    user: {
+      name: string;
+      email: string;
+      username: string;
+      password: string;
+    },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await post(`${AUTH_SERVICE}/${endpoint}/register`, {
+        nombre_completo: user.name,
+        correo: user.email,
+        username: user.username,
+        password: user.password,
+      });
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
-export const me = createAsyncThunk("me", () => {
-  return get(`${AUTH_SERVICE}/${endpoint}/me`);
-});
+export const me = createAsyncThunk("auth/me", () =>
+  get(`${AUTH_SERVICE}/${endpoint}/me`),
+);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -84,6 +98,9 @@ export const authSlice = createSlice({
       state.refreshToken = action.payload.refreshToken;
       state.logged = true;
     },
+    goLogin: state => {
+      state.registered = false;
+    },
   },
   extraReducers: builder => {
     //LOGIN
@@ -99,21 +116,11 @@ export const authSlice = createSlice({
         state.logged = true;
       },
     );
-    //.addCase(login.rejected, (state, action) => {
-    //  console.error("Login failed:", action, action.error.message);
-    //});
 
     //REGISTER
-    builder.addCase(
-      register.fulfilled,
-      (state, action: PayloadAction<ApiResponse<unknown>>) => {
-        console.log("Register successful:", state, action.payload);
-      },
-    );
-    //.addCase(register.rejected, (state, action) => {
-    //  console.error("Register failed 1:", action);
-    //  console.error("Register failed 2:", action.error.message);
-    //});
+    builder.addCase(register.fulfilled, state => {
+      state.registered = true;
+    });
 
     //ME
     builder.addCase(
@@ -131,13 +138,8 @@ export const authSlice = createSlice({
         state.first_name =
           response.data?.nombre_completo.split(" ")[0] || undefined;
         state.username = response.data?.username || undefined;
-        console.log("Me successful:", action.payload);
       },
     );
-    //.addCase(me.rejected, (state, action) => {
-    //  console.error("Me failed:", action);
-    //  console.error("Me failed:", action.error.message);
-    //});
 
     //LOGOUT
     builder.addCase(PURGE, state => {
@@ -147,7 +149,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setTokens } = authSlice.actions;
+export const { setTokens, goLogin } = authSlice.actions;
 
 export const selectAccessToken = (state: { auth: AuthState }) =>
   state.auth.accessToken;

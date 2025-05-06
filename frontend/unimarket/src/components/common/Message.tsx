@@ -1,6 +1,9 @@
 import { useAppSelector } from "../../hooks";
+import { useTranslation } from "react-i18next";
 
 const Message = () => {
+  const { t } = useTranslation("Message");
+
   const { type, message, showMessage } = useAppSelector(state => state.alert);
 
   let icon = "ph ph-info";
@@ -29,7 +32,7 @@ const Message = () => {
           <span className={`icon text-xl d-flex`}>
             <i className={icon} />
           </span>
-          {message}
+          {t(`${message}`)}
         </div>
       </div>
     </div>

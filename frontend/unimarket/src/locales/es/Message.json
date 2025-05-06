@@ -1,0 +1,17 @@
+{
+  "welcome": "¡Bienvenido a UniMarket! 😃",
+  "come_back_soon": "¡Vuelve pronto! 👋🙂",
+  "successful_operation": "Operación exitosa",
+  "successfully_registered": "Te has registrado exitosamente",
+  "failed_operation": "Operación fallida",
+  "oops_problem_ocurred": "Ups, se ha presentado un problema. Por favor, inténtalo de nuevo.",
+  "incorrect_credentials": "Credenciales incorrectas. Por favor, inténtalo de nuevo.",
+  "Bad Request": "La solicitud no pudo ser procesada debido a un error del cliente.",
+  "Unauthorized": "Credenciales inválidas. Por favor, verifica tu información de inicio de sesión.",
+  "Forbidden": "No tienes permiso para acceder a este recurso.",
+  "Not Found": "El recurso solicitado no fue encontrado.",
+  "Internal Server Error": "Ocurrió un error inesperado en el servidor.",
+  "Bad Gateway": "El servidor recibió una respuesta inválida de otro servidor.",
+  "Service Unavailable": "El servicio no está disponible en este momento. Inténtalo más tarde.",
+  "Gateway Timeout": "El servidor no respondió a tiempo. Inténtalo nuevamente."
+}

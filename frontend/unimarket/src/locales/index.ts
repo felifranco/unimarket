@@ -36,6 +36,8 @@ import ProductCardEn from "./en/ProductCard.json";
 import ProductCardEs from "./es/ProductCard.json";
 import VendorTwoDetailsEn from "./en/VendorTwoDetails.json";
 import VendorTwoDetailsEs from "./es/VendorTwoDetails.json";
+import MessageEn from "./en/Message.json";
+import MessageEs from "./es/Message.json";
 
 const resources = {
   en: {
@@ -58,6 +60,7 @@ const resources = {
     ProductDetailsTwo: ProductDetailsTwoEn,
     ProductCard: ProductCardEn,
     VendorTwoDetails: VendorTwoDetailsEn,
+    Message: MessageEn,
   },
   es: {
     Account: AccountEs,
@@ -79,6 +82,7 @@ const resources = {
     ProductDetailsTwo: ProductDetailsTwoEs,
     ProductCard: ProductCardEs,
     VendorTwoDetails: VendorTwoDetailsEs,
+    Message: MessageEs,
   },
 };
 
