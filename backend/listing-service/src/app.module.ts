@@ -8,7 +8,7 @@ import { ListingsModule } from './listings/listings.module';
 import configurations from './config/configurations';
 import { Listing } from './listings/entities/listing.entity';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 
 @Module({
   imports: [

@@ -54,7 +54,14 @@ export const fetchListings = createAsyncThunk("listings/fetchListings", () => {
 export const fetchMyListings = createAsyncThunk(
   "listings/fetchMyListings",
   () => {
-    return get(`${LISTING_SERVICE}/${endpoint}/user`);
+    return get(`${LISTING_SERVICE}/${endpoint}/mine`);
+  },
+);
+
+export const fetchListingsByUser = createAsyncThunk(
+  "listings/fetchListingsByUser",
+  ({ id_usuario }: { id_usuario: number }) => {
+    return get(`${LISTING_SERVICE}/${endpoint}/user/${id_usuario}`);
   },
 );
 
@@ -145,6 +152,26 @@ export const listingSlice = createSlice({
         },
       )
       .addCase(fetchMyListings.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to fetch listings";
+      })
+
+      // Fetch listings by user
+      .addCase(fetchListingsByUser.pending, state => {
+        state.loading = true;
+      })
+      .addCase(
+        fetchListingsByUser.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<
+            Array<listingInterface>
+          >;
+
+          state.listings = response.data || [];
+          state.loading = false;
+        },
+      )
+      .addCase(fetchListingsByUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to fetch listings";
       })

@@ -8,7 +8,7 @@ import { ReviewsModule } from './reviews/reviews.module';
 import configurations from './config/configurations';
 import { Review } from './reviews/entities/review.entity';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 
 @Module({
   imports: [
