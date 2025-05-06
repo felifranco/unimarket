@@ -103,7 +103,7 @@ const AccountProductCard = (Product: listingInterface) => {
       <Modal
         title="Editar Publicación"
         Content={<Post {...Product} />}
-        size="modal-fullscreen"
+        size="modal-xl"
         id="editPublication"
       />
     </div>

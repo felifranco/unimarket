@@ -9,6 +9,14 @@ import {
   patchListing,
   deleteListing,
 } from "../listing/listingSlice";
+import {
+  fetchReviewsByListing,
+  fetchReviewById,
+  createReview,
+  patchReview,
+  patchLikeReview,
+  patchUnlikeReview,
+} from "../review/reviewSlice";
 import { getHttpErrorMessage } from "../../utils/errorApiResponse.util";
 import { PURGE } from "redux-persist";
 
@@ -153,6 +161,63 @@ export const alertSlice = createSlice({
         state.message = "successful_operation";
       })
       .addMatcher(isAnyOf(deleteListing.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      });
+
+    // REVIEW
+    builder
+      .addMatcher(isAnyOf(fetchReviewsByListing.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(fetchReviewById.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(createReview.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(patchReview.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(patchLikeReview.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(patchUnlikeReview.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
         if (action.payload && action.payload.status) {

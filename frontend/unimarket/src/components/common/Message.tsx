@@ -26,7 +26,7 @@ const Message = () => {
   }
 
   return showMessage ? (
-    <div className="position-fixed bottom-0 end-0">
+    <div className="z-3 position-fixed bottom-0 start-50 translate-middle-x transition-2">
       <div className={`alert alert-${type}`} role="alert">
         <div className="flex-align gap-16 ">
           <span className={`icon text-xl d-flex`}>

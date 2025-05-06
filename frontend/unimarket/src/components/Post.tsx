@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Slider from "react-slick";
 import {
-  badgeTypes,
+  //badgeTypes,
   currenciesTypes,
   icons,
   publicationTypes,
@@ -10,7 +10,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { listingInterface } from "../interfaces/listings.interfaces";
 import {
-  BadgeType,
+  //BadgeType,
   CurrencyType,
   NewProductType,
   PublicationType,
@@ -47,7 +47,7 @@ const Post = (Product: listingInterface) => {
     precio,
     precio_anterior,
     existencias,
-    insignia,
+    //insignia,
     //imagenes,
     //descripcion_producto,
     fecha_creacion = new Date(),
@@ -77,7 +77,7 @@ const Post = (Product: listingInterface) => {
     const precio = formData.get("precio") as string;
     const precio_anterior = formData.get("precio_anterior") as string;
     const existencias = formData.get("existencias") as string;
-    const insignia = formData.get("insignia") as string;
+    //const insignia = formData.get("insignia") as string;
 
     const data = {
       titulo,
@@ -89,7 +89,7 @@ const Post = (Product: listingInterface) => {
       precio: +precio,
       precio_anterior: +precio_anterior,
       existencias: +existencias,
-      insignia,
+      //insignia,
     };
 
     if (id_publicacion) {
@@ -230,7 +230,7 @@ const Post = (Product: listingInterface) => {
                       defaultValue={descripcion_general}
                     />
                   </div>
-                  <div className="mb-24">
+                  {/* <div className="mb-24">
                     <label className="text-neutral-900 text-lg mb-8 fw-medium">
                       {t("colours")}
                     </label>
@@ -260,7 +260,7 @@ const Post = (Product: listingInterface) => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="mb-24">
                     <label className="text-neutral-900 text-lg mb-8 fw-medium">
                       {t("location")}
@@ -274,7 +274,7 @@ const Post = (Product: listingInterface) => {
                       defaultValue={ubicacion}
                     />
                   </div>
-                  <div className="mb-24">
+                  {/* <div className="mb-24">
                     <label className="text-neutral-900 text-lg mb-8 fw-medium">
                       {t("badge")}
                     </label>
@@ -290,7 +290,7 @@ const Post = (Product: listingInterface) => {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -371,13 +371,15 @@ const Post = (Product: listingInterface) => {
                       defaultValue={existencias}
                     />
                   </div>
-                  <button
-                    type="submit"
-                    className="btn btn-main flex-center gap-8 rounded-8 py-16 fw-normal mt-48"
-                  >
-                    <i className="ph-fill ph-floppy-disk text-lg" />
-                    {t("save_all")}
-                  </button>
+                  <div className="d-flex flex-column mb-3">
+                    <button
+                      type="submit"
+                      className="btn btn-main flex-center gap-8 rounded-8 py-16 fw-normal mt-48"
+                    >
+                      <i className="ph-fill ph-floppy-disk text-lg" />
+                      {t("save_all")}
+                    </button>
+                  </div>
                   {id_publicacion ? (
                     <div className="mt-32">
                       <div className="px-16 py-8 bg-main-50 rounded-8 flex-between gap-24 mb-14">
