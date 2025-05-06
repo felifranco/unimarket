@@ -1,5 +1,14 @@
 import { createSlice, PayloadAction, isAnyOf } from "@reduxjs/toolkit";
 import { login, register, me } from "../auth/authSlice";
+import {
+  fetchListings,
+  fetchMyListings,
+  fetchListingsByUser,
+  fetchListingById,
+  createListing,
+  patchListing,
+  deleteListing,
+} from "../listing/listingSlice";
 import { getHttpErrorMessage } from "../../utils/errorApiResponse.util";
 import { PURGE } from "redux-persist";
 
@@ -61,7 +70,6 @@ export const alertSlice = createSlice({
           state.message = "oops_problem_ocurred";
         }
       })
-
       .addMatcher(isAnyOf(me.fulfilled), state => {
         state.showMessage = true;
         state.type = "success";
@@ -71,6 +79,87 @@ export const alertSlice = createSlice({
         state.showMessage = true;
         state.type = "danger";
         state.message = "oops_problem_ocurred";
+      });
+
+    // LISTING
+    builder
+      .addMatcher(isAnyOf(fetchListings.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(fetchMyListings.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(fetchListingsByUser.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(fetchListingById.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(createListing.fulfilled), state => {
+        state.showMessage = true;
+        state.type = "success";
+        state.message = "successful_operation";
+      })
+      .addMatcher(isAnyOf(createListing.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(patchListing.fulfilled), state => {
+        state.showMessage = true;
+        state.type = "success";
+        state.message = "successful_operation";
+      })
+      .addMatcher(isAnyOf(patchListing.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(deleteListing.fulfilled), state => {
+        state.showMessage = true;
+        state.type = "success";
+        state.message = "successful_operation";
+      })
+      .addMatcher(isAnyOf(deleteListing.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
       });
   },
 });
