@@ -16,7 +16,11 @@ import {
   PublicationType,
 } from "../interfaces/post.interfaces";
 import new_product from "../mocks/new_product.json";
-import { createListing, patchListing } from "../store/listing/listingSlice";
+import {
+  createListing,
+  patchListing,
+  fetchMyListings,
+} from "../store/listing/listingSlice";
 import Modal from "./common/Modal";
 import { formatDate } from "../utils/app.util";
 
@@ -27,11 +31,11 @@ const Post = (Product: listingInterface) => {
 
   const listing = useAppSelector(state => state.listing.listing);
 
-  const { images, descripcion_producto: descripcion_producto_text } =
+  const { images, descripcion_producto: descripcion_producto_empty } =
     new_product;
 
-  const descripcion_producto = JSON.parse(descripcion_producto_text);
-  //console.log("descripcion_producto", descripcion_producto_text, descripcion_producto);
+  //const descripcion_producto = JSON.parse(descripcion_producto_empty);
+  //console.log("descripcion_producto", descripcion_producto_empty, descripcion_producto);
 
   const [productData, setProductData] = useState<listingInterface>(Product);
   const [mainImage, setMainImage] = useState(images[0]);
@@ -49,10 +53,14 @@ const Post = (Product: listingInterface) => {
     existencias,
     //insignia,
     //imagenes,
-    //descripcion_producto,
-    fecha_creacion = new Date(),
-    fecha_modificacion = new Date(),
+    descripcion_producto,
+    fecha_creacion = new Date().toString(),
+    fecha_modificacion = new Date().toString(),
   } = productData;
+
+  const descripcion_producto_object = JSON.parse(
+    descripcion_producto ? descripcion_producto : descripcion_producto_empty,
+  );
 
   const settingsThumbs = {
     dots: false,
@@ -96,41 +104,19 @@ const Post = (Product: listingInterface) => {
       await dispatch(
         patchListing({
           listing: {
-            ...data,
             id_publicacion,
-            categorias: productData.categorias || "",
-            estado: productData.estado || "",
-            estrellas: productData.estrellas || 0,
-            calificacion: productData.calificacion || 0,
-            vendidos: productData.vendidos || 0,
-            descripcion_producto: productData.descripcion_producto || "",
-            imagenes: productData.imagenes || "",
-            imagen_portada: productData.imagen_portada || "",
-            fecha_creacion:
-              productData.fecha_creacion || new Date().toISOString(),
-            fecha_modificacion:
-              productData.fecha_modificacion || new Date().toISOString(),
+            ...data,
           },
         }),
       );
-      //dispatch(fetchMyListings());
+      dispatch(fetchMyListings());
     } else {
       dispatch(
         createListing({
           listing: {
             ...data,
-            categorias: productData.categorias || "",
-            estado: productData.estado || "",
-            estrellas: productData.estrellas || 0,
-            calificacion: productData.calificacion || 0,
-            vendidos: productData.vendidos || 0,
-            descripcion_producto: productData.descripcion_producto || "",
-            imagenes: productData.imagenes || "",
-            imagen_portada: productData.imagen_portada || "",
-            fecha_creacion:
-              productData.fecha_creacion || new Date().toISOString(),
-            fecha_modificacion:
-              productData.fecha_modificacion || new Date().toISOString(),
+            descripcion_producto:
+              '{"paragraphs":[{"type":"text","text":"Párrafo"},{"type":"list","items":["item1","item2"]}],"sections":[{"title":"Product Specifications","list":[{"type":"key-value","icon":"check","content":{"key":"Product Type","value":"Chips & Dips"}}]},{"title":"Nutrition Facts","list":[{"type":"key","icon":"check","content":{"key":"Total Fat 10g 13%"}}]},{"title":"More Details","list":[{"type":"value","icon":"check","content":{"value":"Lunarlon midsole delivers ultra-plush responsiveness"}}]}]}',
           },
         }),
       );
@@ -138,12 +124,8 @@ const Post = (Product: listingInterface) => {
   };
 
   useEffect(() => {
-    //console.log("cambio en listing:", listing);
-
     if (id_publicacion == listing.id_publicacion) {
       setProductData(listing);
-      //const formData = new FormData();
-      //formData.set("titulo", "VALOR");
     }
   }, [listing, id_publicacion]);
 
@@ -440,7 +422,7 @@ const Post = (Product: listingInterface) => {
                   >
                     <div className="mb-40">
                       <h6 className="mb-24">{t("product_description")}</h6>
-                      {descripcion_producto.paragraphs.map(
+                      {descripcion_producto_object.paragraphs.map(
                         (
                           paragraph: {
                             type: string;
@@ -488,7 +470,7 @@ const Post = (Product: listingInterface) => {
                         },
                       )}
                     </div>
-                    {descripcion_producto.sections.map(
+                    {descripcion_producto_object.sections.map(
                       (
                         section: {
                           title: string;
@@ -559,7 +541,7 @@ const Post = (Product: listingInterface) => {
       <Modal
         id="editProductDescriptionModal"
         title={t("product_description")}
-        Content={<ProductDescription {...descripcion_producto} />}
+        Content={<ProductDescription {...descripcion_producto_object} />}
         size="modal-xl"
         onSave={handleSaveProductDescription}
       />

@@ -35,10 +35,10 @@ export class Listing {
   @Column({ nullable: true })
   estado: string;
 
-  @Column({ type: 'numeric', precision: 10, scale: 2, default: 0 })
+  @Column({ default: 0 })
   estrellas: number;
 
-  @Column({ type: 'numeric', precision: 10, scale: 2, default: 0 })
+  @Column({ default: 0 })
   calificacion: number;
 
   @Column({ nullable: true, default: 0 })

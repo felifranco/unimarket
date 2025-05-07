@@ -8,6 +8,7 @@ import {
   fetchListingById,
   fetchMyListings,
   deleteListing,
+  clearListing,
 } from "../store/listing/listingSlice";
 
 const AccountProductCard = (Product: listingInterface) => {
@@ -20,6 +21,8 @@ const AccountProductCard = (Product: listingInterface) => {
     titulo,
     estrellas,
     calificacion,
+    vendidos,
+    existencias,
     simbolo_moneda,
     precio_anterior,
     precio,
@@ -39,6 +42,10 @@ const AccountProductCard = (Product: listingInterface) => {
     }
   };
 
+  const handleCloseEdit = () => {
+    dispatch(clearListing());
+  };
+
   return (
     <div className="product-card h-100 p-16 border border-gray-100 hover-border-main-600 rounded-16 position-relative transition-2">
       <div className="product-card__thumb rounded-8 bg-gray-50 position-relative">
@@ -54,25 +61,51 @@ const AccountProductCard = (Product: listingInterface) => {
         </h6>
         <div className="flex-align gap-6">
           <div className="flex-align gap-8">
-            {Array.from({ length: estrellas }, (_, index) => (
-              <span
-                key={index}
-                className="text-15 fw-medium text-warning-600 d-flex"
-              >
+            {estrellas && estrellas > 0 ? (
+              Array.from({ length: estrellas }, (_, index) => (
+                <span
+                  key={index}
+                  className="text-15 fw-medium text-warning-600 d-flex"
+                >
+                  <i className="ph-fill ph-star" />
+                </span>
+              ))
+            ) : (
+              <span className="text-15 fw-medium text-warning-600 d-flex">
                 <i className="ph-fill ph-star" />
               </span>
-            ))}
+            )}
           </div>
           <span className="text-xs fw-medium text-gray-500">{estrellas}</span>
           <span className="text-xs fw-medium text-gray-500">
-            (`${calificacion}K`)
+            ({`${calificacion}K`})
+          </span>
+        </div>
+        <div className="mt-8">
+          <div
+            className="progress w-100 bg-color-three rounded-pill h-4"
+            role="progressbar"
+            aria-label="Basic example"
+            aria-valuenow={vendidos}
+            aria-valuemin={0}
+            aria-valuemax={existencias}
+          >
+            <div
+              className="progress-bar bg-main-two-600 rounded-pill"
+              style={{ width: `${(vendidos * 100) / existencias}%` }}
+            />
+          </div>
+          <span className="text-gray-900 text-xs fw-medium mt-8">
+            {t("sold")}: {`${vendidos}/${existencias}`}
           </span>
         </div>
         <div className="product-card__price mt-16 mb-30">
-          <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
-            {simbolo_moneda}
-            {precio_anterior}
-          </span>
+          {precio_anterior > 0 ? (
+            <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
+              {simbolo_moneda}
+              {precio_anterior}
+            </span>
+          ) : null}
           <span className="text-heading text-md fw-semibold ">
             {simbolo_moneda}
             {precio} <span className="text-gray-500 fw-normal"></span>
@@ -103,6 +136,7 @@ const AccountProductCard = (Product: listingInterface) => {
       <Modal
         title="Editar Publicación"
         Content={<Post {...Product} />}
+        onCloseModal={handleCloseEdit}
         size="modal-xl"
         id="editPublication"
       />

@@ -213,15 +213,21 @@ export const del = <ApiResponse>(
  * @param data - Cuerpo de la petición.
  * @param headers - Cabeceras de la petición.
  */
-export const patch = <ApiResponse>(
+export const patch = async (
   url: string,
   data?: unknown,
   headers?: Record<string, string>,
-): Promise<ApiResponse> =>
-  axiosInstance
-    .patch<ApiResponse>(url, data, {
-      headers: {
-        ...headers,
-      },
-    })
-    .then(res => res.data);
+): Promise<ApiResponse> => {
+  const res = await axiosInstance.patch<ApiResponse>(url, data, {
+    headers: {
+      ...headers,
+    },
+  });
+
+  const resBody = JSON.stringify(res.data);
+  try {
+    return JSON.parse(resBody) as ApiResponse;
+  } catch {
+    throw new Error(`Error parsing response: ${resBody}`);
+  }
+};

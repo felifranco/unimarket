@@ -9,6 +9,6 @@ export interface reviewInterface {
   estrellas: number;
   likes?: number;
   estado?: string;
-  fecha_creacion?: Date;
-  fecha_modificacion?: Date;
+  fecha_creacion?: string;
+  fecha_modificacion?: string;
 }

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import ShopProductCard from "./ShopProductCard";
+import ProductCard from "./ProductCard";
 //import ReactSlider from "react-slider";
 import { useTranslation } from "react-i18next";
 import { categories } from "../mocks/categories.json";
@@ -599,9 +599,11 @@ const ShopSection = () => {
             </div>
             {/* Top End */}
             {/* Product List Start */}
-            <div className={`list-grid-wrapper ${grid && "list-view"}`}>
+            <div
+              className={`list-grid-wrapper grid-cols-4 ${grid && "list-view"}`}
+            >
               {listings.map((product, index) => {
-                return <ShopProductCard key={index} {...product} />;
+                return <ProductCard key={index} {...product} />;
               })}
             </div>
             {/* Product List End */}

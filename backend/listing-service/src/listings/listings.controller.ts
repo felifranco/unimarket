@@ -74,6 +74,7 @@ export class ListingsController {
     return this.listingsService.findOne(+id);
   }
 
+  @Public()
   @Get('user/:id')
   @ApiOperation({
     summary: 'Obtener todas las publicaciones de un usuario',

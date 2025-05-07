@@ -8,10 +8,10 @@ export interface listingInterface {
   categorias?: string;
   ubicacion?: string;
   estado?: string;
-  estrellas: number;
-  calificacion: number;
-  vendidos: number;
-  existencias: number;
+  estrellas?: number;
+  calificacion?: number;
+  vendidos?: number;
+  existencias?: number;
   descripcion_producto?: string;
   simbolo_moneda?: string;
   precio_anterior: number;
@@ -19,6 +19,6 @@ export interface listingInterface {
   insignia?: string;
   imagenes?: string;
   imagen_portada?: string;
-  fecha_creacion: string | Date;
-  fecha_modificacion: string | Date;
+  fecha_creacion?: string;
+  fecha_modificacion?: string;
 }

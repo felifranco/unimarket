@@ -1,1 +1,8 @@
-{ "hot": "Populares", "add_to_cart": "Añadir al carrito" }
+{
+  "hot": "Populares",
+  "sold": "Vendido",
+  "add_to_cart": "Agregar al carrito",
+  "sale": "Venta",
+  "best_sale": "Mejor venta",
+  "new": "Nuevo"
+}

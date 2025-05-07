@@ -1,4 +1,8 @@
 {
   "hot": "Hot",
-  "add_to_cart": "Add to Cart"
+  "sold": "Sold",
+  "add_to_cart": "Add to Cart",
+  "sale": "Sale",
+  "best_sale": "Best Sale",
+  "new": "New"
 }

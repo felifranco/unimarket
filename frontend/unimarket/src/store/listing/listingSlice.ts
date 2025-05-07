@@ -16,33 +16,36 @@ interface ListingState {
   loading: boolean;
   error: string | null;
 }
+
+const emptyListing: listingInterface = {
+  id_publicacion: -1,
+  id_usuario: 0,
+  tipo_publicacion: undefined,
+  titulo: undefined,
+  descripcion_general: undefined,
+  sku: undefined,
+  categorias: undefined,
+  ubicacion: undefined,
+  estado: undefined,
+  estrellas: -1,
+  calificacion: -1,
+  vendidos: -1,
+  existencias: -1,
+  descripcion_producto: undefined,
+  simbolo_moneda: undefined,
+  precio_anterior: 0,
+  precio: -1,
+  insignia: undefined,
+  imagenes: undefined,
+  imagen_portada: undefined,
+  fecha_creacion: new Date().toString(),
+  fecha_modificacion: new Date().toString(),
+};
+
 const initialState: ListingState = {
   listings: [],
   myListings: [],
-  listing: {
-    id_publicacion: -1,
-    id_usuario: 0,
-    tipo_publicacion: undefined,
-    titulo: undefined,
-    descripcion_general: undefined,
-    sku: undefined,
-    categorias: undefined,
-    ubicacion: undefined,
-    estado: undefined,
-    estrellas: -1,
-    calificacion: -1,
-    vendidos: -1,
-    existencias: -1,
-    descripcion_producto: undefined,
-    simbolo_moneda: undefined,
-    precio_anterior: 0,
-    precio: -1,
-    insignia: undefined,
-    imagenes: undefined,
-    imagen_portada: undefined,
-    fecha_creacion: new Date().toString(),
-    fecha_modificacion: new Date().toString(),
-  },
+  listing: emptyListing,
   loading: false,
   error: null,
 };
@@ -165,7 +168,7 @@ export const listingSlice = createSlice({
   initialState,
   reducers: {
     clearListing: state => {
-      state.listing = <listingInterface>{};
+      state.listing = emptyListing;
     },
   },
   extraReducers: builder => {
@@ -247,16 +250,15 @@ export const listingSlice = createSlice({
         },
       )
       // Patch listing
-      //.addCase(
-      //  patchListing.fulfilled,
-      //  (state, action: PayloadAction<ApiResponse<listingInterface>>) => {
-      //    const response = action.payload;
-      //    state.listing = response.data || <listingInterface>{};
-      //  },
-      //)
+      .addCase(
+        patchListing.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<listingInterface>;
+          state.listing = response.data || <listingInterface>{};
+        },
+      )
       // Delete listing
       .addCase(deleteListing.fulfilled, (state /*action*/) => {
-        //const response = action.payload as ApiResponse<listingInterface>;
         state.listings = [];
       })
 

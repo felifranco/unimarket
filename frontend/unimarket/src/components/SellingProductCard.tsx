@@ -29,14 +29,20 @@ const SellingProductCard = ({
         </h6>
         <div className="flex-align gap-6">
           <div className="flex-align gap-4">
-            {Array.from({ length: estrellas }, (_, index) => (
-              <span
-                key={index}
-                className="text-xs fw-medium text-warning-600 d-flex"
-              >
+            {estrellas && estrellas > 0 ? (
+              Array.from({ length: estrellas }, (_, index) => (
+                <span
+                  key={index}
+                  className="text-xs fw-medium text-warning-600 d-flex"
+                >
+                  <i className="ph-fill ph-star" />
+                </span>
+              ))
+            ) : (
+              <span className="text-xs fw-medium text-warning-600 d-flex">
                 <i className="ph-fill ph-star" />
               </span>
-            ))}
+            )}
           </div>
           <span className="text-xs fw-medium text-neutral-500">
             {calificacion}

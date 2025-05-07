@@ -29,7 +29,7 @@ export const fetchReviewsByListing = createAsyncThunk(
   ) => {
     try {
       const response = await get(
-        `${REVIEW_SERVICE}/${endpoint}/review/${id_publicacion}`,
+        `${REVIEW_SERVICE}/${endpoint}/listing/${id_publicacion}`,
       );
       return response;
     } catch (error: unknown) {
