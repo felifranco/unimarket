@@ -23,22 +23,70 @@ export class ListingsService {
   }
 
   findAll() {
-    return this.listingRepo.find();
+    return this.listingRepo.find({
+      select: [
+        'id_publicacion',
+        'titulo',
+        'estrellas',
+        'calificacion',
+        'vendidos',
+        'existencias',
+        'simbolo_moneda',
+        'precio_anterior',
+        'precio',
+        'insignia',
+        'imagen_portada',
+        'fecha_creacion',
+      ],
+    });
   }
 
   findAllByUser(id_usuario: number) {
     return this.listingRepo.find({
       where: { id_usuario },
+      select: [
+        'id_publicacion',
+        'titulo',
+        'estrellas',
+        'calificacion',
+        'vendidos',
+        'existencias',
+        'simbolo_moneda',
+        'precio_anterior',
+        'precio',
+        'imagen_portada',
+        'fecha_creacion',
+      ],
       //relations: ['usuario'],
     });
   }
 
-  findOne(id: number) {
-    return this.listingRepo.findOneBy({ id_publicacion: id });
+  findAllMine(id_usuario: number) {
+    return this.listingRepo.find({
+      where: { id_usuario },
+      select: [
+        'id_publicacion',
+        'titulo',
+        'estrellas',
+        'calificacion',
+        'vendidos',
+        'existencias',
+        'simbolo_moneda',
+        'precio_anterior',
+        'precio',
+        'imagen_portada',
+        'fecha_creacion',
+      ],
+      //relations: ['usuario'],
+    });
   }
 
-  async update(id: number, updateListingDto: UpdateListingDto) {
-    const listing = await this.listingRepo.findOneBy({ id_publicacion: id });
+  findOne(id_publicacion: number) {
+    return this.listingRepo.findOneBy({ id_publicacion });
+  }
+
+  async update(id_publicacion: number, updateListingDto: UpdateListingDto) {
+    const listing = await this.listingRepo.findOneBy({ id_publicacion });
     if (!listing) {
       return null;
     }
@@ -46,8 +94,8 @@ export class ListingsService {
     return this.listingRepo.save(listing);
   }
 
-  async remove(id: number) {
-    const listing = await this.listingRepo.findOneBy({ id_publicacion: id });
+  async remove(id_publicacion: number) {
+    const listing = await this.listingRepo.findOneBy({ id_publicacion });
     if (!listing) {
       return null;
     }

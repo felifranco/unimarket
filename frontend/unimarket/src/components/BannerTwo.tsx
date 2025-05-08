@@ -62,7 +62,7 @@ const BannerTwo = () => {
               </ul>
             </div>
           </div>
-          <div className="banner-item-two-wrapper rounded-24 overflow-hidden position-relative arrow-center flex-grow-1 mb-0">
+          <div className="banner-item-two-wrapper rounded-24 overflow-hidden position-relative arrow-center flex-grow-1 mb-30">
             <img
               src="assets/images/bg/banner-two-bg.png"
               alt=""

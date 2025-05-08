@@ -1,11 +1,7 @@
 {
-  "edit": "Editar",
-  "followers": "Seguidores",
+  "chat_now": "Chatea ahora",
   "about_store": "Acerca de la tienda",
-  "products": "Productos",
-  "return_policy": "Política de devoluciones",
-  "shipping_policy": "Política de envíos",
-  "contact_info": "Información de contacto",
+  "contact_seller": "Contactar al vendedor",
   "product_category": "Categoría del producto",
   "best_selling_products": "Productos más vendidos",
   "search": "Buscar",
@@ -16,8 +12,5 @@
   "sort_by_options": {
     "latest": "Últimos",
     "oldest": "Más antiguos"
-  },
-  "hot": "Populares",
-  "add_to_cart": "Añadir al carrito",
-  "fullfilled_by_unimarket": "Cumplido por UniMarket"
+  }
 }

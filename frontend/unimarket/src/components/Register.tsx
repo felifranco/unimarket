@@ -1,15 +1,19 @@
+import { useEffect } from "react";
 //import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { register } from "../store/auth/authSlice";
 import { navigateTo } from "../helper/NavigateHelper";
+import { goLogin } from "../store/auth/authSlice";
 
 const Register = () => {
   const { t } = useTranslation("Register");
 
   const dispatch = useAppDispatch();
 
-  const handleRegister = async (formData: FormData) => {
+  const registered = useAppSelector(state => state.auth.registered);
+
+  const handleRegister = (formData: FormData) => {
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const username = formData.get("username") as string;
@@ -31,14 +35,15 @@ const Register = () => {
     //  return;
     //}
 
-    try {
-      await dispatch(register({ name, email, username, password }));
-
-      navigateTo("/login");
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
+    dispatch(register({ name, email, username, password }));
   };
+
+  useEffect(() => {
+    if (registered) {
+      dispatch(goLogin());
+      navigateTo("/login");
+    }
+  }, [dispatch, registered]);
 
   return (
     <section className="account py-80">

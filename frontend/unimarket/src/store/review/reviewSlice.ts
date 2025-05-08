@@ -23,46 +23,105 @@ const initialState: ReviewState = {
 
 export const fetchReviewsByListing = createAsyncThunk(
   "reviews/fetchReviewsByListing",
-  ({ id_publicacion }: { id_publicacion: number }) => {
-    return get(`${REVIEW_SERVICE}/${endpoint}/review/${id_publicacion}`);
+  async (
+    { id_publicacion }: { id_publicacion: number },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await get(
+        `${REVIEW_SERVICE}/${endpoint}/listing/${id_publicacion}`,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
 export const fetchReviewById = createAsyncThunk(
   "reviews/fetchReviewById",
-  ({ id }: { id: number }) => {
-    return get(`${REVIEW_SERVICE}/${endpoint}/${id}`);
+  async ({ id }: { id: number }, { rejectWithValue }) => {
+    try {
+      const response = await get(`${REVIEW_SERVICE}/${endpoint}/${id}`);
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
 export const createReview = createAsyncThunk(
   "reviews/createReview",
-  ({ review }: { review: reviewInterface }) => {
-    return post(`${REVIEW_SERVICE}/${endpoint}`, review);
+  async ({ review }: { review: reviewInterface }, { rejectWithValue }) => {
+    try {
+      const response = await post(`${REVIEW_SERVICE}/${endpoint}`, review);
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
 export const patchReview = createAsyncThunk(
   "reviews/patchReview",
-  ({ review }: { review: reviewInterface }) => {
-    return patch(
-      `${REVIEW_SERVICE}/${endpoint}/${review.id_publicacion}`,
-      review,
-    );
+  async ({ review }: { review: reviewInterface }, { rejectWithValue }) => {
+    try {
+      const response = await patch(
+        `${REVIEW_SERVICE}/${endpoint}/${review.id_publicacion}`,
+        review,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
 export const patchLikeReview = createAsyncThunk(
   "reviews/patchLikeReview",
-  ({ id_publicacion }: { id_publicacion: number }) => {
-    return patch(`${REVIEW_SERVICE}/${endpoint}/like/${id_publicacion}`, {});
+  async (
+    { id_publicacion }: { id_publicacion: number },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await patch(
+        `${REVIEW_SERVICE}/${endpoint}/like/${id_publicacion}`,
+        {},
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
 export const patchUnlikeReview = createAsyncThunk(
   "reviews/patchUnlikeReview",
-  ({ id_publicacion }: { id_publicacion: number }) => {
-    return patch(`${REVIEW_SERVICE}/${endpoint}/unlike/${id_publicacion}`, {});
+  async (
+    { id_publicacion }: { id_publicacion: number },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await patch(
+        `${REVIEW_SERVICE}/${endpoint}/unlike/${id_publicacion}`,
+        {},
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 

@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { icons } from "../constants/post.constants";
 import { useTranslation } from "react-i18next";
 import { formatDate, timeAgo } from "../utils/app.util";
 import new_product from "../mocks/new_product.json";
-import comments from "../mocks/comments.json";
 import { reviewInterface } from "../interfaces/reviews.interface";
-import { useAppDispatch } from "../hooks";
-import { createReview } from "../store/review/reviewSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import {
+  createReview,
+  fetchReviewsByListing,
+} from "../store/review/reviewSlice";
 
 const ProductDetailsTwo = () => {
   const { t } = useTranslation("ProductDetailsTwo");
@@ -17,18 +19,23 @@ const ProductDetailsTwo = () => {
 
   const [starsReview, setStarsReview] = useState<number>(0);
 
-  const titulo =
-    "HP Chromebook With Intel Celeron, 4GB Memory & 64GB eMMC - Modern Gray";
-  const estrellas = 4.7;
-  const votos = 21671;
-  const sku = "EB4DRP";
-  const descripcion_general =
-    "Geared up and ready to roll: Get the responsive performance you're looking for with an Intel processor and 64 GB eMMC storage. Stay productive with compatible apps like Microsoft Office, Google Workspace, and more. The Chrome OS gives you a fast, simple, and secure online experience with built-in virus protection.";
-  const simbolo_moneda = "$";
-  const precio = 320.99;
-  const precio_anterior = 452.99;
-  const existencias = 21;
-  const fecha_creacion = new Date();
+  const logged = useAppSelector(state => state.auth.logged);
+  const listing = useAppSelector(state => state.listing.listing);
+  const reviews = useAppSelector(state => state.review.reviews);
+
+  const {
+    id_publicacion,
+    titulo,
+    estrellas,
+    calificacion,
+    sku,
+    descripcion_general,
+    simbolo_moneda,
+    precio,
+    precio_anterior,
+    existencias,
+    fecha_creacion,
+  } = listing;
 
   const { images, descripcion_producto: descripcion_producto_text } =
     new_product;
@@ -54,22 +61,28 @@ const ProductDetailsTwo = () => {
   };
 
   const handleNewReview = async (formData: FormData) => {
-    const titulo = formData.get("titulo") as string;
-    const contenido = formData.get("contenido") as string;
-    try {
+    if (id_publicacion) {
+      const titulo = formData.get("titulo") as string;
+      const contenido = formData.get("contenido") as string;
+
       const review: reviewInterface = {
-        id_publicacion: 1,
+        id_publicacion,
         nombre_usuario: "Pepito",
         titulo,
         contenido,
         estrellas: starsReview,
       };
-      console.log("handleNewReview", review);
       await dispatch(createReview({ review }));
-    } catch (error) {
-      console.error("New review failed:", error);
+      dispatch(fetchReviewsByListing({ id_publicacion }));
+      setStarsReview(0);
     }
   };
+
+  useEffect(() => {
+    if (id_publicacion) {
+      dispatch(fetchReviewsByListing({ id_publicacion }));
+    }
+  }, [dispatch, id_publicacion]);
 
   return (
     <section className="product-details py-80">
@@ -113,27 +126,26 @@ const ProductDetailsTwo = () => {
                   <div className="flex-align flex-wrap gap-12">
                     <div className="flex-align gap-12 flex-wrap">
                       <div className="flex-align gap-8">
-                        <span className="text-15 fw-medium text-warning-600 d-flex">
-                          <i className="ph-fill ph-star" />
-                        </span>
-                        <span className="text-15 fw-medium text-warning-600 d-flex">
-                          <i className="ph-fill ph-star" />
-                        </span>
-                        <span className="text-15 fw-medium text-warning-600 d-flex">
-                          <i className="ph-fill ph-star" />
-                        </span>
-                        <span className="text-15 fw-medium text-warning-600 d-flex">
-                          <i className="ph-fill ph-star" />
-                        </span>
-                        <span className="text-15 fw-medium text-warning-600 d-flex">
-                          <i className="ph-fill ph-star" />
-                        </span>
+                        {estrellas && estrellas > 0 ? (
+                          Array.from({ length: estrellas }, (_, index) => (
+                            <span
+                              key={index}
+                              className="text-15 fw-medium text-warning-600 d-flex"
+                            >
+                              <i className="ph-fill ph-star" />
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-15 fw-medium text-warning-600 d-flex">
+                            <i className="ph-fill ph-star" />
+                          </span>
+                        )}
                       </div>
                       <span className="text-sm fw-medium text-neutral-600">
                         {estrellas} {t("star_rating")}
                       </span>
                       <span className="text-sm fw-medium text-gray-500">
-                        ({votos})
+                        ({calificacion})
                       </span>
                     </div>
                     <span className="text-sm fw-medium text-gray-500">|</span>
@@ -149,14 +161,16 @@ const ProductDetailsTwo = () => {
                     <div className="flex-align gap-8">
                       <h6 className="mb-0">{`${simbolo_moneda} ${precio}`}</h6>
                     </div>
-                    <div className="flex-align gap-8">
-                      <span className="text-gray-700">
-                        {t("regular_price")}
-                      </span>
-                      <h6 className="text-xl text-gray-400 mb-0 fw-medium">
-                        {`${simbolo_moneda} ${precio_anterior}`}
-                      </h6>
-                    </div>
+                    {precio_anterior > 0 ? (
+                      <div className="flex-align gap-8">
+                        <span className="text-gray-700">
+                          {t("regular_price")}
+                        </span>
+                        <h6 className="text-xl text-gray-400 mb-0 fw-medium">
+                          {`${simbolo_moneda} ${precio_anterior}`}
+                        </h6>
+                      </div>
+                    ) : null}
                   </div>
                   <span className="mt-32 pt-32 text-gray-700 border-top border-gray-100 d-block" />
                   <Link
@@ -463,107 +477,125 @@ const ProductDetailsTwo = () => {
                 >
                   <div className="row g-4">
                     <div className="col-lg-6">
-                      <div className="h-25 d-inline-block overflow-auto">
-                        <h6 className="mb-24">{t("comments")}</h6>
-                        {comments.map((comment, index) => (
-                          <Comment key={index} {...comment} />
-                        ))}
-                      </div>
-                      <div>
-                        <div className="mt-56 pt-44 border-top border-gray-100">
-                          <div className="">
-                            <h6 className="mb-24">{t("write_a_review")}</h6>
-                            <span className="text-heading mb-8 flex-align justify-content-center">
-                              {t("what_is_it_like_to_product")}
-                            </span>
-                            <div className="flex-align gap-8 justify-content-center">
-                              <span
-                                className={`text-15 fw-medium ${starsReview >= 1 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
-                                onClick={() => {
-                                  if (starsReview == 1) setStarsReview(0);
-                                  else setStarsReview(1);
-                                }}
-                              >
-                                <i className="ph-fill ph-star" />
-                              </span>
-                              <span
-                                className={`text-15 fw-medium ${starsReview >= 2 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
-                                onClick={() => {
-                                  if (starsReview == 2) setStarsReview(0);
-                                  else setStarsReview(2);
-                                }}
-                              >
-                                <i className="ph-fill ph-star" />
-                              </span>
-                              <span
-                                className={`text-15 fw-medium ${starsReview >= 3 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
-                                onClick={() => {
-                                  if (starsReview == 3) setStarsReview(0);
-                                  else setStarsReview(3);
-                                }}
-                              >
-                                <i className="ph-fill ph-star" />
-                              </span>
-                              <span
-                                className={`text-15 fw-medium ${starsReview >= 4 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
-                                onClick={() => {
-                                  if (starsReview == 4) setStarsReview(0);
-                                  else setStarsReview(4);
-                                }}
-                              >
-                                <i className="ph-fill ph-star" />
-                              </span>
-                              <span
-                                className={`text-15 fw-medium ${starsReview == 5 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
-                                onClick={() => {
-                                  if (starsReview == 5) setStarsReview(0);
-                                  else setStarsReview(5);
-                                }}
-                              >
-                                <i className="ph-fill ph-star" />
-                              </span>
+                      <div
+                        style={{
+                          height:
+                            reviews.length == 0
+                              ? logged
+                                ? "600px"
+                                : "300px"
+                              : "1300px",
+                          maxHeight: "1500px",
+                        }}
+                      >
+                        {reviews.length > 0 ? (
+                          <div
+                            className={`${logged ? "h-50" : "h-100"} d-inline-block overflow-auto`}
+                          >
+                            <h6 className="mb-24">{t("comments")}</h6>
+                            {reviews.map((comment, index) => (
+                              <Comment key={index} {...comment} />
+                            ))}
+                          </div>
+                        ) : null}
+                        {logged ? (
+                          <div>
+                            <div className="mt-56 pt-44 border-top border-gray-100">
+                              <div className="">
+                                <h6 className="mb-24">{t("write_a_review")}</h6>
+                                <span className="text-heading mb-8 flex-align justify-content-center">
+                                  {t("what_is_it_like_to_product")}
+                                </span>
+                                <div className="flex-align gap-8 justify-content-center">
+                                  <span
+                                    className={`text-15 fw-medium ${starsReview >= 1 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                    onClick={() => {
+                                      if (starsReview == 1) setStarsReview(0);
+                                      else setStarsReview(1);
+                                    }}
+                                  >
+                                    <i className="ph-fill ph-star" />
+                                  </span>
+                                  <span
+                                    className={`text-15 fw-medium ${starsReview >= 2 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                    onClick={() => {
+                                      if (starsReview == 2) setStarsReview(0);
+                                      else setStarsReview(2);
+                                    }}
+                                  >
+                                    <i className="ph-fill ph-star" />
+                                  </span>
+                                  <span
+                                    className={`text-15 fw-medium ${starsReview >= 3 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                    onClick={() => {
+                                      if (starsReview == 3) setStarsReview(0);
+                                      else setStarsReview(3);
+                                    }}
+                                  >
+                                    <i className="ph-fill ph-star" />
+                                  </span>
+                                  <span
+                                    className={`text-15 fw-medium ${starsReview >= 4 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                    onClick={() => {
+                                      if (starsReview == 4) setStarsReview(0);
+                                      else setStarsReview(4);
+                                    }}
+                                  >
+                                    <i className="ph-fill ph-star" />
+                                  </span>
+                                  <span
+                                    className={`text-15 fw-medium ${starsReview == 5 ? "text-warning-600" : "text-gray-900"} d-flex hover-text-main-600`}
+                                    onClick={() => {
+                                      if (starsReview == 5) setStarsReview(0);
+                                      else setStarsReview(5);
+                                    }}
+                                  >
+                                    <i className="ph-fill ph-star" />
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="mt-32">
+                                <form action={handleNewReview}>
+                                  <div className="mb-32">
+                                    <label
+                                      htmlFor="titulo"
+                                      className="text-neutral-600 mb-8"
+                                    >
+                                      {t("review_title")}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      className="common-input rounded-8"
+                                      id="titulo"
+                                      name="titulo"
+                                      placeholder="Great Products"
+                                    />
+                                  </div>
+                                  <div className="mb-32">
+                                    <label
+                                      htmlFor="contenido"
+                                      className="text-neutral-600 mb-8"
+                                    >
+                                      {t("review_content")}
+                                    </label>
+                                    <textarea
+                                      className="common-input rounded-8"
+                                      id="contenido"
+                                      name="contenido"
+                                      defaultValue={""}
+                                    />
+                                  </div>
+                                  <button
+                                    type="submit"
+                                    className="btn btn-main rounded-pill mt-48"
+                                  >
+                                    {t("submit_review")}
+                                  </button>
+                                </form>
+                              </div>
                             </div>
                           </div>
-                          <div className="mt-32">
-                            <form action={handleNewReview}>
-                              <div className="mb-32">
-                                <label
-                                  htmlFor="titulo"
-                                  className="text-neutral-600 mb-8"
-                                >
-                                  {t("review_title")}
-                                </label>
-                                <input
-                                  type="text"
-                                  className="common-input rounded-8"
-                                  id="titulo"
-                                  name="titulo"
-                                  placeholder="Great Products"
-                                />
-                              </div>
-                              <div className="mb-32">
-                                <label
-                                  htmlFor="contenido"
-                                  className="text-neutral-600 mb-8"
-                                >
-                                  {t("review_content")}
-                                </label>
-                                <textarea
-                                  className="common-input rounded-8"
-                                  id="contenido"
-                                  name="contenido"
-                                  defaultValue={""}
-                                />
-                              </div>
-                              <button
-                                type="submit"
-                                className="btn btn-main rounded-pill mt-48"
-                              >
-                                {t("submit_review")}
-                              </button>
-                            </form>
-                          </div>
-                        </div>
+                        ) : null}
                       </div>
                     </div>
                     <div className="col-lg-6">
@@ -823,19 +855,25 @@ const Comment = ({
       <div className="flex-grow-1">
         <div className="flex-between align-items-start gap-8 ">
           <div className="">
-            <h6 className="mb-12 text-md">{`test: ${nombre_usuario}`}</h6>
+            <h6 className="mb-12 text-md">{`${nombre_usuario}`}</h6>
             <div className="flex-align gap-8">
-              {Array.from({ length: estrellas }, (_, index) => (
-                <span
-                  key={index}
-                  className="text-15 fw-medium text-warning-600 d-flex"
-                >
+              {estrellas && estrellas > 0 ? (
+                Array.from({ length: estrellas }, (_, index) => (
+                  <span
+                    key={index}
+                    className="text-15 fw-medium text-warning-600 d-flex"
+                  >
+                    <i className="ph-fill ph-star" />
+                  </span>
+                ))
+              ) : (
+                <span className="text-15 fw-medium text-warning-600 d-flex">
                   <i className="ph-fill ph-star" />
                 </span>
-              ))}
+              )}
             </div>
           </div>
-          <span className="text-gray-800 text-xs">{`${timeAgo(fecha_creacion ? fecha_creacion : new Date())} - 3 Days ago`}</span>
+          <span className="text-gray-800 text-xs">{`${timeAgo(fecha_creacion ? fecha_creacion : new Date().toString())}`}</span>
         </div>
         <h6 className="mb-14 text-md mt-24">{titulo}</h6>
         <p className="text-gray-700">{contenido}</p>

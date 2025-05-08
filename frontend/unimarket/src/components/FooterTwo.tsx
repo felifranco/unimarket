@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAppSelector } from "../hooks";
 
 const FooterTwo = () => {
   const { t } = useTranslation("FooterTwo");
+
+  const logged = useAppSelector(state => state.auth.logged);
 
   return (
     <footer className="footer py-80">
@@ -46,7 +49,10 @@ const FooterTwo = () => {
             <h6 className="footer-item__title">{t("about_us")}</h6>
             <ul className="footer-menu">
               <li className="mb-16">
-                <Link to="/shop" className="text-gray-600 hover-text-main-600">
+                <Link
+                  to="/contact"
+                  className="text-gray-600 hover-text-main-600"
+                >
                   {t("contact_us")}
                 </Link>
               </li>
@@ -90,47 +96,60 @@ const FooterTwo = () => {
               </li>
             </ul>
           </div>
-          <div className="footer-item">
-            <h6 className="footer-item__title">{t("my_account")}</h6>
-            <ul className="footer-menu">
-              <li className="mb-16">
-                <Link to="/shop" className="text-gray-600 hover-text-main-600">
-                  {t("my_account")}
-                </Link>
-              </li>
-              <li className="mb-16">
-                <Link to="/shop" className="text-gray-600 hover-text-main-600">
-                  {t("order_history")}
-                </Link>
-              </li>
-              <li className="mb-16">
-                <Link to="/shop" className="text-gray-600 hover-text-main-600">
-                  {t("shoping_cart")}
-                </Link>
-              </li>
-              <li className="mb-16">
-                <Link
-                  to="/wishlist"
-                  className="text-gray-600 hover-text-main-600"
-                >
-                  {t("wishlist")}
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="footer-item">
-            <h6 className="footer-item__title">{t("information")}</h6>
-            <ul className="footer-menu">
-              <li className="mb-16">
-                <Link
-                  to="/register"
-                  className="text-gray-600 hover-text-main-600"
-                >
-                  {t("become_vendor")}
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {logged ? (
+            <div className="footer-item">
+              <h6 className="footer-item__title">{t("my_account")}</h6>
+              <ul className="footer-menu">
+                <li className="mb-16">
+                  <Link
+                    to="/account"
+                    className="text-gray-600 hover-text-main-600"
+                  >
+                    {t("my_account")}
+                  </Link>
+                </li>
+                {/* <li className="mb-16">
+                  <Link
+                    to="/shop"
+                    className="text-gray-600 hover-text-main-600"
+                  >
+                    {t("order_history")}
+                  </Link>
+                </li> */}
+                {/* <li className="mb-16">
+                  <Link
+                    to="/shop"
+                    className="text-gray-600 hover-text-main-600"
+                  >
+                    {t("shoping_cart")}
+                  </Link>
+                </li> */}
+                {/* <li className="mb-16">
+                  <Link
+                    to="/wishlist"
+                    className="text-gray-600 hover-text-main-600"
+                  >
+                    {t("wishlist")}
+                  </Link>
+                </li> */}
+              </ul>
+            </div>
+          ) : null}
+          {!logged ? (
+            <div className="footer-item">
+              <h6 className="footer-item__title">{t("information")}</h6>
+              <ul className="footer-menu">
+                <li className="mb-16">
+                  <Link
+                    to="/register"
+                    className="text-gray-600 hover-text-main-600"
+                  >
+                    {t("become_vendor")}
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          ) : null}
         </div>
       </div>
     </footer>

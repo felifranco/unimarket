@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { service } from "../../config/configurations";
-import { get, post, patch, put, del } from "../../utils/axios.util";
+import { get, post, patch, del } from "../../utils/axios.util";
 import { ApiResponse } from "../../utils/apiResponse.util";
 import { listingInterface } from "../../interfaces/listings.interfaces";
 import { PURGE } from "redux-persist";
@@ -16,86 +16,150 @@ interface ListingState {
   loading: boolean;
   error: string | null;
 }
+
+const emptyListing: listingInterface = {
+  id_publicacion: -1,
+  id_usuario: 0,
+  tipo_publicacion: undefined,
+  titulo: undefined,
+  descripcion_general: undefined,
+  sku: undefined,
+  categorias: undefined,
+  ubicacion: undefined,
+  estado: undefined,
+  estrellas: -1,
+  calificacion: -1,
+  vendidos: -1,
+  existencias: -1,
+  descripcion_producto: undefined,
+  simbolo_moneda: undefined,
+  precio_anterior: 0,
+  precio: -1,
+  insignia: undefined,
+  imagenes: undefined,
+  imagen_portada: undefined,
+  fecha_creacion: new Date().toString(),
+  fecha_modificacion: new Date().toString(),
+};
+
 const initialState: ListingState = {
   listings: [],
   myListings: [],
-  listing: {
-    id_publicacion: -1,
-    id_usuario: 0,
-    tipo_publicacion: undefined,
-    titulo: undefined,
-    descripcion_general: undefined,
-    sku: undefined,
-    categorias: undefined,
-    ubicacion: undefined,
-    estado: undefined,
-    estrellas: -1,
-    calificacion: -1,
-    vendidos: -1,
-    existencias: -1,
-    descripcion_producto: undefined,
-    simbolo_moneda: undefined,
-    precio_anterior: 0,
-    precio: -1,
-    insignia: undefined,
-    imagenes: undefined,
-    imagen_portada: undefined,
-    fecha_creacion: new Date(),
-    fecha_modificacion: new Date(),
-  },
+  listing: emptyListing,
   loading: false,
   error: null,
 };
 
-export const fetchListings = createAsyncThunk("listings/fetchListings", () => {
-  return get(`${LISTING_SERVICE}/${endpoint}`);
-});
+export const fetchListings = createAsyncThunk(
+  "listings/fetchListings",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await get(`${LISTING_SERVICE}/${endpoint}`);
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
 
 export const fetchMyListings = createAsyncThunk(
   "listings/fetchMyListings",
-  () => {
-    return get(`${LISTING_SERVICE}/${endpoint}/user`);
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await get(`${LISTING_SERVICE}/${endpoint}/mine`);
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
+export const fetchListingsByUser = createAsyncThunk(
+  "listings/fetchListingsByUser",
+  async ({ id_usuario }: { id_usuario: number }, { rejectWithValue }) => {
+    try {
+      const response = await get(
+        `${LISTING_SERVICE}/${endpoint}/user/${id_usuario}`,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
 export const fetchListingById = createAsyncThunk(
   "listings/fetchListingById",
-  ({ id_publicacion }: { id_publicacion: number }) => {
-    return get(`${LISTING_SERVICE}/${endpoint}/${id_publicacion}`);
+  async (
+    { id_publicacion }: { id_publicacion: number },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await get(
+        `${LISTING_SERVICE}/${endpoint}/${id_publicacion}`,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
 export const createListing = createAsyncThunk(
   "listings/createListing",
-  ({ listing }: { listing: listingInterface }) => {
-    return post(`${LISTING_SERVICE}/${endpoint}`, listing);
-  },
-);
-
-export const updateListing = createAsyncThunk(
-  "listings/updateListing",
-  ({ listing }: { listing: listingInterface }) => {
-    return put(
-      `${LISTING_SERVICE}/${endpoint}/${listing.id_publicacion}`,
-      listing,
-    );
+  async ({ listing }: { listing: listingInterface }, { rejectWithValue }) => {
+    try {
+      const response = await post(`${LISTING_SERVICE}/${endpoint}`, listing);
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
 export const patchListing = createAsyncThunk(
   "listings/patchListing",
-  ({ listing }: { listing: listingInterface }) => {
-    return patch(
-      `${LISTING_SERVICE}/${endpoint}/${listing.id_publicacion}`,
-      listing,
-    );
+  async ({ listing }: { listing: listingInterface }, { rejectWithValue }) => {
+    try {
+      const response = await patch(
+        `${LISTING_SERVICE}/${endpoint}/${listing.id_publicacion}`,
+        listing,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
 export const deleteListing = createAsyncThunk(
   "listings/deleteListing",
-  ({ id_publicacion }: { id_publicacion: number }) => {
-    return del(`${LISTING_SERVICE}/${endpoint}/${id_publicacion}`);
+  async (
+    { id_publicacion }: { id_publicacion: number },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await del(
+        `${LISTING_SERVICE}/${endpoint}/${id_publicacion}`,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
   },
 );
 
@@ -104,7 +168,7 @@ export const listingSlice = createSlice({
   initialState,
   reducers: {
     clearListing: state => {
-      state.listing = <listingInterface>{};
+      state.listing = emptyListing;
     },
   },
   extraReducers: builder => {
@@ -149,6 +213,26 @@ export const listingSlice = createSlice({
         state.error = action.error.message || "Failed to fetch listings";
       })
 
+      // Fetch listings by user
+      .addCase(fetchListingsByUser.pending, state => {
+        state.loading = true;
+      })
+      .addCase(
+        fetchListingsByUser.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<
+            Array<listingInterface>
+          >;
+
+          state.listings = response.data || [];
+          state.loading = false;
+        },
+      )
+      .addCase(fetchListingsByUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to fetch listings";
+      })
+
       // Fetch listing by ID
       .addCase(
         fetchListingById.fulfilled,
@@ -166,16 +250,15 @@ export const listingSlice = createSlice({
         },
       )
       // Patch listing
-      //.addCase(
-      //  patchListing.fulfilled,
-      //  (state, action: PayloadAction<ApiResponse<listingInterface>>) => {
-      //    const response = action.payload;
-      //    state.listing = response.data || <listingInterface>{};
-      //  },
-      //)
+      .addCase(
+        patchListing.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<listingInterface>;
+          state.listing = response.data || <listingInterface>{};
+        },
+      )
       // Delete listing
       .addCase(deleteListing.fulfilled, (state /*action*/) => {
-        //const response = action.payload as ApiResponse<listingInterface>;
         state.listings = [];
       })
 

@@ -74,15 +74,32 @@ export class ListingsController {
     return this.listingsService.findOne(+id);
   }
 
-  @Get('/user')
+  @Public()
+  @Get('user/:id')
+  @ApiOperation({
+    summary: 'Obtener todas las publicaciones de un usuario',
+    description:
+      'Este endpoint devuelve un listado con todas las publicaciones asociadas a un usuario específico.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'ID del usuario',
+    type: String,
+  })
+  @CommonResponses()
+  findAllByUser(@Param('id') id: string) {
+    return this.listingsService.findAllByUser(+id);
+  }
+
+  @Get('mine')
   @ApiOperation({
     summary: 'Obtener todas las publicaciones asociadas al usuario autenticado',
     description:
       'Este endpoint devuelve una lista de todas las publicaciones asociadas al usuario. El usuario debe proporcionar un token de acceso válido en el encabezado Authorization.',
   })
   @CommonResponses()
-  findAllByUser(@User() user: PayloadAuthDto) {
-    return this.listingsService.findAllByUser(user.id_usuario);
+  findAllMine(@User() user: PayloadAuthDto) {
+    return this.listingsService.findAllMine(user.id_usuario);
   }
 
   @Patch(':id')

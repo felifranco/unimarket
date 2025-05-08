@@ -5,6 +5,7 @@ interface ModalProps {
   Content: React.ReactNode;
   id: string;
   size?: "modal-fullscreen" | "modal-xl" | "modal-lg" | "modal-sm";
+  onCloseModal?: () => void;
   onClose?: () => void;
   onAccept?: () => void;
   onCancel?: () => void;
@@ -17,6 +18,7 @@ const Modal = ({
   Content,
   id,
   size = "modal-sm",
+  onCloseModal = () => {},
   onClose,
   onAccept,
   onCancel,
@@ -48,6 +50,7 @@ const Modal = ({
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              onClick={onCloseModal}
             ></button>
           </div>
           <div className="modal-body">{Content}</div>

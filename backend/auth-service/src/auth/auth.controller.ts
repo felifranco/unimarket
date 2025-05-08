@@ -12,8 +12,8 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { PayloadAuthDto } from './dto/payload-auth.dto';
 import { RefreshTokenAuthDto } from './dto/refresh-token-auth.dto';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from './jwt-auth.guard';
-import { JwtRefreshAuthGuard } from './jwt-refresh-auth.guard';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { JwtRefreshAuthGuard } from '../common/guards/jwt-refresh-auth.guard';
 import { CommonResponses } from 'src/common/decorators/api-responses.decorator';
 
 @ApiTags('auth')

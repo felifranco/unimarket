@@ -9,7 +9,7 @@ import { navigateTo } from "../helper/NavigateHelper";
 const Login = () => {
   const { t } = useTranslation("Login");
 
-  const accessToken = useAppSelector(state => state.auth.accessToken);
+  const logged = useAppSelector(state => state.auth.logged);
   const first_name = useAppSelector(state => state.auth.first_name);
 
   const dispatch = useAppDispatch();
@@ -27,14 +27,14 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (accessToken) {
+    if (logged) {
       if (!first_name) {
         dispatch(me());
       } else {
         navigateTo("/");
       }
     }
-  }, [accessToken, first_name, dispatch]);
+  }, [logged, first_name, dispatch]);
 
   return (
     <section className="account py-80">

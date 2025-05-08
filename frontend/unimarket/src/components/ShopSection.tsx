@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import ShopProductCard from "./ShopProductCard";
+import ProductCard from "./ProductCard";
 //import ReactSlider from "react-slider";
 import { useTranslation } from "react-i18next";
 import { categories } from "../mocks/categories.json";
@@ -15,10 +15,10 @@ const ShopSection = () => {
 
   const listings = useAppSelector(state => state.listing.listings);
 
-  let [grid, setGrid] = useState(false);
+  const [grid, setGrid] = useState(false);
 
-  let [active, setActive] = useState(false);
-  let sidebarController = () => {
+  const [active, setActive] = useState(false);
+  const sidebarController = () => {
     setActive(!active);
   };
 
@@ -52,18 +52,19 @@ const ShopSection = () => {
                         to="#"
                         className="text-gray-900 hover-text-main-600"
                       >
-                        {`${category.name} (${category.subcategories.length})`}
+                        {`${category.name}`}
                       </Link>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
+              {/* Filter by price Start */}
+              {/* <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
                 <h6 className="text-xl border-bottom border-gray-100 pb-24 mb-24">
                   {t("filter_by_price")}
                 </h6>
-                <div className="custom--range">
-                  {/*<ReactSlider
+                <div className="custom--range"> */}
+              {/*<ReactSlider
                     className="horizontal-slider"
                     thumbClassName="example-thumb"
                     trackClassName="example-track"
@@ -82,7 +83,7 @@ const ShopSection = () => {
                     minDistance={10}
                   />*/}
 
-                  <br />
+              {/* <br />
                   <br />
                   <div className="flex-between flex-wrap-reverse gap-8 mt-24 ">
                     <button
@@ -93,9 +94,10 @@ const ShopSection = () => {
                     </button>
                   </div>
                 </div>
-              </div>
-
-              <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
+              </div> */}
+              {/* Filter by price End */}
+              {/* Filter by rating Start */}
+              {/* <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
                 <h6 className="text-xl border-bottom border-gray-100 pb-24 mb-24">
                   {t("filter_by_rating")}
                 </h6>
@@ -334,8 +336,10 @@ const ShopSection = () => {
                   </div>
                   <span className="text-gray-900 flex-shrink-0">2</span>
                 </div>
-              </div>
-              <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
+              </div> */}
+              {/* Filter by rating End */}
+              {/* Filter by color Start */}
+              {/* <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
                 <h6 className="text-xl border-bottom border-gray-100 pb-24 mb-24">
                   {t("filter_by_color")}
                 </h6>
@@ -432,8 +436,10 @@ const ShopSection = () => {
                     </div>
                   </li>
                 </ul>
-              </div>
-              <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
+              </div> */}
+              {/* Filter by color End */}
+              {/* Filter by brand Start */}
+              {/* <div className="shop-sidebar__box border border-gray-100 rounded-8 p-32 mb-32">
                 <h6 className="text-xl border-bottom border-gray-100 pb-24 mb-24">
                   {t("filter_by_brand")}
                 </h6>
@@ -530,10 +536,13 @@ const ShopSection = () => {
                     </div>
                   </li>
                 </ul>
-              </div>
-              <div className="shop-sidebar__box rounded-8">
+              </div> */}
+              {/* Filter by brand End */}
+              {/* Advertise Start */}
+              {/* <div className="shop-sidebar__box rounded-8">
                 <img src="assets/images/thumbs/advertise-img1.png" alt="" />
-              </div>
+              </div> */}
+              {/* Advertise End */}
             </div>
           </div>
           {/* Sidebar End */}
@@ -590,9 +599,11 @@ const ShopSection = () => {
             </div>
             {/* Top End */}
             {/* Product List Start */}
-            <div className={`list-grid-wrapper ${grid && "list-view"}`}>
+            <div
+              className={`list-grid-wrapper grid-cols-4 ${grid && "list-view"}`}
+            >
               {listings.map((product, index) => {
-                return <ShopProductCard key={index} {...product} />;
+                return <ProductCard key={index} {...product} />;
               })}
             </div>
             {/* Product List End */}

@@ -16,8 +16,6 @@ import FooterTwoEn from "./en/FooterTwo.json";
 import FooterTwoEs from "./es/FooterTwo.json";
 import BottomFooterEn from "./en/BottomFooter.json";
 import BottomFooterEs from "./es/BottomFooter.json";
-import ShopProductCardEn from "./en/ShopProductCard.json";
-import ShopProductCardEs from "./es/ShopProductCard.json";
 import LoginEn from "./en/Login.json";
 import LoginEs from "./es/Login.json";
 import RegisterEn from "./en/Register.json";
@@ -32,6 +30,12 @@ import ModalEn from "./en/Modal.json";
 import ModalEs from "./es/Modal.json";
 import ProductDetailsTwoEn from "./en/ProductDetailsTwo.json";
 import ProductDetailsTwoEs from "./es/ProductDetailsTwo.json";
+import ProductCardEn from "./en/ProductCard.json";
+import ProductCardEs from "./es/ProductCard.json";
+import VendorTwoDetailsEn from "./en/VendorTwoDetails.json";
+import VendorTwoDetailsEs from "./es/VendorTwoDetails.json";
+import MessageEn from "./en/Message.json";
+import MessageEs from "./es/Message.json";
 
 const resources = {
   en: {
@@ -44,7 +48,6 @@ const resources = {
     BannerTwo: BannerTwoEn,
     FooterTwo: FooterTwoEn,
     BottomFooter: BottomFooterEn,
-    ShopProductCard: ShopProductCardEn,
     Login: LoginEn,
     Register: RegisterEn,
     AccountProductCard: AccountProductCardEn,
@@ -52,6 +55,9 @@ const resources = {
     Post: PostEn,
     Modal: ModalEn,
     ProductDetailsTwo: ProductDetailsTwoEn,
+    ProductCard: ProductCardEn,
+    VendorTwoDetails: VendorTwoDetailsEn,
+    Message: MessageEn,
   },
   es: {
     Account: AccountEs,
@@ -63,7 +69,6 @@ const resources = {
     BannerTwo: BannerTwoEs,
     FooterTwo: FooterTwoEs,
     BottomFooter: BottomFooterEs,
-    ShopProductCard: ShopProductCardEs,
     Login: LoginEs,
     Register: RegisterEs,
     AccountProductCard: AccountProductCardEs,
@@ -71,6 +76,9 @@ const resources = {
     Post: PostEs,
     Modal: ModalEs,
     ProductDetailsTwo: ProductDetailsTwoEs,
+    ProductCard: ProductCardEs,
+    VendorTwoDetails: VendorTwoDetailsEs,
+    Message: MessageEs,
   },
 };
 
