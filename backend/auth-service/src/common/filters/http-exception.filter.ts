@@ -6,7 +6,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { /*Request,*/ Response } from 'express';
-//import { FastifyReply } from 'fastify';
 import { ApiResponse } from '../interfaces/api-response.interface';
 
 /**
@@ -20,9 +19,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     // Express.js
     const response = ctx.getResponse<Response>();
     //const request = ctx.getRequest<Request>();
-
-    // Fastify
-    //const response = ctx.getResponse<FastifyReply>();
 
     let statusCode: number;
     let message: string;
@@ -57,6 +53,5 @@ export class HttpExceptionFilter implements ExceptionFilter {
     };
 
     response.status(statusCode).json(responseBody);
-    //response.status(statusCode).send(responseBody);
   }
 }

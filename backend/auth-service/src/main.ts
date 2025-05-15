@@ -5,28 +5,31 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import * as express from 'express';
 import { APIGatewayEvent, Context } from 'aws-lambda';
 import * as serverlessExpress from 'aws-serverless-express';
-import configurations from './config/configurations';
-//import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 let lambdaProxy: Server;
 
+let bootstrapPromise: Promise<{ app: any; server: Server }> | null = null;
+
 async function bootstrap() {
   const server = express();
-
   const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
-  //const config = new DocumentBuilder()
-  //  .setTitle('Auth Service (Autenticación y Seguridad)')
-  //  .setDescription('Registro, autenticación y autorización de usuarios')
-  //  .setVersion('1.0')
-  //  //.addTag('tag')
-  //  .addBearerAuth()
-  //  .build();
-  //
-  //const document = SwaggerModule.createDocument(app, config);
-  //SwaggerModule.setup('api', app, document);
+  // Habilitar Swagger solo si ENABLE_SWAGGER=true
+  if (process.env.ENABLE_SWAGGER === 'true') {
+    const config = new DocumentBuilder()
+      .setTitle('Auth Service (Autenticación y Seguridad)')
+      .setDescription('Registro, autenticación y autorización de usuarios')
+      .setVersion('1.0')
+      //.addTag('tag')
+      .addBearerAuth()
+      .build();
+
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+  }
 
   // Aplicar interceptor y filtro globales
   app.useGlobalInterceptors(new ResponseInterceptor());
@@ -37,19 +40,37 @@ async function bootstrap() {
   //  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   //});
 
-  // Configuración utilizada por AWS Lambda
   await app.init();
 
-  return serverlessExpress.createServer(server, null, []);
+  return { app, server: serverlessExpress.createServer(server, null, []) };
 }
 
-bootstrap()
-  .then((server) => {
+// Inicializar solo una vez y reutilizar
+function getBootstrapPromise() {
+  if (!bootstrapPromise) {
+    bootstrapPromise = bootstrap();
+  }
+  return bootstrapPromise;
+}
+
+getBootstrapPromise()
+  .then(({ app, server }) => {
     lambdaProxy = server;
   })
   .catch((error) => {
     console.error('Error during application bootstrap:', error);
   });
+
+// Permitir ejecución local sin doble inicialización
+if (require.main === module) {
+  (async () => {
+    const port = process.env.APP_PORT || 3001;
+    const { app } = await getBootstrapPromise();
+    await app.listen(port, () => {
+      console.log(`Auth Service running locally on http://localhost:${port}`);
+    });
+  })();
+}
 
 function waitForServer(event: any, context: any) {
   setImmediate(() => {
