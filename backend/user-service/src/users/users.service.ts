@@ -28,11 +28,23 @@ export class UsersService {
   }
 
   findAll() {
-    return this.userRepo.find();
+    return this.userRepo.find({
+      select: ['id_usuario', 'nombre_completo', 'estrellas', 'calificacion'],
+    });
   }
 
   findOne(id: number) {
-    return this.userRepo.findOneBy({ id_usuario: id });
+    return this.userRepo.findOne({
+      where: { id_usuario: id },
+      select: [
+        'id_usuario',
+        'nombre_completo',
+        'correo',
+        'username',
+        'estrellas',
+        'calificacion',
+      ],
+    });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

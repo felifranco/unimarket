@@ -11,26 +11,32 @@ export class Auth {
   @PrimaryGeneratedColumn()
   id_usuario: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100 })
   nombre_completo: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100 })
   correo: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100 })
   username: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   password_hash: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 100 })
   rol: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 50 })
   estado: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'varchar', length: 500 })
   refreshToken: string;
+
+  @Column({ default: 0 })
+  estrellas: number;
+
+  @Column({ default: 0 })
+  calificacion: number;
 
   @CreateDateColumn({ type: 'timestamptz' })
   fecha_creacion: Date;
