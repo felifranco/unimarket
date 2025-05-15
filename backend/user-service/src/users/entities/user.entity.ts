@@ -20,6 +20,27 @@ export class User {
   @Column({ type: 'varchar', length: 100 })
   username: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  imagen_portada: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  imagen_perfil: string;
+
+  @Column({ type: 'varchar', length: 300, nullable: true })
+  acerca_de: string;
+
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  ubicacion: string;
+
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  telefono: string;
+
+  @Column({ default: 0 })
+  estrellas: number;
+
+  @Column({ default: 0 })
+  calificacion: number;
+
   @Column({ type: 'varchar', length: 255 })
   password_hash: string;
 
@@ -31,12 +52,6 @@ export class User {
 
   @Column({ nullable: true, type: 'varchar', length: 500 })
   refreshToken: string;
-
-  @Column({ default: 0 })
-  estrellas: number;
-
-  @Column({ default: 0 })
-  calificacion: number;
 
   @CreateDateColumn({ type: 'timestamptz' })
   fecha_creacion: Date;

@@ -37,10 +37,10 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  //app.enableCors({
-  //  origin: '*',
-  //  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  //});
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  });
 
   await app.init();
 

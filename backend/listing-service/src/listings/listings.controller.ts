@@ -57,21 +57,15 @@ export class ListingsController {
     return this.listingsService.findAll();
   }
 
-  @Public()
-  @Get(':id')
+  @Get('mine')
   @ApiOperation({
-    summary: 'Obtener una publicación por ID',
+    summary: 'Obtener todas las publicaciones asociadas al usuario autenticado',
     description:
-      'Este endpoint devuelve los detalles de una publicación específica.',
-  })
-  @ApiParam({
-    name: 'id',
-    description: 'ID de la publicación',
-    type: String,
+      'Este endpoint devuelve una lista de todas las publicaciones asociadas al usuario. El usuario debe proporcionar un token de acceso válido en el encabezado Authorization.',
   })
   @CommonResponses()
-  findOne(@Param('id') id: string) {
-    return this.listingsService.findOne(+id);
+  findAllMine(@User() user: PayloadAuthDto) {
+    return this.listingsService.findAllMine(user.id_usuario);
   }
 
   @Public()
@@ -91,15 +85,21 @@ export class ListingsController {
     return this.listingsService.findAllByUser(+id);
   }
 
-  @Get('mine')
+  @Public()
+  @Get(':id')
   @ApiOperation({
-    summary: 'Obtener todas las publicaciones asociadas al usuario autenticado',
+    summary: 'Obtener una publicación por ID',
     description:
-      'Este endpoint devuelve una lista de todas las publicaciones asociadas al usuario. El usuario debe proporcionar un token de acceso válido en el encabezado Authorization.',
+      'Este endpoint devuelve los detalles de una publicación específica.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'ID de la publicación',
+    type: String,
   })
   @CommonResponses()
-  findAllMine(@User() user: PayloadAuthDto) {
-    return this.listingsService.findAllMine(user.id_usuario);
+  findOne(@Param('id') id: string) {
+    return this.listingsService.findOne(+id);
   }
 
   @Patch(':id')

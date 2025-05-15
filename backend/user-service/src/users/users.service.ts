@@ -29,7 +29,17 @@ export class UsersService {
 
   findAll() {
     return this.userRepo.find({
-      select: ['id_usuario', 'nombre_completo', 'estrellas', 'calificacion'],
+      select: [
+        'id_usuario',
+        'nombre_completo',
+        'correo',
+        'imagen_portada',
+        'imagen_perfil',
+        'ubicacion',
+        'telefono',
+        'estrellas',
+        'calificacion',
+      ],
     });
   }
 
@@ -40,7 +50,11 @@ export class UsersService {
         'id_usuario',
         'nombre_completo',
         'correo',
-        'username',
+        'imagen_portada',
+        'imagen_perfil',
+        'acerca_de',
+        'ubicacion',
+        'telefono',
         'estrellas',
         'calificacion',
       ],

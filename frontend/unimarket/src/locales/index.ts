@@ -36,6 +36,10 @@ import VendorTwoDetailsEn from "./en/VendorTwoDetails.json";
 import VendorTwoDetailsEs from "./es/VendorTwoDetails.json";
 import MessageEn from "./en/Message.json";
 import MessageEs from "./es/Message.json";
+import VendorTwoEn from "./en/VendorTwo.json";
+import VendorTwoEs from "./es/VendorTwo.json";
+import VedorCardEn from "./en/VedorCard.json";
+import VedorCardEs from "./es/VedorCard.json";
 
 const resources = {
   en: {
@@ -58,6 +62,8 @@ const resources = {
     ProductCard: ProductCardEn,
     VendorTwoDetails: VendorTwoDetailsEn,
     Message: MessageEn,
+    VendorTwo: VendorTwoEn,
+    VedorCard: VedorCardEn,
   },
   es: {
     Account: AccountEs,
@@ -79,6 +85,8 @@ const resources = {
     ProductCard: ProductCardEs,
     VendorTwoDetails: VendorTwoDetailsEs,
     Message: MessageEs,
+    VendorTwo: VendorTwoEs,
+    VedorCard: VedorCardEs,
   },
 };
 

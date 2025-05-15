@@ -6,19 +6,33 @@ import SellingProductCard from "./SellingProductCard";
 import { categories } from "../mocks/categories.json";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchMyListings } from "../store/listing/listingSlice";
+import { fetchUserById } from "../store/user/userSlice";
+
+const imagen_portada_predeterminada =
+  "assets/images/thumbs/inner-banner-two-bg.png";
+const imagen_perfil_predeterminada =
+  "assets/images/thumbs/vendors-two-icon1.png";
 
 const Account = () => {
   const { t } = useTranslation("Account");
 
   const dispatch = useAppDispatch();
 
-  const nombre_completo = useAppSelector(state => state.auth.nombre_completo);
+  const id_usuario = useAppSelector(state => state.auth.id_usuario);
 
   const myListings = useAppSelector(state => state.listing.myListings);
+  const {
+    nombre_completo,
+    imagen_portada,
+    imagen_perfil,
+    estrellas,
+    calificacion,
+    //ubicacion,
+    //correo,
+    //telefono,
+  } = useAppSelector(state => state.user.user);
 
-  const followers = 480589;
-  const stars = 4.8;
-  const votes = "12k";
+  //const followers = 480589;
 
   const [grid, setGrid] = useState(false);
 
@@ -31,7 +45,8 @@ const Account = () => {
 
   useEffect(() => {
     dispatch(fetchMyListings());
-  }, [dispatch]);
+    dispatch(fetchUserById({ id_usuario }));
+  }, [dispatch, id_usuario]);
 
   return (
     <section className="vendor-two-details py-80">
@@ -52,7 +67,11 @@ const Account = () => {
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="w-80 h-80 flex-center bg-white rounded-8 flex-shrink-0">
                     <img
-                      src="assets/images/thumbs/vendors-two-icon1.png"
+                      src={
+                        imagen_perfil
+                          ? imagen_perfil
+                          : imagen_perfil_predeterminada
+                      }
                       alt=""
                     />
                   </span>
@@ -76,32 +95,31 @@ const Account = () => {
                       {nombre_completo}
                     </Link>
                   </h6>
-                  <span className="text-xs text-white mb-12">
+                  {/* <span className="text-xs text-white mb-12">
                     {followers} {t("followers")}
-                  </span>
+                  </span> */}
                   <div className="flex-align gap-6">
                     <div className="flex-align gap-8">
-                      <span className="text-15 fw-medium text-warning-600 d-flex">
-                        <i className="ph-fill ph-star" />
-                      </span>
-                      <span className="text-15 fw-medium text-warning-600 d-flex">
-                        <i className="ph-fill ph-star" />
-                      </span>
-                      <span className="text-15 fw-medium text-warning-600 d-flex">
-                        <i className="ph-fill ph-star" />
-                      </span>
-                      <span className="text-15 fw-medium text-warning-600 d-flex">
-                        <i className="ph-fill ph-star" />
-                      </span>
-                      <span className="text-15 fw-medium text-warning-600 d-flex">
-                        <i className="ph-fill ph-star" />
-                      </span>
+                      {estrellas && estrellas > 0 ? (
+                        Array.from({ length: estrellas }, (_, index) => (
+                          <span
+                            key={index}
+                            className="text-15 fw-medium text-warning-600 d-flex"
+                          >
+                            <i className="ph-fill ph-star" />
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-15 fw-medium text-warning-600 d-flex">
+                          <i className="ph-fill ph-star" />
+                        </span>
+                      )}
                     </div>
                     <span className="text-xs fw-medium text-white">
-                      {stars}
+                      {estrellas}
                     </span>
                     <span className="text-xs fw-medium text-white">
-                      ({votes})
+                      ({calificacion})
                     </span>
                   </div>
                 </div>
@@ -155,7 +173,7 @@ const Account = () => {
             <div
               className="inner-banner-two bg-img rounded-16 overflow-hidden"
               style={{
-                backgroundImage: `url('assets/images/thumbs/inner-banner-two-bg.png')`,
+                backgroundImage: `url('${imagen_portada ? imagen_portada : imagen_portada_predeterminada}')`,
               }}
             >
               <div className="row">

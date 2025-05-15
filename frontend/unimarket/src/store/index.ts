@@ -11,12 +11,14 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // usa localStorage
 import authReducer from "./auth/authSlice";
+import userReducer from "./user/userSlice";
 import listingReducer from "./listing/listingSlice";
 import reviewReducer from "./review/reviewSlice";
 import alertReducer from "./alert/alertSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  user: userReducer,
   listing: listingReducer,
   review: reviewReducer,
   alert: alertReducer,

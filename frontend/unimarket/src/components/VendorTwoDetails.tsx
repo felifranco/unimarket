@@ -7,6 +7,11 @@ import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchListingsByUser } from "../store/listing/listingSlice";
 
+const imagen_perfil_predeterminada =
+  "assets/images/thumbs/vendors-two-icon1.png";
+const imagen_portada_predeterminada =
+  "assets/images/thumbs/inner-banner-two-bg.png";
+
 const VendorTwoDetails = () => {
   const { t } = useTranslation("VendorTwoDetails");
   const dispatch = useAppDispatch();
@@ -18,17 +23,22 @@ const VendorTwoDetails = () => {
     setActive(!active);
   };
 
+  const {
+    id_usuario,
+    nombre_completo,
+    imagen_portada,
+    imagen_perfil,
+    //acerca_de,
+    estrellas,
+    calificacion,
+    //correo,
+    //telefono,
+  } = useAppSelector(state => state.user.user);
   const listings = useAppSelector(state => state.listing.listings);
 
-  const name = "Baishakhi Plus";
-  const estrellas = 4.8;
-  const calificaciones = "12K";
-  //const acerca_de = "";
-  //const informacion_contacto = "";
-
   useEffect(() => {
-    dispatch(fetchListingsByUser({ id_usuario: 1 }));
-  }, [dispatch]);
+    dispatch(fetchListingsByUser({ id_usuario }));
+  }, [dispatch, id_usuario]);
 
   return (
     <section className="vendor-two-details py-80">
@@ -49,7 +59,11 @@ const VendorTwoDetails = () => {
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="w-80 h-80 flex-center bg-white rounded-8 flex-shrink-0">
                     <img
-                      src="assets/images/thumbs/vendors-two-icon1.png"
+                      src={
+                        imagen_perfil
+                          ? imagen_perfil
+                          : imagen_perfil_predeterminada
+                      }
                       alt=""
                     />
                   </span>
@@ -69,7 +83,7 @@ const VendorTwoDetails = () => {
                 <div className="mt-32">
                   <h6 className="text-white fw-semibold mb-12">
                     <Link to="/vendor-details" className="">
-                      {name}
+                      {nombre_completo}
                     </Link>
                   </h6>
                   <div className="flex-align gap-6">
@@ -93,7 +107,7 @@ const VendorTwoDetails = () => {
                       {estrellas}
                     </span>
                     <span className="text-xs fw-medium text-white">
-                      ({calificaciones})
+                      ({calificacion})
                     </span>
                   </div>
                 </div>
@@ -148,7 +162,7 @@ const VendorTwoDetails = () => {
             <div
               className="inner-banner-two bg-img rounded-16 overflow-hidden"
               style={{
-                backgroundImage: `url('assets/images/thumbs/inner-banner-two-bg.png')`,
+                backgroundImage: `url('${imagen_portada ? imagen_portada : imagen_portada_predeterminada}')`,
               }}
             >
               <div className="row">

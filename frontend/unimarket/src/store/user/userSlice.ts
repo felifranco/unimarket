@@ -1,0 +1,104 @@
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { service } from "../../config/configurations";
+import { get } from "../../utils/axios.util";
+import { ApiResponse } from "../../utils/apiResponse.util";
+import { userInterface } from "../../interfaces/users.interface";
+import { PURGE } from "redux-persist";
+
+const USER_SERVICE = service.USER_SERVICE;
+const endpoint = "users";
+
+const emptyUser: userInterface = {
+  id_usuario: 0,
+  nombre_completo: "",
+  estrellas: 0,
+  calificacion: 0,
+  ubicacion: "",
+  correo: "",
+  telefono: "",
+  imagen_portada: "",
+  imagen_perfil: "",
+  acerca_de: "",
+};
+
+interface UserState {
+  users: Array<userInterface> | [];
+  user: userInterface;
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: UserState = {
+  users: [],
+  user: emptyUser,
+  loading: false,
+  error: null,
+};
+
+export const fetchUsers = createAsyncThunk(
+  "users/fetchUsers",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await get(`${USER_SERVICE}/${endpoint}`);
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
+export const fetchUserById = createAsyncThunk(
+  "users/fetchUserById",
+  async ({ id_usuario }: { id_usuario: number }, { rejectWithValue }) => {
+    try {
+      const response = await get(`${USER_SERVICE}/${endpoint}/${id_usuario}`);
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
+export const userSlice = createSlice({
+  name: "user",
+  initialState,
+  reducers: {},
+  extraReducers: builder => {
+    builder
+      //FETCH USERS
+      .addCase(
+        fetchUsers.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<userInterface[]>;
+          state.users = response.data || [];
+          state.loading = false;
+          state.error = null;
+        },
+      )
+      .addCase(fetchUsers.pending, state => {
+        state.loading = true;
+      })
+      // FETCH USER BY ID
+      .addCase(
+        fetchUserById.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<userInterface>;
+          state.user = response.data || emptyUser;
+          state.loading = false;
+          state.error = null;
+        },
+      )
+      .addCase(fetchUserById.pending, state => {
+        state.loading = true;
+        state.user = emptyUser;
+      });
+
+    builder.addCase(PURGE, () => initialState);
+  },
+});
+
+export default userSlice.reducer;
