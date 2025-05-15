@@ -8,7 +8,7 @@ import { UsersModule } from './users/users.module';
 import configurations from './config/configurations';
 import { User } from './users/entities/user.entity';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -16,9 +16,10 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: configService.get<
-          'postgres' | 'mysql' | 'sqlite' | 'mariadb' | 'oracle' | 'mssql'
-        >('database.type', 'postgres'),
+        //type: configService.get<
+        //  'postgres' | 'mysql' | 'sqlite' | 'mariadb' | 'oracle' | 'mssql'
+        //>('database.type', 'postgres'),
+        type: 'postgres',
         host: configService.get<string>('database.host'),
         port: configService.get<number>('database.port'),
         username: configService.get<string>('database.username'),
@@ -26,12 +27,12 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
         database: configService.get<string>('database.database'),
         entities: [User],
         synchronize: true,
-        //ssl: true,
-        //extra: {
-        //  ssl: {
-        //    rejectUnauthorized: false,
-        //  },
-        //},
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
       }),
       inject: [ConfigService],
     }),

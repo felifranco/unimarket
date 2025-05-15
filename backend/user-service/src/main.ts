@@ -1,30 +1,91 @@
+import { Server } from 'http';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import configurations from './config/configurations';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import * as express from 'express';
+import { APIGatewayEvent, Context } from 'aws-lambda';
+import * as serverlessExpress from 'aws-serverless-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+
+let lambdaProxy: Server;
+
+let bootstrapPromise: Promise<{ app: any; server: Server }> | null = null;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const server = express();
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
-  const config = new DocumentBuilder()
-    .setTitle('User Service (Gestión de Usuarios)')
-    .setDescription('Información de usuario, roles y reputación')
-    .setVersion('1.0')
-    //.addTag('tag')
-    .addBearerAuth()
-    .build();
+  // Habilitar Swagger solo si ENABLE_SWAGGER=true
+  if (process.env.ENABLE_SWAGGER === 'true') {
+    const config = new DocumentBuilder()
+      .setTitle('User Service (Gestión de Usuarios)')
+      .setDescription('Información de usuario, roles y reputación')
+      .setVersion('1.0')
+      //.addTag('tag')
+      .addBearerAuth()
+      .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('', app, document);
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+  }
 
-  app.enableCors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  });
+  // Aplicar interceptor y filtro globales
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalFilters(new HttpExceptionFilter());
 
-  await app.listen(configurations().appPort);
+  //app.enableCors({
+  //  origin: '*',
+  //  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //});
+
+  await app.init();
+
+  return { app, server: serverlessExpress.createServer(server, null, []) };
 }
 
-bootstrap().catch((error) => {
-  console.error('Error during application bootstrap:', error);
-});
+// Inicializar solo una vez y reutilizar
+function getBootstrapPromise() {
+  if (!bootstrapPromise) {
+    bootstrapPromise = bootstrap();
+  }
+  return bootstrapPromise;
+}
+
+getBootstrapPromise()
+  .then(({ app, server }) => {
+    lambdaProxy = server;
+  })
+  .catch((error) => {
+    console.error('Error during application bootstrap:', error);
+  });
+
+// Permitir ejecución local sin doble inicialización
+if (require.main === module) {
+  (async () => {
+    const port = process.env.APP_PORT || 3001;
+    const { app } = await getBootstrapPromise();
+    await app.listen(port, () => {
+      console.log(`User Service running locally on http://localhost:${port}`);
+    });
+  })();
+}
+
+function waitForServer(event: any, context: any) {
+  setImmediate(() => {
+    if (!lambdaProxy) {
+      return waitForServer(event, context);
+    } else {
+      return serverlessExpress.proxy(lambdaProxy, event, context);
+    }
+  });
+}
+
+export const handler = (event: APIGatewayEvent, context: Context) => {
+  if (lambdaProxy) {
+    return serverlessExpress.proxy(lambdaProxy, event, context as any);
+  } else {
+    return waitForServer(event, context);
+  }
+};
