@@ -1,0 +1,29 @@
+service: auth-service
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+
+functions:
+  auth:
+    handler: dist/main.handler
+    timeout: 30
+    events:
+      - http:
+          path: /
+          method: get
+      - http:
+          path: auth/login
+          method: post
+      - http:
+          path: auth/register
+          method: post
+      - http:
+          path: auth/refresh
+          method: post
+      - http:
+          path: auth/me
+          method: get
+
+plugins:
+  - serverless-offline

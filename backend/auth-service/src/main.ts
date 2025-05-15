@@ -1,68 +1,70 @@
+import { Server } from 'http';
 import { NestFactory } from '@nestjs/core';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import { FastifyServerOptions, FastifyInstance, fastify } from 'fastify';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import * as express from 'express';
+import { APIGatewayEvent, Context } from 'aws-lambda';
+import * as serverlessExpress from 'aws-serverless-express';
 import configurations from './config/configurations';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+//import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { Logger } from '@nestjs/common';
 
-export interface NestApp {
-  app: NestFastifyApplication;
-  instance: FastifyInstance;
-}
+let lambdaProxy: Server;
 
-export async function bootstrap(): Promise<NestApp> {
-  const serverOptions: FastifyServerOptions = { logger: true };
-  const instance: FastifyInstance = fastify(serverOptions);
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter(instance),
-    { logger: !process.env.AWS_EXECUTION_ENV ? new Logger() : console },
-  );
+async function bootstrap() {
+  const server = express();
 
-  const config = new DocumentBuilder()
-    .setTitle('Auth Service (Autenticación y Seguridad)')
-    .setDescription('Registro, autenticación y autorización de usuarios')
-    .setVersion('1.0')
-    //.addTag('tag')
-    .addBearerAuth()
-    .build();
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  //const config = new DocumentBuilder()
+  //  .setTitle('Auth Service (Autenticación y Seguridad)')
+  //  .setDescription('Registro, autenticación y autorización de usuarios')
+  //  .setVersion('1.0')
+  //  //.addTag('tag')
+  //  .addBearerAuth()
+  //  .build();
+  //
+  //const document = SwaggerModule.createDocument(app, config);
+  //SwaggerModule.setup('api', app, document);
 
   // Aplicar interceptor y filtro globales
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  app.enableCors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  });
+  //app.enableCors({
+  //  origin: '*',
+  //  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //});
 
   // Configuración utilizada por AWS Lambda
   await app.init();
 
-  return { app, instance };
+  return serverlessExpress.createServer(server, null, []);
 }
 
-// Instrucción para ejecutar local o como módulo
-if (require.main === module) {
-  bootstrap()
-    .then(async (obj) => {
-      try {
-        await obj.app.listen(configurations().appPort);
-      } catch (error) {
-        console.error('Error while starting the server:', error);
-        process.exit(1);
-      }
-    })
-    .catch((error) => {
-      console.error('Error during application bootstrap:', error);
-    });
+bootstrap()
+  .then((server) => {
+    lambdaProxy = server;
+  })
+  .catch((error) => {
+    console.error('Error during application bootstrap:', error);
+  });
+
+function waitForServer(event: any, context: any) {
+  setImmediate(() => {
+    if (!lambdaProxy) {
+      return waitForServer(event, context);
+    } else {
+      return serverlessExpress.proxy(lambdaProxy, event, context);
+    }
+  });
 }
+
+export const handler = (event: APIGatewayEvent, context: Context) => {
+  if (lambdaProxy) {
+    return serverlessExpress.proxy(lambdaProxy, event, context as any);
+  } else {
+    return waitForServer(event, context);
+  }
+};

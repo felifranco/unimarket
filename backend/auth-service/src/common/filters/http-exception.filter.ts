@@ -5,8 +5,8 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-//import { /*Request,*/ Response } from 'express';
-import { FastifyReply } from 'fastify';
+import { /*Request,*/ Response } from 'express';
+//import { FastifyReply } from 'fastify';
 import { ApiResponse } from '../interfaces/api-response.interface';
 
 /**
@@ -18,11 +18,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     // Express.js
-    //const response = ctx.getResponse<Response>();
+    const response = ctx.getResponse<Response>();
     //const request = ctx.getRequest<Request>();
 
     // Fastify
-    const response = ctx.getResponse<FastifyReply>();
+    //const response = ctx.getResponse<FastifyReply>();
 
     let statusCode: number;
     let message: string;
@@ -56,7 +56,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       error,
     };
 
-    //response.status(statusCode).json(responseBody);
-    response.status(statusCode).send(responseBody);
+    response.status(statusCode).json(responseBody);
+    //response.status(statusCode).send(responseBody);
   }
 }
