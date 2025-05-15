@@ -1,0 +1,38 @@
+service: listings-service
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+
+functions:
+  listings:
+    handler: dist/main.handler
+    timeout: 30
+    events:
+      - http:
+          path: /
+          method: get
+      - http:
+          path: listings
+          method: post
+      - http:
+          path: listings
+          method: get
+      - http:
+          path: listings/{listingId}
+          method: get
+      - http:
+          path: listings/{listingId}
+          method: patch
+      - http:
+          path: listings/{listingId}
+          method: delete
+      - http:
+          path: listings/user/{userId}
+          method: get
+      - http:
+          path: listings/mine
+          method: get
+
+plugins:
+  - serverless-offline

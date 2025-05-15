@@ -1,21 +1,16 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { FastifyRequest } from 'fastify';
+import { Request } from 'express';
 import { PayloadAuthDto } from 'src/auth/dto/payload-auth.dto';
-
-declare module 'fastify' {
-  interface FastifyRequest {
-    user?: PayloadAuthDto;
-  }
-}
 
 export const User = createParamDecorator(
   (data: unknown, ctx: ExecutionContext): PayloadAuthDto => {
-    const request = ctx.switchToHttp().getRequest<FastifyRequest>();
+    const request = ctx.switchToHttp().getRequest<Request>();
 
-    const user: PayloadAuthDto = request.user
-      ? request.user
-      : { id_usuario: -1 };
+    const user =
+      request.user && 'id_usuario' in request.user
+        ? request.user
+        : { id_usuario: -1 };
 
-    return user;
+    return user as PayloadAuthDto;
   },
 );
