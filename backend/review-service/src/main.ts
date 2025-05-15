@@ -1,70 +1,93 @@
+import { Server } from 'http';
 import { NestFactory } from '@nestjs/core';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import { FastifyServerOptions, FastifyInstance, fastify } from 'fastify';
-import configurations from './config/configurations';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import * as express from 'express';
+import { APIGatewayEvent, Context } from 'aws-lambda';
+import * as serverlessExpress from 'aws-serverless-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { Logger } from '@nestjs/common';
 
-export interface NestApp {
-  app: NestFastifyApplication;
-  instance: FastifyInstance;
-}
+let lambdaProxy: Server;
 
-export async function bootstrap(): Promise<NestApp> {
-  const serverOptions: FastifyServerOptions = { logger: true };
-  const instance: FastifyInstance = fastify(serverOptions);
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter(instance),
-    { logger: !process.env.AWS_EXECUTION_ENV ? new Logger() : console },
-  );
+let bootstrapPromise: Promise<{ app: any; server: Server }> | null = null;
 
-  const config = new DocumentBuilder()
-    .setTitle('Review Service (Valoraciones y Comentarios)')
-    .setDescription(
-      'Gestiona puntuaciones y comentarios sobre usuarios y productos',
-    )
-    .setVersion('1.0')
-    //.addTag('tag')
-    .addBearerAuth()
-    .build();
+async function bootstrap() {
+  const server = express();
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  // Habilitar Swagger solo si ENABLE_SWAGGER=true
+  if (process.env.ENABLE_SWAGGER === 'true') {
+    const config = new DocumentBuilder()
+      .setTitle('Review Service (Valoraciones y Comentarios)')
+      .setDescription(
+        'Gestiona puntuaciones y comentarios sobre usuarios y productos',
+      )
+      .setVersion('1.0')
+      //.addTag('tag')
+      .addBearerAuth()
+      .build();
+
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+  }
 
   // Aplicar interceptor y filtro globales
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  app.enableCors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  });
+  //app.enableCors({
+  //  origin: '*',
+  //  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //});
 
-  // Configuración utilizada por AWS Lambda
   await app.init();
 
-  return { app, instance };
+  return { app, server: serverlessExpress.createServer(server, null, []) };
 }
 
-// Instrucción para ejecutar local o como módulo
-if (require.main === module) {
-  bootstrap()
-    .then(async (obj) => {
-      try {
-        await obj.app.listen(configurations().appPort);
-      } catch (error) {
-        console.error('Error while starting the server:', error);
-        process.exit(1);
-      }
-    })
-    .catch((error) => {
-      console.error('Error during application bootstrap:', error);
-    });
+// Inicializar solo una vez y reutilizar
+function getBootstrapPromise() {
+  if (!bootstrapPromise) {
+    bootstrapPromise = bootstrap();
+  }
+  return bootstrapPromise;
 }
+
+getBootstrapPromise()
+  .then(({ app, server }) => {
+    lambdaProxy = server;
+  })
+  .catch((error) => {
+    console.error('Error during application bootstrap:', error);
+  });
+
+// Permitir ejecución local sin doble inicialización
+if (require.main === module) {
+  (async () => {
+    const port = process.env.APP_PORT || 3001;
+    const { app } = await getBootstrapPromise();
+    await app.listen(port, () => {
+      console.log(`Review Service running locally on http://localhost:${port}`);
+    });
+  })();
+}
+
+function waitForServer(event: any, context: any) {
+  setImmediate(() => {
+    if (!lambdaProxy) {
+      return waitForServer(event, context);
+    } else {
+      return serverlessExpress.proxy(lambdaProxy, event, context);
+    }
+  });
+}
+
+export const handler = (event: APIGatewayEvent, context: Context) => {
+  if (lambdaProxy) {
+    return serverlessExpress.proxy(lambdaProxy, event, context as any);
+  } else {
+    return waitForServer(event, context);
+  }
+};

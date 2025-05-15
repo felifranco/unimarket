@@ -1,0 +1,38 @@
+service: reviews-service
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+
+functions:
+  reviews:
+    handler: dist/main.handler
+    timeout: 30
+    events:
+      - http:
+          path: /
+          method: get
+      - http:
+          path: reviews
+          method: post
+      - http:
+          path: reviews/listing/{listingId}
+          method: get
+      - http:
+          path: reviews/like/{reviewId}
+          method: patch
+      - http:
+          path: reviews/unlike/{reviewId}
+          method: patch
+      - http:
+          path: reviews/{reviewId}
+          method: get
+      - http:
+          path: reviews/{reviewId}
+          method: patch
+      - http:
+          path: reviews/{reviewId}
+          method: delete
+
+plugins:
+  - serverless-offline

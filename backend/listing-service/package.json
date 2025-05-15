@@ -9,6 +9,7 @@
     "build": "nest build",
     "install:dev": "rm -rf node_modules && rm -rf package-lock.json && npm install",
     "install:prod": "rm -rf node_modules && rm -rf package-lock.json && npm install --production --no-package-lock",
+    "prepare:zip": "npm run install:dev && npm run build && npm run install:prod",
     "serverless:offline": "rm -rf dist && npm run build && npx serverless offline",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" --check",
