@@ -2,6 +2,7 @@
   "name": "unimarket",
   "private": true,
   "version": "0.0.0",
+  "author": "Feliciano Ernesto Franco Lux",
   "type": "module",
   "homepage": "https://felifranco.github.io/unimarket/",
   "scripts": {
