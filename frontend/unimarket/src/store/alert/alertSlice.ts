@@ -18,6 +18,12 @@ import {
   patchLikeReview,
   patchUnlikeReview,
 } from "../review/reviewSlice";
+import {
+  uploadProfileImage,
+  uploadListingImage,
+  deleteProfileImage,
+  deleteListingImage,
+} from "../image/imageSlice";
 import { getHttpErrorMessage } from "../../utils/errorApiResponse.util";
 import { PURGE } from "redux-persist";
 
@@ -246,6 +252,45 @@ export const alertSlice = createSlice({
           state.message = getHttpErrorMessage(action.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
+        }
+      });
+
+    // IMAGE
+    builder
+      .addMatcher(isAnyOf(uploadProfileImage.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "error_upload_profile_image";
+        }
+      })
+      .addMatcher(isAnyOf(uploadListingImage.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "error_upload_listing_image";
+        }
+      })
+      .addMatcher(isAnyOf(deleteProfileImage.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "error_delete_profile_image";
+        }
+      })
+      .addMatcher(isAnyOf(deleteListingImage.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "error_delete_listing_image";
         }
       });
   },

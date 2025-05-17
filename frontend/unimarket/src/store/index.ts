@@ -15,6 +15,7 @@ import userReducer from "./user/userSlice";
 import listingReducer from "./listing/listingSlice";
 import reviewReducer from "./review/reviewSlice";
 import alertReducer from "./alert/alertSlice";
+import imageReducer from "./image/imageSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   listing: listingReducer,
   review: reviewReducer,
   alert: alertReducer,
+  image: imageReducer,
 });
 
 const persistConfig = {
