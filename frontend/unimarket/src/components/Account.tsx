@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import AccountProductCard from "./AccountProductCard";
@@ -6,7 +6,9 @@ import SellingProductCard from "./SellingProductCard";
 import { categories } from "../mocks/categories.json";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchMyListings } from "../store/listing/listingSlice";
-import { fetchUserById } from "../store/user/userSlice";
+import { fetchUserById, patchUser } from "../store/user/userSlice";
+import Modal from "./common/Modal";
+import UploadImage from "./common/UploadImage";
 
 const imagen_portada_predeterminada =
   "assets/images/thumbs/inner-banner-two-bg.png";
@@ -41,7 +43,38 @@ const Account = () => {
     setActive(!active);
   };
 
+  const [updateCover, setUpdateCover] = useState(false);
+  const [url, setUrl] = useState("");
+
   const handleEdit = () => {};
+
+  const handleSaveCoverImage = useCallback(() => {
+    dispatch(
+      patchUser({
+        id_usuario,
+        data: { imagen_portada: url },
+      }),
+    );
+  }, [dispatch, id_usuario, url]);
+
+  const handleSaveProfileImage = useCallback(() => {
+    dispatch(
+      patchUser({
+        id_usuario,
+        data: { imagen_perfil: url },
+      }),
+    );
+  }, [dispatch, id_usuario, url]);
+
+  useEffect(() => {
+    if (url !== "") {
+      if (updateCover) {
+        handleSaveCoverImage();
+      } else {
+        handleSaveProfileImage();
+      }
+    }
+  }, [url, updateCover, handleSaveCoverImage, handleSaveProfileImage]);
 
   useEffect(() => {
     dispatch(fetchMyListings());
@@ -76,6 +109,19 @@ const Account = () => {
                     />
                   </span>
                   <div className="d-flex flex-column gap-24">
+                    <button
+                      type="button"
+                      className="text-uppercase group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8 w-100"
+                      data-bs-toggle="modal"
+                      data-bs-target="#uploadImageModal"
+                      onClick={() => setUpdateCover(false)}
+                    >
+                      {t("photo")}
+                      <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
+                        {" "}
+                        <i className="ph-fill ph-upload-simple text-lg me-1" />
+                      </span>
+                    </button>
                     <button
                       type="button"
                       onClick={handleEdit}
@@ -171,28 +217,25 @@ const Account = () => {
           <div className="vendor-two-details__contents">
             {/* Inner Banner Start */}
             <div
-              className="inner-banner-two bg-img rounded-16 overflow-hidden"
+              className="inner-banner-two bg-img rounded-16 overflow-hidden position-relative"
               style={{
                 backgroundImage: `url('${imagen_portada ? imagen_portada : imagen_portada_predeterminada}')`,
               }}
             >
-              <div className="row">
-                <div className="col-6 d-xl-block d-none" />
-                <div className="col-xl-6 d-xl-flex">
-                  <div className="text-center py-32">
-                    <h6 className="text-white">Daily Offer</h6>
-                    <h3 className="my-32 text-white">SALE 48% OFF</h3>
-                    <Link
-                      to="/shop"
-                      className="btn btn-main d-inline-flex align-items-center rounded-8 gap-8"
-                    >
-                      Shop Now
-                      <span className="icon text-xl d-flex">
-                        <i className="ph ph-shopping-cart" />
-                      </span>
-                    </Link>
-                  </div>
-                </div>
+              <div className="d-xl-flex justify-content-end  py-100">
+                <button
+                  type="button"
+                  className="btn btn-main d-inline-flex align-items-center rounded-8 gap-8 position-absolute"
+                  data-bs-toggle="modal"
+                  data-bs-target="#uploadImageModal"
+                  style={{ minWidth: 0, bottom: 24, right: 24 }}
+                  onClick={() => setUpdateCover(true)}
+                >
+                  <i className="ph-fill ph-upload-simple text-lg me-1" />
+                  <span className="d-none d-md-inline">
+                    {t("update_cover")}
+                  </span>
+                </button>
               </div>
             </div>
             {/* Inner Banner End */}
@@ -269,6 +312,12 @@ const Account = () => {
           </div>
         </div>
       </div>
+      <Modal
+        id="uploadImageModal"
+        title={t("update_image")}
+        Content={<UploadImage type="profile" setUrl={setUrl} />}
+        size="modal-lg"
+      />
     </section>
   );
 };

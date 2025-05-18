@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, isAnyOf } from "@reduxjs/toolkit";
 import { login, register, me } from "../auth/authSlice";
-import { fetchUsers, fetchUserById } from "../user/userSlice";
+import { fetchUsers, fetchUserById, patchUser } from "../user/userSlice";
 import {
   fetchListings,
   fetchMyListings,
@@ -114,6 +114,22 @@ export const alertSlice = createSlice({
         state.type = "danger";
         if (action.payload && action.payload.status) {
           state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "oops_problem_ocurred";
+        }
+      })
+      .addMatcher(isAnyOf(patchUser.fulfilled), state => {
+        state.showMessage = true;
+        state.type = "success";
+        state.message = "successful_operation";
+      })
+      .addMatcher(isAnyOf(patchUser.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && (action.payload as any).status) {
+          state.message = getHttpErrorMessage(
+            (action.payload as any).status,
+          ).title;
         } else {
           state.message = "oops_problem_ocurred";
         }

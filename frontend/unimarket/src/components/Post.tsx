@@ -628,7 +628,6 @@ const Post = () => {
         title={t("upload_image")}
         Content={<UploadImage type="post" setUrl={setUrl} />}
         size="modal-lg"
-        onSave={handleSaveProductDescription}
       />
     </section>
   );

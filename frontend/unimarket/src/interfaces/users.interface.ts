@@ -1,5 +1,7 @@
 export interface userInterface {
   id_usuario: number;
+  uuid?: string;
+  username?: string;
   nombre_completo: string;
   imagen_portada: string;
   imagen_perfil: string;

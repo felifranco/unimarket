@@ -73,10 +73,6 @@ const UploadImage = ({
     }
   }, [url, setUrl]);
 
-  useEffect(() => {
-    dispatch(resetImageState());
-  }, [dispatch]);
-
   return (
     <form
       onSubmit={handleUpload}
@@ -106,7 +102,7 @@ const UploadImage = ({
           <div>
             <button
               type="button"
-              className="btn btn-outline-danger btn-sm mt-2"
+              className="btn text-danger-600 hover-bg-danger-600 hover-text-white hover-border-danger-600 transition-2 rounded-16 btn-sm mt-10"
               onClick={handleRemove}
             >
               Quitar
