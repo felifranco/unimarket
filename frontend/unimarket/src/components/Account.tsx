@@ -46,6 +46,12 @@ const Account = () => {
   const [updateCover, setUpdateCover] = useState(false);
   const [url, setUrl] = useState("");
 
+  let cleanUpload: (() => void) | null = null;
+
+  const setCleanUpload = (fn: () => void) => {
+    cleanUpload = fn;
+  };
+
   const handleEdit = () => {};
 
   const handleSaveCoverImage = useCallback(() => {
@@ -315,8 +321,17 @@ const Account = () => {
       <Modal
         id="uploadImageModal"
         title={t("update_image")}
-        Content={<UploadImage type="profile" setUrl={setUrl} />}
+        Content={
+          <UploadImage
+            type="profile"
+            setUrl={setUrl}
+            setCleanUpload={setCleanUpload}
+          />
+        }
         size="modal-lg"
+        onCloseModal={() => {
+          if (cleanUpload) cleanUpload();
+        }}
       />
     </section>
   );

@@ -91,6 +91,12 @@ const Post = () => {
     focusOnSelect: true,
   };
 
+  let cleanUpload: (() => void) | null = null;
+
+  const setCleanUpload = (fn: () => void) => {
+    cleanUpload = fn;
+  };
+
   const handleSaveProductDescription = () => {
     console.log("handleSaveProductDescription button clicked");
   };
@@ -626,8 +632,17 @@ const Post = () => {
       <Modal
         id="uploadImageModal"
         title={t("upload_image")}
-        Content={<UploadImage type="post" setUrl={setUrl} />}
+        Content={
+          <UploadImage
+            type="post"
+            setUrl={setUrl}
+            setCleanUpload={setCleanUpload}
+          />
+        }
         size="modal-lg"
+        onCloseModal={() => {
+          if (cleanUpload) cleanUpload();
+        }}
       />
     </section>
   );

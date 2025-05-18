@@ -10,10 +10,12 @@ import {
 const UploadImage = ({
   type,
   setUrl = () => {},
+  setCleanUpload,
   isModal = true,
 }: {
   type: "profile" | "listing" | "post";
   setUrl: (url: string) => void;
+  setCleanUpload?: (fn: () => void) => void;
   isModal?: boolean;
 }) => {
   const dispatch = useAppDispatch();
@@ -67,11 +69,22 @@ const UploadImage = ({
     dispatch(resetImageState());
   };
 
+  if (setCleanUpload) {
+    setCleanUpload(handleRemove);
+  }
+
   useEffect(() => {
     if (url) {
       setUrl(url);
     }
   }, [url, setUrl]);
+
+  useEffect(() => {
+    return () => {
+      //handleRemove();
+      console.log("Unmounting UploadImage component");
+    };
+  }, []);
 
   return (
     <form
