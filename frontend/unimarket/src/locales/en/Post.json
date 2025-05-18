@@ -30,5 +30,6 @@
     "rent": "Rent"
   },
   "publication_date": "Published on",
-  "last_updated": "Last updated on"
+  "last_updated": "Last updated on",
+  "upload_image": "Upload image"
 }

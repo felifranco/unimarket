@@ -1,8 +1,16 @@
 import Fastify from 'fastify';
+import cors from '@fastify/cors';
 import {uploadRoutes} from './routes/upload.route';
 
 async function bootstrap() {
   const app = Fastify();
+
+  await app.register(cors, {
+    origin: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['*'],
+    credentials: true,
+  });
 
   app.register(uploadRoutes);
 

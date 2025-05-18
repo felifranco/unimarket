@@ -23,6 +23,16 @@ import {
 } from "../store/listing/listingSlice";
 import Modal from "./common/Modal";
 import { formatDate } from "../utils/app.util";
+import UploadImage from "./common/UploadImage";
+
+const default_image = "assets/images/thumbs/product-details-two-thumb1.png";
+const images = [
+  default_image,
+  default_image,
+  default_image,
+  default_image,
+  default_image,
+];
 
 const Post = (Product: listingInterface) => {
   const { t } = useTranslation("Post");
@@ -31,14 +41,15 @@ const Post = (Product: listingInterface) => {
 
   const listing = useAppSelector(state => state.listing.listing);
 
-  const { images, descripcion_producto: descripcion_producto_empty } =
+  const { /* images, */ descripcion_producto: descripcion_producto_empty } =
     new_product;
 
   //const descripcion_producto = JSON.parse(descripcion_producto_empty);
   //console.log("descripcion_producto", descripcion_producto_empty, descripcion_producto);
 
   const [productData, setProductData] = useState<listingInterface>(Product);
-  const [mainImage, setMainImage] = useState(images[0]);
+  const [mainIndexImage, setMainIndexImage] = useState<number>(0);
+  const [url, setUrl] = useState<string>("");
 
   const {
     id_publicacion,
@@ -124,6 +135,14 @@ const Post = (Product: listingInterface) => {
   };
 
   useEffect(() => {
+    if (url) {
+      images[mainIndexImage] = url;
+      setUrl("");
+      console.log("url", url);
+    }
+  }, [url, mainIndexImage]);
+
+  useEffect(() => {
     if (id_publicacion == listing.id_publicacion) {
       setProductData(listing);
     }
@@ -136,10 +155,29 @@ const Post = (Product: listingInterface) => {
           <div className="row gy-4">
             <div className="col-xl-4">
               <div className="product-details__left">
-                <div className="product-details__thumb-slider border border-gray-100 hover-border-main-600 transition-1 rounded-16">
+                <div className="product-details__thumb-slider border border-gray-100 hover-border-main-600 transition-1 rounded-16 position-relative">
                   <div className="">
-                    <div className="product-details__thumb flex-center h-100">
-                      <img src={mainImage} alt="Main Product" />
+                    <div className="product-details__thumb flex-center h-100 position-relative">
+                      <img
+                        /* src={mainImage} */
+                        src={images[mainIndexImage]}
+                        alt="Main Product"
+                        className="w-100 d-block"
+                      />
+                    </div>
+                    <div className="d-flex justify-content-end mt-2 me-3">
+                      <button
+                        type="button"
+                        className="btn text-main-600 hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 rounded-16 flex-align gap-8 px-3 py-2 btn-edit-image"
+                        data-bs-toggle="modal"
+                        data-bs-target="#uploadImageModal"
+                        style={{ minWidth: 0 }}
+                      >
+                        <i className="ph-fill ph-upload-simple text-lg me-1" />
+                        <span className="d-none d-md-inline">
+                          {t("upload_image")}
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -150,7 +188,7 @@ const Post = (Product: listingInterface) => {
                         <div
                           className="center max-w-120 max-h-120 h-100 flex-center border border-gray-100 rounded-16 p-8"
                           key={index}
-                          onClick={() => setMainImage(image)}
+                          onClick={() => setMainIndexImage(index)}
                         >
                           <img
                             className="thum"
@@ -544,6 +582,12 @@ const Post = (Product: listingInterface) => {
         Content={<ProductDescription {...descripcion_producto_object} />}
         size="modal-xl"
         onSave={handleSaveProductDescription}
+      />
+      <Modal
+        id="uploadImageModal"
+        title={t("upload_image")}
+        Content={<UploadImage type="post" setUrl={setUrl} />}
+        size="modal-lg"
       />
     </section>
   );

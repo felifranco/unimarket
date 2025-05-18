@@ -57,7 +57,7 @@ export async function uploadRoutes(app: FastifyInstance) {
 
   app.post('/upload/listings', async function (request, response) {
     return handleFileUpload({
-      directories: ['users', 'uuid', 'listings', 'listing-uuid'],
+      directories: ['users', 'uuid', 'listings', 'publicacion_uuid'],
       request,
       response,
     });
