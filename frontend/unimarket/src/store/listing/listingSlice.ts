@@ -19,6 +19,7 @@ interface ListingState {
 
 const emptyListing: listingInterface = {
   id_publicacion: -1,
+  publicacion_uuid: undefined,
   id_usuario: 0,
   tipo_publicacion: undefined,
   titulo: undefined,

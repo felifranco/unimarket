@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { service } from "../../config/configurations";
-import { post, del } from "../../utils/axios.util";
+import { post, del, put } from "../../utils/axios.util";
 import { ApiResponse } from "../../utils/apiResponse.util";
 
 interface ImageState {
@@ -39,6 +39,26 @@ export const uploadListingImage = createAsyncThunk(
     try {
       const response = await post(
         `${IMAGE_SERVICE}/upload/listings`,
+        formData,
+        {
+          "Content-Type": "multipart/form-data",
+        },
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
+export const uploadNewListingImage = createAsyncThunk(
+  "image/uploadNewListingImage",
+  async (formData: FormData, { rejectWithValue }) => {
+    try {
+      const response = await post(
+        `${IMAGE_SERVICE}/upload/listings/new`,
         formData,
         {
           "Content-Type": "multipart/form-data",
@@ -95,6 +115,26 @@ export const deleteListingImage = createAsyncThunk(
   },
 );
 
+export const moveListingImages = createAsyncThunk(
+  "image/moveListingImages",
+  async (
+    { uuid, listingUuid }: { uuid: string; listingUuid: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await put(
+        `${IMAGE_SERVICE}/move/listings/new?uuid=${encodeURIComponent(uuid)}&listingUuid=${encodeURIComponent(listingUuid)}`,
+        {}, // PUT sin body
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
 export const imageSlice = createSlice({
   name: "image",
   initialState,
@@ -129,6 +169,19 @@ export const imageSlice = createSlice({
       .addCase(uploadListingImage.pending, state => {
         state.loading = true;
       })
+      // Upload New Listing Image
+      .addCase(
+        uploadNewListingImage.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<{ url: string }>;
+          state.url = response.data?.url || "";
+          state.loading = false;
+          state.error = null;
+        },
+      )
+      .addCase(uploadNewListingImage.pending, state => {
+        state.loading = true;
+      })
       // Delete Profile Image
       .addCase(deleteProfileImage.fulfilled, state => {
         state.url = "";
@@ -145,6 +198,14 @@ export const imageSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteListingImage.pending, state => {
+        state.loading = true;
+      })
+      // Move Listing Images
+      .addCase(moveListingImages.fulfilled, state => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(moveListingImages.pending, state => {
         state.loading = true;
       });
   },

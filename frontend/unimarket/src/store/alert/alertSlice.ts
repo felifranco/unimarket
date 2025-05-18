@@ -21,8 +21,10 @@ import {
 import {
   uploadProfileImage,
   uploadListingImage,
+  uploadNewListingImage,
   deleteProfileImage,
   deleteListingImage,
+  moveListingImages,
 } from "../image/imageSlice";
 import { getHttpErrorMessage } from "../../utils/errorApiResponse.util";
 import { PURGE } from "redux-persist";
@@ -275,6 +277,15 @@ export const alertSlice = createSlice({
           state.message = "error_upload_listing_image";
         }
       })
+      .addMatcher(isAnyOf(uploadNewListingImage.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "error_upload_new_listing_image";
+        }
+      })
       .addMatcher(isAnyOf(deleteProfileImage.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
@@ -291,6 +302,15 @@ export const alertSlice = createSlice({
           state.message = getHttpErrorMessage(action.payload.status).title;
         } else {
           state.message = "error_delete_listing_image";
+        }
+      })
+      .addMatcher(isAnyOf(moveListingImages.rejected), (state, action) => {
+        state.showMessage = true;
+        state.type = "danger";
+        if (action.payload && action.payload.status) {
+          state.message = getHttpErrorMessage(action.payload.status).title;
+        } else {
+          state.message = "error_move_listing_images";
         }
       });
   },

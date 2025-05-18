@@ -1,6 +1,10 @@
 import {FastifyInstance, FastifyRequest, FastifyReply} from 'fastify';
 import multipart from '@fastify/multipart';
-import {uploadImageToS3, removeImageFromS3} from '../services/upload.service';
+import {
+  uploadImageToS3,
+  removeImageFromS3,
+  renameS3Folder,
+} from '../services/upload.service';
 import {apiResponse} from '../utils/response.util';
 import {ApiResponses} from '../constants/api-responses.constants';
 import {getPath} from '../utils/app.util';
@@ -47,6 +51,7 @@ const handleFileUpload = async ({
 export async function uploadRoutes(app: FastifyInstance) {
   app.register(multipart);
 
+  // Subir imagen de perfil o portada
   app.post('/upload/profile', async function (request, response) {
     return handleFileUpload({
       directories: ['users', 'uuid', 'profile'],
@@ -55,6 +60,7 @@ export async function uploadRoutes(app: FastifyInstance) {
     });
   });
 
+  // Subir imagen de una publicación existente
   app.post('/upload/listings', async function (request, response) {
     return handleFileUpload({
       directories: ['users', 'uuid', 'listings', 'publicacion_uuid'],
@@ -63,6 +69,50 @@ export async function uploadRoutes(app: FastifyInstance) {
     });
   });
 
+  // Subir imagen de una nueva publicación
+  app.post('/upload/listings/new', async function (request, response) {
+    return handleFileUpload({
+      directories: ['users', 'uuid', 'listings', 'new'],
+      request,
+      response,
+    });
+  });
+
+  // Trasladar imagenes a de una nueva publicación a una recién creada
+  // Se usa para mover las imagenes de la carpeta new a la carpeta de la publicación
+  app.put('/move/listings/new', async function (request, response) {
+    const {uuid} = request.query as {uuid?: string};
+    const {listingUuid} = request.query as {listingUuid?: string};
+
+    if (!uuid) {
+      return response
+        .code(BAD_REQUEST.status)
+        .send(apiResponse(null, 'UUID no proporcionado', BAD_REQUEST.status));
+    }
+
+    if (!listingUuid) {
+      return response
+        .code(BAD_REQUEST.status)
+        .send(
+          apiResponse(
+            null,
+            'Listing UUID no proporcionado',
+            BAD_REQUEST.status,
+          ),
+        );
+    }
+
+    const oldPath = `users/${uuid}/listings/new`;
+    const newPath = `users/${uuid}/listings/${listingUuid}`;
+
+    await renameS3Folder({oldPath, newPath});
+
+    return response
+      .code(SUCCESS.status)
+      .send(apiResponse(null, 'Imagenes movidas exitosamente', SUCCESS.status));
+  });
+
+  // Eliminar imagen de perfil o portada
   app.delete('/profile/:uuid', async function (request, response) {
     const {uuid} = request.params as {uuid: string};
     const {filename} = request.query as {filename?: string};
@@ -99,6 +149,7 @@ export async function uploadRoutes(app: FastifyInstance) {
       );
   });
 
+  // Eliminar imagen de una publicación
   app.delete('/listing/:uuid', async function (request, response) {
     const {uuid} = request.params as {uuid: string};
     const {listingUuid} = request.query as {listingUuid?: string};
