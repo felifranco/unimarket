@@ -268,6 +268,11 @@ export const alertSlice = createSlice({
           state.message = "error_upload_profile_image";
         }
       })
+      .addMatcher(isAnyOf(uploadProfileImage.fulfilled), state => {
+        state.showMessage = true;
+        state.type = "success";
+        state.message = "successful_operation";
+      })
       .addMatcher(isAnyOf(uploadListingImage.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
@@ -277,6 +282,11 @@ export const alertSlice = createSlice({
           state.message = "error_upload_listing_image";
         }
       })
+      .addMatcher(isAnyOf(uploadListingImage.fulfilled), state => {
+        state.showMessage = true;
+        state.type = "success";
+        state.message = "successful_operation";
+      })
       .addMatcher(isAnyOf(uploadNewListingImage.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
@@ -285,6 +295,11 @@ export const alertSlice = createSlice({
         } else {
           state.message = "error_upload_new_listing_image";
         }
+      })
+      .addMatcher(isAnyOf(uploadNewListingImage.fulfilled), state => {
+        state.showMessage = true;
+        state.type = "success";
+        state.message = "successful_operation";
       })
       .addMatcher(isAnyOf(deleteProfileImage.rejected), (state, action) => {
         state.showMessage = true;

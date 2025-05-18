@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { listingInterface } from "../interfaces/listings.interfaces";
-import Modal from "./common/Modal";
-import Post from "./Post";
 import { useAppDispatch } from "../hooks";
 import {
   fetchListingById,
   fetchMyListings,
   deleteListing,
-  clearListing,
 } from "../store/listing/listingSlice";
+import { navigateTo } from "../helper/NavigateHelper";
 
 const AccountProductCard = (Product: listingInterface) => {
   const { t } = useTranslation("AccountProductCard");
@@ -21,17 +19,19 @@ const AccountProductCard = (Product: listingInterface) => {
     titulo,
     estrellas,
     calificacion,
-    vendidos,
-    existencias,
+    vendidos = 0,
+    existencias = 0,
     simbolo_moneda,
-    precio_anterior,
-    precio,
+    precio_anterior = 0,
+    precio = 0,
     imagen_portada,
   } = Product;
 
   const handleEdit = async () => {
     if (id_publicacion) {
       await dispatch(fetchListingById({ id_publicacion }));
+      console.log("Listing fetched successfully");
+      navigateTo("/post");
     }
   };
 
@@ -40,10 +40,6 @@ const AccountProductCard = (Product: listingInterface) => {
       await dispatch(deleteListing({ id_publicacion }));
       dispatch(fetchMyListings());
     }
-  };
-
-  const handleCloseEdit = () => {
-    dispatch(clearListing());
   };
 
   return (
@@ -132,14 +128,6 @@ const AccountProductCard = (Product: listingInterface) => {
           </button>
         </div>
       </div>
-
-      <Modal
-        title="Editar Publicación"
-        Content={<Post {...Product} />}
-        onCloseModal={handleCloseEdit}
-        size="modal-xl"
-        id="editPublication"
-      />
     </div>
   );
 };

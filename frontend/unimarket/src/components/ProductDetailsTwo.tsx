@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import { icons } from "../constants/post.constants";
 import { useTranslation } from "react-i18next";
 import { formatDate, timeAgo } from "../utils/app.util";
-import new_product from "../mocks/new_product.json";
 import { reviewInterface } from "../interfaces/reviews.interface";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import {
@@ -35,13 +34,15 @@ const ProductDetailsTwo = () => {
     precio_anterior,
     existencias,
     fecha_creacion,
+    imagenes,
+    descripcion_producto: descripcion_producto_text,
   } = listing;
 
-  const { images, descripcion_producto: descripcion_producto_text } =
-    new_product;
+  const images = imagenes ? JSON.parse(imagenes) : [];
 
-  const descripcion_producto = JSON.parse(descripcion_producto_text);
-  //console.log("descripcion_producto", descripcion_producto_text, descripcion_producto);
+  const descripcion_producto = descripcion_producto_text
+    ? JSON.parse(descripcion_producto_text)
+    : null;
 
   // increment & decrement
   const [quantity, setQuantity] = useState(1);
@@ -318,30 +319,32 @@ const ProductDetailsTwo = () => {
                 id="pills-tab"
                 role="tablist"
               >
+                {descripcion_producto ? (
+                  <li className="nav-item" role="presentation">
+                    <button
+                      className="nav-link active"
+                      id="pills-description-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-description"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-description"
+                      aria-selected="true"
+                    >
+                      {t("description")}
+                    </button>
+                  </li>
+                ) : null}
                 <li className="nav-item" role="presentation">
                   <button
-                    className="nav-link active"
-                    id="pills-description-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-description"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-description"
-                    aria-selected="true"
-                  >
-                    {t("description")}
-                  </button>
-                </li>
-                <li className="nav-item" role="presentation">
-                  <button
-                    className="nav-link"
+                    className={`nav-link ${descripcion_producto ? "" : "active"}`}
                     id="pills-reviews-tab"
                     data-bs-toggle="pill"
                     data-bs-target="#pills-reviews"
                     type="button"
                     role="tab"
                     aria-controls="pills-reviews"
-                    aria-selected="false"
+                    aria-selected={descripcion_producto ? "true" : "false"}
                   >
                     {t("reviews")}
                   </button>
@@ -350,126 +353,129 @@ const ProductDetailsTwo = () => {
             </div>
             <div className="product-dContent__box">
               <div className="tab-content" id="pills-tabContent">
-                <div
-                  className="tab-pane fade show active"
-                  id="pills-description"
-                  role="tabpanel"
-                  aria-labelledby="pills-description-tab"
-                  tabIndex={0}
-                >
-                  <div className="mb-40">
-                    <h6 className="mb-24">{t("product_description")}</h6>
-                    {descripcion_producto.paragraphs.map(
-                      (
-                        paragraph: {
-                          type: string;
-                          text?: string;
-                          items?: string[];
+                {descripcion_producto ? (
+                  <div
+                    className="tab-pane fade show active"
+                    id="pills-description"
+                    role="tabpanel"
+                    aria-labelledby="pills-description-tab"
+                    tabIndex={0}
+                  >
+                    <div className="mb-40">
+                      <h6 className="mb-24">{t("product_description")}</h6>
+                      {descripcion_producto.paragraphs.map(
+                        (
+                          paragraph: {
+                            type: string;
+                            text?: string;
+                            items?: string[];
+                          },
+                          index: number,
+                        ) => {
+                          let item = null;
+                          switch (paragraph.type) {
+                            case "text":
+                              item = (
+                                <p
+                                  key={index}
+                                  className="text-gray-400"
+                                  style={{ textAlign: "justify" }}
+                                >
+                                  {paragraph.text}
+                                </p>
+                              );
+                              break;
+
+                            case "list":
+                              item = (
+                                <ul
+                                  key={index}
+                                  className="list-inside mt-32 mb-32 ms-16"
+                                >
+                                  {paragraph.items?.map((item, pIndex) => (
+                                    <li
+                                      key={pIndex}
+                                      className="text-gray-400 mb-4"
+                                    >
+                                      {item}
+                                    </li>
+                                  ))}
+                                </ul>
+                              );
+                              break;
+
+                            default:
+                              break;
+                          }
+                          return item;
                         },
-                        index: number,
+                      )}
+                    </div>
+                    {descripcion_producto.sections.map(
+                      (
+                        section: {
+                          title: string;
+                          list: Array<{
+                            type: string;
+                            icon: string;
+                            content: { key?: string; value?: string };
+                          }>;
+                        },
+                        secIndex: number,
                       ) => {
-                        let item = null;
-                        switch (paragraph.type) {
-                          case "text":
-                            item = (
-                              <p
-                                key={index}
-                                className="text-gray-400"
-                                style={{ textAlign: "justify" }}
-                              >
-                                {paragraph.text}
-                              </p>
-                            );
-                            break;
-
-                          case "list":
-                            item = (
-                              <ul
-                                key={index}
-                                className="list-inside mt-32 mb-32 ms-16"
-                              >
-                                {paragraph.items?.map((item, pIndex) => (
-                                  <li
-                                    key={pIndex}
-                                    className="text-gray-400 mb-4"
-                                  >
-                                    {item}
-                                  </li>
-                                ))}
-                              </ul>
-                            );
-                            break;
-
-                          default:
-                            break;
-                        }
-                        return item;
+                        return (
+                          <div key={secIndex} className="mb-40">
+                            <h6 className="mb-24">{section.title}</h6>
+                            <ul className="mt-32">
+                              {section.list.map(
+                                (
+                                  item: {
+                                    type: string;
+                                    icon: string;
+                                    content: { key?: string; value?: string };
+                                  },
+                                  isecIndex: number,
+                                ) => {
+                                  return (
+                                    <li
+                                      key={isecIndex}
+                                      className="text-gray-400 mb-14 flex-align gap-14"
+                                    >
+                                      <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
+                                        <i
+                                          className={
+                                            icons.find(
+                                              x => x.label == item.icon,
+                                            )?.code
+                                          }
+                                        />
+                                      </span>
+                                      <span className="text-heading fw-medium">
+                                        {"key" in item.content
+                                          ? item.content.key
+                                          : ""}
+                                        <span className="text-gray-500">
+                                          {" "}
+                                          {"value" in item.content
+                                            ? item.type == "key-value"
+                                              ? `: ${item.content.value}`
+                                              : item.content.value
+                                            : ""}
+                                        </span>
+                                      </span>
+                                    </li>
+                                  );
+                                },
+                              )}
+                            </ul>
+                          </div>
+                        );
                       },
                     )}
                   </div>
-                  {descripcion_producto.sections.map(
-                    (
-                      section: {
-                        title: string;
-                        list: Array<{
-                          type: string;
-                          icon: string;
-                          content: { key?: string; value?: string };
-                        }>;
-                      },
-                      secIndex: number,
-                    ) => {
-                      return (
-                        <div key={secIndex} className="mb-40">
-                          <h6 className="mb-24">{section.title}</h6>
-                          <ul className="mt-32">
-                            {section.list.map(
-                              (
-                                item: {
-                                  type: string;
-                                  icon: string;
-                                  content: { key?: string; value?: string };
-                                },
-                                isecIndex: number,
-                              ) => {
-                                return (
-                                  <li
-                                    key={isecIndex}
-                                    className="text-gray-400 mb-14 flex-align gap-14"
-                                  >
-                                    <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                                      <i
-                                        className={
-                                          icons.find(x => x.label == item.icon)
-                                            ?.code
-                                        }
-                                      />
-                                    </span>
-                                    <span className="text-heading fw-medium">
-                                      {"key" in item.content
-                                        ? item.content.key
-                                        : ""}
-                                      <span className="text-gray-500">
-                                        {" "}
-                                        {"value" in item.content
-                                          ? item.type == "key-value"
-                                            ? `: ${item.content.value}`
-                                            : item.content.value
-                                          : ""}
-                                      </span>
-                                    </span>
-                                  </li>
-                                );
-                              },
-                            )}
-                          </ul>
-                        </div>
-                      );
-                    },
-                  )}
-                </div>
+                ) : null}
                 <div
-                  className="tab-pane fade"
+                  className={`tab-pane fade ${descripcion_producto ? "" : "show active"}`}
                   id="pills-reviews"
                   role="tabpanel"
                   aria-labelledby="pills-reviews-tab"

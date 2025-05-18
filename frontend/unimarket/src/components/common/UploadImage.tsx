@@ -3,21 +3,25 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import {
   uploadProfileImage,
   uploadListingImage,
+  uploadNewListingImage,
   resetImageState,
 } from "../../store/image/imageSlice";
 
 const UploadImage = ({
   type,
   setUrl = () => {},
+  isModal = true,
 }: {
   type: "profile" | "listing" | "post";
   setUrl: (url: string) => void;
+  isModal?: boolean;
 }) => {
   const dispatch = useAppDispatch();
 
+  const uuid = useAppSelector(state => state.auth.uuid);
   const { url, loading } = useAppSelector(state => state.image);
-  const id_publicacion = useAppSelector(
-    state => state.listing.listing.id_publicacion,
+  const publicacion_uuid = useAppSelector(
+    state => state.listing.listing.publicacion_uuid,
   );
 
   const [preview, setPreview] = useState<string>("");
@@ -29,34 +33,31 @@ const UploadImage = ({
     if (selectedFile) {
       setFile(selectedFile);
       setPreview(URL.createObjectURL(selectedFile));
-      dispatch(resetImageState());
     }
   };
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file || !uuid) return;
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("uuid", "uuid-front");
+    formData.append("uuid", uuid);
     switch (type) {
       case "profile":
-        dispatch(uploadProfileImage(formData));
+        await dispatch(uploadProfileImage(formData));
         break;
       case "listing":
-        if (!id_publicacion) return;
-        formData.append("publicacion_uuid", id_publicacion.toString());
-        dispatch(uploadListingImage(formData));
+        if (!publicacion_uuid) return;
+        formData.append("publicacion_uuid", publicacion_uuid);
+        await dispatch(uploadListingImage(formData));
         break;
       case "post":
-        if (!id_publicacion) return;
-        formData.append("publicacion_uuid", id_publicacion.toString());
-        dispatch(uploadListingImage(formData));
+        await dispatch(uploadNewListingImage(formData));
         break;
       default:
         break;
     }
-    dispatch(uploadProfileImage(formData));
+    handleRemove();
   };
 
   const handleRemove = () => {
@@ -69,7 +70,6 @@ const UploadImage = ({
   useEffect(() => {
     if (url) {
       setUrl(url);
-      setPreview(url);
     }
   }, [url, setUrl]);
 
@@ -127,6 +127,7 @@ const UploadImage = ({
       <button
         type="submit"
         className="btn btn-main w-100"
+        {...(isModal ? { "data-bs-dismiss": "modal" } : {})}
         disabled={!file || loading}
       >
         {loading ? (

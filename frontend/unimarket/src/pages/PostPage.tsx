@@ -8,7 +8,7 @@ import FooterTwo from "../components/FooterTwo";
 import BottomFooter from "../components/BottomFooter";
 //import ScrollToTop from "react-scroll-to-top";
 
-const NewPostPage = () => {
+const PostPage = () => {
   return (
     <>
       {/* ColorInit */}
@@ -24,7 +24,7 @@ const NewPostPage = () => {
       <HeaderTwo category={true} />
 
       {/* Breadcrumb */}
-      <Breadcrumb title={"new_post"} />
+      <Breadcrumb title={"post"} />
 
       {/* Post */}
       <Post />
@@ -41,4 +41,4 @@ const NewPostPage = () => {
   );
 };
 
-export default NewPostPage;
+export default PostPage;

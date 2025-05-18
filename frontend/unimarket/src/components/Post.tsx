@@ -20,36 +20,34 @@ import {
   createListing,
   patchListing,
   fetchMyListings,
+  clearListing,
 } from "../store/listing/listingSlice";
 import Modal from "./common/Modal";
 import { formatDate } from "../utils/app.util";
 import UploadImage from "./common/UploadImage";
 
 const default_image = "assets/images/thumbs/product-details-two-thumb1.png";
-const images = [
-  default_image,
-  default_image,
-  default_image,
-  default_image,
-  default_image,
-];
 
-const Post = (Product: listingInterface) => {
+const IMAGES_COUNT = 5;
+
+let images = Array(IMAGES_COUNT).fill(default_image);
+
+const Post = () => {
   const { t } = useTranslation("Post");
 
   const dispatch = useAppDispatch();
 
   const listing = useAppSelector(state => state.listing.listing);
 
-  const { /* images, */ descripcion_producto: descripcion_producto_empty } =
-    new_product;
+  const { descripcion_producto: descripcion_producto_empty } = new_product;
 
   //const descripcion_producto = JSON.parse(descripcion_producto_empty);
   //console.log("descripcion_producto", descripcion_producto_empty, descripcion_producto);
 
-  const [productData, setProductData] = useState<listingInterface>(Product);
+  const [productData, setProductData] = useState<listingInterface>(listing);
   const [mainIndexImage, setMainIndexImage] = useState<number>(0);
   const [url, setUrl] = useState<string>("");
+  const [type, setType] = useState("sale");
 
   const {
     id_publicacion,
@@ -63,7 +61,7 @@ const Post = (Product: listingInterface) => {
     precio_anterior,
     existencias,
     //insignia,
-    //imagenes,
+    imagenes,
     descripcion_producto,
     fecha_creacion = new Date().toString(),
     fecha_modificacion = new Date().toString(),
@@ -72,6 +70,14 @@ const Post = (Product: listingInterface) => {
   const descripcion_producto_object = JSON.parse(
     descripcion_producto ? descripcion_producto : descripcion_producto_empty,
   );
+
+  images = imagenes ? JSON.parse(imagenes) : images;
+  if (images.length < IMAGES_COUNT) {
+    images = [
+      ...images,
+      ...Array(IMAGES_COUNT - images.length).fill(default_image),
+    ];
+  }
 
   const settingsThumbs = {
     dots: false,
@@ -96,6 +102,10 @@ const Post = (Product: listingInterface) => {
     const precio = formData.get("precio") as string;
     const precio_anterior = formData.get("precio_anterior") as string;
     const existencias = formData.get("existencias") as string;
+    const imagenes = JSON.stringify(
+      images.filter(img => img !== default_image),
+    );
+    const imagen_portada = images[mainIndexImage];
     //const insignia = formData.get("insignia") as string;
 
     const data = {
@@ -108,6 +118,8 @@ const Post = (Product: listingInterface) => {
       precio: +precio,
       precio_anterior: +precio_anterior,
       existencias: +existencias,
+      imagenes,
+      imagen_portada,
       //insignia,
     };
 
@@ -134,6 +146,11 @@ const Post = (Product: listingInterface) => {
     }
   };
 
+  const handleChangeType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedType = event.target.value;
+    setType(selectedType);
+  };
+
   useEffect(() => {
     if (url) {
       images[mainIndexImage] = url;
@@ -143,10 +160,24 @@ const Post = (Product: listingInterface) => {
   }, [url, mainIndexImage]);
 
   useEffect(() => {
-    if (id_publicacion == listing.id_publicacion) {
+    console.log(
+      "id_publicacion == listing.id_publicacion",
+      id_publicacion,
+      listing.id_publicacion,
+    );
+
+    if (listing.id_publicacion && listing.id_publicacion > 0) {
+      console.log("setProductData", listing);
+
       setProductData(listing);
     }
   }, [listing, id_publicacion]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearListing());
+    };
+  }, [dispatch]);
 
   return (
     <section className="product-details py-80">
@@ -159,7 +190,6 @@ const Post = (Product: listingInterface) => {
                   <div className="">
                     <div className="product-details__thumb flex-center h-100 position-relative">
                       <img
-                        /* src={mainImage} */
                         src={images[mainIndexImage]}
                         alt="Main Product"
                         className="w-100 d-block"
@@ -326,6 +356,7 @@ const Post = (Product: listingInterface) => {
                       name="tipo_publicacion"
                       className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
                       defaultValue={tipo_publicacion}
+                      onChange={handleChangeType}
                     >
                       {publicationTypes.map((type: PublicationType) => (
                         <option key={type.code} value={type.code}>
@@ -334,49 +365,55 @@ const Post = (Product: listingInterface) => {
                       ))}
                     </select>
                   </div>
-                  <div className="mb-24">
-                    <label className="text-neutral-900 text-lg mb-8 fw-medium">
-                      {t("currency_symbol")}
-                    </label>
-                    <select
-                      id="simbolo_moneda"
-                      name="simbolo_moneda"
-                      className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
-                      defaultValue={simbolo_moneda}
-                    >
-                      {currenciesTypes.map((type: CurrencyType) => (
-                        <option key={type.code} value={type.code}>
-                          {`${t(`currency_types.${type.code}`)} (${type.symbol})`}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="mb-24">
-                    <label className="text-neutral-900 text-lg mb-8 fw-medium">
-                      {t("price")}
-                    </label>
-                    <input
-                      type="number"
-                      id="precio"
-                      name="precio"
-                      placeholder="Precio"
-                      className="common-input"
-                      defaultValue={precio}
-                    />
-                  </div>
-                  <div className="mb-24">
-                    <label className="text-neutral-900 text-lg mb-8 fw-medium">
-                      {t("old_price")}
-                    </label>
-                    <input
-                      type="number"
-                      id="precio_anterior"
-                      name="precio_anterior"
-                      placeholder="Precio anterior (opcional)"
-                      className="common-input"
-                      defaultValue={precio_anterior}
-                    />
-                  </div>
+                  {type === "sale" ? (
+                    <div className="mb-24">
+                      <label className="text-neutral-900 text-lg mb-8 fw-medium">
+                        {t("currency_symbol")}
+                      </label>
+                      <select
+                        id="simbolo_moneda"
+                        name="simbolo_moneda"
+                        className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
+                        defaultValue={simbolo_moneda}
+                      >
+                        {currenciesTypes.map((type: CurrencyType) => (
+                          <option key={type.code} value={type.code}>
+                            {`${t(`currency_types.${type.code}`)} (${type.symbol})`}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ) : null}
+                  {type === "sale" ? (
+                    <div className="mb-24">
+                      <label className="text-neutral-900 text-lg mb-8 fw-medium">
+                        {t("price")}
+                      </label>
+                      <input
+                        type="number"
+                        id="precio"
+                        name="precio"
+                        placeholder="Precio"
+                        className="common-input"
+                        defaultValue={precio}
+                      />
+                    </div>
+                  ) : null}
+                  {type === "sale" ? (
+                    <div className="mb-24">
+                      <label className="text-neutral-900 text-lg mb-8 fw-medium">
+                        {t("old_price")}
+                      </label>
+                      <input
+                        type="number"
+                        id="precio_anterior"
+                        name="precio_anterior"
+                        placeholder="Precio anterior (opcional)"
+                        className="common-input"
+                        defaultValue={precio_anterior}
+                      />
+                    </div>
+                  ) : null}
                   <div className="mb-24">
                     <label className="text-neutral-900 text-lg mb-8 fw-medium">
                       {t("stock")}
@@ -588,6 +625,7 @@ const Post = (Product: listingInterface) => {
         title={t("upload_image")}
         Content={<UploadImage type="post" setUrl={setUrl} />}
         size="modal-lg"
+        onSave={handleSaveProductDescription}
       />
     </section>
   );

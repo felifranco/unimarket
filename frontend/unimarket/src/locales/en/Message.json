@@ -13,5 +13,11 @@
   "Internal Server Error": "An unexpected error occurred on the server.",
   "Bad Gateway": "The server received an invalid response from another server.",
   "Service Unavailable": "The service is currently unavailable. Please try again later.",
-  "Gateway Timeout": "The server did not respond in a timely manner. Please try again."
+  "Gateway Timeout": "The server did not respond in a timely manner. Please try again.",
+  "error_upload_profile_image": "Error uploading profile image",
+  "error_upload_listing_image": "Error uploading listing image",
+  "error_upload_new_listing_image": " Error uploading new listing image",
+  "error_delete_profile_image": "Error deleting profile image",
+  "error_delete_listing_image": "Error deleting listing image",
+  "error_move_listing_images": "Error moving listing images"
 }
