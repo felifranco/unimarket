@@ -8,6 +8,7 @@ import {
   deleteListing,
 } from "../store/listing/listingSlice";
 import { navigateTo } from "../helper/NavigateHelper";
+import { publicationTypes } from "../constants/post.constants";
 
 const AccountProductCard = (Product: listingInterface) => {
   const { t } = useTranslation("AccountProductCard");
@@ -16,6 +17,7 @@ const AccountProductCard = (Product: listingInterface) => {
 
   const {
     id_publicacion,
+    tipo_publicacion,
     titulo,
     estrellas,
     calificacion,
@@ -26,6 +28,21 @@ const AccountProductCard = (Product: listingInterface) => {
     precio = 0,
     imagen_portada,
   } = Product;
+
+  let publication_type_label = null;
+  switch (tipo_publicacion) {
+    case publicationTypes[0].code:
+      publication_type_label = t("sale");
+      break;
+    case publicationTypes[1].code:
+      publication_type_label = t("exchange");
+      break;
+    case publicationTypes[2].code:
+      publication_type_label = t("donation");
+      break;
+    default:
+      break;
+  }
 
   const handleEdit = async () => {
     if (id_publicacion) {
@@ -95,6 +112,11 @@ const AccountProductCard = (Product: listingInterface) => {
             {t("sold")}: {`${vendidos}/${existencias}`}
           </span>
         </div>
+        {publication_type_label ? (
+          <span className="py-2 px-8 text-xs rounded-pill text-main-two-600 bg-main-two-50 mt-16">
+            {publication_type_label}
+          </span>
+        ) : null}
         <div className="product-card__price mt-16 mb-30">
           {precio_anterior > 0 ? (
             <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">

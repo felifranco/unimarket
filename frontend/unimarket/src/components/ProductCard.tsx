@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { listingInterface } from "../interfaces/listings.interfaces";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchListingById } from "../store/listing/listingSlice";
+import { publicationTypes } from "../constants/post.constants";
 
 const ProductCardBadge = ({ type, text }: { type: string; text: string }) => {
   //const { t } = useTranslation("ProductCard");
@@ -50,17 +51,33 @@ const ProductCard = (Product: listingInterface) => {
 
   const {
     id_publicacion,
+    tipo_publicacion,
     titulo,
-    estrellas,
-    calificacion,
-    vendidos,
-    existencias,
+    estrellas = 0,
+    calificacion = 0,
+    vendidos = 0,
+    existencias = 0,
     simbolo_moneda,
-    precio_anterior,
-    precio,
+    precio_anterior = 0,
+    precio = 0,
     insignia,
     imagen_portada,
   } = Product;
+
+  let publication_type_label = null;
+  switch (tipo_publicacion) {
+    case publicationTypes[0].code:
+      publication_type_label = t("sale");
+      break;
+    case publicationTypes[1].code:
+      publication_type_label = t("exchange");
+      break;
+    case publicationTypes[2].code:
+      publication_type_label = t("donation");
+      break;
+    default:
+      break;
+  }
 
   const handleLike = () => {
     console.log("handleLike", id_publicacion);
@@ -170,6 +187,11 @@ const ProductCard = (Product: listingInterface) => {
             {t("sold")}: {`${vendidos}/${existencias}`}
           </span>
         </div>
+        {publication_type_label ? (
+          <span className="py-2 px-8 text-xs rounded-pill text-main-two-600 bg-main-two-50 mt-16">
+            {publication_type_label}
+          </span>
+        ) : null}
         <div className="product-card__price my-20">
           {precio_anterior > 0 ? (
             <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">

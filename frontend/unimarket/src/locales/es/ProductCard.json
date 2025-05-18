@@ -4,5 +4,8 @@
   "add_to_cart": "Agregar al carrito",
   "sale": "Venta",
   "best_sale": "Mejor venta",
-  "new": "Nuevo"
+  "new": "Nuevo",
+  "exchange": "Intercambio",
+  "donation": "Donación",
+  "rent": "Alquiler"
 }

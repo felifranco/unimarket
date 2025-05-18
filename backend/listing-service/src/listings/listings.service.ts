@@ -31,6 +31,7 @@ export class ListingsService {
     return this.listingRepo.find({
       select: [
         'id_publicacion',
+        'tipo_publicacion',
         'titulo',
         'estrellas',
         'calificacion',
@@ -51,6 +52,7 @@ export class ListingsService {
       where: { id_usuario },
       select: [
         'id_publicacion',
+        'tipo_publicacion',
         'titulo',
         'estrellas',
         'calificacion',
@@ -72,6 +74,7 @@ export class ListingsService {
       select: [
         'id_publicacion',
         'publicacion_uuid',
+        'tipo_publicacion',
         'titulo',
         'estrellas',
         'calificacion',

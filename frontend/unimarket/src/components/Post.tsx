@@ -71,7 +71,10 @@ const Post = () => {
     descripcion_producto ? descripcion_producto : descripcion_producto_empty,
   );
 
-  images = imagenes ? JSON.parse(imagenes) : images;
+  images = imagenes
+    ? JSON.parse(imagenes)
+    : Array(IMAGES_COUNT).fill(default_image);
+
   if (images.length < IMAGES_COUNT) {
     images = [
       ...images,
