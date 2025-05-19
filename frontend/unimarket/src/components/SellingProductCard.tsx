@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { listingInterface } from "../interfaces/listings.interfaces";
 
+//const defaultImage = "assets/images/thumbs/best-selling-img4.png";
+
 const SellingProductCard = ({
   titulo,
   calificacion,
@@ -8,6 +10,7 @@ const SellingProductCard = ({
   simbolo_moneda,
   precio,
   estrellas,
+  imagen_portada,
 }: listingInterface) => {
   return (
     <div className="d-flex align-items-center flex-sm-nowrap flex-wrap gap-16">
@@ -15,11 +18,7 @@ const SellingProductCard = ({
         to="/blog-details"
         className="w-100 h-100 rounded-4 overflow-hidden w-76 h-76 flex-shrink-0 bg-color-three flex-center"
       >
-        <img
-          src="assets/images/thumbs/best-selling-img4.png"
-          alt=""
-          className=""
-        />
+        <img src={imagen_portada} alt="" className="" />
       </Link>
       <div className="flex-grow-1">
         <h6 className="text-lg mb-8 fw-medium">

@@ -2,7 +2,7 @@
   "name": "auth-service",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Feliciano Ernesto Franco Lux",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -43,7 +43,8 @@
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.21"
+    "typeorm": "^0.3.21",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

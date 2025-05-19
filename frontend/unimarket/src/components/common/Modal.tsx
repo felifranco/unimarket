@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 interface ModalProps {
@@ -11,6 +12,7 @@ interface ModalProps {
   onCancel?: () => void;
   onSave?: () => void;
   onDelete?: () => void;
+  onCloseEvent?: () => void;
 }
 
 const Modal = ({
@@ -24,11 +26,27 @@ const Modal = ({
   onCancel,
   onSave,
   onDelete,
+  onCloseEvent,
 }: ModalProps) => {
   const { t } = useTranslation("Modal");
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const modalEl = modalRef.current;
+    if (!modalEl || !onCloseEvent) return;
+
+    const handlerCloseEvent = () => onCloseEvent();
+
+    modalEl.addEventListener("hidden.bs.modal", handlerCloseEvent);
+
+    return () => {
+      modalEl.removeEventListener("hidden.bs.modal", handlerCloseEvent);
+    };
+  }, [onCloseEvent]);
 
   return (
     <div
+      ref={modalRef}
       className="modal fade"
       id={id}
       data-bs-backdrop="static"

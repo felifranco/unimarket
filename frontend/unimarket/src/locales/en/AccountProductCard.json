@@ -3,5 +3,10 @@
   "add_to_cart": "Add to Cart",
   "fullfilled_by_unimarket": "Fulfilled by UniMarket",
   "edit": "Edit",
-  "delete": "Delete"
+  "delete": "Delete",
+  "sold": "Sold",
+  "sale": "Sale",
+  "exchange": "Exchange",
+  "donation": "Donation",
+  "rent": "Rent"
 }

@@ -11,6 +11,9 @@ export class Auth {
   @PrimaryGeneratedColumn()
   id_usuario: number;
 
+  @Column({ type: 'varchar', length: 36, unique: true })
+  uuid: string;
+
   @Column({ type: 'varchar', length: 100 })
   nombre_completo: string;
 

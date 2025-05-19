@@ -18,6 +18,7 @@ interface AuthState {
   nombre_completo?: string;
   first_name?: string;
   username?: string;
+  uuid?: string;
 }
 
 const initialState: AuthState = {
@@ -30,6 +31,7 @@ const initialState: AuthState = {
   nombre_completo: undefined,
   first_name: undefined,
   username: undefined,
+  uuid: undefined,
 };
 
 export const login = createAsyncThunk(
@@ -128,6 +130,7 @@ export const authSlice = createSlice({
       (state, action: PayloadAction<ApiResponse<unknown>>) => {
         const response = action.payload as ApiResponse<{
           id_usuario: number;
+          uuid: string;
           correo: string;
           nombre_completo: string;
           username: string;
@@ -138,6 +141,7 @@ export const authSlice = createSlice({
         state.first_name =
           response.data?.nombre_completo.split(" ")[0] || undefined;
         state.username = response.data?.username || undefined;
+        state.uuid = response.data?.uuid || undefined;
       },
     );
 

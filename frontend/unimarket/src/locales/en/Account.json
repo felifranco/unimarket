@@ -19,5 +19,9 @@
   },
   "hot": "Hot",
   "add_to_cart": "Add to Cart",
-  "fullfilled_by_unimarket": "Fulfilled by UniMarket"
+  "fullfilled_by_unimarket": "Fulfilled by UniMarket",
+  "update_cover": "Update Cover",
+  "update_profile": "Update Profile",
+  "update_image": "Update Image",
+  "photo": "Photo"
 }

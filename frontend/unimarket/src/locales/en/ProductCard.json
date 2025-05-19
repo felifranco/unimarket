@@ -4,5 +4,9 @@
   "add_to_cart": "Add to Cart",
   "sale": "Sale",
   "best_sale": "Best Sale",
-  "new": "New"
+  "new": "New",
+  "exchange": "Exchange",
+  "donation": "Donation",
+  "rent": "Rent",
+  "publication_date": "Publication Date"
 }

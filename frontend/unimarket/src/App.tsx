@@ -5,6 +5,7 @@ import RouteScrollToTop from "./helper/RouteScrollToTop";
 import HomePageTwo from "./pages/HomePageTwo";
 import ShopPage from "./pages/ShopPage";
 import ProductDetailsPageTwo from "./pages/ProductDetailsPageTwo";
+import PostPage from "./pages/PostPage";
 import NewPostPage from "./pages/NewPostPage";
 import CartPage from "./pages/CartPage";
 //import CheckoutPage from "./pages/CheckoutPage";
@@ -44,6 +45,7 @@ function App() {
         <Route path="/" element={<HomePageTwo />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/product-details" element={<ProductDetailsPageTwo />} />
+        <Route path="/post" element={<PostPage />} />
         <Route path="/new-post" element={<NewPostPage />} />
         <Route path="/cart" element={<CartPage />} />
         {/* <Route path="/checkout" element={<CheckoutPage />} /> */}

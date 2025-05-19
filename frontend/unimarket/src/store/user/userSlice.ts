@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { service } from "../../config/configurations";
-import { get } from "../../utils/axios.util";
+import { get, patch } from "../../utils/axios.util";
 import { ApiResponse } from "../../utils/apiResponse.util";
 import { userInterface } from "../../interfaces/users.interface";
 import { PURGE } from "redux-persist";
@@ -10,6 +10,8 @@ const endpoint = "users";
 
 const emptyUser: userInterface = {
   id_usuario: 0,
+  uuid: "",
+  username: "",
   nombre_completo: "",
   estrellas: 0,
   calificacion: 0,
@@ -63,6 +65,26 @@ export const fetchUserById = createAsyncThunk(
   },
 );
 
+export const patchUser = createAsyncThunk(
+  "users/patchUser",
+  async (
+    { id_usuario, data }: { id_usuario: number; data: Partial<userInterface> },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await patch(
+        `${USER_SERVICE}/${endpoint}/${id_usuario}`,
+        data,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -95,6 +117,19 @@ export const userSlice = createSlice({
       .addCase(fetchUserById.pending, state => {
         state.loading = true;
         state.user = emptyUser;
+      })
+      // PATCH USER
+      .addCase(
+        patchUser.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<userInterface>;
+          state.user = response.data || emptyUser;
+          state.loading = false;
+          state.error = null;
+        },
+      )
+      .addCase(patchUser.pending, state => {
+        state.loading = true;
       });
 
     builder.addCase(PURGE, () => initialState);

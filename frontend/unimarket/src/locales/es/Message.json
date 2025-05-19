@@ -13,5 +13,11 @@
   "Internal Server Error": "Ocurrió un error inesperado en el servidor.",
   "Bad Gateway": "El servidor recibió una respuesta inválida de otro servidor.",
   "Service Unavailable": "El servicio no está disponible en este momento. Inténtalo más tarde.",
-  "Gateway Timeout": "El servidor no respondió a tiempo. Inténtalo nuevamente."
+  "Gateway Timeout": "El servidor no respondió a tiempo. Inténtalo nuevamente.",
+  "error_upload_profile_image": "Error al subir la imagen de perfil",
+  "error_upload_listing_image": "Error al subir la imagen de la publicación",
+  "error_upload_new_listing_image": "Error al subir la nueva imagen de la publicación",
+  "error_delete_profile_image": "Error al eliminar la imagen de perfil",
+  "error_delete_listing_image": "Error al eliminar la imagen de la publicación",
+  "error_move_listing_images": "Error al mover las imágenes de la publicación"
 }

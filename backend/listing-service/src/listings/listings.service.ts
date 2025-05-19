@@ -5,6 +5,10 @@ import { Listing } from './entities/listing.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ListingStatus } from 'src/constants/app.constants';
+import { v4 as uuidv4 } from 'uuid';
+
+// Explicitly type uuidv4 to avoid 'any' or 'error' type issues
+const uuidv4Typed = uuidv4 as () => string;
 
 @Injectable()
 export class ListingsService {
@@ -15,6 +19,7 @@ export class ListingsService {
 
   create(id_usuario: number, createListingDto: CreateListingDto) {
     const newListing = this.listingRepo.create({
+      publicacion_uuid: uuidv4Typed(),
       id_usuario,
       ...createListingDto,
       estado: ListingStatus.ACTIVA, // Estado por defecto
@@ -26,6 +31,7 @@ export class ListingsService {
     return this.listingRepo.find({
       select: [
         'id_publicacion',
+        'tipo_publicacion',
         'titulo',
         'estrellas',
         'calificacion',
@@ -46,6 +52,7 @@ export class ListingsService {
       where: { id_usuario },
       select: [
         'id_publicacion',
+        'tipo_publicacion',
         'titulo',
         'estrellas',
         'calificacion',
@@ -66,6 +73,8 @@ export class ListingsService {
       where: { id_usuario },
       select: [
         'id_publicacion',
+        'publicacion_uuid',
+        'tipo_publicacion',
         'titulo',
         'estrellas',
         'calificacion',

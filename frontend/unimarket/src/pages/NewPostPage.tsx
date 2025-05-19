@@ -9,30 +9,6 @@ import BottomFooter from "../components/BottomFooter";
 //import ScrollToTop from "react-scroll-to-top";
 
 const NewPostPage = () => {
-  const newPostData = {
-    id_usuario: 0,
-    tipo_publicacion: "exchange",
-    titulo: "",
-    descripcion_general: "",
-    sku: "",
-    categorias: "",
-    ubicacion: "",
-    estado: "",
-    estrellas: 0,
-    calificacion: 0,
-    vendidos: 0,
-    existencias: 0,
-    descripcion_producto: "",
-    simbolo_moneda: "",
-    precio_anterior: 0,
-    precio: 0,
-    insignia: "",
-    imagenes: "",
-    imagen_portada: "",
-    fecha_creacion: new Date(),
-    fecha_modificacion: new Date(),
-  };
-
   return (
     <>
       {/* ColorInit */}
@@ -51,7 +27,7 @@ const NewPostPage = () => {
       <Breadcrumb title={"new_post"} />
 
       {/* Post */}
-      <Post {...newPostData} />
+      <Post />
 
       {/* ShippingTwo */}
       <ShippingTwo />

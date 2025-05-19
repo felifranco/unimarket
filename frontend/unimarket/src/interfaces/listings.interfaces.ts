@@ -1,5 +1,6 @@
 export interface listingInterface {
   id_publicacion?: number;
+  publicacion_uuid?: string;
   id_usuario?: number;
   tipo_publicacion?: string;
   titulo?: string;

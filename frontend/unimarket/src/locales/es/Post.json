@@ -30,5 +30,6 @@
     "rent": "Alquiler"
   },
   "publication_date": "Publicado el",
-  "last_updated": "Última actualización el"
+  "last_updated": "Última actualización el",
+  "upload_image": "Subir imagen"
 }

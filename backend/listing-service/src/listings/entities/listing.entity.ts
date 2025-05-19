@@ -11,6 +11,9 @@ export class Listing {
   @PrimaryGeneratedColumn()
   id_publicacion: number;
 
+  @Column({ type: 'varchar', length: 36, unique: true })
+  publicacion_uuid: string;
+
   @Column()
   id_usuario: number;
 

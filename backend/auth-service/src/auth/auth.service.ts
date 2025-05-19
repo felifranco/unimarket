@@ -11,6 +11,10 @@ import { AuthStatus, defaultValues } from 'src/constants/app.constants';
 import { hashPassword, comparePassword } from 'src/utils/hash.util';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { v4 as uuidv4 } from 'uuid';
+
+// Explicitly type uuidv4 to avoid 'any' or 'error' type issues
+const uuidv4Typed = uuidv4 as () => string;
 
 @Injectable()
 export class AuthService {
@@ -26,6 +30,7 @@ export class AuthService {
     const hashedPassword = await hashPassword(registerAuthDto.password); // Hashear la contraseña
 
     const newAuth = this.authRepo.create({
+      uuid: uuidv4Typed(),
       nombre_completo: registerAuthDto.nombre_completo,
       correo: registerAuthDto.correo,
       username: registerAuthDto.username,
@@ -93,6 +98,7 @@ export class AuthService {
       }
       return {
         id_usuario: user.id_usuario,
+        uuid: user.uuid,
         nombre_completo: user.nombre_completo,
         correo: user.correo,
         username: user.username,

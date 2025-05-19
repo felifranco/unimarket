@@ -20,25 +20,34 @@ import {
   createListing,
   patchListing,
   fetchMyListings,
+  clearListing,
 } from "../store/listing/listingSlice";
 import Modal from "./common/Modal";
 import { formatDate } from "../utils/app.util";
+import UploadImage from "./common/UploadImage";
 
-const Post = (Product: listingInterface) => {
+const default_image = "assets/images/thumbs/product-details-two-thumb1.png";
+
+const IMAGES_COUNT = 5;
+
+let images = Array(IMAGES_COUNT).fill(default_image);
+
+const Post = () => {
   const { t } = useTranslation("Post");
 
   const dispatch = useAppDispatch();
 
   const listing = useAppSelector(state => state.listing.listing);
 
-  const { images, descripcion_producto: descripcion_producto_empty } =
-    new_product;
+  const { descripcion_producto: descripcion_producto_empty } = new_product;
 
   //const descripcion_producto = JSON.parse(descripcion_producto_empty);
   //console.log("descripcion_producto", descripcion_producto_empty, descripcion_producto);
 
-  const [productData, setProductData] = useState<listingInterface>(Product);
-  const [mainImage, setMainImage] = useState(images[0]);
+  const [productData, setProductData] = useState<listingInterface>(listing);
+  const [mainIndexImage, setMainIndexImage] = useState<number>(0);
+  const [url, setUrl] = useState<string>("");
+  const [type, setType] = useState("sale");
 
   const {
     id_publicacion,
@@ -52,7 +61,7 @@ const Post = (Product: listingInterface) => {
     precio_anterior,
     existencias,
     //insignia,
-    //imagenes,
+    imagenes,
     descripcion_producto,
     fecha_creacion = new Date().toString(),
     fecha_modificacion = new Date().toString(),
@@ -62,6 +71,17 @@ const Post = (Product: listingInterface) => {
     descripcion_producto ? descripcion_producto : descripcion_producto_empty,
   );
 
+  images = imagenes
+    ? JSON.parse(imagenes)
+    : Array(IMAGES_COUNT).fill(default_image);
+
+  if (images.length < IMAGES_COUNT) {
+    images = [
+      ...images,
+      ...Array(IMAGES_COUNT - images.length).fill(default_image),
+    ];
+  }
+
   const settingsThumbs = {
     dots: false,
     infinite: true,
@@ -69,6 +89,12 @@ const Post = (Product: listingInterface) => {
     slidesToShow: 4,
     slidesToScroll: 1,
     focusOnSelect: true,
+  };
+
+  let cleanUpload: (() => void) | null = null;
+
+  const setCleanUpload = (fn: () => void) => {
+    cleanUpload = fn;
   };
 
   const handleSaveProductDescription = () => {
@@ -85,6 +111,10 @@ const Post = (Product: listingInterface) => {
     const precio = formData.get("precio") as string;
     const precio_anterior = formData.get("precio_anterior") as string;
     const existencias = formData.get("existencias") as string;
+    const imagenes = JSON.stringify(
+      images.filter(img => img !== default_image),
+    );
+    const imagen_portada = images[mainIndexImage];
     //const insignia = formData.get("insignia") as string;
 
     const data = {
@@ -97,6 +127,8 @@ const Post = (Product: listingInterface) => {
       precio: +precio,
       precio_anterior: +precio_anterior,
       existencias: +existencias,
+      imagenes,
+      imagen_portada,
       //insignia,
     };
 
@@ -123,11 +155,44 @@ const Post = (Product: listingInterface) => {
     }
   };
 
+  const handleChangeType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedType = event.target.value;
+    setType(selectedType);
+  };
+
   useEffect(() => {
-    if (id_publicacion == listing.id_publicacion) {
+    if (url) {
+      images[mainIndexImage] = url;
+      setUrl("");
+      console.log("url", url);
+    }
+  }, [url, mainIndexImage]);
+
+  useEffect(() => {
+    console.log(
+      "id_publicacion == listing.id_publicacion",
+      id_publicacion,
+      listing.id_publicacion,
+    );
+
+    if (listing.id_publicacion && listing.id_publicacion > 0) {
+      console.log("setProductData", listing);
+
       setProductData(listing);
     }
   }, [listing, id_publicacion]);
+
+  useEffect(() => {
+    if (tipo_publicacion) {
+      setType(tipo_publicacion);
+    }
+  }, [tipo_publicacion]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearListing());
+    };
+  }, [dispatch]);
 
   return (
     <section className="product-details py-80">
@@ -136,10 +201,28 @@ const Post = (Product: listingInterface) => {
           <div className="row gy-4">
             <div className="col-xl-4">
               <div className="product-details__left">
-                <div className="product-details__thumb-slider border border-gray-100 hover-border-main-600 transition-1 rounded-16">
+                <div className="product-details__thumb-slider border border-gray-100 hover-border-main-600 transition-1 rounded-16 position-relative">
                   <div className="">
-                    <div className="product-details__thumb flex-center h-100">
-                      <img src={mainImage} alt="Main Product" />
+                    <div className="product-details__thumb flex-center h-100 position-relative">
+                      <img
+                        src={images[mainIndexImage]}
+                        alt="Main Product"
+                        className="w-100 d-block"
+                      />
+                    </div>
+                    <div className="d-flex justify-content-end mt-2 me-3">
+                      <button
+                        type="button"
+                        className="btn text-main-600 hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 rounded-16 flex-align gap-8 px-3 py-2 btn-edit-image"
+                        data-bs-toggle="modal"
+                        data-bs-target="#uploadImageModal"
+                        style={{ minWidth: 0 }}
+                      >
+                        <i className="ph-fill ph-upload-simple text-lg me-1" />
+                        <span className="d-none d-md-inline">
+                          {t("upload_image")}
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -150,7 +233,7 @@ const Post = (Product: listingInterface) => {
                         <div
                           className="center max-w-120 max-h-120 h-100 flex-center border border-gray-100 rounded-16 p-8"
                           key={index}
-                          onClick={() => setMainImage(image)}
+                          onClick={() => setMainIndexImage(index)}
                         >
                           <img
                             className="thum"
@@ -288,6 +371,7 @@ const Post = (Product: listingInterface) => {
                       name="tipo_publicacion"
                       className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
                       defaultValue={tipo_publicacion}
+                      onChange={handleChangeType}
                     >
                       {publicationTypes.map((type: PublicationType) => (
                         <option key={type.code} value={type.code}>
@@ -296,49 +380,55 @@ const Post = (Product: listingInterface) => {
                       ))}
                     </select>
                   </div>
-                  <div className="mb-24">
-                    <label className="text-neutral-900 text-lg mb-8 fw-medium">
-                      {t("currency_symbol")}
-                    </label>
-                    <select
-                      id="simbolo_moneda"
-                      name="simbolo_moneda"
-                      className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
-                      defaultValue={simbolo_moneda}
-                    >
-                      {currenciesTypes.map((type: CurrencyType) => (
-                        <option key={type.code} value={type.code}>
-                          {`${t(`currency_types.${type.code}`)} (${type.symbol})`}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="mb-24">
-                    <label className="text-neutral-900 text-lg mb-8 fw-medium">
-                      {t("price")}
-                    </label>
-                    <input
-                      type="number"
-                      id="precio"
-                      name="precio"
-                      placeholder="Precio"
-                      className="common-input"
-                      defaultValue={precio}
-                    />
-                  </div>
-                  <div className="mb-24">
-                    <label className="text-neutral-900 text-lg mb-8 fw-medium">
-                      {t("old_price")}
-                    </label>
-                    <input
-                      type="number"
-                      id="precio_anterior"
-                      name="precio_anterior"
-                      placeholder="Precio anterior (opcional)"
-                      className="common-input"
-                      defaultValue={precio_anterior}
-                    />
-                  </div>
+                  {type === "sale" ? (
+                    <div className="mb-24">
+                      <label className="text-neutral-900 text-lg mb-8 fw-medium">
+                        {t("currency_symbol")}
+                      </label>
+                      <select
+                        id="simbolo_moneda"
+                        name="simbolo_moneda"
+                        className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
+                        defaultValue={simbolo_moneda}
+                      >
+                        {currenciesTypes.map((type: CurrencyType) => (
+                          <option key={type.code} value={type.code}>
+                            {`${t(`currency_types.${type.code}`)} (${type.symbol})`}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ) : null}
+                  {type === "sale" ? (
+                    <div className="mb-24">
+                      <label className="text-neutral-900 text-lg mb-8 fw-medium">
+                        {t("price")}
+                      </label>
+                      <input
+                        type="number"
+                        id="precio"
+                        name="precio"
+                        placeholder="Precio"
+                        className="common-input"
+                        defaultValue={precio}
+                      />
+                    </div>
+                  ) : null}
+                  {type === "sale" ? (
+                    <div className="mb-24">
+                      <label className="text-neutral-900 text-lg mb-8 fw-medium">
+                        {t("old_price")}
+                      </label>
+                      <input
+                        type="number"
+                        id="precio_anterior"
+                        name="precio_anterior"
+                        placeholder="Precio anterior (opcional)"
+                        className="common-input"
+                        defaultValue={precio_anterior}
+                      />
+                    </div>
+                  ) : null}
                   <div className="mb-24">
                     <label className="text-neutral-900 text-lg mb-8 fw-medium">
                       {t("stock")}
@@ -544,6 +634,21 @@ const Post = (Product: listingInterface) => {
         Content={<ProductDescription {...descripcion_producto_object} />}
         size="modal-xl"
         onSave={handleSaveProductDescription}
+      />
+      <Modal
+        id="uploadImageModal"
+        title={t("upload_image")}
+        Content={
+          <UploadImage
+            type="post"
+            setUrl={setUrl}
+            setCleanUpload={setCleanUpload}
+          />
+        }
+        size="modal-lg"
+        onCloseModal={() => {
+          if (cleanUpload) cleanUpload();
+        }}
       />
     </section>
   );
