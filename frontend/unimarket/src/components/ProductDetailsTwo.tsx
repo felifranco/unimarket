@@ -104,7 +104,7 @@ const ProductDetailsTwo = () => {
                   <div className="mt-24">
                     <div className="product-details__images-slider">
                       <Slider {...settingsThumbs}>
-                        {images.map((image, index) => (
+                        {images.map((image: string, index: number) => (
                           <div
                             className="center max-w-120 max-h-120 h-100 flex-center border border-gray-100 rounded-16 p-8"
                             key={index}
@@ -253,10 +253,12 @@ const ProductDetailsTwo = () => {
                   <span className="text-sm text-neutral-600">
                     {t("publication_date")}{" "}
                     <span className="fw-semibold">
-                      {formatDate(
-                        new Date(fecha_creacion),
-                        "DD/MM/YYYY HH:mm:ss",
-                      )}
+                      {fecha_creacion
+                        ? formatDate(
+                            new Date(fecha_creacion),
+                            "DD/MM/YYYY HH:mm:ss",
+                          )
+                        : null}
                     </span>{" "}
                   </span>
                 </div>

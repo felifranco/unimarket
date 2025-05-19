@@ -65,10 +65,13 @@ export const alertSlice = createSlice({
     // LOGIN - REGISTER - ME
     builder
       .addMatcher(isAnyOf(login.rejected), (state, action) => {
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -79,10 +82,13 @@ export const alertSlice = createSlice({
         state.message = "successfully_registered";
       })
       .addMatcher(isAnyOf(register.rejected), (state, action) => {
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -101,19 +107,25 @@ export const alertSlice = createSlice({
     // USERS
     builder
       .addMatcher(isAnyOf(fetchUsers.rejected), (state, action) => {
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
       })
       .addMatcher(isAnyOf(fetchUserById.rejected), (state, action) => {
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -126,10 +138,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(patchUser.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && (action.payload as any).status) {
-          state.message = getHttpErrorMessage(
-            (action.payload as any).status,
-          ).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -140,8 +153,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(fetchListings.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -149,8 +165,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(fetchMyListings.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -158,8 +177,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(fetchListingsByUser.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -167,8 +189,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(fetchListingById.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -181,8 +206,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(createListing.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -195,8 +223,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(patchListing.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -209,8 +240,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(deleteListing.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -221,8 +255,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(fetchReviewsByListing.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -230,8 +267,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(fetchReviewById.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -239,8 +279,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(createReview.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -248,8 +291,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(patchReview.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -257,8 +303,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(patchLikeReview.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -266,8 +315,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(patchUnlikeReview.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "oops_problem_ocurred";
         }
@@ -278,8 +330,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(uploadProfileImage.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "error_upload_profile_image";
         }
@@ -292,8 +347,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(uploadListingImage.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "error_upload_listing_image";
         }
@@ -306,8 +364,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(uploadNewListingImage.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "error_upload_new_listing_image";
         }
@@ -320,8 +381,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(deleteProfileImage.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "error_delete_profile_image";
         }
@@ -329,8 +393,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(deleteListingImage.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "error_delete_listing_image";
         }
@@ -338,8 +405,11 @@ export const alertSlice = createSlice({
       .addMatcher(isAnyOf(moveListingImages.rejected), (state, action) => {
         state.showMessage = true;
         state.type = "danger";
-        if (action.payload && action.payload.status) {
-          state.message = getHttpErrorMessage(action.payload.status).title;
+        const response = action as PayloadAction<{
+          status: number;
+        }>;
+        if (response.payload && response.payload.status) {
+          state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
           state.message = "error_move_listing_images";
         }

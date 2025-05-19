@@ -202,7 +202,9 @@ const ProductCard = (Product: listingInterface) => {
           </span>
           <span className="text-sm text-neutral-600">
             <span className="fw-semibold text-main-600">
-              {formatDate(new Date(fecha_creacion), "DD/MM/YYYY")}
+              {fecha_creacion
+                ? formatDate(new Date(fecha_creacion), "DD/MM/YYYY")
+                : null}
             </span>{" "}
           </span>
         </div>
