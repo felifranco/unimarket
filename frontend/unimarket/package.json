@@ -9,6 +9,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "prepare:pages": "rm -rf dist && npm run build",
+    "copy:pages": "npm run prepare:pages && cp -r dist/* ./",
     "lint:check": "eslint .",
     "lint": "eslint . --fix",
     "preview": "vite preview",
