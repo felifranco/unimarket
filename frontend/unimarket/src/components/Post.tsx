@@ -63,13 +63,15 @@ const Post = () => {
     //insignia,
     imagenes,
     descripcion_producto,
-    fecha_creacion = new Date().toString(),
-    fecha_modificacion = new Date().toString(),
+    fecha_creacion,
+    fecha_modificacion,
   } = productData;
 
   const descripcion_producto_object = JSON.parse(
     descripcion_producto ? descripcion_producto : descripcion_producto_empty,
   );
+
+  console.log("imagenes", id_publicacion, images, imagenes);
 
   images = imagenes
     ? JSON.parse(imagenes)
@@ -132,7 +134,7 @@ const Post = () => {
       //insignia,
     };
 
-    if (id_publicacion) {
+    if (id_publicacion && id_publicacion > 0) {
       await dispatch(
         patchListing({
           listing: {
@@ -452,7 +454,7 @@ const Post = () => {
                       {t("save_all")}
                     </button>
                   </div>
-                  {id_publicacion ? (
+                  {id_publicacion && id_publicacion > 0 ? (
                     <div className="mt-32">
                       <div className="px-16 py-8 bg-main-50 rounded-8 flex-between gap-24 mb-14">
                         <span className="w-32 h-32 bg-white text-main-600 rounded-circle flex-center text-xl flex-shrink-0">
@@ -461,10 +463,12 @@ const Post = () => {
                         <span className="text-sm text-neutral-600">
                           {`${t("publication_date")} `}
                           <span className="fw-semibold">
-                            {formatDate(
-                              new Date(fecha_creacion),
-                              "DD/MM/YYYY HH:mm:ss",
-                            )}
+                            {fecha_creacion
+                              ? formatDate(
+                                  new Date(fecha_creacion),
+                                  "DD/MM/YYYY HH:mm:ss",
+                                )
+                              : null}
                           </span>{" "}
                         </span>
                       </div>
@@ -475,10 +479,12 @@ const Post = () => {
                         <span className="text-sm text-neutral-600">
                           {`${t("last_updated")} `}
                           <span className="fw-semibold">
-                            {formatDate(
-                              new Date(fecha_modificacion),
-                              "DD/MM/YYYY HH:mm:ss",
-                            )}
+                            {fecha_modificacion
+                              ? formatDate(
+                                  new Date(fecha_modificacion),
+                                  "DD/MM/YYYY HH:mm:ss",
+                                )
+                              : null}
                           </span>
                         </span>
                       </div>
