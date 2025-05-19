@@ -10,7 +10,6 @@ import {ApiResponses} from '../constants/api-responses.constants';
 import {getPath} from '../utils/app.util';
 import jwtPlugin from '../config/jwt.plugin';
 
-// Extend FastifyInstance to include authenticate
 declare module 'fastify' {
   interface FastifyInstance {
     authenticate(request: any, reply: any): Promise<void>;
@@ -19,7 +18,7 @@ declare module 'fastify' {
 
 const {SUCCESS, BAD_REQUEST} = ApiResponses;
 
-const ROUTE_PREFIX = process.env.API_PREFIX || 'images';
+const ROUTE_PREFIX = 'images';
 
 /**
  * Maneja la carga de archivos y los sube a S3.
@@ -58,26 +57,17 @@ const handleFileUpload = async ({
     .send(apiResponse(result, 'Archivo subido exitosamente', SUCCESS.status));
 };
 
-export async function uploadRoutes(app: FastifyInstance) {
+export const privateRoutes = async (app: FastifyInstance) => {
   app.register(multipart);
 
   app.register(jwtPlugin);
 
-  // Ruta pública: raíz del API
-  //app.get('/', async (request, reply) => {
-  //  return {message: 'Hello World'};
-  //});
-
-  // De aquí en adelante, todas las rutas requieren autenticación
-  // Middleware de autenticación JWT para todas las rutas protegidas
-  // Espera a que los plugins estén listos antes de registrar el hook
   app.addHook('onRequest', async (request, reply) => {
-    // Permite la ruta pública sin autenticación
     await app.authenticate(request, reply);
   });
 
   // Subir imagen de perfil o portada
-  app.post(`/${ROUTE_PREFIX}/upload/profile`, async function (request, reply) {
+  app.post(`/${ROUTE_PREFIX}/profile`, async function (request, reply) {
     return handleFileUpload({
       directories: ['users', 'uuid', 'profile'],
       request,
@@ -86,7 +76,7 @@ export async function uploadRoutes(app: FastifyInstance) {
   });
 
   // Subir imagen de una publicación existente
-  app.post(`/${ROUTE_PREFIX}/upload/listings`, async function (request, reply) {
+  app.post(`/${ROUTE_PREFIX}/listings`, async function (request, reply) {
     return handleFileUpload({
       directories: ['users', 'uuid', 'listings', 'publicacion_uuid'],
       request,
@@ -95,16 +85,13 @@ export async function uploadRoutes(app: FastifyInstance) {
   });
 
   // Subir imagen de una nueva publicación
-  app.post(
-    `/${ROUTE_PREFIX}/upload/listings/new`,
-    async function (request, reply) {
-      return handleFileUpload({
-        directories: ['users', 'uuid', 'listings', 'new'],
-        request,
-        reply,
-      });
-    },
-  );
+  app.post(`/${ROUTE_PREFIX}/listings/new`, async function (request, reply) {
+    return handleFileUpload({
+      directories: ['users', 'uuid', 'listings', 'new'],
+      request,
+      reply,
+    });
+  });
 
   // Trasladar imagenes a de una nueva publicación a una recién creada
   // Se usa para mover las imagenes de la carpeta new a la carpeta de la publicación
@@ -230,4 +217,4 @@ export async function uploadRoutes(app: FastifyInstance) {
         ),
       );
   });
-}
+};
