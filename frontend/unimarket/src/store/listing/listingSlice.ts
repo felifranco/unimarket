@@ -39,8 +39,8 @@ const emptyListing: listingInterface = {
   insignia: undefined,
   imagenes: undefined,
   imagen_portada: undefined,
-  fecha_creacion: new Date().toString(),
-  fecha_modificacion: new Date().toString(),
+  fecha_creacion: undefined,
+  fecha_modificacion: undefined,
 };
 
 const initialState: ListingState = {
