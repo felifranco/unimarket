@@ -4,6 +4,7 @@ import { listingInterface } from "../interfaces/listings.interfaces";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchListingById } from "../store/listing/listingSlice";
 import { publicationTypes } from "../constants/post.constants";
+import { formatDate } from "../utils/app.util";
 
 const ProductCardBadge = ({ type, text }: { type: string; text: string }) => {
   //const { t } = useTranslation("ProductCard");
@@ -62,6 +63,7 @@ const ProductCard = (Product: listingInterface) => {
     precio = 0,
     insignia,
     imagen_portada,
+    fecha_creacion,
   } = Product;
 
   let publication_type_label = null;
@@ -169,44 +171,58 @@ const ProductCard = (Product: listingInterface) => {
             ({calificacion}k)
           </span>
         </div>
-        <div className="mt-8">
-          <div
-            className="progress w-100 bg-color-three rounded-pill h-4"
-            role="progressbar"
-            aria-label="Basic example"
-            aria-valuenow={vendidos}
-            aria-valuemin={0}
-            aria-valuemax={existencias}
-          >
+        {tipo_publicacion === "sale" ? (
+          <div className="mt-8">
             <div
-              className="progress-bar bg-main-two-600 rounded-pill"
-              style={{ width: `${(vendidos * 100) / existencias}%` }}
-            />
+              className="progress w-100 bg-color-three rounded-pill h-4"
+              role="progressbar"
+              aria-label="Basic example"
+              aria-valuenow={vendidos}
+              aria-valuemin={0}
+              aria-valuemax={existencias}
+            >
+              <div
+                className="progress-bar bg-main-two-600 rounded-pill"
+                style={{ width: `${(vendidos * 100) / existencias}%` }}
+              />
+            </div>
+            <span className="text-gray-900 text-xs fw-medium mt-8">
+              {t("sold")}: {`${vendidos}/${existencias}`}
+            </span>
           </div>
-          <span className="text-gray-900 text-xs fw-medium mt-8">
-            {t("sold")}: {`${vendidos}/${existencias}`}
-          </span>
-        </div>
+        ) : null}
         {publication_type_label ? (
           <span className="py-2 px-8 text-xs rounded-pill text-main-two-600 bg-main-two-50 mt-16">
             {publication_type_label}
           </span>
         ) : null}
-        <div className="product-card__price my-20">
-          {precio_anterior > 0 ? (
-            <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
-              {simbolo_moneda}
-              {precio_anterior}
-            </span>
-          ) : null}
-          <span className="text-heading text-md fw-semibold ">
-            {simbolo_moneda}
-            {precio}
+        <div className="d-flex justify-content-end ">
+          <span className="bg-white text-main-600 flex-center text-xl">
+            <i className="ph-fill ph-calendar" />
+          </span>
+          <span className="text-sm text-neutral-600">
+            <span className="fw-semibold text-main-600">
+              {formatDate(new Date(fecha_creacion), "DD/MM/YYYY")}
+            </span>{" "}
           </span>
         </div>
+        {tipo_publicacion === "sale" ? (
+          <div className="product-card__price my-20">
+            {precio_anterior > 0 ? (
+              <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
+                {simbolo_moneda}
+                {precio_anterior}
+              </span>
+            ) : null}
+            <span className="text-heading text-md fw-semibold ">
+              {simbolo_moneda}
+              {precio}
+            </span>
+          </div>
+        ) : null}
         <Link
           to="/cart"
-          className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium"
+          className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium mt-20"
           tabIndex={0}
           onClick={handleAddToCart}
         >

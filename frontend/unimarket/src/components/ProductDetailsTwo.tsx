@@ -24,6 +24,7 @@ const ProductDetailsTwo = () => {
 
   const {
     id_publicacion,
+    tipo_publicacion,
     titulo,
     estrellas,
     calificacion,
@@ -158,21 +159,23 @@ const ProductDetailsTwo = () => {
                   </div>
                   <span className="mt-32 pt-32 text-gray-700 border-top border-gray-100 d-block" />
                   <p className="text-gray-700">{descripcion_general}</p>
-                  <div className="my-32 flex-align gap-16 flex-wrap">
-                    <div className="flex-align gap-8">
-                      <h6 className="mb-0">{`${simbolo_moneda} ${precio}`}</h6>
-                    </div>
-                    {precio_anterior > 0 ? (
+                  {tipo_publicacion === "sale" ? (
+                    <div className="my-32 flex-align gap-16 flex-wrap">
                       <div className="flex-align gap-8">
-                        <span className="text-gray-700">
-                          {t("regular_price")}
-                        </span>
-                        <h6 className="text-xl text-gray-400 mb-0 fw-medium">
-                          {`${simbolo_moneda} ${precio_anterior}`}
-                        </h6>
+                        <h6 className="mb-0">{`${simbolo_moneda} ${precio}`}</h6>
                       </div>
-                    ) : null}
-                  </div>
+                      {precio_anterior > 0 ? (
+                        <div className="flex-align gap-8">
+                          <span className="text-gray-700">
+                            {t("regular_price")}
+                          </span>
+                          <h6 className="text-xl text-gray-400 mb-0 fw-medium">
+                            {`${simbolo_moneda} ${precio_anterior}`}
+                          </h6>
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
                   <span className="mt-32 pt-32 text-gray-700 border-top border-gray-100 d-block" />
                   <Link
                     to="/https://www.whatsapp.com"
@@ -221,12 +224,14 @@ const ProductDetailsTwo = () => {
                   </button>
                 </div>
               </div>
-              <div className="mb-32">
-                <div className="flex-between flex-wrap gap-8 border-bottom border-gray-100 pb-16 mb-16">
-                  <span className="text-gray-500">{t("price")}</span>
-                  <h6 className="text-lg mb-0">{`${simbolo_moneda} ${precio}`}</h6>
+              {tipo_publicacion === "sale" ? (
+                <div className="mb-32">
+                  <div className="flex-between flex-wrap gap-8 border-bottom border-gray-100 pb-16 mb-16">
+                    <span className="text-gray-500">{t("price")}</span>
+                    <h6 className="text-lg mb-0">{`${simbolo_moneda} ${precio}`}</h6>
+                  </div>
                 </div>
-              </div>
+              ) : null}
               <Link
                 to="#"
                 className="btn btn-main flex-center gap-8 rounded-8 py-16 fw-normal mt-48"

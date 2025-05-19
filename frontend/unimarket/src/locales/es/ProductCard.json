@@ -2,10 +2,11 @@
   "hot": "Populares",
   "sold": "Vendido",
   "add_to_cart": "Agregar al carrito",
-  "sale": "Venta",
+  "sale": "En venta",
   "best_sale": "Mejor venta",
   "new": "Nuevo",
-  "exchange": "Intercambio",
-  "donation": "Donación",
-  "rent": "Alquiler"
+  "exchange": "Para intercambiar",
+  "donation": "Para donación",
+  "rent": "En alquiler",
+  "publication_date": "Fecha de publicación"
 }

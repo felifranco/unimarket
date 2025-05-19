@@ -183,6 +183,12 @@ const Post = () => {
   }, [listing, id_publicacion]);
 
   useEffect(() => {
+    if (tipo_publicacion) {
+      setType(tipo_publicacion);
+    }
+  }, [tipo_publicacion]);
+
+  useEffect(() => {
     return () => {
       dispatch(clearListing());
     };

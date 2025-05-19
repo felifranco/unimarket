@@ -4,8 +4,9 @@
   "fullfilled_by_unimarket": "Verificado por UniMarket",
   "edit": "Editar",
   "delete": "Eliminar",
-  "sale": "Venta",
-  "exchange": "Intercambio",
-  "donation": "Donación",
-  "rent": "Alquiler"
+  "sold": "Vendido",
+  "sale": "En venta",
+  "exchange": "Para intercambiar",
+  "donation": "Para donación",
+  "rent": "En alquiler"
 }
