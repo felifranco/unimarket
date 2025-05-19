@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "prepare:pages": "rm -rf dist && npm run build",
     "lint:check": "eslint .",
     "lint": "eslint . --fix",
     "preview": "vite preview",
