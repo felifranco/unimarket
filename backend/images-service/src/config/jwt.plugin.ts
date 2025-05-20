@@ -1,4 +1,4 @@
-import { FastifyRequest, FastifyReply } from 'fastify';
+import {FastifyRequest, FastifyReply} from 'fastify';
 import fp from 'fastify-plugin';
 import fastifyJwt from '@fastify/jwt';
 
@@ -15,7 +15,7 @@ export default fp(async function (fastify, opts) {
       try {
         await request.jwtVerify();
       } catch (err) {
-        reply.code(401).send({ message: 'Unauthorized' });
+        throw err;
       }
     },
   );

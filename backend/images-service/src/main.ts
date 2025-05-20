@@ -2,6 +2,8 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import {publicRoutes} from './routes/public.route';
 import {privateRoutes} from './routes/private.route';
+import {responseInterceptor} from './common/hooks/response.interceptor';
+import {httpExceptionFilter} from './common/filters/http-exception.filter';
 
 /**
  * Estructura recomendada para separar rutas públicas y privadas en Fastify.
@@ -35,6 +37,11 @@ async function bootstrap() {
     allowedHeaders: ['*'],
     credentials: true,
   });
+
+  // Interceptor de respuesta estándar
+  app.addHook('onSend', responseInterceptor);
+  // Filtro de errores estándar
+  app.setErrorHandler(httpExceptionFilter);
 
   // Rutas públicas: no requieren autenticación.
   publicRoutes(app);

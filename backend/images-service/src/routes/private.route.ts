@@ -16,7 +16,7 @@ declare module 'fastify' {
   }
 }
 
-const {SUCCESS, BAD_REQUEST} = ApiResponses;
+const {BAD_REQUEST} = ApiResponses;
 
 const ROUTE_PREFIX = 'images';
 
@@ -40,28 +40,28 @@ const handleFileUpload = async ({
     reply
       .code(BAD_REQUEST.status)
       .send(
-        apiResponse(null, 'No se subió ningún archivo', BAD_REQUEST.status),
+        apiResponse(
+          undefined,
+          'No se ha recibido el archivo',
+          BAD_REQUEST.status,
+        ),
       );
     return;
   }
 
   const path = getPath(data, directories);
 
-  const result = await uploadImageToS3({
+  return uploadImageToS3({
     file: data,
     path: `${path}`,
   });
-
-  return reply
-    .code(SUCCESS.status)
-    .send(apiResponse(result, 'Archivo subido exitosamente', SUCCESS.status));
 };
 
 export const privateRoutes = async (app: FastifyInstance) => {
   app.register(multipart);
-
   app.register(jwtPlugin);
 
+  // JWT auth para todas las rutas privadas
   app.addHook('onRequest', async (request, reply) => {
     await app.authenticate(request, reply);
   });
@@ -104,7 +104,9 @@ export const privateRoutes = async (app: FastifyInstance) => {
       if (!uuid) {
         return reply
           .code(BAD_REQUEST.status)
-          .send(apiResponse(null, 'UUID no proporcionado', BAD_REQUEST.status));
+          .send(
+            apiResponse(undefined, 'UUID no proporcionado', BAD_REQUEST.status),
+          );
       }
 
       if (!listingUuid) {
@@ -112,7 +114,7 @@ export const privateRoutes = async (app: FastifyInstance) => {
           .code(BAD_REQUEST.status)
           .send(
             apiResponse(
-              null,
+              undefined,
               'Listing UUID no proporcionado',
               BAD_REQUEST.status,
             ),
@@ -122,13 +124,7 @@ export const privateRoutes = async (app: FastifyInstance) => {
       const oldPath = `users/${uuid}/listings/new`;
       const newPath = `users/${uuid}/listings/${listingUuid}`;
 
-      await renameS3Folder({oldPath, newPath});
-
-      return reply
-        .code(SUCCESS.status)
-        .send(
-          apiResponse(null, 'Imagenes movidas exitosamente', SUCCESS.status),
-        );
+      return renameS3Folder({oldPath, newPath});
     },
   );
 
@@ -140,7 +136,9 @@ export const privateRoutes = async (app: FastifyInstance) => {
     if (!uuid) {
       return reply
         .code(BAD_REQUEST.status)
-        .send(apiResponse(null, 'UUID no proporcionado', BAD_REQUEST.status));
+        .send(
+          apiResponse(undefined, 'UUID no proporcionado', BAD_REQUEST.status),
+        );
     }
 
     if (!filename) {
@@ -148,25 +146,14 @@ export const privateRoutes = async (app: FastifyInstance) => {
         .code(BAD_REQUEST.status)
         .send(
           apiResponse(
-            null,
+            undefined,
             'Nombre de archivo no proporcionado',
             BAD_REQUEST.status,
           ),
         );
     }
 
-    const path = `users/${uuid}/profile/${filename}`;
-    await removeImageFromS3({path});
-
-    return reply
-      .code(SUCCESS.status)
-      .send(
-        apiResponse(
-          null,
-          'Imagen de perfil eliminada exitosamente',
-          SUCCESS.status,
-        ),
-      );
+    return removeImageFromS3({path: `users/${uuid}/profile/${filename}`});
   });
 
   // Eliminar imagen de una publicación
@@ -178,7 +165,9 @@ export const privateRoutes = async (app: FastifyInstance) => {
     if (!uuid) {
       return reply
         .code(BAD_REQUEST.status)
-        .send(apiResponse(null, 'UUID no proporcionado', BAD_REQUEST.status));
+        .send(
+          apiResponse(undefined, 'UUID no proporcionado', BAD_REQUEST.status),
+        );
     }
 
     if (!listingUuid) {
@@ -186,7 +175,7 @@ export const privateRoutes = async (app: FastifyInstance) => {
         .code(BAD_REQUEST.status)
         .send(
           apiResponse(
-            null,
+            undefined,
             'Listing UUID no proporcionado',
             BAD_REQUEST.status,
           ),
@@ -198,23 +187,15 @@ export const privateRoutes = async (app: FastifyInstance) => {
         .code(BAD_REQUEST.status)
         .send(
           apiResponse(
-            null,
+            undefined,
             'Nombre de archivo no proporcionado',
             BAD_REQUEST.status,
           ),
         );
     }
 
-    const path = `users/${uuid}/listings/${listingUuid}/${filename}`;
-    await removeImageFromS3({path});
-    return reply
-      .code(SUCCESS.status)
-      .send(
-        apiResponse(
-          null,
-          'Imagen de listado eliminada exitosamente',
-          SUCCESS.status,
-        ),
-      );
+    return removeImageFromS3({
+      path: `users/${uuid}/listings/${listingUuid}/${filename}`,
+    });
   });
 };
