@@ -1,0 +1,39 @@
+# serverless.yml for images-service
+service: images-service
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+
+functions:
+  images:
+    handler: dist/src/main.handler
+    timeout: 30
+    events:
+      - http:
+          path: /
+          method: get
+      - http:
+          path: /health
+          method: get
+      - http:
+          path: images/profile
+          method: post
+      - http:
+          path: images/listings
+          method: post
+      - http:
+          path: images/listings/new
+          method: post
+      - http:
+          path: images/listings/new
+          method: put
+      - http:
+          path: images/profile/{uuid}
+          method: delete
+      - http:
+          path: images/listings/{uuid}
+          method: delete
+
+plugins:
+  - serverless-offline

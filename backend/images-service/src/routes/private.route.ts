@@ -96,7 +96,7 @@ export const privateRoutes = async (app: FastifyInstance) => {
   // Trasladar imagenes a de una nueva publicación a una recién creada
   // Se usa para mover las imagenes de la carpeta new a la carpeta de la publicación
   app.put(
-    `/${ROUTE_PREFIX}/move/listings/new`,
+    `/${ROUTE_PREFIX}/listings/new`,
     async function (request, reply) {
       const {uuid} = request.query as {uuid?: string};
       const {listingUuid} = request.query as {listingUuid?: string};
@@ -157,7 +157,7 @@ export const privateRoutes = async (app: FastifyInstance) => {
   });
 
   // Eliminar imagen de una publicación
-  app.delete(`/${ROUTE_PREFIX}/listing/:uuid`, async function (request, reply) {
+  app.delete(`/${ROUTE_PREFIX}/listings/:uuid`, async function (request, reply) {
     const {uuid} = request.params as {uuid: string};
     const {listingUuid} = request.query as {listingUuid?: string};
     const {filename} = request.query as {filename?: string};

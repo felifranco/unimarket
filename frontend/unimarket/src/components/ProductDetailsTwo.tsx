@@ -164,7 +164,7 @@ const ProductDetailsTwo = () => {
                       <div className="flex-align gap-8">
                         <h6 className="mb-0">{`${simbolo_moneda} ${precio}`}</h6>
                       </div>
-                      {precio_anterior > 0 ? (
+                      {precio_anterior && precio_anterior > 0 ? (
                         <div className="flex-align gap-8">
                           <span className="text-gray-700">
                             {t("regular_price")}

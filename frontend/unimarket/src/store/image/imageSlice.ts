@@ -108,7 +108,7 @@ export const deleteListingImage = createAsyncThunk(
   ) => {
     try {
       const response = await del(
-        `${IMAGE_SERVICE}/${endpoint}/listing/${uuid}?listingUuid=${encodeURIComponent(listingUuid)}&filename=${encodeURIComponent(filename)}`,
+        `${IMAGE_SERVICE}/${endpoint}/listings/${uuid}?listingUuid=${encodeURIComponent(listingUuid)}&filename=${encodeURIComponent(filename)}`,
       );
       return response;
     } catch (error: unknown) {
@@ -127,7 +127,7 @@ export const moveListingImages = createAsyncThunk(
   ) => {
     try {
       const response = await put(
-        `${IMAGE_SERVICE}/${endpoint}/move/listings/new?uuid=${encodeURIComponent(uuid)}&listingUuid=${encodeURIComponent(listingUuid)}`,
+        `${IMAGE_SERVICE}/${endpoint}/listings/new?uuid=${encodeURIComponent(uuid)}&listingUuid=${encodeURIComponent(listingUuid)}`,
         {}, // PUT sin body
       );
       return response;
