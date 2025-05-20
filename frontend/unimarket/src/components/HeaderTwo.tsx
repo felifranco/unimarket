@@ -94,6 +94,12 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
       visible: logged,
     },
     {
+      to: "/chat",
+      icon: "ph ph-wechat-logo",
+      title: "chat",
+      visible: logged,
+    },
+    {
       to: "/cart",
       icon: "ph ph-shopping-cart-simple",
       title: "cart",
