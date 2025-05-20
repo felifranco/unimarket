@@ -15,8 +15,8 @@ export interface listingInterface {
   existencias?: number;
   descripcion_producto?: string;
   simbolo_moneda?: string;
-  precio_anterior: number;
-  precio: number;
+  precio_anterior?: number;
+  precio?: number;
   insignia?: string;
   imagenes?: string;
   imagen_portada?: string;

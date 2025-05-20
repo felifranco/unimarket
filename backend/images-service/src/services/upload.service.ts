@@ -28,7 +28,11 @@ export async function uploadImageToS3({
   };
 }
 
-export async function removeImageFromS3({path}: {path: string}): Promise<void> {
+export async function removeImageFromS3({
+  path,
+}: {
+  path: string;
+}): Promise<{Bucket: string; Key: string}> {
   const deleteParams = {
     Bucket: BUCKET_NAME,
     Key: path,
@@ -39,6 +43,8 @@ export async function removeImageFromS3({path}: {path: string}): Promise<void> {
   if (result.$metadata.httpStatusCode !== 204) {
     throw new Error('Error al eliminar la imagen de S3');
   }
+
+  return deleteParams;
 }
 
 /**
@@ -59,7 +65,23 @@ export async function renameS3Folder({
 }: {
   oldPath: string;
   newPath: string;
-}): Promise<void> {
+}): Promise<{
+  Bucket: string;
+  oldKey: string;
+  newKey: string;
+  moved: Array<{oldKey: string; newKey: string}> | [];
+}> {
+  const result: {
+    Bucket: string;
+    oldKey: string;
+    newKey: string;
+    moved: Array<{oldKey: string; newKey: string}>;
+  } = {
+    Bucket: BUCKET_NAME,
+    oldKey: oldPath,
+    newKey: newPath,
+    moved: [],
+  };
   // Listar todos los objetos bajo el prefijo oldPath
   const listedObjects = await s3.send(
     new ListObjectsV2Command({
@@ -70,7 +92,7 @@ export async function renameS3Folder({
 
   if (!listedObjects.Contents || listedObjects.Contents.length === 0) {
     // Nada que mover
-    return;
+    return result;
   }
 
   // Copiar cada objeto al nuevo prefijo y luego eliminar el original
@@ -95,5 +117,11 @@ export async function renameS3Folder({
         Key: object.Key,
       }),
     );
+    result.moved.push({
+      oldKey: object.Key,
+      newKey: newKey,
+    });
   }
+
+  return result;
 }

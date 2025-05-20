@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Slider from "react-slick";
 import {
@@ -21,7 +22,9 @@ import {
   patchListing,
   fetchMyListings,
   clearListing,
+  emptyListing,
 } from "../store/listing/listingSlice";
+import { moveListingImages } from "../store/image/imageSlice";
 import Modal from "./common/Modal";
 import { formatDate } from "../utils/app.util";
 import UploadImage from "./common/UploadImage";
@@ -35,8 +38,12 @@ let images = Array(IMAGES_COUNT).fill(default_image);
 const Post = () => {
   const { t } = useTranslation("Post");
 
+  const location = useLocation();
+  const isNewPost = location.pathname === "/new-post";
+
   const dispatch = useAppDispatch();
 
+  const uuid = useAppSelector(state => state.auth.uuid);
   const listing = useAppSelector(state => state.listing.listing);
 
   const { descripcion_producto: descripcion_producto_empty } = new_product;
@@ -44,13 +51,38 @@ const Post = () => {
   //const descripcion_producto = JSON.parse(descripcion_producto_empty);
   //console.log("descripcion_producto", descripcion_producto_empty, descripcion_producto);
 
-  const [productData, setProductData] = useState<listingInterface>(listing);
+  const [productData, setProductData] =
+    useState<listingInterface>(emptyListing);
   const [mainIndexImage, setMainIndexImage] = useState<number>(0);
   const [url, setUrl] = useState<string>("");
   const [type, setType] = useState("sale");
 
+  // Estados controlados para los inputs del formulario
+  const [tituloInput, setTituloInput] = useState(listing.titulo || "");
+  const [skuInput, setSkuInput] = useState(listing.sku || "");
+  const [descripcionGeneralInput, setDescripcionGeneralInput] = useState(
+    listing.descripcion_general || "",
+  );
+  const [ubicacionInput, setUbicacionInput] = useState(listing.ubicacion || "");
+  const [tipoPublicacionInput, setTipoPublicacionInput] = useState(
+    listing.tipo_publicacion || "",
+  );
+  const [simboloMonedaInput, setSimboloMonedaInput] = useState(
+    listing.simbolo_moneda || "",
+  );
+  const [precioInput, setPrecioInput] = useState(
+    listing.precio ? +listing.precio : 0,
+  );
+  const [precioAnteriorInput, setPrecioAnteriorInput] = useState(
+    listing.precio_anterior ? +listing.precio_anterior : 0,
+  );
+  const [existenciasInput, setExistenciasInput] = useState(
+    listing.existencias ? +listing.existencias : 0,
+  );
+
   const {
     id_publicacion,
+    publicacion_uuid,
     titulo,
     descripcion_general,
     sku,
@@ -62,6 +94,7 @@ const Post = () => {
     existencias,
     //insignia,
     imagenes,
+    imagen_portada,
     descripcion_producto,
     fecha_creacion,
     fecha_modificacion,
@@ -71,17 +104,20 @@ const Post = () => {
     descripcion_producto ? descripcion_producto : descripcion_producto_empty,
   );
 
-  console.log("imagenes", id_publicacion, images, imagenes);
+  if (id_publicacion && id_publicacion > 0) {
+    const defaultImages = images.filter(img => img == default_image).length;
+    const imagenesObj = imagenes ? JSON.parse(imagenes) : [];
 
-  images = imagenes
-    ? JSON.parse(imagenes)
-    : Array(IMAGES_COUNT).fill(default_image);
+    if (defaultImages == 5) {
+      images = imagenesObj;
+    }
 
-  if (images.length < IMAGES_COUNT) {
-    images = [
-      ...images,
-      ...Array(IMAGES_COUNT - images.length).fill(default_image),
-    ];
+    if (images.length < IMAGES_COUNT) {
+      images = [
+        ...images,
+        ...Array(IMAGES_COUNT - images.length).fill(default_image),
+      ];
+    }
   }
 
   const settingsThumbs = {
@@ -166,23 +202,53 @@ const Post = () => {
     if (url) {
       images[mainIndexImage] = url;
       setUrl("");
-      console.log("url", url);
     }
   }, [url, mainIndexImage]);
 
   useEffect(() => {
-    console.log(
-      "id_publicacion == listing.id_publicacion",
-      id_publicacion,
-      listing.id_publicacion,
-    );
-
     if (listing.id_publicacion && listing.id_publicacion > 0) {
-      console.log("setProductData", listing);
-
       setProductData(listing);
     }
   }, [listing, id_publicacion]);
+
+  useEffect(() => {
+    if (uuid && publicacion_uuid && imagenes?.includes("new")) {
+      dispatch(
+        moveListingImages({
+          uuid,
+          listingUuid: publicacion_uuid,
+        }),
+      )
+        .unwrap()
+        .then(() => {
+          const nuevasImagenes = imagenes.replace(/new/g, publicacion_uuid);
+          const nuevaImagenPortada = imagen_portada?.replace(
+            /new/g,
+            publicacion_uuid,
+          );
+
+          dispatch(
+            patchListing({
+              listing: {
+                id_publicacion,
+                imagenes: nuevasImagenes,
+                imagen_portada: nuevaImagenPortada,
+              },
+            }),
+          );
+        })
+        .catch((error: { message: string }) => {
+          console.error("Error al mover las imágenes:", error.message);
+        });
+    }
+  }, [
+    dispatch,
+    uuid,
+    id_publicacion,
+    publicacion_uuid,
+    imagenes,
+    imagen_portada,
+  ]);
 
   useEffect(() => {
     if (tipo_publicacion) {
@@ -190,11 +256,37 @@ const Post = () => {
     }
   }, [tipo_publicacion]);
 
+  // Sincronizar los estados controlados cuando cambia productData
   useEffect(() => {
-    return () => {
+    setTituloInput(titulo || "");
+    setSkuInput(sku || "");
+    setDescripcionGeneralInput(descripcion_general || "");
+    setUbicacionInput(ubicacion || "");
+    setTipoPublicacionInput(tipo_publicacion || "");
+    setSimboloMonedaInput(simbolo_moneda || "");
+    setPrecioInput(precio ? +precio : 0);
+    setPrecioAnteriorInput(precio_anterior ? +precio_anterior : 0);
+    setExistenciasInput(existencias ? +existencias : 0);
+  }, [
+    titulo,
+    sku,
+    descripcion_general,
+    ubicacion,
+    tipo_publicacion,
+    simbolo_moneda,
+    precio,
+    precio_anterior,
+    existencias,
+  ]);
+
+  useEffect(() => {
+    if (isNewPost) {
       dispatch(clearListing());
-    };
-  }, [dispatch]);
+      setProductData(emptyListing);
+      images = Array(IMAGES_COUNT).fill(default_image);
+    }
+    return () => {};
+  }, [dispatch, isNewPost]);
 
   return (
     <section className="product-details py-80">
@@ -267,7 +359,8 @@ const Post = () => {
                         minWidth: "100%",
                       }}
                       rows={2}
-                      defaultValue={titulo}
+                      value={tituloInput}
+                      onChange={e => setTituloInput(e.target.value)}
                     />
                   </div>
                   <div className="mb-24">
@@ -280,7 +373,8 @@ const Post = () => {
                       name="sku"
                       placeholder="SKU"
                       className="common-input"
-                      defaultValue={sku}
+                      value={skuInput}
+                      onChange={e => setSkuInput(e.target.value)}
                     />
                   </div>
                   <div className="mb-24">
@@ -294,7 +388,8 @@ const Post = () => {
                       className="common-input"
                       style={{ minWidth: "100%" }}
                       rows={7}
-                      defaultValue={descripcion_general}
+                      value={descripcionGeneralInput}
+                      onChange={e => setDescripcionGeneralInput(e.target.value)}
                     />
                   </div>
                   {/* <div className="mb-24">
@@ -338,7 +433,8 @@ const Post = () => {
                       name="ubicacion"
                       placeholder="ubicacion"
                       className="common-input"
-                      defaultValue={ubicacion}
+                      value={ubicacionInput}
+                      onChange={e => setUbicacionInput(e.target.value)}
                     />
                   </div>
                   {/* <div className="mb-24">
@@ -372,8 +468,11 @@ const Post = () => {
                       id="tipo_publicacion"
                       name="tipo_publicacion"
                       className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
-                      defaultValue={tipo_publicacion}
-                      onChange={handleChangeType}
+                      value={tipoPublicacionInput}
+                      onChange={e => {
+                        setTipoPublicacionInput(e.target.value);
+                        handleChangeType(e);
+                      }}
                     >
                       {publicationTypes.map((type: PublicationType) => (
                         <option key={type.code} value={type.code}>
@@ -391,7 +490,8 @@ const Post = () => {
                         id="simbolo_moneda"
                         name="simbolo_moneda"
                         className="common-input form-select rounded-pill border border-gray-100 d-inline-block ps-20 pe-36 h-48 py-0 fw-medium"
-                        defaultValue={simbolo_moneda}
+                        value={simboloMonedaInput}
+                        onChange={e => setSimboloMonedaInput(e.target.value)}
                       >
                         {currenciesTypes.map((type: CurrencyType) => (
                           <option key={type.code} value={type.code}>
@@ -412,7 +512,8 @@ const Post = () => {
                         name="precio"
                         placeholder="Precio"
                         className="common-input"
-                        defaultValue={precio}
+                        value={precioInput}
+                        onChange={e => setPrecioInput(Number(e.target.value))}
                       />
                     </div>
                   ) : null}
@@ -427,7 +528,10 @@ const Post = () => {
                         name="precio_anterior"
                         placeholder="Precio anterior (opcional)"
                         className="common-input"
-                        defaultValue={precio_anterior}
+                        value={precioAnteriorInput}
+                        onChange={e =>
+                          setPrecioAnteriorInput(Number(e.target.value))
+                        }
                       />
                     </div>
                   ) : null}
@@ -442,7 +546,10 @@ const Post = () => {
                       placeholder="Cantidad"
                       min={1}
                       className="common-input"
-                      defaultValue={existencias}
+                      value={existenciasInput}
+                      onChange={e =>
+                        setExistenciasInput(Number(e.target.value))
+                      }
                     />
                   </div>
                   <div className="d-flex flex-column mb-3">
@@ -646,7 +753,7 @@ const Post = () => {
         title={t("upload_image")}
         Content={
           <UploadImage
-            type="post"
+            type={publicacion_uuid ? "listing" : "post"}
             setUrl={setUrl}
             setCleanUpload={setCleanUpload}
           />

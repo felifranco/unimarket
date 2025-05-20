@@ -42,15 +42,17 @@ const UploadImage = ({
     e.preventDefault();
     if (!file || !uuid) return;
     const formData = new FormData();
-    formData.append("file", file);
     formData.append("uuid", uuid);
+    if (publicacion_uuid && type === "listing")
+      formData.append("publicacion_uuid", publicacion_uuid);
+    formData.append("file", file);
+
     switch (type) {
       case "profile":
         await dispatch(uploadProfileImage(formData));
         break;
       case "listing":
         if (!publicacion_uuid) return;
-        formData.append("publicacion_uuid", publicacion_uuid);
         await dispatch(uploadListingImage(formData));
         break;
       case "post":
@@ -82,7 +84,7 @@ const UploadImage = ({
   useEffect(() => {
     return () => {
       //handleRemove();
-      console.log("Unmounting UploadImage component");
+      //console.log("Unmounting UploadImage component");
     };
   }, []);
 

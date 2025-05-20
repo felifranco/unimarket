@@ -64,13 +64,22 @@ const AccountProductCard = (Product: listingInterface) => {
   return (
     <div className="product-card h-100 p-16 border border-gray-100 hover-border-main-600 rounded-16 position-relative transition-2">
       <div className="product-card__thumb rounded-8 bg-gray-50 position-relative">
-        <Link to="/product-details" className="w-100 h-100 flex-center">
-          <img src={imagen_portada} alt="" className="w-auto max-w-unset" />
+        <Link
+          to="/post"
+          onClick={handleEdit}
+          className="w-100 h-100 flex-center"
+        >
+          <img src={imagen_portada} alt="" className="max-w-unset mh-100" />
         </Link>
       </div>
       <div className="product-card__content mt-16 w-100">
         <h6 className="title text-lg fw-semibold my-16">
-          <Link to="/product-details" className="link text-line-2" tabIndex={0}>
+          <Link
+            to="/post"
+            onClick={handleEdit}
+            className="link text-line-2"
+            tabIndex={0}
+          >
             {titulo}
           </Link>
         </h6>
@@ -96,26 +105,26 @@ const AccountProductCard = (Product: listingInterface) => {
             ({`${calificacion}K`})
           </span>
         </div>
-        {tipo_publicacion === "sale" ? (
-          <div className="mt-8">
+        <div className="mt-8">
+          <div
+            className="progress w-100 bg-color-three rounded-pill h-4"
+            role="progressbar"
+            aria-label="Basic example"
+            aria-valuenow={vendidos}
+            aria-valuemin={0}
+            aria-valuemax={existencias}
+          >
             <div
-              className="progress w-100 bg-color-three rounded-pill h-4"
-              role="progressbar"
-              aria-label="Basic example"
-              aria-valuenow={vendidos}
-              aria-valuemin={0}
-              aria-valuemax={existencias}
-            >
-              <div
-                className="progress-bar bg-main-two-600 rounded-pill"
-                style={{ width: `${(vendidos * 100) / existencias}%` }}
-              />
-            </div>
-            <span className="text-gray-900 text-xs fw-medium mt-8">
-              {t("sold")}: {`${vendidos}/${existencias}`}
-            </span>
+              className="progress-bar bg-main-two-600 rounded-pill"
+              style={{ width: `${(vendidos * 100) / existencias}%` }}
+            />
           </div>
-        ) : null}
+          <span className="text-gray-900 text-xs fw-medium mt-8">
+            {tipo_publicacion == "sale"
+              ? `${t("sold")}: ${vendidos}/${existencias}`
+              : `${t("stock")}: ${existencias}`}
+          </span>
+        </div>
         {publication_type_label ? (
           <span className="py-2 px-8 text-xs rounded-pill text-main-two-600 bg-main-two-50 mt-16">
             {publication_type_label}
@@ -133,20 +142,23 @@ const AccountProductCard = (Product: listingInterface) => {
             </span>{" "}
           </span>
         </div>
-        {tipo_publicacion === "sale" ? (
-          <div className="product-card__price mt-16 mb-30">
-            {precio_anterior > 0 ? (
-              <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
-                {simbolo_moneda}
-                {precio_anterior}
-              </span>
-            ) : null}
-            <span className="text-heading text-md fw-semibold ">
+        <div
+          className="product-card__price mt-16 mb-30"
+          style={{
+            visibility: `${tipo_publicacion != "sale" ? "hidden" : "visible"}`,
+          }}
+        >
+          {precio_anterior > 0 ? (
+            <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
               {simbolo_moneda}
-              {precio} <span className="text-gray-500 fw-normal"></span>
+              {precio_anterior}
             </span>
-          </div>
-        ) : null}
+          ) : null}
+          <span className="text-heading text-md fw-semibold ">
+            {simbolo_moneda}
+            {precio} <span className="text-gray-500 fw-normal"></span>
+          </span>
+        </div>
         <div className="d-flex flex-row justify-content-center">
           <button
             type="button"
