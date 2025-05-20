@@ -3,6 +3,8 @@ import { service } from "../../config/configurations";
 import { post, del, put } from "../../utils/axios.util";
 import { ApiResponse } from "../../utils/apiResponse.util";
 
+const IMAGE_SERVICE = service.IMAGE_SERVICE;
+const endpoint = "images";
 interface ImageState {
   url: string;
   loading: boolean;
@@ -15,15 +17,17 @@ const initialState: ImageState = {
   error: null,
 };
 
-const IMAGE_SERVICE = service.IMAGE_SERVICE;
-
 export const uploadProfileImage = createAsyncThunk(
   "image/uploadProfileImage",
   async (formData: FormData, { rejectWithValue }) => {
     try {
-      const response = await post(`${IMAGE_SERVICE}/upload/profile`, formData, {
-        "Content-Type": "multipart/form-data",
-      });
+      const response = await post(
+        `${IMAGE_SERVICE}/${endpoint}/profile`,
+        formData,
+        {
+          "Content-Type": "multipart/form-data",
+        },
+      );
       return response;
     } catch (error: unknown) {
       return rejectWithValue({
@@ -38,7 +42,7 @@ export const uploadListingImage = createAsyncThunk(
   async (formData: FormData, { rejectWithValue }) => {
     try {
       const response = await post(
-        `${IMAGE_SERVICE}/upload/listings`,
+        `${IMAGE_SERVICE}/${endpoint}/listings`,
         formData,
         {
           "Content-Type": "multipart/form-data",
@@ -58,7 +62,7 @@ export const uploadNewListingImage = createAsyncThunk(
   async (formData: FormData, { rejectWithValue }) => {
     try {
       const response = await post(
-        `${IMAGE_SERVICE}/upload/listings/new`,
+        `${IMAGE_SERVICE}/${endpoint}/listings/new`,
         formData,
         {
           "Content-Type": "multipart/form-data",
@@ -81,7 +85,7 @@ export const deleteProfileImage = createAsyncThunk(
   ) => {
     try {
       const response = await del(
-        `${IMAGE_SERVICE}/profile/${uuid}?filename=${encodeURIComponent(filename)}`,
+        `${IMAGE_SERVICE}/${endpoint}/profile/${uuid}?filename=${encodeURIComponent(filename)}`,
       );
       return response;
     } catch (error: unknown) {
@@ -104,7 +108,7 @@ export const deleteListingImage = createAsyncThunk(
   ) => {
     try {
       const response = await del(
-        `${IMAGE_SERVICE}/listing/${uuid}?listingUuid=${encodeURIComponent(listingUuid)}&filename=${encodeURIComponent(filename)}`,
+        `${IMAGE_SERVICE}/${endpoint}/listings/${uuid}?listingUuid=${encodeURIComponent(listingUuid)}&filename=${encodeURIComponent(filename)}`,
       );
       return response;
     } catch (error: unknown) {
@@ -123,7 +127,7 @@ export const moveListingImages = createAsyncThunk(
   ) => {
     try {
       const response = await put(
-        `${IMAGE_SERVICE}/move/listings/new?uuid=${encodeURIComponent(uuid)}&listingUuid=${encodeURIComponent(listingUuid)}`,
+        `${IMAGE_SERVICE}/${endpoint}/listings/new?uuid=${encodeURIComponent(uuid)}&listingUuid=${encodeURIComponent(listingUuid)}`,
         {}, // PUT sin body
       );
       return response;

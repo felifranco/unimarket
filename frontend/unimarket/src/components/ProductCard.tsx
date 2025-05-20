@@ -106,7 +106,7 @@ const ProductCard = (Product: listingInterface) => {
           onClick={handleOpenDetails}
           className="w-100 h-100 flex-center"
         >
-          <img src={imagen_portada} alt="" className="w-auto max-w-unset" />
+          <img src={imagen_portada} alt="" className="max-w-unset mh-100" />
           {insignia ? (
             <ProductCardBadge type={insignia} text={insignia} />
           ) : null}
@@ -171,26 +171,26 @@ const ProductCard = (Product: listingInterface) => {
             ({calificacion}k)
           </span>
         </div>
-        {tipo_publicacion === "sale" ? (
-          <div className="mt-8">
+        <div className="mt-8">
+          <div
+            className="progress w-100 bg-color-three rounded-pill h-4"
+            role="progressbar"
+            aria-label="Basic example"
+            aria-valuenow={vendidos}
+            aria-valuemin={0}
+            aria-valuemax={existencias}
+          >
             <div
-              className="progress w-100 bg-color-three rounded-pill h-4"
-              role="progressbar"
-              aria-label="Basic example"
-              aria-valuenow={vendidos}
-              aria-valuemin={0}
-              aria-valuemax={existencias}
-            >
-              <div
-                className="progress-bar bg-main-two-600 rounded-pill"
-                style={{ width: `${(vendidos * 100) / existencias}%` }}
-              />
-            </div>
-            <span className="text-gray-900 text-xs fw-medium mt-8">
-              {t("sold")}: {`${vendidos}/${existencias}`}
-            </span>
+              className="progress-bar bg-main-two-600 rounded-pill"
+              style={{ width: `${(vendidos * 100) / existencias}%` }}
+            />
           </div>
-        ) : null}
+          <span className="text-gray-900 text-xs fw-medium mt-8">
+            {tipo_publicacion == "sale"
+              ? `${t("sold")}: ${vendidos}/${existencias}`
+              : `${t("stock")}: ${existencias}`}
+          </span>
+        </div>
         {publication_type_label ? (
           <span className="py-2 px-8 text-xs rounded-pill text-main-two-600 bg-main-two-50 mt-16">
             {publication_type_label}
@@ -208,20 +208,23 @@ const ProductCard = (Product: listingInterface) => {
             </span>{" "}
           </span>
         </div>
-        {tipo_publicacion === "sale" ? (
-          <div className="product-card__price my-20">
-            {precio_anterior > 0 ? (
-              <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
-                {simbolo_moneda}
-                {precio_anterior}
-              </span>
-            ) : null}
-            <span className="text-heading text-md fw-semibold ">
+        <div
+          className="product-card__price my-20"
+          style={{
+            visibility: `${tipo_publicacion != "sale" ? "hidden" : "visible"}`,
+          }}
+        >
+          {precio_anterior > 0 ? (
+            <span className="text-gray-400 text-md fw-semibold text-decoration-line-through">
               {simbolo_moneda}
-              {precio}
+              {precio_anterior}
             </span>
-          </div>
-        ) : null}
+          ) : null}
+          <span className="text-heading text-md fw-semibold ">
+            {simbolo_moneda}
+            {precio}
+          </span>
+        </div>
         <Link
           to="/cart"
           className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium mt-20"
