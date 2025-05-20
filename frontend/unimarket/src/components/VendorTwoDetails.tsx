@@ -163,27 +163,9 @@ const VendorTwoDetails = () => {
               className="inner-banner-two bg-img rounded-16 overflow-hidden"
               style={{
                 backgroundImage: `url('${imagen_portada ? imagen_portada : imagen_portada_predeterminada}')`,
+                minHeight: "250px", // Ajusta el alto mínimo según el diseño original
               }}
-            >
-              <div className="row">
-                <div className="col-6 d-xl-block d-none" />
-                <div className="col-xl-6 d-xl-flex">
-                  <div className="text-center py-32">
-                    <h6 className="text-white">Daily Offer</h6>
-                    <h3 className="my-32 text-white">SALE 48% OFF</h3>
-                    <Link
-                      to="/shop"
-                      className="btn btn-main d-inline-flex align-items-center rounded-8 gap-8"
-                    >
-                      Shop Now
-                      <span className="icon text-xl d-flex">
-                        <i className="ph ph-shopping-cart" />
-                      </span>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+            />
             {/* Inner Banner End */}
             {/* Search Filter Start */}
             <div className="d-flex align-items-center justify-content-between flex-wrap mt-40 mb-32 gap-16">

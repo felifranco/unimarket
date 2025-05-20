@@ -8,5 +8,6 @@
   "sale": "En venta",
   "exchange": "Para intercambiar",
   "donation": "Para donación",
-  "rent": "En alquiler"
+  "rent": "En alquiler",
+  "stock": "Existencias"
 }

@@ -4,6 +4,7 @@ import { listingInterface } from "../interfaces/listings.interfaces";
 //const defaultImage = "assets/images/thumbs/best-selling-img4.png";
 
 const SellingProductCard = ({
+  tipo_publicacion,
   titulo,
   calificacion,
   vendidos,
@@ -50,7 +51,12 @@ const SellingProductCard = ({
             ({`${vendidos}k`})
           </span>
         </div>
-        <h6 className="text-md mb-0 mt-4">{`${simbolo_moneda}${precio}`}</h6>
+        <h6
+          className="text-md mb-0 mt-4"
+          style={{
+            visibility: `${tipo_publicacion != "sale" ? "hidden" : "visible"}`,
+          }}
+        >{`${simbolo_moneda}${precio}`}</h6>
       </div>
     </div>
   );

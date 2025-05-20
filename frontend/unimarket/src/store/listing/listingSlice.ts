@@ -17,7 +17,7 @@ interface ListingState {
   error: string | null;
 }
 
-const emptyListing: listingInterface = {
+export const emptyListing: listingInterface = {
   id_publicacion: -1,
   publicacion_uuid: undefined,
   id_usuario: 0,
