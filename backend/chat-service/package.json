@@ -1,7 +1,7 @@
 {
   "name": "chat-service",
   "version": "0.0.1",
-  "description": "",
+  "description": "Unimarket Chat WebSocket Lambda Service",
   "author": "Feliciano Ernesto Franco Lux",
   "private": true,
   "license": "UNLICENSED",
@@ -11,13 +11,29 @@
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "prepare": "npm run compile",
+    "prepare": "echo \"npm run compile\"",
     "pretest": "npm run compile",
-    "posttest": "npm run lint"
+    "posttest": "npm run lint",
+    "build": "tsc",
+    "start": "node dist/src/main.js",
+    "start:dev": "ts-node src/main.ts",
+    "serverless:offline": "rm -rf dist && npm run build && npx serverless offline",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\""
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.149",
+    "@types/node": "^22.15.20",
+    "aws-lambda": "^1.0.7",
     "gts": "^6.0.2",
-    "typescript": "^5.8.3",
-    "@types/node": "^22.7.5"
+    "serverless-dynamodb-local": "^0.2.1",
+    "serverless-offline": "^14.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-apigatewaymanagementapi": "^3.812.0",
+    "@aws-sdk/client-dynamodb": "^3.812.0",
+    "@aws-sdk/lib-dynamodb": "^3.812.0"
   }
 }
