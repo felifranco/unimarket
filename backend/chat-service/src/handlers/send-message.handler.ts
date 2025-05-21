@@ -1,5 +1,5 @@
 import {APIGatewayProxyEvent} from 'aws-lambda';
-import {getConnection} from '../services/connection.service';
+import {getConnection, getUserId} from '../services/connection.service';
 
 export async function handleSendMessage(event: APIGatewayProxyEvent) {
   const connectionId = event.requestContext.connectionId;
@@ -8,6 +8,11 @@ export async function handleSendMessage(event: APIGatewayProxyEvent) {
   const toUserId = body.to;
   const message = body.message;
   const toConnectionId = await getConnection(toUserId);
+  const fromUserId = await getUserId(connectionId!);
+
+  if (!toUserId || !message) {
+    return {statusCode: 400, body: 'Missing parameters.'};
+  }
 
   if (!toConnectionId) {
     return {statusCode: 404, body: 'User not connected.'};
@@ -23,7 +28,7 @@ export async function handleSendMessage(event: APIGatewayProxyEvent) {
   const apiGw = new ApiGatewayManagementApi({endpoint});
   await apiGw.postToConnection({
     ConnectionId: toConnectionId,
-    Data: Buffer.from(JSON.stringify({from: connectionId, message})),
+    Data: Buffer.from(JSON.stringify({from: fromUserId, message})),
   });
 
   return {statusCode: 200, body: 'Message sent.'};

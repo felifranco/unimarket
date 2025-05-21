@@ -33,3 +33,10 @@ export async function getConnection(userId: string) {
   );
   return res.Item?.connectionId;
 }
+
+export async function getUserId(connectionId: string) {
+  const res = await docClient.send(
+    new GetCommand({TableName: TABLE, Key: {connectionId}}),
+  );
+  return res.Item?.userId;
+}
