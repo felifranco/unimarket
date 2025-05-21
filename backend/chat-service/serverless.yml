@@ -5,7 +5,7 @@ provider:
   runtime: nodejs22.x
   region: us-east-1
   environment:
-    DYNAMODB_TABLE: chat-connections
+    DYNAMODB_TABLE: unimarket-chat-connections
     IS_OFFLINE: ${opt:stage, 'dev'}
 
 custom:
@@ -40,7 +40,7 @@ resources:
     ChatConnectionsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: chat-connections
+        TableName: unimarket-chat-connections
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: S
