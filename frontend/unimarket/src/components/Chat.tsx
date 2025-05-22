@@ -1,56 +1,17 @@
 import { useState, useRef, useEffect } from "react";
+import { service } from "../config/configurations";
+import { chatMessage, chatUser } from "../interfaces/chat.interfaces";
+import { sendChatMessage } from "../utils/chat.util";
+import {
+  setConnected,
+  addUser,
+  setMessages,
+  setSelectedUser,
+} from "../store/chat/chatSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-interface Message {
-  id: number;
-  sender: string;
-  text: string;
-  time: string;
-  attachment?: string;
-  attachmentName?: string;
-}
-
-const mockMessages: Message[] = [
-  {
-    id: 1,
-    sender: "me",
-    text: "¡Hola! ¿En qué puedo ayudarte?",
-    time: "10:00",
-  },
-  {
-    id: 2,
-    sender: "other",
-    text: "Hola, estoy interesado en tu producto.",
-    time: "10:01",
-  },
-  {
-    id: 3,
-    sender: "me",
-    text: "¡Perfecto! ¿Tienes alguna pregunta?",
-    time: "10:02",
-  },
-];
-
-const users = [
-  {
-    id: 1,
-    name: "Juan Pérez",
-    avatar: "/assets/images/thumbs/vendors-two-icon1.png",
-    lastMessage: "¿Tienes fotos adicionales?",
-    time: "09:58",
-    unread: 2,
-    online: true,
-  },
-  {
-    id: 2,
-    name: "María López",
-    avatar: "/assets/images/thumbs/vendors-two-icon2.png",
-    lastMessage: "Gracias por la información.",
-    time: "Ayer",
-    unread: 0,
-    online: false,
-  },
-];
+const WEB_SOCKET_SERVICE = service.WEB_SOCKET_SERVICE;
 
 const emojiList = [
   "😀",
@@ -71,8 +32,19 @@ const emojiList = [
 ];
 
 const Chat = () => {
-  const [selectedUser, setSelectedUser] = useState(users[0]);
-  const [messages, setMessages] = useState<Message[]>(mockMessages);
+  const dispatch = useAppDispatch();
+
+  const ws = useRef<WebSocket | null>(null);
+
+  const uuid = useAppSelector(state => state.auth.uuid);
+  const nombre_completo = useAppSelector(state => state.auth.nombre_completo);
+  const imagen_perfil = useAppSelector(state => state.auth.imagen_perfil);
+  const isConnected = useAppSelector(state => state.chat.isConnected);
+
+  const messages = useAppSelector(state => state.chat.messages);
+  const users = useAppSelector(state => state.chat.users);
+  const selectedUser = useAppSelector(state => state.chat.selectedUser);
+
   const [input, setInput] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
   const [attachment, setAttachment] = useState<File | null>(null);
@@ -80,14 +52,6 @@ const Chat = () => {
 
   // No auto-scroll al enviar mensaje, solo si el usuario ya está abajo
   const [isAtBottom, setIsAtBottom] = useState(true);
-
-  useEffect(() => {
-    const container = messagesContainerRef.current;
-    if (!container) return;
-    if (isAtBottom) {
-      container.scrollTop = container.scrollHeight;
-    }
-  }, [messages, isAtBottom]);
 
   const handleScroll = () => {
     const container = messagesContainerRef.current;
@@ -99,23 +63,55 @@ const Chat = () => {
     );
   };
 
+  const connectWebSocket = () => {
+    if (
+      WEB_SOCKET_SERVICE &&
+      (!ws.current || ws.current.readyState !== WebSocket.OPEN)
+    ) {
+      ws.current = new WebSocket(`${WEB_SOCKET_SERVICE}?userId=${uuid}`);
+
+      ws.current.onopen = () => {
+        dispatch(setConnected(true));
+      };
+
+      ws.current.onmessage = event => {
+        const data = JSON.parse(event.data);
+        receiveMessage(data);
+      };
+
+      ws.current.onclose = () => {
+        dispatch(setConnected(false));
+      };
+    }
+  };
+
+  const disconnectWebSocket = () => {
+    if (ws.current) {
+      ws.current.close();
+      ws.current = null;
+      dispatch(setConnected(false));
+    }
+  };
+
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() && !attachment) return;
-    setMessages([
-      ...messages,
-      {
-        id: messages.length + 1,
-        sender: "me",
-        text: input,
-        time: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        attachment: attachment ? URL.createObjectURL(attachment) : undefined,
-        attachmentName: attachment ? attachment.name : undefined,
-      },
-    ]);
+    dispatch(
+      setMessages([
+        ...messages,
+        {
+          id: messages.length + 1,
+          sender: "me",
+          text: input,
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          attachment: attachment ? URL.createObjectURL(attachment) : undefined,
+          attachmentName: attachment ? attachment.name : undefined,
+        },
+      ]),
+    );
     setInput("");
     setAttachment(null);
     setShowEmoji(false);
@@ -131,6 +127,81 @@ const Chat = () => {
       setAttachment(e.target.files[0]);
     }
   };
+
+  const sendMessage = (to: string, message: string) => {
+    if (!message.trim()) {
+      console.error("Mensaje vacío");
+      return;
+    }
+    if (!uuid) {
+      console.error("UUID no está disponible");
+      return;
+    }
+
+    // Conectar el socket si no está conectado
+    connectWebSocket();
+
+    ws.current?.send(
+      sendChatMessage({
+        profile_picture: imagen_perfil ? imagen_perfil : "",
+        name: nombre_completo ? nombre_completo : "User",
+        from: uuid,
+        to,
+        message,
+      }),
+    );
+  };
+
+  const receiveMessage = (input: {
+    profile_picture: string;
+    name: string;
+    from: string;
+    message: string;
+  }) => {
+    const { profile_picture, name, from, message } = input;
+    console.log("Recibiendo mensaje:", input);
+
+    const newMessage: chatMessage = {
+      id: messages.length + 1,
+      sender: "other",
+      text: message,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
+    const fromUser: chatUser = {
+      uuid: from,
+      name,
+      profile_picture: profile_picture
+        ? profile_picture
+        : "/assets/images/thumbs/vendors-two-icon1.png",
+      lastMessage: message,
+      time: newMessage.time,
+      unread: 1,
+      online: true,
+    };
+    // Verifica si el usuario ya existe en la lista
+    dispatch(addUser(fromUser));
+    dispatch(setMessages([...messages, newMessage]));
+  };
+
+  useEffect(() => {
+    const container = messagesContainerRef.current;
+    if (!container) return;
+    if (isAtBottom) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [messages, isAtBottom]);
+
+  useEffect(() => {
+    connectWebSocket();
+    return () => {
+      if (ws.current) {
+        ws.current.close();
+      }
+    };
+  }, []);
 
   return (
     <section className="container py-4 mt-10 mb-10">
@@ -149,14 +220,14 @@ const Chat = () => {
           <div className="flex-grow-1 overflow-auto">
             {users.map(user => (
               <div
-                key={user.id}
-                className={`d-flex align-items-center gap-10 p-10 chat-user-list-item ${selectedUser.id === user.id ? "bg-main-50" : ""} pointer`}
+                key={user.uuid}
+                className={`d-flex align-items-center gap-10 p-10 chat-user-list-item ${selectedUser && selectedUser.uuid === user.uuid ? "bg-main-50" : ""} pointer`}
                 style={{ cursor: "pointer" }}
-                onClick={() => setSelectedUser(user)}
+                onClick={() => dispatch(setSelectedUser(user))}
               >
                 <div className="position-relative">
                   <img
-                    src={user.avatar}
+                    src={user.profile_picture}
                     alt={user.name}
                     className="rounded-circle"
                     width={48}
@@ -195,32 +266,34 @@ const Chat = () => {
           {/* Header del chat */}
           <div className="d-flex align-items-center gap-10 border-bottom p-10 bg-white">
             <img
-              src={selectedUser.avatar}
-              alt={selectedUser.name}
+              src={selectedUser ? selectedUser.profile_picture : ""}
+              alt={selectedUser ? selectedUser.name : ""}
               className="rounded-circle"
               width={48}
               height={48}
+              style={{ visibility: selectedUser ? "visible" : "hidden" }}
             />
             <div className="flex-grow-1">
-              <div className="fw-semibold">{selectedUser.name}</div>
+              <div className="fw-semibold">
+                {selectedUser ? selectedUser.name : ""}
+              </div>
               <div className="small text-success">
-                {selectedUser.online ? "En línea" : "Desconectado"}
+                {selectedUser
+                  ? selectedUser.online
+                    ? "En línea"
+                    : "Desconectado"
+                  : ""}
               </div>
             </div>
             <button
-              className="group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8"
-              title="Llamar"
+              className={`group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-${isConnected ? "danger" : "success"}-600 hover-text-white hover-border-${isConnected ? "danger" : "success"}-600 transition-2 flex-center gap-8`}
+              title={isConnected ? "Desconectar" : "Conectar"}
+              onClick={isConnected ? disconnectWebSocket : connectWebSocket}
             >
               <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
-                <i className="ph-fill ph-phone text-lg" />
-              </span>
-            </button>
-            <button
-              className="group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8"
-              title="Video"
-            >
-              <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
-                <i className="ph-fill ph-video-camera text-lg" />
+                <i
+                  className={`ph-fill ${isConnected ? "ph-chat" : "ph-chat-slash"} text-lg`}
+                />
               </span>
             </button>
             <button
@@ -282,16 +355,36 @@ const Chat = () => {
             className="p-10 border-top bg-white"
             onSubmit={handleSend}
             autoComplete="off"
+            style={{
+              pointerEvents: isConnected ? "auto" : "none",
+              opacity: isConnected ? 1 : 0.6,
+            }}
           >
-            <div className="input-group align-items-end">
+            {attachment && (
+              <div className="mx-10 mb-5  small text-muted d-flex align-items-center gap-2">
+                <div className="ps-7 border shadow-sm rounded-4 bg-gray-50 d-flex align-items-center gap-5 hover-bg-gray-100 hover-border-gray-100">
+                  <i className="ph-fill ph-paperclip" /> {attachment.name}
+                  <button
+                    type="button"
+                    className="btn text-main-600 btn-sm text-danger"
+                    onClick={() => setAttachment(null)}
+                    disabled={!isConnected}
+                  >
+                    <i className="ph ph-trash-simple text-lg" />
+                  </button>
+                </div>
+              </div>
+            )}
+            <div className="input-group h-100 gap-6">
               <button
                 type="button"
-                className="m-5 group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8"
+                className="align-self-center group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8"
                 style={{ width: 40, height: 40 }}
                 title="Adjuntar archivo"
                 onClick={() =>
                   document.getElementById("chat-attachment")?.click()
                 }
+                disabled={!isConnected}
               >
                 <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
                   <i className="ph ph-paperclip text-lg" />
@@ -302,13 +395,15 @@ const Chat = () => {
                 type="file"
                 style={{ display: "none" }}
                 onChange={handleAttachment}
+                disabled={!isConnected}
               />
               <button
                 type="button"
-                className="m-5 group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8"
+                className="align-self-center group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8"
                 style={{ width: 40, height: 40 }}
                 title="Emojis"
                 onClick={() => setShowEmoji(!showEmoji)}
+                disabled={!isConnected}
               >
                 <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
                   <i className="ph ph-smiley text-lg" />
@@ -327,6 +422,7 @@ const Chat = () => {
                         className="btn btn-light btn-sm m-1 fs-4"
                         style={{ minWidth: 36 }}
                         onClick={() => handleEmojiClick(emoji)}
+                        disabled={!isConnected}
                       >
                         {emoji}
                       </button>
@@ -337,32 +433,27 @@ const Chat = () => {
               <input
                 type="text"
                 className="form-control rounded-pill px-20"
-                placeholder="Escribe un mensaje..."
+                placeholder={
+                  isConnected
+                    ? "Escribe un mensaje..."
+                    : "Conéctate para enviar mensajes"
+                }
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 style={{ minHeight: 48 }}
+                disabled={!isConnected}
               />
               <button
-                className="btn btn-main rounded-pill ms-10 px-10 d-flex align-items-center"
+                className="btn btn-main rounded-circle fs-5"
                 type="submit"
-                disabled={!input.trim() && !attachment}
+                disabled={!isConnected || (!input.trim() && !attachment)}
+                onClick={() =>
+                  selectedUser ? sendMessage(selectedUser.name, input) : null
+                }
               >
-                <i className="ph-fill ph-paper-plane text-lg me-2" />
-                Enviar
+                <i className="ph-fill ph-paper-plane-right" />
               </button>
             </div>
-            {attachment && (
-              <div className="mt-2 small text-muted d-flex align-items-center gap-2">
-                <i className="ph-fill ph-paperclip" /> {attachment.name}
-                <button
-                  type="button"
-                  className="btn btn-link btn-sm text-danger p-0 ms-2"
-                  onClick={() => setAttachment(null)}
-                >
-                  Quitar
-                </button>
-              </div>
-            )}
           </form>
         </main>
       </div>

@@ -100,6 +100,7 @@ export class AuthService {
         id_usuario: user.id_usuario,
         uuid: user.uuid,
         nombre_completo: user.nombre_completo,
+        imagen_perfil: user.imagen_perfil,
         correo: user.correo,
         username: user.username,
       };
