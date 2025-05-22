@@ -5,8 +5,8 @@ import { sendChatMessage } from "../utils/chat.util";
 import {
   setConnected,
   addUser,
-  setMessages,
   setSelectedUser,
+  addMessage,
 } from "../store/chat/chatSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -75,6 +75,8 @@ const Chat = () => {
       };
 
       ws.current.onmessage = event => {
+        console.log("onmessage", event);
+
         const data = JSON.parse(event.data);
         receiveMessage(data);
       };
@@ -96,22 +98,18 @@ const Chat = () => {
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() && !attachment) return;
-    dispatch(
-      setMessages([
-        ...messages,
-        {
-          id: messages.length + 1,
-          sender: "me",
-          text: input,
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-          attachment: attachment ? URL.createObjectURL(attachment) : undefined,
-          attachmentName: attachment ? attachment.name : undefined,
-        },
-      ]),
-    );
+    const newMessage: chatMessage = {
+      id: messages.length + 1,
+      sender: "me",
+      text: input,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      attachment: attachment ? URL.createObjectURL(attachment) : undefined,
+      attachmentName: attachment ? attachment.name : undefined,
+    };
+    dispatch(addMessage(newMessage));
     setInput("");
     setAttachment(null);
     setShowEmoji(false);
@@ -141,6 +139,14 @@ const Chat = () => {
     // Conectar el socket si no está conectado
     connectWebSocket();
 
+    console.log("Enviando mensaje:", {
+      profile_picture: imagen_perfil ? imagen_perfil : "",
+      name: nombre_completo ? nombre_completo : "User",
+      from: uuid,
+      to,
+      message,
+    });
+
     ws.current?.send(
       sendChatMessage({
         profile_picture: imagen_perfil ? imagen_perfil : "",
@@ -160,6 +166,10 @@ const Chat = () => {
   }) => {
     const { profile_picture, name, from, message } = input;
     console.log("Recibiendo mensaje:", input);
+    if (!from) {
+      console.log("No se ha recibido el UUID del remitente");
+      return;
+    }
 
     const newMessage: chatMessage = {
       id: messages.length + 1,
@@ -181,9 +191,12 @@ const Chat = () => {
       unread: 1,
       online: true,
     };
+    console.log("messages before", messages);
+
     // Verifica si el usuario ya existe en la lista
     dispatch(addUser(fromUser));
-    dispatch(setMessages([...messages, newMessage]));
+    //dispatch(setMessages([...messages, newMessage]));
+    dispatch(addMessage(newMessage));
   };
 
   useEffect(() => {
@@ -201,6 +214,7 @@ const Chat = () => {
         ws.current.close();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -286,14 +300,14 @@ const Chat = () => {
               </div>
             </div>
             <button
-              className={`group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-${isConnected ? "danger" : "success"}-600 hover-text-white hover-border-${isConnected ? "danger" : "success"}-600 transition-2 flex-center gap-8`}
+              className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-${isConnected ? "danger" : "success"}-600 hover-text-white hover-border-${isConnected ? "danger" : "success"}-600 transition-2 flex-center gap-8`}
               title={isConnected ? "Desconectar" : "Conectar"}
               onClick={isConnected ? disconnectWebSocket : connectWebSocket}
             >
-              <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
-                <i
-                  className={`ph-fill ${isConnected ? "ph-chat" : "ph-chat-slash"} text-lg`}
-                />
+              <span
+                className={`text-xl d-flex text-${isConnected ? "success" : "danger"}-600 group-item-white transition-2`}
+              >
+                <i className={`ph-fill ph-power text-lg`} />
               </span>
             </button>
             <button
@@ -317,9 +331,9 @@ const Chat = () => {
             ref={messagesContainerRef}
             onScroll={handleScroll}
           >
-            {messages.map(msg => (
+            {messages.map((msg, index) => (
               <div
-                key={msg.id}
+                key={index}
                 className={`px-10 py-10 d-flex mb-3 ${msg.sender === "me" ? "justify-content-end" : "justify-content-start"}`}
               >
                 <div
@@ -446,9 +460,13 @@ const Chat = () => {
               <button
                 className="btn btn-main rounded-circle fs-5"
                 type="submit"
-                disabled={!isConnected || (!input.trim() && !attachment)}
+                disabled={
+                  !isConnected ||
+                  (!input.trim() && !attachment) ||
+                  !selectedUser
+                }
                 onClick={() =>
-                  selectedUser ? sendMessage(selectedUser.name, input) : null
+                  selectedUser ? sendMessage(selectedUser.uuid, input) : null
                 }
               >
                 <i className="ph-fill ph-paper-plane-right" />

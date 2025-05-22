@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { navigateTo } from "../helper/NavigateHelper";
 import ProductCard from "./ProductCard";
 import SellingProductCard from "./SellingProductCard";
 import { categories } from "../mocks/categories.json";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchListingsByUser } from "../store/listing/listingSlice";
+import { addSelectedUser } from "../store/chat/chatSlice";
+import { chatUser } from "../interfaces/chat.interfaces";
 
 const imagen_perfil_predeterminada =
   "assets/images/thumbs/vendors-two-icon1.png";
@@ -25,6 +28,7 @@ const VendorTwoDetails = () => {
 
   const {
     id_usuario,
+    uuid,
     nombre_completo,
     imagen_portada,
     imagen_perfil,
@@ -35,6 +39,23 @@ const VendorTwoDetails = () => {
     //telefono,
   } = useAppSelector(state => state.user.user);
   const listings = useAppSelector(state => state.listing.listings);
+
+  const handleChatNow = async () => {
+    if (!uuid) return;
+    const newUserConversation: chatUser = {
+      uuid: uuid,
+      profile_picture: imagen_perfil
+        ? imagen_perfil
+        : imagen_perfil_predeterminada,
+      name: nombre_completo,
+      lastMessage: "",
+      time: "",
+      unread: 0,
+      online: false,
+    };
+    await dispatch(addSelectedUser(newUserConversation));
+    navigateTo("/chat");
+  };
 
   useEffect(() => {
     dispatch(fetchListingsByUser({ id_usuario }));
@@ -71,6 +92,7 @@ const VendorTwoDetails = () => {
                     <button
                       type="button"
                       className="text-uppercase group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8 w-100"
+                      onClick={handleChatNow}
                     >
                       {t("chat_now")}
                       <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">

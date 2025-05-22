@@ -23,15 +23,8 @@ export const chatSlice = createSlice({
     },
     addMessage: (state, action: PayloadAction<chatMessage>) => {
       const newMessage = action.payload;
-      const existingMessage = state.messages.find(
-        message => message.id === newMessage.id,
-      );
-      if (!existingMessage) {
-        state.messages.push(newMessage);
-      } else {
-        const index = state.messages.indexOf(existingMessage);
-        state.messages[index] = newMessage;
-      }
+
+      state.messages.push(newMessage);
     },
     removeMessage: (state, action: PayloadAction<number>) => {
       const messageId = action.payload;
@@ -61,6 +54,17 @@ export const chatSlice = createSlice({
         state.users[index] = newUser;
       }
     },
+    addSelectedUser: (state, action: PayloadAction<chatUser>) => {
+      const newUser = action.payload;
+      const existingUser = state.users.find(user => user.uuid === newUser.uuid);
+      if (!existingUser) {
+        state.users.push(newUser);
+      } else {
+        const index = state.users.indexOf(existingUser);
+        state.users[index] = newUser;
+      }
+      state.selectedUser = newUser;
+    },
     removeUser: (state, action: PayloadAction<string>) => {
       const userId = action.payload;
       const index = state.users.findIndex(user => user.uuid === userId);
@@ -83,12 +87,15 @@ export const chatSlice = createSlice({
 export const {
   setConnected,
   setMessages,
-  setUsers,
-  setSelectedUser,
+  addMessage,
+  removeMessage,
   clearMessages,
   clearUsers,
   clearSelectedUser,
   addUser,
+  addSelectedUser,
   removeUser,
+  setUsers,
+  setSelectedUser,
 } = chatSlice.actions;
 export default chatSlice.reducer;
