@@ -1,25 +1,30 @@
-import { chatWebSocketMessage } from "../interfaces/chat.interfaces";
+import { chatMessage } from "../interfaces/chat.interfaces";
 
 export const sendChatMessage = ({
-  profile_picture,
-  name,
-  from,
-  to,
-  message,
-}: {
-  profile_picture: string;
-  name: string;
-  from: string;
-  to: string;
-  message: string;
-}): string => {
-  const msg: chatWebSocketMessage = {
-    profile_picture,
-    name,
+  id_conversacion,
+  imagen_perfil,
+  nombre_completo,
+  remitente,
+  destinatario,
+  tipo,
+  mensaje,
+  adjunto_url,
+  adjunto_nombre,
+  adjunto_tipo,
+  adjunto_tamano,
+}: chatMessage): string => {
+  return JSON.stringify({
     action: "sendMessage",
-    from,
-    to,
-    message: message,
-  };
-  return JSON.stringify(msg);
+    id_conversacion,
+    imagen_perfil,
+    nombre_completo,
+    remitente,
+    destinatario,
+    tipo,
+    mensaje,
+    adjunto_url,
+    adjunto_nombre,
+    adjunto_tipo,
+    adjunto_tamano,
+  });
 };

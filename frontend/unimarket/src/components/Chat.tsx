@@ -96,20 +96,47 @@ const Chat = () => {
   };
 
   const handleSend = (e: React.FormEvent) => {
+    if (!uuid) return;
     e.preventDefault();
     if (!input.trim() && !attachment) return;
-    const newMessage: chatMessage = {
-      id: messages.length + 1,
-      sender: "me",
-      text: input,
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      attachment: attachment ? URL.createObjectURL(attachment) : undefined,
-      attachmentName: attachment ? attachment.name : undefined,
+
+    let tipo = "text";
+    if (attachment) {
+      tipo = attachment.type.startsWith("image/") ? "image" : "file";
+    }
+
+    const baseMessage: chatMessage = {
+      id_conversacion: selectedUser ? selectedUser.id_conversacion : undefined,
+      remitente: uuid,
+      destinatario: selectedUser ? selectedUser.uuid : "",
+      tipo,
+      mensaje: input,
+      adjunto_url: attachment ? URL.createObjectURL(attachment) : undefined,
+      adjunto_nombre: attachment ? attachment.name : undefined,
+      adjunto_tipo: attachment ? attachment.type : undefined,
+      adjunto_tamano: attachment ? attachment.size : undefined,
     };
-    dispatch(addMessage(newMessage));
+    dispatch(
+      addMessage({
+        ...baseMessage,
+        fecha_envio: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      }),
+    );
+
+    // Conectar el socket si no está conectado
+    //connectWebSocket();
+
+    ws.current?.send(
+      sendChatMessage({
+        ...baseMessage,
+        imagen_perfil: imagen_perfil ? imagen_perfil : undefined,
+        nombre_completo: nombre_completo ? nombre_completo : "User",
+      }),
+    );
+
     setInput("");
     setAttachment(null);
     setShowEmoji(false);
@@ -126,76 +153,38 @@ const Chat = () => {
     }
   };
 
-  const sendMessage = (to: string, message: string) => {
-    if (!message.trim()) {
-      console.error("Mensaje vacío");
-      return;
-    }
-    if (!uuid) {
-      console.error("UUID no está disponible");
-      return;
-    }
-
-    // Conectar el socket si no está conectado
-    connectWebSocket();
-
-    console.log("Enviando mensaje:", {
-      profile_picture: imagen_perfil ? imagen_perfil : "",
-      name: nombre_completo ? nombre_completo : "User",
-      from: uuid,
-      to,
-      message,
-    });
-
-    ws.current?.send(
-      sendChatMessage({
-        profile_picture: imagen_perfil ? imagen_perfil : "",
-        name: nombre_completo ? nombre_completo : "User",
-        from: uuid,
-        to,
-        message,
-      }),
-    );
-  };
-
-  const receiveMessage = (input: {
-    profile_picture: string;
-    name: string;
-    from: string;
-    message: string;
-  }) => {
-    const { profile_picture, name, from, message } = input;
+  const receiveMessage = (input: chatMessage) => {
     console.log("Recibiendo mensaje:", input);
-    if (!from) {
+    if (!input.remitente) {
       console.log("No se ha recibido el UUID del remitente");
       return;
     }
 
     const newMessage: chatMessage = {
-      id: messages.length + 1,
-      sender: "other",
-      text: message,
-      time: new Date().toLocaleTimeString([], {
+      ...input,
+      fecha_envio: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       }),
     };
     const fromUser: chatUser = {
-      uuid: from,
-      name,
-      profile_picture: profile_picture
-        ? profile_picture
+      id_conversacion: input.id_conversacion,
+      uuid: input.remitente,
+      nombre_completo: input.nombre_completo
+        ? input.nombre_completo
+        : "unknown",
+      imagen_perfil: input.imagen_perfil
+        ? input.imagen_perfil
         : "/assets/images/thumbs/vendors-two-icon1.png",
-      lastMessage: message,
-      time: newMessage.time,
-      unread: 1,
-      online: true,
+      ultimo_mensaje: input.mensaje,
+      timestamp: newMessage.fecha_envio ? newMessage.fecha_envio : "",
+      no_leidos: 1,
+      en_linea: true,
     };
-    console.log("messages before", messages);
 
-    // Verifica si el usuario ya existe en la lista
+    // Ingresa o actualiza al usuario en la lista
     dispatch(addUser(fromUser));
-    //dispatch(setMessages([...messages, newMessage]));
+
     dispatch(addMessage(newMessage));
   };
 
@@ -241,13 +230,13 @@ const Chat = () => {
               >
                 <div className="position-relative">
                   <img
-                    src={user.profile_picture}
-                    alt={user.name}
+                    src={user.imagen_perfil}
+                    alt={user.nombre_completo}
                     className="rounded-circle"
                     width={48}
                     height={48}
                   />
-                  {user.online && (
+                  {user.en_linea && (
                     <span
                       className="position-absolute bottom-0 end-0 translate-middle p-1 bg-success border border-white rounded-circle"
                       style={{ width: 12, height: 12 }}
@@ -255,16 +244,18 @@ const Chat = () => {
                   )}
                 </div>
                 <div className="flex-grow-1">
-                  <div className="fw-semibold text-truncate">{user.name}</div>
+                  <div className="fw-semibold text-truncate">
+                    {user.nombre_completo}
+                  </div>
                   <div className="small text-muted text-truncate">
-                    {user.lastMessage}
+                    {user.ultimo_mensaje}
                   </div>
                 </div>
                 <div className="text-end">
-                  <div className="small text-muted">{user.time}</div>
-                  {user.unread > 0 && (
+                  <div className="small text-muted">{user.timestamp}</div>
+                  {user.no_leidos > 0 && (
                     <span className="badge bg-main-600 text-white rounded-pill ms-1">
-                      {user.unread}
+                      {user.no_leidos}
                     </span>
                   )}
                 </div>
@@ -280,8 +271,8 @@ const Chat = () => {
           {/* Header del chat */}
           <div className="d-flex align-items-center gap-10 border-bottom p-10 bg-white">
             <img
-              src={selectedUser ? selectedUser.profile_picture : ""}
-              alt={selectedUser ? selectedUser.name : ""}
+              src={selectedUser ? selectedUser.imagen_perfil : ""}
+              alt={selectedUser ? selectedUser.nombre_completo : ""}
               className="rounded-circle"
               width={48}
               height={48}
@@ -289,11 +280,11 @@ const Chat = () => {
             />
             <div className="flex-grow-1">
               <div className="fw-semibold">
-                {selectedUser ? selectedUser.name : ""}
+                {selectedUser ? selectedUser.nombre_completo : ""}
               </div>
               <div className="small text-success">
                 {selectedUser
-                  ? selectedUser.online
+                  ? selectedUser.en_linea
                     ? "En línea"
                     : "Desconectado"
                   : ""}
@@ -334,31 +325,33 @@ const Chat = () => {
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`px-10 py-10 d-flex mb-3 ${msg.sender === "me" ? "justify-content-end" : "justify-content-start"}`}
+                className={`px-10 py-10 d-flex mb-3 ${msg.remitente === uuid ? "justify-content-end" : "justify-content-start"}`}
               >
                 <div
-                  className={`p-8 rounded-4 shadow-sm ${msg.sender === "me" ? "bg-main-600 text-white" : "bg-white border"}`}
+                  className={`p-8 rounded-4 shadow-sm ${msg.remitente === uuid ? "bg-main-600 text-white" : "bg-white border"}`}
                   style={{ maxWidth: "75%" }}
                 >
-                  <div>{msg.text}</div>
-                  {msg.attachment && (
+                  <div>{msg.mensaje}</div>
+                  {msg.adjunto_url && (
                     <div className="mt-2">
                       <a
-                        href={msg.attachment}
+                        href={msg.adjunto_url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="d-inline-flex align-items-center text-decoration-none"
                       >
                         <i className="ph-fill ph-paperclip me-2" />
-                        {msg.attachmentName || "Adjunto"}
+                        {msg.adjunto_nombre || "Adjunto"}
                       </a>
                     </div>
                   )}
                   <div
                     className={`mt-2 small fw-semibold d-flex justify-content-end`}
                   >
-                    {/* {msg.sender === "me" ? "Tú" : selectedUser.name} */}
-                    <span className="ms-2 small text-muted">{msg.time}</span>
+                    {/* {msg.remitente === uuid ? "Tú" : selectedUser.nombre_completo} */}
+                    <span className="ms-2 small text-muted">
+                      {msg.fecha_envio}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -464,9 +457,6 @@ const Chat = () => {
                   !isConnected ||
                   (!input.trim() && !attachment) ||
                   !selectedUser
-                }
-                onClick={() =>
-                  selectedUser ? sendMessage(selectedUser.uuid, input) : null
                 }
               >
                 <i className="ph-fill ph-paper-plane-right" />

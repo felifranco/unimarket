@@ -27,9 +27,9 @@ export const chatSlice = createSlice({
       state.messages.push(newMessage);
     },
     removeMessage: (state, action: PayloadAction<number>) => {
-      const messageId = action.payload;
+      const id_mensaje = action.payload;
       const index = state.messages.findIndex(
-        message => message.id === messageId,
+        message => message.id_mensaje === id_mensaje,
       );
       if (index !== -1) {
         state.messages.splice(index, 1);
