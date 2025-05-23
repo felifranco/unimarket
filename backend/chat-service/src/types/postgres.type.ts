@@ -1,9 +1,11 @@
-export interface sendMessageType {
-  id_conversacion?: number;
-  imagen_perfil: string | null;
-  nombre_completo: string;
+export interface conversacion {
   remitente: string;
   destinatario: string;
+}
+
+export interface mensaje {
+  id_conversacion: number;
+  remitente: string;
   tipo: string;
   mensaje: string;
   adjunto_url?: string;

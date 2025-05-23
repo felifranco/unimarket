@@ -23,6 +23,7 @@
     "make:zip": "npm run prepare:zip && rm -f unimarket-chat-service.zip && zip -r unimarket-chat-service.zip dist node_modules package.json",
     "update:lambda": "aws lambda update-function-code --function-name unimarket-chat-service --zip-file fileb://unimarket-chat-service.zip",
     "deploy:lambda": "npm run make:zip && npm run update:lambda",
+    "serverless:offline-debug": "rm -rf dist && npm run build && npx serverless offline --debug",
     "serverless:offline": "rm -rf dist && npm run build && npx serverless offline",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\""
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.149",
     "@types/node": "^22.15.20",
+    "@types/pg": "^8.15.2",
     "aws-lambda": "^1.0.7",
     "gts": "^6.0.2",
     "serverless-dynamodb-local": "^0.2.1",
@@ -40,6 +42,8 @@
   "dependencies": {
     "@aws-sdk/client-apigatewaymanagementapi": "^3.812.0",
     "@aws-sdk/client-dynamodb": "^3.812.0",
-    "@aws-sdk/lib-dynamodb": "^3.812.0"
+    "@aws-sdk/lib-dynamodb": "^3.812.0",
+    "dotenv": "^16.5.0",
+    "pg": "^8.16.0"
   }
 }
