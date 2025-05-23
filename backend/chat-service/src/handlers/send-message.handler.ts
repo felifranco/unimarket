@@ -6,6 +6,8 @@ import {
   insertarMensaje,
 } from '../services/postgres.service';
 
+const USE_POSTGRES = process.env.USE_POSTGRES === 'true';
+
 export async function handleSendMessage(event: APIGatewayProxyEvent) {
   const connectionId = event.requestContext.connectionId;
 
@@ -34,7 +36,7 @@ export async function handleSendMessage(event: APIGatewayProxyEvent) {
   const destinatarioConnectionId = await getConnection(destinatario);
   const remitenteConnectionId = await getConnection(remitente);
 
-  if (!id_conversacion) {
+  if (USE_POSTGRES && !id_conversacion) {
     //console.log('id_conversacion no existe');
     id_conversacion = await insertConversacion({
       remitente,
@@ -61,18 +63,21 @@ export async function handleSendMessage(event: APIGatewayProxyEvent) {
     adjunto_tamano,
   };
 
-  insertarMensaje({
-    id_conversacion,
-    remitente,
-    tipo,
-    mensaje,
-    adjunto_url,
-    adjunto_nombre,
-    adjunto_tipo,
-    adjunto_tamano,
-  });
+  if (USE_POSTGRES) {
+    insertarMensaje({
+      id_conversacion,
+      remitente,
+      tipo,
+      mensaje,
+      adjunto_url,
+      adjunto_nombre,
+      adjunto_tipo,
+      adjunto_tamano,
+    });
+  }
 
   if (!destinatarioConnectionId) {
+    //console.log('El destinatario no está conectado');
     return {statusCode: 404, body: 'User not connected.'};
   }
 

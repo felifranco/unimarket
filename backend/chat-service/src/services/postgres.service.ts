@@ -1,7 +1,5 @@
 import {Pool} from 'pg';
 import {conversacion, mensaje} from '../types/postgres.type';
-import * as dotenv from 'dotenv';
-dotenv.config();
 
 const pool = new Pool({
   host: process.env.DB_HOST,

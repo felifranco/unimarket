@@ -1,3 +1,5 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import {APIGatewayProxyEvent, Context, APIGatewayProxyResult} from 'aws-lambda';
 import {handleConnect} from './handlers/connect.handler';
 import {handleDisconnect} from './handlers/disconnect.handler';

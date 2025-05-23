@@ -1,7 +1,11 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import {WebSocketServer} from 'ws';
 import {insertarMensaje, insertConversacion} from './services/postgres.service';
 import {sendMessageType} from './types/send-message.type';
-import {get} from 'http';
+
+const USE_POSTGRES = process.env.USE_POSTGRES === 'true';
 
 // Variables para servidor WebSocket local
 const wss = new WebSocketServer({port: 4001});
@@ -10,7 +14,9 @@ const connections = new Map<string, any>(); // userId -> ws
 const getConnection = (userId: string) => {
   const connection = connections.get(userId);
   if (!connection) {
-    throw new Error(`No connection found for userId: ${userId}`);
+    console.log(`No connection found for userId: ${userId}`);
+    //throw new Error(`No connection found for userId: ${userId}`);
+    return null;
   }
   return connection;
 };
@@ -62,7 +68,7 @@ const handleSendMessage = async (ws: any, data: any, userId: string) => {
     const destinatarioConnectionId = await getConnection(destinatario);
     const remitenteConnectionId = await getConnection(remitente);
 
-    if (!id_conversacion) {
+    if (USE_POSTGRES && !id_conversacion) {
       console.log('id_conversacion no existe');
       id_conversacion = await insertConversacion({
         remitente,
@@ -89,28 +95,26 @@ const handleSendMessage = async (ws: any, data: any, userId: string) => {
       adjunto_tamano,
     };
 
-    insertarMensaje({
-      id_conversacion,
-      remitente,
-      tipo,
-      mensaje,
-      adjunto_url,
-      adjunto_nombre,
-      adjunto_tipo,
-      adjunto_tamano,
-    });
+    if (USE_POSTGRES) {
+      insertarMensaje({
+        id_conversacion,
+        remitente,
+        tipo,
+        mensaje,
+        adjunto_url,
+        adjunto_nombre,
+        adjunto_tipo,
+        adjunto_tamano,
+      });
+    }
 
     if (!destinatarioConnectionId) {
       console.log('El destinatario no está conectado');
       return {statusCode: 404, body: 'User not connected.'};
     }
 
-    //const domain = event.requestContext.domainName;
-    //const stage = event.requestContext.stage;
-    //const endpoint = `https://${domain}/${stage}`;
-
     // Envía el mensaje al destinatario si está conectado
-    const destWs = connections.get(destinatario);
+    const destWs = getConnection(destinatario);
     if (destWs) {
       destWs.send(JSON.stringify(newMessage));
     }
