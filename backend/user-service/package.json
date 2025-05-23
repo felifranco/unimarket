@@ -13,6 +13,7 @@
     "make:zip": "npm run prepare:zip && rm -f unimarket-user-service.zip && zip -r unimarket-user-service.zip dist node_modules package.json",
     "update:lambda": "aws lambda update-function-code --function-name unimarket-user-service --zip-file fileb://unimarket-user-service.zip",
     "deploy:lambda": "npm run make:zip && npm run update:lambda",
+    "serverless:offline-debug": "rm -rf dist && npm run build && npx serverless offline --debug",
     "serverless:offline": "rm -rf dist && npm run build && npx serverless offline",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" --check",
