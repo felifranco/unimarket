@@ -61,10 +61,6 @@ export async function handleSendMessage(event: APIGatewayProxyEvent) {
     adjunto_tamano,
   };
 
-  const domain = event.requestContext.domainName;
-  const stage = event.requestContext.stage;
-  const endpoint = `https://${domain}/${stage}`;
-
   insertarMensaje({
     id_conversacion,
     remitente,
@@ -79,6 +75,10 @@ export async function handleSendMessage(event: APIGatewayProxyEvent) {
   if (!destinatarioConnectionId) {
     return {statusCode: 404, body: 'User not connected.'};
   }
+
+  const domain = event.requestContext.domainName;
+  const stage = event.requestContext.stage;
+  const endpoint = `https://${domain}/${stage}`;
 
   const {ApiGatewayManagementApi} = await import(
     '@aws-sdk/client-apigatewaymanagementapi'

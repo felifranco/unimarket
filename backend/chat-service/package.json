@@ -16,7 +16,7 @@
     "posttest": "npm run lint",
     "build": "tsc",
     "start": "node dist/src/main.js",
-    "start:dev": "ts-node src/main.ts",
+    "start:dev": "ts-node src/local-ws-server.ts",
     "install:dev": "rm -rf node_modules && rm -rf package-lock.json && npm install",
     "install:prod": "rm -rf node_modules && rm -rf package-lock.json && npm install --production --no-package-lock",
     "prepare:zip": "npm run install:dev && npm run build && npm run install:prod",
@@ -32,12 +32,14 @@
     "@types/aws-lambda": "^8.10.149",
     "@types/node": "^22.15.20",
     "@types/pg": "^8.15.2",
+    "@types/ws": "^8.18.1",
     "aws-lambda": "^1.0.7",
     "gts": "^6.0.2",
     "serverless-dynamodb-local": "^0.2.1",
     "serverless-offline": "^14.4.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "ws": "^8.18.2"
   },
   "dependencies": {
     "@aws-sdk/client-apigatewaymanagementapi": "^3.812.0",
