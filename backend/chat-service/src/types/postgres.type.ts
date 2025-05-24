@@ -1,6 +1,10 @@
 export interface conversacion {
   remitente: string;
   destinatario: string;
+  imagen_perfil_remitente: string;
+  imagen_perfil_destinatario: string;
+  nombre_remitente: string;
+  nombre_destinatario: string;
 }
 
 export interface mensaje {

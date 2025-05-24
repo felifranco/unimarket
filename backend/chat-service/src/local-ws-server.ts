@@ -48,8 +48,10 @@ const handleSendMessage = async (ws: any, data: any, userId: string) => {
     // Extraer los campos del cuerpo de la solicitud
     let id_conversacion = body.id_conversacion;
     const {
-      imagen_perfil,
-      nombre_completo,
+      imagen_perfil_remitente,
+      imagen_perfil_destinatario,
+      nombre_remitente,
+      nombre_destinatario,
       remitente,
       destinatario,
       tipo,
@@ -69,10 +71,13 @@ const handleSendMessage = async (ws: any, data: any, userId: string) => {
     const remitenteConnectionId = await getConnection(remitente);
 
     if (USE_POSTGRES && !id_conversacion) {
-      console.log('id_conversacion no existe');
       id_conversacion = await insertConversacion({
         remitente,
         destinatario,
+        imagen_perfil_remitente,
+        imagen_perfil_destinatario,
+        nombre_remitente,
+        nombre_destinatario,
       });
     }
 
@@ -83,8 +88,16 @@ const handleSendMessage = async (ws: any, data: any, userId: string) => {
 
     const newMessage: sendMessageType = {
       id_conversacion,
-      imagen_perfil: imagen_perfil ? imagen_perfil : null,
-      nombre_completo: nombre_completo ? nombre_completo : 'unknown',
+      imagen_perfil_remitente: imagen_perfil_remitente
+        ? imagen_perfil_remitente
+        : null,
+      imagen_perfil_destinatario: imagen_perfil_destinatario
+        ? imagen_perfil_destinatario
+        : null,
+      nombre_remitente: nombre_remitente ? nombre_remitente : 'unknown',
+      nombre_destinatario: nombre_destinatario
+        ? nombre_destinatario
+        : 'unknown',
       remitente,
       destinatario,
       tipo,

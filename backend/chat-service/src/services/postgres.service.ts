@@ -14,14 +14,32 @@ const pool = new Pool({
 export const insertConversacion = async ({
   remitente,
   destinatario,
+  imagen_perfil_remitente,
+  imagen_perfil_destinatario,
+  nombre_remitente,
+  nombre_destinatario,
 }: conversacion): Promise<number> => {
   try {
     const query = `
-    INSERT INTO conversacion (remitente, destinatario)
-    VALUES ($1, $2)
+    INSERT INTO conversacion (
+      remitente,
+      destinatario,
+      imagen_perfil_remitente,
+      imagen_perfil_destinatario,
+      nombre_remitente,
+      nombre_destinatario
+    )
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING id_conversacion;
   `;
-    const values = [remitente, destinatario];
+    const values = [
+      remitente,
+      destinatario,
+      imagen_perfil_remitente,
+      imagen_perfil_destinatario,
+      nombre_remitente,
+      nombre_destinatario,
+    ];
     const result = await pool.query(query, values);
     // El id generado está en result.rows[0].id_conversacion
     return result.rows[0].id_conversacion;
