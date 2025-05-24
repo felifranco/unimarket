@@ -3,7 +3,9 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Message } from '../../message/entities/message.entity';
 
 @Entity('conversacion')
 export class Conversation {
@@ -40,4 +42,7 @@ export class Conversation {
     default: () => 'CURRENT_TIMESTAMP',
   })
   fecha_creacion: Date;
+
+  @OneToMany(() => Message, (message) => message.conversacion)
+  mensajes: Message[];
 }

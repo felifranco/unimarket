@@ -18,6 +18,8 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import { CommonResponses } from 'src/common/decorators/api-responses.decorator';
+import { User } from 'src/common/decorators/user.decorator';
+import { PayloadAuthDto } from 'src/auth/dto/payload-auth.dto';
 
 @ApiBearerAuth()
 @ApiTags('conversation')
@@ -47,6 +49,16 @@ export class ConversationController {
   @CommonResponses()
   findAll() {
     return this.conversationService.findAll();
+  }
+
+  @Get('mine')
+  @ApiOperation({
+    summary: 'Obtener mis conversaciones',
+    description: 'Devuelve la información de mis conversaciones.',
+  })
+  @CommonResponses()
+  findMine(@User() user: PayloadAuthDto) {
+    return this.conversationService.findMine(user.uuid);
   }
 
   @Get(':id')

@@ -21,6 +21,16 @@ export class ConversationService {
     return this.conversationRepo.find();
   }
 
+  async findMine(uuid: string) {
+    // Buscar todas las conversaciones donde el usuario es remitente o destinatario
+    const conversations = await this.conversationRepo.find({
+      where: [{ remitente: uuid }, { destinatario: uuid }],
+      order: { fecha_creacion: 'DESC' },
+      relations: ['mensajes'], // Relación con mensajes (debe estar definida en la entidad)
+    });
+    return conversations;
+  }
+
   async findOne(id: number) {
     const conversation = await this.conversationRepo.findOneBy({
       id_conversacion: id,
