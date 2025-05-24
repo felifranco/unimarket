@@ -3,6 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
 import { Message } from '../../message/entities/message.entity';
@@ -42,6 +43,13 @@ export class Conversation {
     default: () => 'CURRENT_TIMESTAMP',
   })
   fecha_creacion: Date;
+
+  @UpdateDateColumn({
+    name: 'fecha_modificacion',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  fecha_modificacion: Date;
 
   @OneToMany(() => Message, (message) => message.conversacion)
   mensajes: Message[];

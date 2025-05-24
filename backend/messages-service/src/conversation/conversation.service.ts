@@ -12,53 +12,88 @@ export class ConversationService {
     private readonly conversationRepo: Repository<Conversation>,
   ) {}
 
-  async create(createConversationDto: CreateConversationDto) {
+  async create(uuid: string, createConversationDto: CreateConversationDto) {
     const conversation = this.conversationRepo.create(createConversationDto);
-    return this.conversationRepo.save(conversation);
-  }
-
-  findAll() {
-    return this.conversationRepo.find();
+    return this.conversationRepo.save({ ...conversation, remitente: uuid });
   }
 
   async findMine(uuid: string) {
-    // Buscar todas las conversaciones donde el usuario es remitente o destinatario
+    // Buscar todas las conversaciones donde el usuario es remitente o destinatario y no ha borrado la conversación como remitente
     const conversations = await this.conversationRepo.find({
-      where: [{ remitente: uuid }, { destinatario: uuid }],
+      where: [
+        { remitente: uuid, remitente_borrado: false },
+        { destinatario: uuid, destinatario_borrado: false },
+      ],
       order: { fecha_creacion: 'DESC' },
       relations: ['mensajes'], // Relación con mensajes (debe estar definida en la entidad)
     });
     return conversations;
   }
 
-  async findOne(id: number) {
-    const conversation = await this.conversationRepo.findOneBy({
-      id_conversacion: id,
+  async findOne(uuid: string, id: number) {
+    // Buscar la conversación solo si el usuario es remitente o destinatario
+    const conversation = await this.conversationRepo.findOne({
+      where: [
+        { id_conversacion: id, remitente: uuid },
+        { id_conversacion: id, destinatario: uuid },
+      ],
+      relations: ['mensajes'],
     });
     if (!conversation) {
-      throw new NotFoundException(`Conversación #${id} no encontrada`);
+      throw new NotFoundException(
+        `Conversación #${id} no encontrada o no tienes acceso`,
+      );
     }
     return conversation;
   }
 
-  async update(id: number, updateConversationDto: UpdateConversationDto) {
-    const conversation = await this.conversationRepo.findOneBy({
-      id_conversacion: id,
+  async update(
+    uuid: string,
+    id: number,
+    updateConversationDto: UpdateConversationDto,
+  ) {
+    // Solo permitir actualizar si el usuario es remitente o destinatario
+    const conversation = await this.conversationRepo.findOne({
+      where: [
+        { id_conversacion: id, remitente: uuid, remitente_borrado: false },
+        {
+          id_conversacion: id,
+          destinatario: uuid,
+          destinatario_borrado: false,
+        },
+      ],
     });
     if (!conversation) {
-      throw new NotFoundException(`Conversación #${id} no encontrada`);
+      throw new NotFoundException(
+        `Conversación #${id} no encontrada o no tienes acceso`,
+      );
     }
     this.conversationRepo.merge(conversation, updateConversationDto);
     return this.conversationRepo.save(conversation);
   }
 
-  async remove(id: number) {
-    const conversation = await this.conversationRepo.findOneBy({
-      id_conversacion: id,
+  async remove(uuid: string, id: number) {
+    // Solo permitir eliminar si el usuario es remitente o destinatario
+    const conversation = await this.conversationRepo.findOne({
+      where: [
+        { id_conversacion: id, remitente: uuid, remitente_borrado: false },
+        {
+          id_conversacion: id,
+          destinatario: uuid,
+          destinatario_borrado: false,
+        },
+      ],
     });
     if (!conversation) {
-      throw new NotFoundException(`Conversación #${id} no encontrada`);
+      throw new NotFoundException(
+        `Conversación #${id} no encontrada o no tienes acceso`,
+      );
     }
-    return this.conversationRepo.remove(conversation);
+    if (conversation.remitente === uuid) {
+      conversation.remitente_borrado = true;
+    } else {
+      conversation.destinatario_borrado = true;
+    }
+    return this.conversationRepo.save(conversation);
   }
 }

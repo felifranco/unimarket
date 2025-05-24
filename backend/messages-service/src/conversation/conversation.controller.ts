@@ -30,25 +30,19 @@ export class ConversationController {
   @Post()
   @ApiOperation({
     summary: 'Crear una nueva conversación',
-    description: 'Crea una conversación entre dos usuarios.',
+    description:
+      'Crea una conversación entre el usuario autenticado y otro usuario.',
   })
   @ApiBody({
     type: CreateConversationDto,
     description: 'Datos necesarios para crear una conversación',
   })
   @CommonResponses()
-  create(@Body() createConversationDto: CreateConversationDto) {
-    return this.conversationService.create(createConversationDto);
-  }
-
-  @Get()
-  @ApiOperation({
-    summary: 'Obtener todas las conversaciones',
-    description: 'Devuelve una lista de todas las conversaciones.',
-  })
-  @CommonResponses()
-  findAll() {
-    return this.conversationService.findAll();
+  create(
+    @User() user: PayloadAuthDto,
+    @Body() createConversationDto: CreateConversationDto,
+  ) {
+    return this.conversationService.create(user.uuid, createConversationDto);
   }
 
   @Get('mine')
@@ -64,7 +58,8 @@ export class ConversationController {
   @Get(':id')
   @ApiOperation({
     summary: 'Obtener una conversación por ID',
-    description: 'Devuelve la información de una conversación específica.',
+    description:
+      'Devuelve la información de una conversación específica del usuario autenticado.',
   })
   @ApiParam({
     name: 'id',
@@ -72,14 +67,15 @@ export class ConversationController {
     description: 'ID de la conversación a consultar',
   })
   @CommonResponses()
-  findOne(@Param('id') id: string) {
-    return this.conversationService.findOne(+id);
+  findOne(@User() user: PayloadAuthDto, @Param('id') id: string) {
+    return this.conversationService.findOne(user.uuid, +id);
   }
 
   @Patch(':id')
   @ApiOperation({
     summary: 'Actualizar una conversación',
-    description: 'Actualiza la información de una conversación existente.',
+    description:
+      'Actualiza la información de una conversación existente del usuario autenticado.',
   })
   @ApiParam({
     name: 'id',
@@ -92,16 +88,22 @@ export class ConversationController {
   })
   @CommonResponses()
   update(
+    @User() user: PayloadAuthDto,
     @Param('id') id: string,
     @Body() updateConversationDto: UpdateConversationDto,
   ) {
-    return this.conversationService.update(+id, updateConversationDto);
+    return this.conversationService.update(
+      user.uuid,
+      +id,
+      updateConversationDto,
+    );
   }
 
   @Delete(':id')
   @ApiOperation({
     summary: 'Eliminar una conversación',
-    description: 'Elimina una conversación del sistema.',
+    description:
+      'Elimina una conversación del sistema del usuario autenticado.',
   })
   @ApiParam({
     name: 'id',
@@ -109,7 +111,7 @@ export class ConversationController {
     description: 'ID de la conversación a eliminar',
   })
   @CommonResponses()
-  remove(@Param('id') id: string) {
-    return this.conversationService.remove(+id);
+  remove(@User() user: PayloadAuthDto, @Param('id') id: string) {
+    return this.conversationService.remove(user.uuid, +id);
   }
 }

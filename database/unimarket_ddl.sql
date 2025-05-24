@@ -82,7 +82,8 @@ CREATE TABLE conversacion (
   imagen_perfil_destinatario VARCHAR,
   nombre_remitente VARCHAR,
   nombre_destinatario VARCHAR,
-  fecha_creacion TIMESTAMP DEFAULT NOW()
+  fecha_creacion TIMESTAMP DEFAULT NOW(),
+  fecha_modificacion TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE mensaje (
@@ -96,5 +97,6 @@ CREATE TABLE mensaje (
   adjunto_tipo VARCHAR,
   adjunto_tamano INTEGER,
   fecha_envio TIMESTAMP DEFAULT NOW(),
+  fecha_modificacion TIMESTAMP DEFAULT NOW(),
   leido BOOLEAN DEFAULT FALSE
 );
