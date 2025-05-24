@@ -76,6 +76,8 @@ CREATE TABLE conversacion (
   id_conversacion SERIAL PRIMARY KEY,
   remitente VARCHAR NOT NULL,
   destinatario VARCHAR NOT NULL,
+  remitente_borrado BOOLEAN DEFAULT FALSE,
+  destinatario_borrado BOOLEAN DEFAULT FALSE,
   fecha_creacion TIMESTAMP DEFAULT NOW()
 );
 

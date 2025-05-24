@@ -1,26 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Conversation } from './entities/conversation.entity';
 import { CreateConversationDto } from './dto/create-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
 
 @Injectable()
 export class ConversationService {
-  create(createConversationDto: CreateConversationDto) {
-    return 'This action adds a new conversation';
+  constructor(
+    @InjectRepository(Conversation)
+    private readonly conversationRepo: Repository<Conversation>,
+  ) {}
+
+  async create(createConversationDto: CreateConversationDto) {
+    const conversation = this.conversationRepo.create(createConversationDto);
+    return this.conversationRepo.save(conversation);
   }
 
   findAll() {
-    return `This action returns all conversation`;
+    return this.conversationRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} conversation`;
+  async findOne(id: number) {
+    const conversation = await this.conversationRepo.findOneBy({
+      id_conversacion: id,
+    });
+    if (!conversation) {
+      throw new NotFoundException(`Conversación #${id} no encontrada`);
+    }
+    return conversation;
   }
 
-  update(id: number, updateConversationDto: UpdateConversationDto) {
-    return `This action updates a #${id} conversation`;
+  async update(id: number, updateConversationDto: UpdateConversationDto) {
+    const conversation = await this.conversationRepo.findOneBy({
+      id_conversacion: id,
+    });
+    if (!conversation) {
+      throw new NotFoundException(`Conversación #${id} no encontrada`);
+    }
+    this.conversationRepo.merge(conversation, updateConversationDto);
+    return this.conversationRepo.save(conversation);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} conversation`;
+  async remove(id: number) {
+    const conversation = await this.conversationRepo.findOneBy({
+      id_conversacion: id,
+    });
+    if (!conversation) {
+      throw new NotFoundException(`Conversación #${id} no encontrada`);
+    }
+    return this.conversationRepo.remove(conversation);
   }
 }

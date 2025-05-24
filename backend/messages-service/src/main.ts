@@ -20,8 +20,8 @@ async function bootstrap() {
   // Habilitar Swagger solo si ENABLE_SWAGGER=true
   if (process.env.ENABLE_SWAGGER === 'true') {
     const config = new DocumentBuilder()
-      .setTitle('Service')
-      .setDescription('The service API description')
+      .setTitle('Messages Service (Gestión de Mensajes)')
+      .setDescription('API para el servicio de mensajes')
       .setVersion('1.0')
       //.addTag('tag')
       .addBearerAuth()
