@@ -44,6 +44,7 @@ export class AuthService {
   async generateTokens(user: Auth) {
     const payloadAuthDto: PayloadAuthDto = {
       id_usuario: user.id_usuario,
+      uuid: user.uuid,
     };
 
     // Generar accessToken con tiempo de expiración corto
