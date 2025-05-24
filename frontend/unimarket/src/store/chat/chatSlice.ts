@@ -1,15 +1,147 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { get, post, patch, del } from "../../utils/axios.util";
+import { ApiResponse } from "../../utils/apiResponse.util";
 import { chatMessage, chatUser } from "../../interfaces/chat.interfaces";
 import { PURGE } from "redux-persist";
 
-const initialState = {
+const MESSAGE_SERVICE = import.meta.env.VITE_MESSAGE_SERVICE;
+const conversationEndpoint = "conversation";
+const messageEndpoint = "message";
+
+interface ChatState {
+  conversations: chatUser[];
+  conversation: chatUser | null;
+  messages: chatMessage[];
+  message: chatMessage | null;
+  chatLoading: boolean;
+  chatError: string | null;
+  // Viejos
+  isConnected?: boolean;
+  users: chatUser[];
+  selectedUser: chatUser | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: ChatState = {
+  conversations: [],
+  conversation: null,
+  messages: [],
+  message: null,
+  chatLoading: false,
+  chatError: null,
+  //Viejos
   isConnected: false,
-  messages: [] as chatMessage[],
+  //messages: [] as chatMessage[],
   users: [] as chatUser[],
   selectedUser: null as chatUser | null,
   loading: false,
   error: null,
 };
+
+// --- Async Thunks ---
+
+export const createConversation = createAsyncThunk(
+  "chat/createConversation",
+  async (data: Partial<chatUser>, { rejectWithValue }) => {
+    try {
+      const response = await post(
+        `${MESSAGE_SERVICE}/${conversationEndpoint}`,
+        data,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
+export const fetchConversations = createAsyncThunk(
+  "chat/fetchConversations",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await get(
+        `${MESSAGE_SERVICE}/${conversationEndpoint}/mine`,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
+export const fetchConversationById = createAsyncThunk(
+  "chat/fetchConversationById",
+  async ({ id }: { id: number }, { rejectWithValue }) => {
+    try {
+      const response = await get(
+        `${MESSAGE_SERVICE}/${conversationEndpoint}/${id}`,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
+export const createMessage = createAsyncThunk(
+  "chat/createMessage",
+  async (data: Partial<chatMessage>, { rejectWithValue }) => {
+    try {
+      const response = await post(
+        `${MESSAGE_SERVICE}/${messageEndpoint}`,
+        data,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
+export const patchMessage = createAsyncThunk(
+  "chat/patchMessage",
+  async (
+    { id_mensaje, data }: { id_mensaje: number; data: Partial<chatMessage> },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await patch(
+        `${MESSAGE_SERVICE}/${messageEndpoint}/${id_mensaje}`,
+        data,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
+export const deleteMessage = createAsyncThunk(
+  "chat/deleteMessage",
+  async (id_mensaje: number, { rejectWithValue }) => {
+    try {
+      const response = await del(
+        `${MESSAGE_SERVICE}/${messageEndpoint}/${id_mensaje}`,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
 
 export const chatSlice = createSlice({
   name: "chat",
@@ -80,7 +212,77 @@ export const chatSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(PURGE, () => initialState);
+    // --- Conversations ---
+    builder
+      .addCase(createConversation.pending, state => {
+        state.chatLoading = true;
+      })
+      .addCase(
+        createConversation.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<chatUser>;
+          state.conversation = response.data || null;
+          state.chatLoading = false;
+          state.chatError = null;
+        },
+      )
+      .addCase(fetchConversations.pending, state => {
+        state.chatLoading = true;
+      })
+      .addCase(
+        fetchConversations.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<chatUser[]>;
+          state.conversations = response.data || [];
+          state.chatLoading = false;
+          state.chatError = null;
+        },
+      )
+      .addCase(fetchConversationById.pending, state => {
+        state.chatLoading = true;
+      })
+      .addCase(
+        fetchConversationById.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<chatUser>;
+          state.conversation = response.data || null;
+          state.chatLoading = false;
+          state.chatError = null;
+        },
+      )
+      .addCase(createMessage.pending, state => {
+        state.chatLoading = true;
+      })
+      .addCase(
+        createMessage.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<chatMessage>;
+          state.message = response.data || null;
+          state.chatLoading = false;
+          state.chatError = null;
+        },
+      )
+      .addCase(patchMessage.pending, state => {
+        state.chatLoading = true;
+      })
+      .addCase(
+        patchMessage.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<chatMessage>;
+          state.message = response.data || null;
+          state.chatLoading = false;
+          state.chatError = null;
+        },
+      )
+      .addCase(deleteMessage.pending, state => {
+        state.chatLoading = true;
+      })
+      .addCase(deleteMessage.fulfilled, state => {
+        state.message = null;
+        state.chatLoading = false;
+        state.chatError = null;
+      })
+      .addCase(PURGE, () => initialState);
   },
 });
 

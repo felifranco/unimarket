@@ -7,6 +7,7 @@ export const service = {
   REVIEW_SERVICE: import.meta.env.VITE_REVIEW_SERVICE,
   USER_SERVICE: import.meta.env.VITE_USER_SERVICE,
   IMAGE_SERVICE: import.meta.env.VITE_IMAGE_SERVICE,
+  MESSAGE_SERVICE: import.meta.env.VITE_MESSAGE_SERVICE,
   WEB_SOCKET_SERVICE: import.meta.env.VITE_WEB_SOCKET_SERVICE,
 };
 
