@@ -4,13 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateMessageDto extends PartialType(CreateMessageDto) {
   @ApiProperty({
-    description: 'ID del usuario remitente',
-    example: 'uuid',
-    required: false,
-  })
-  remitente?: string;
-
-  @ApiProperty({
     description: 'Tipo de mensaje',
     example: 'texto',
     required: false,

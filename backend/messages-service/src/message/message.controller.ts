@@ -18,6 +18,8 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import { CommonResponses } from 'src/common/decorators/api-responses.decorator';
+import { User } from 'src/common/decorators/user.decorator';
+import { PayloadAuthDto } from 'src/auth/dto/payload-auth.dto';
 
 @ApiBearerAuth()
 @ApiTags('message')
@@ -28,31 +30,26 @@ export class MessageController {
   @Post()
   @ApiOperation({
     summary: 'Crear un nuevo mensaje',
-    description: 'Crea un mensaje en una conversación.',
+    description:
+      'Crea un mensaje en una conversación si el usuario autenticado es remitente o destinatario.',
   })
   @ApiBody({
     type: CreateMessageDto,
     description: 'Datos necesarios para crear un mensaje',
   })
   @CommonResponses()
-  create(@Body() createMessageDto: CreateMessageDto) {
-    return this.messageService.create(createMessageDto);
-  }
-
-  @Get()
-  @ApiOperation({
-    summary: 'Obtener todos los mensajes',
-    description: 'Devuelve una lista de todos los mensajes.',
-  })
-  @CommonResponses()
-  findAll() {
-    return this.messageService.findAll();
+  create(
+    @User() user: PayloadAuthDto,
+    @Body() createMessageDto: CreateMessageDto,
+  ) {
+    return this.messageService.create(user.uuid, createMessageDto);
   }
 
   @Get(':id')
   @ApiOperation({
     summary: 'Obtener un mensaje por ID',
-    description: 'Devuelve la información de un mensaje específico.',
+    description:
+      'Devuelve la información de un mensaje específico si el usuario autenticado es el remitente.',
   })
   @ApiParam({
     name: 'id',
@@ -60,14 +57,15 @@ export class MessageController {
     description: 'ID del mensaje a consultar',
   })
   @CommonResponses()
-  findOne(@Param('id') id: string) {
-    return this.messageService.findOne(+id);
+  findOne(@User() user: PayloadAuthDto, @Param('id') id: string) {
+    return this.messageService.findOne(user.uuid, +id);
   }
 
   @Patch(':id')
   @ApiOperation({
     summary: 'Actualizar un mensaje',
-    description: 'Actualiza la información de un mensaje existente.',
+    description:
+      'Actualiza la información de un mensaje existente si el usuario autenticado es el remitente.',
   })
   @ApiParam({
     name: 'id',
@@ -79,14 +77,19 @@ export class MessageController {
     description: 'Datos para actualizar el mensaje',
   })
   @CommonResponses()
-  update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
-    return this.messageService.update(+id, updateMessageDto);
+  update(
+    @User() user: PayloadAuthDto,
+    @Param('id') id: string,
+    @Body() updateMessageDto: UpdateMessageDto,
+  ) {
+    return this.messageService.update(user.uuid, +id, updateMessageDto);
   }
 
   @Delete(':id')
   @ApiOperation({
     summary: 'Eliminar un mensaje',
-    description: 'Elimina un mensaje del sistema.',
+    description:
+      'Elimina un mensaje del sistema si el usuario autenticado es el remitente.',
   })
   @ApiParam({
     name: 'id',
@@ -94,7 +97,7 @@ export class MessageController {
     description: 'ID del mensaje a eliminar',
   })
   @CommonResponses()
-  remove(@Param('id') id: string) {
-    return this.messageService.remove(+id);
+  remove(@User() user: PayloadAuthDto, @Param('id') id: string) {
+    return this.messageService.remove(user.uuid, +id);
   }
 }

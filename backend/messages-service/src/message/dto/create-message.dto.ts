@@ -4,9 +4,6 @@ export class CreateMessageDto {
   @ApiProperty({ description: 'ID de la conversación', example: 1 })
   id_conversacion: number;
 
-  @ApiProperty({ description: 'ID del usuario remitente', example: 'uuid' })
-  remitente: string;
-
   @ApiProperty({
     description: 'Tipo de mensaje (texto, imagen, etc.)',
     example: 'texto',
