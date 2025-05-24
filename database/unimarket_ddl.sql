@@ -78,6 +78,10 @@ CREATE TABLE conversacion (
   destinatario VARCHAR NOT NULL,
   remitente_borrado BOOLEAN DEFAULT FALSE,
   destinatario_borrado BOOLEAN DEFAULT FALSE,
+  imagen_perfil_remitente VARCHAR,
+  imagen_perfil_destinatario VARCHAR,
+  nombre_remitente VARCHAR,
+  nombre_destinatario VARCHAR,
   fecha_creacion TIMESTAMP DEFAULT NOW()
 );
 

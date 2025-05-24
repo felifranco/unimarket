@@ -22,6 +22,18 @@ export class Conversation {
   @Column({ type: 'boolean', default: false })
   destinatario_borrado: boolean;
 
+  @Column({ type: 'varchar', nullable: true })
+  imagen_perfil_remitente: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  imagen_perfil_destinatario: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  nombre_remitente: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  nombre_destinatario: string;
+
   @CreateDateColumn({
     name: 'fecha_creacion',
     type: 'timestamptz',

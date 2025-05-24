@@ -32,4 +32,32 @@ export class UpdateConversationDto extends PartialType(CreateConversationDto) {
     required: false,
   })
   destinatario_borrado?: boolean;
+
+  @ApiProperty({
+    description: 'URL de la imagen de perfil del remitente',
+    example: 'https://...',
+    required: false,
+  })
+  imagen_perfil_remitente?: string;
+
+  @ApiProperty({
+    description: 'URL de la imagen de perfil del destinatario',
+    example: 'https://...',
+    required: false,
+  })
+  imagen_perfil_destinatario?: string;
+
+  @ApiProperty({
+    description: 'Nombre del remitente',
+    example: 'Juan Pérez',
+    required: false,
+  })
+  nombre_remitente?: string;
+
+  @ApiProperty({
+    description: 'Nombre del destinatario',
+    example: 'Ana López',
+    required: false,
+  })
+  nombre_destinatario?: string;
 }
