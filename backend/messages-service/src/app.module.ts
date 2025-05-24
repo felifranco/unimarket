@@ -7,6 +7,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import configurations from './config/configurations';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
+import { ConversationModule } from './conversation/conversation.module';
+import { MessageModule } from './message/message.module';
+import { Conversation } from './conversation/entities/conversation.entity';
+import { Message } from './message/entities/message.entity';
 
 @Module({
   imports: [
@@ -22,7 +26,7 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
         username: configService.get<string>('database.username'),
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.database'),
-        entities: [],
+        entities: [Conversation, Message],
         synchronize: true,
         //ssl: true,
         //extra: {
@@ -33,6 +37,8 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
       }),
       inject: [ConfigService],
     }),
+    ConversationModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [
