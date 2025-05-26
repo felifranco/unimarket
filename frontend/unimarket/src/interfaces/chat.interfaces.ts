@@ -1,10 +1,47 @@
-export interface chatMessage {
-  id_mensaje?: number;
+export interface socketMessage {
   id_conversacion?: number;
-  imagen_perfil?: string | null;
-  nombre_completo?: string;
+  imagen_perfil_remitente: string | null;
+  imagen_perfil_destinatario?: string | null;
+  nombre_remitente: string | null;
+  nombre_destinatario?: string | null;
   remitente: string;
   destinatario: string;
+  tipo: string;
+  mensaje: string;
+  adjunto_url?: string;
+  adjunto_nombre?: string;
+  adjunto_tipo?: string;
+  adjunto_tamano?: number;
+}
+
+export interface Conversacion {
+  id_conversacion?: number;
+  remitente: string;
+  destinatario: string;
+  remitente_borrado?: boolean;
+  destinatario_borrado?: boolean;
+  imagen_perfil_remitente?: string | null;
+  imagen_perfil_destinatario?: string | null;
+  nombre_remitente?: string | null;
+  nombre_destinatario?: string | null;
+  fecha_creacion?: string;
+  fecha_modificacion?: string;
+  mensajes?: Mensaje[];
+  ultimo_mensaje?: string;
+  no_leidos?: number;
+  en_linea?: boolean;
+}
+
+export interface conversacionBase {
+  destinatario: string;
+  imagen_perfil_destinatario?: string;
+  nombre_destinatario: string;
+}
+
+export interface Mensaje {
+  id_mensaje?: number;
+  id_conversacion: number;
+  remitente: string;
   tipo: string;
   mensaje: string;
   adjunto_url?: string;
@@ -13,45 +50,5 @@ export interface chatMessage {
   adjunto_tamano?: number;
   fecha_envio?: string;
   leido?: boolean;
-}
-
-export interface chatUser {
-  id_conversacion?: number;
-  uuid: string;
-  imagen_perfil: string;
-  nombre_completo: string;
-  ultimo_mensaje: string;
-  timestamp: string;
-  no_leidos: number;
-  en_linea: boolean;
-}
-
-export interface Conversation {
-  id_conversacion: number;
-  remitente: string;
-  destinatario: string;
-  remitente_borrado: boolean;
-  destinatario_borrado: boolean;
-  imagen_perfil_remitente?: string;
-  imagen_perfil_destinatario?: string;
-  nombre_remitente?: string;
-  nombre_destinatario?: string;
-  fecha_creacion: string;
-  fecha_modificacion: string;
-  mensajes: Message[];
-}
-
-export interface Message {
-  id_mensaje: number;
-  id_conversacion: number;
-  remitente: string;
-  tipo: string;
-  mensaje: string;
-  adjunto_url?: string;
-  adjunto_nombre?: string;
-  adjunto_tipo?: string;
-  adjunto_tamano?: number;
-  fecha_envio: string;
-  leido: boolean;
-  conversacion?: Conversation;
+  conversacion?: Conversacion;
 }

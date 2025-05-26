@@ -69,7 +69,7 @@ if (require.main === module) {
     const port = process.env.APP_PORT || 3001;
     const { app } = await getBootstrapPromise();
     await app.listen(port, () => {
-      console.log(`User Service running locally on http://localhost:${port}`);
+      console.log(`Messages Service running locally on http://localhost:${port}`);
     });
   })();
 }

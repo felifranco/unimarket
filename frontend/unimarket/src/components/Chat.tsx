@@ -1,12 +1,19 @@
 import { useState, useRef, useEffect } from "react";
 import { service } from "../config/configurations";
-import { chatMessage, chatUser } from "../interfaces/chat.interfaces";
-import { sendChatMessage } from "../utils/chat.util";
+import {
+  socketMessage,
+  Conversacion,
+  Mensaje,
+} from "../interfaces/chat.interfaces";
+import { sendSocketMessage } from "../utils/chat.util";
+import { formatDate } from "../utils/app.util";
 import {
   setConnected,
-  addUser,
-  setSelectedUser,
-  addMessage,
+  fetchConversations,
+  setConversacionActiva,
+  addMensajeEntrante,
+  borrarConversacion,
+  addMensaje,
 } from "../store/chat/chatSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -31,6 +38,9 @@ const emojiList = [
   "😅",
 ];
 
+const imagenPerfilDefault = "https://www.w3schools.com/howto/img_avatar.png";
+const nombreCompletoDefault = "Usuario Desconocido";
+
 const Chat = () => {
   const dispatch = useAppDispatch();
 
@@ -41,9 +51,11 @@ const Chat = () => {
   const imagen_perfil = useAppSelector(state => state.auth.imagen_perfil);
   const isConnected = useAppSelector(state => state.chat.isConnected);
 
-  const messages = useAppSelector(state => state.chat.messages);
-  const users = useAppSelector(state => state.chat.users);
-  const selectedUser = useAppSelector(state => state.chat.selectedUser);
+  const conversaciones = useAppSelector(state => state.chat.conversaciones);
+  const conversacionActiva = useAppSelector(
+    state => state.chat.conversacionActiva,
+  );
+  const mensajes = useAppSelector(state => state.chat.mensajes);
 
   const [input, setInput] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
@@ -72,11 +84,10 @@ const Chat = () => {
 
       ws.current.onopen = () => {
         dispatch(setConnected(true));
+        dispatch(fetchConversations());
       };
 
       ws.current.onmessage = event => {
-        console.log("onmessage", event);
-
         const data = JSON.parse(event.data);
         receiveMessage(data);
       };
@@ -95,6 +106,15 @@ const Chat = () => {
     }
   };
 
+  const handleFetchConversations = () => {
+    dispatch(fetchConversations());
+  };
+
+  const handleFetchConversationById = () => {
+    console.log("Fetching conversation by ID");
+    //dispatch(fetchConversationById(id));
+  };
+
   const handleSend = (e: React.FormEvent) => {
     if (!uuid) return;
     e.preventDefault();
@@ -104,38 +124,58 @@ const Chat = () => {
     if (attachment) {
       tipo = attachment.type.startsWith("image/") ? "image" : "file";
     }
+    if (conversacionActiva) {
+      let baseMessage = null;
+      if (conversacionActiva.remitente === uuid) {
+        baseMessage = {
+          // REMITENTE
+          remitente: conversacionActiva.remitente,
+          imagen_perfil_remitente:
+            conversacionActiva.imagen_perfil_remitente || null,
+          nombre_remitente: conversacionActiva.nombre_remitente || null,
+          // DESTINATARIO
+          destinatario: conversacionActiva.destinatario,
+          imagen_perfil_destinatario:
+            conversacionActiva.imagen_perfil_destinatario || null,
+          nombre_destinatario: conversacionActiva.nombre_destinatario || null,
+        };
+      } else {
+        baseMessage = {
+          // REMITENTE
+          remitente: uuid,
+          imagen_perfil_remitente: imagen_perfil || null,
+          nombre_remitente: nombre_completo || null,
+          // DESTINATARIO
+          destinatario: conversacionActiva.remitente,
+          imagen_perfil_destinatario:
+            conversacionActiva.imagen_perfil_remitente || null,
+          nombre_destinatario: conversacionActiva.nombre_remitente || null,
+        };
+      }
 
-    const baseMessage: chatMessage = {
-      id_conversacion: selectedUser ? selectedUser.id_conversacion : undefined,
-      remitente: uuid,
-      destinatario: selectedUser ? selectedUser.uuid : "",
-      tipo,
-      mensaje: input,
-      adjunto_url: attachment ? URL.createObjectURL(attachment) : undefined,
-      adjunto_nombre: attachment ? attachment.name : undefined,
-      adjunto_tipo: attachment ? attachment.type : undefined,
-      adjunto_tamano: attachment ? attachment.size : undefined,
-    };
-    dispatch(
-      addMessage({
+      baseMessage = {
         ...baseMessage,
-        fecha_envio: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      }),
-    );
+        id_conversacion: conversacionActiva.id_conversacion,
+        tipo,
+        mensaje: input,
+        adjunto_url: attachment ? URL.createObjectURL(attachment) : undefined,
+        adjunto_nombre: attachment ? attachment.name : undefined,
+        adjunto_tipo: attachment ? attachment.type : undefined,
+        adjunto_tamano: attachment ? attachment.size : undefined,
+      } as socketMessage;
 
-    // Conectar el socket si no está conectado
-    //connectWebSocket();
+      dispatch(
+        addMensaje({
+          ...baseMessage,
+        } as Mensaje),
+      );
 
-    ws.current?.send(
-      sendChatMessage({
-        ...baseMessage,
-        imagen_perfil: imagen_perfil ? imagen_perfil : undefined,
-        nombre_completo: nombre_completo ? nombre_completo : "User",
-      }),
-    );
+      // Conectar el socket si no está conectado
+      connectWebSocket();
+
+      console.log("Mensaje enviado al socket", baseMessage);
+      ws.current?.send(sendSocketMessage(baseMessage));
+    }
 
     setInput("");
     setAttachment(null);
@@ -153,39 +193,13 @@ const Chat = () => {
     }
   };
 
-  const receiveMessage = (input: chatMessage) => {
+  const receiveMessage = (input: socketMessage) => {
     console.log("Recibiendo mensaje:", input);
     if (!input.remitente) {
       console.log("No se ha recibido el UUID del remitente");
       return;
     }
-
-    const newMessage: chatMessage = {
-      ...input,
-      fecha_envio: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    };
-    const fromUser: chatUser = {
-      id_conversacion: input.id_conversacion,
-      uuid: input.remitente,
-      nombre_completo: input.nombre_completo
-        ? input.nombre_completo
-        : "unknown",
-      imagen_perfil: input.imagen_perfil
-        ? input.imagen_perfil
-        : "/assets/images/thumbs/vendors-two-icon1.png",
-      ultimo_mensaje: input.mensaje,
-      timestamp: newMessage.fecha_envio ? newMessage.fecha_envio : "",
-      no_leidos: 1,
-      en_linea: true,
-    };
-
-    // Ingresa o actualiza al usuario en la lista
-    dispatch(addUser(fromUser));
-
-    dispatch(addMessage(newMessage));
+    dispatch(addMensajeEntrante(input));
   };
 
   useEffect(() => {
@@ -194,7 +208,7 @@ const Chat = () => {
     if (isAtBottom) {
       container.scrollTop = container.scrollHeight;
     }
-  }, [messages, isAtBottom]);
+  }, [mensajes, isAtBottom]);
 
   useEffect(() => {
     connectWebSocket();
@@ -214,53 +228,108 @@ const Chat = () => {
       >
         {/* Sidebar de usuarios */}
         <aside
-          className="col-12 col-md-4 border-end bg-light d-flex flex-column"
-          style={{ minHeight: 500 }}
+          className="col-12 col-md-4 border-end bg-light d-flex flex-column  custom-scroll"
+          style={{
+            minHeight: 500,
+            maxHeight: 500,
+            overflowY: "auto",
+            scrollBehavior: "smooth",
+          }}
         >
           <div className="p-10 border-bottom bg-white">
             <h5 className="mb-0 fw-bold">Chats</h5>
           </div>
           <div className="flex-grow-1 overflow-auto">
-            {users.map(user => (
-              <div
-                key={user.uuid}
-                className={`d-flex align-items-center gap-10 p-10 chat-user-list-item ${selectedUser && selectedUser.uuid === user.uuid ? "bg-main-50" : ""} pointer`}
-                style={{ cursor: "pointer" }}
-                onClick={() => dispatch(setSelectedUser(user))}
-              >
-                <div className="position-relative">
-                  <img
-                    src={user.imagen_perfil}
-                    alt={user.nombre_completo}
-                    className="rounded-circle"
-                    width={48}
-                    height={48}
-                  />
-                  {user.en_linea && (
-                    <span
-                      className="position-absolute bottom-0 end-0 translate-middle p-1 bg-success border border-white rounded-circle"
-                      style={{ width: 12, height: 12 }}
+            {conversaciones.map((conversacion: Conversacion) => {
+              let conversacionUuid = "";
+              let conversacionImagenPerfil = "";
+              let conversacionNombreCompleto = "";
+              let timestamp = "";
+              const en_linea = true;
+              const ultimo_mensaje = conversacion.ultimo_mensaje;
+              const no_leidos = 8;
+
+              let isSelected = false;
+
+              if (conversacion.remitente === uuid) {
+                conversacionUuid = conversacion.destinatario;
+                conversacionImagenPerfil =
+                  conversacion.imagen_perfil_destinatario
+                    ? conversacion.imagen_perfil_destinatario
+                    : imagenPerfilDefault;
+                conversacionNombreCompleto = conversacion.nombre_destinatario
+                  ? conversacion.nombre_destinatario
+                  : nombreCompletoDefault;
+                timestamp = formatDate(
+                  new Date(
+                    conversacion.fecha_creacion
+                      ? conversacion.fecha_creacion
+                      : "",
+                  ),
+                  "DD-MM-YYYY HH:mm",
+                );
+              } else {
+                conversacionUuid = conversacion.remitente;
+                conversacionImagenPerfil = conversacion.imagen_perfil_remitente
+                  ? conversacion.imagen_perfil_remitente
+                  : imagenPerfilDefault;
+                conversacionNombreCompleto = conversacion.nombre_remitente
+                  ? conversacion.nombre_remitente
+                  : nombreCompletoDefault;
+                timestamp = formatDate(
+                  new Date(
+                    conversacion.fecha_creacion
+                      ? conversacion.fecha_creacion
+                      : "",
+                  ),
+                  "DD-MM-YYYY HH:mm",
+                );
+              }
+
+              isSelected = conversacionActiva?.remitente == conversacionUuid;
+              //? true
+              //: conversacion.destinatario == conversacionUuid;
+              return (
+                <div
+                  key={conversacionUuid}
+                  className={`d-flex align-items-center gap-10 p-10 chat-user-list-item ${isSelected ? "bg-main-50" : ""} pointer`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => dispatch(setConversacionActiva(conversacion))}
+                >
+                  <div className="position-relative">
+                    <img
+                      src={conversacionImagenPerfil}
+                      alt={conversacionNombreCompleto}
+                      className="rounded-circle"
+                      width={48}
+                      height={48}
                     />
-                  )}
-                </div>
-                <div className="flex-grow-1">
-                  <div className="fw-semibold text-truncate">
-                    {user.nombre_completo}
+                    {en_linea && (
+                      <span
+                        className="position-absolute bottom-0 end-0 translate-middle p-1 bg-success border border-white rounded-circle"
+                        style={{ width: 12, height: 12 }}
+                      />
+                    )}
                   </div>
-                  <div className="small text-muted text-truncate">
-                    {user.ultimo_mensaje}
+                  <div className="flex-grow-1">
+                    <div className="fw-semibold text-truncate">
+                      {conversacionNombreCompleto}
+                    </div>
+                    <div className="small text-muted text-truncate">
+                      {ultimo_mensaje}
+                    </div>
+                  </div>
+                  <div className="text-end">
+                    <div className="small text-muted">{timestamp}</div>
+                    {no_leidos > 0 && (
+                      <span className="badge bg-main-600 text-white rounded-pill ms-1">
+                        {no_leidos}
+                      </span>
+                    )}
                   </div>
                 </div>
-                <div className="text-end">
-                  <div className="small text-muted">{user.timestamp}</div>
-                  {user.no_leidos > 0 && (
-                    <span className="badge bg-main-600 text-white rounded-pill ms-1">
-                      {user.no_leidos}
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </aside>
         {/* Panel de chat */}
@@ -271,25 +340,88 @@ const Chat = () => {
           {/* Header del chat */}
           <div className="d-flex align-items-center gap-10 border-bottom p-10 bg-white">
             <img
-              src={selectedUser ? selectedUser.imagen_perfil : ""}
-              alt={selectedUser ? selectedUser.nombre_completo : ""}
+              src={
+                conversacionActiva
+                  ? conversacionActiva.remitente == uuid
+                    ? (conversacionActiva.imagen_perfil_destinatario ??
+                      imagenPerfilDefault)
+                    : (conversacionActiva.imagen_perfil_remitente ??
+                      imagenPerfilDefault)
+                  : ""
+              }
+              alt={
+                conversacionActiva
+                  ? conversacionActiva.remitente == uuid
+                    ? (conversacionActiva.nombre_destinatario ??
+                      nombreCompletoDefault)
+                    : (conversacionActiva.nombre_remitente ??
+                      nombreCompletoDefault)
+                  : ""
+              }
               className="rounded-circle"
               width={48}
               height={48}
-              style={{ visibility: selectedUser ? "visible" : "hidden" }}
+              style={{ visibility: conversacionActiva ? "visible" : "hidden" }}
             />
             <div className="flex-grow-1">
               <div className="fw-semibold">
-                {selectedUser ? selectedUser.nombre_completo : ""}
+                {conversacionActiva
+                  ? conversacionActiva.remitente == uuid
+                    ? (conversacionActiva.nombre_destinatario ??
+                      nombreCompletoDefault)
+                    : (conversacionActiva.nombre_remitente ??
+                      nombreCompletoDefault)
+                  : ""}
               </div>
               <div className="small text-success">
-                {selectedUser
-                  ? selectedUser.en_linea
+                {conversacionActiva
+                  ? conversacionActiva.en_linea
                     ? "En línea"
                     : "Desconectado"
                   : ""}
               </div>
             </div>
+            <button
+              className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-main-600 hover-text-white hover-border-main-600 transition-2 flex-center gap-8`}
+              title="Borrar conversacion"
+              onClick={() =>
+                conversacionActiva &&
+                dispatch(
+                  borrarConversacion({
+                    remitente: conversacionActiva.remitente,
+                    destinatario: conversacionActiva.destinatario,
+                  }),
+                )
+              }
+            >
+              <span
+                className={`text-xl d-flex text-main-600 group-item-white transition-2`}
+              >
+                <i className="ph ph-trash-simple" />
+              </span>
+            </button>
+            <button
+              className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-main-600 hover-text-white hover-border-main-600 transition-2 flex-center gap-8`}
+              title="Traer conversaciones"
+              onClick={handleFetchConversationById}
+            >
+              <span
+                className={`text-xl d-flex text-main-600 group-item-white transition-2`}
+              >
+                <i className={`ph-fill ph-arrows-down-up text-lg`} />
+              </span>
+            </button>
+            <button
+              className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-main-600 hover-text-white hover-border-main-600 transition-2 flex-center gap-8`}
+              title="Traer conversaciones"
+              onClick={handleFetchConversations}
+            >
+              <span
+                className={`text-xl d-flex text-main-600 group-item-white transition-2`}
+              >
+                <i className={`ph-fill ph-arrows-clockwise text-lg`} />
+              </span>
+            </button>
             <button
               className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-${isConnected ? "danger" : "success"}-600 hover-text-white hover-border-${isConnected ? "danger" : "success"}-600 transition-2 flex-center gap-8`}
               title={isConnected ? "Desconectar" : "Conectar"}
@@ -322,7 +454,7 @@ const Chat = () => {
             ref={messagesContainerRef}
             onScroll={handleScroll}
           >
-            {messages.map((msg, index) => (
+            {mensajes.map((msg: Mensaje, index: number) => (
               <div
                 key={index}
                 className={`px-10 py-10 d-flex mb-3 ${msg.remitente === uuid ? "justify-content-end" : "justify-content-start"}`}
@@ -350,7 +482,11 @@ const Chat = () => {
                   >
                     {/* {msg.remitente === uuid ? "Tú" : selectedUser.nombre_completo} */}
                     <span className="ms-2 small text-muted">
-                      {msg.fecha_envio}
+                      {msg.fecha_envio &&
+                        formatDate(
+                          new Date(msg.fecha_envio),
+                          "DD-MM-YYYY HH:mm",
+                        )}
                     </span>
                   </div>
                 </div>
@@ -456,7 +592,7 @@ const Chat = () => {
                 disabled={
                   !isConnected ||
                   (!input.trim() && !attachment) ||
-                  !selectedUser
+                  !conversacionActiva
                 }
               >
                 <i className="ph-fill ph-paper-plane-right" />

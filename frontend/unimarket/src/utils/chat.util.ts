@@ -1,9 +1,11 @@
-import { chatMessage } from "../interfaces/chat.interfaces";
+import { socketMessage } from "../interfaces/chat.interfaces";
 
-export const sendChatMessage = ({
+export const sendSocketMessage = ({
   id_conversacion,
-  imagen_perfil,
-  nombre_completo,
+  imagen_perfil_remitente,
+  imagen_perfil_destinatario,
+  nombre_remitente,
+  nombre_destinatario,
   remitente,
   destinatario,
   tipo,
@@ -12,12 +14,14 @@ export const sendChatMessage = ({
   adjunto_nombre,
   adjunto_tipo,
   adjunto_tamano,
-}: chatMessage): string => {
+}: socketMessage): string => {
   return JSON.stringify({
     action: "sendMessage",
     id_conversacion,
-    imagen_perfil,
-    nombre_completo,
+    imagen_perfil_remitente,
+    imagen_perfil_destinatario,
+    nombre_remitente,
+    nombre_destinatario,
     remitente,
     destinatario,
     tipo,

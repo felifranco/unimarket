@@ -30,7 +30,6 @@ import {
   fetchConversations,
   fetchConversationById,
   createConversation,
-  createMessage,
   patchMessage,
   deleteMessage,
 } from "../chat/chatSlice";
@@ -109,7 +108,6 @@ export const alertSlice = createSlice({
         fetchConversationById.rejected,
         createConversation.rejected,
         // Mensajes
-        createMessage.rejected,
         patchMessage.rejected,
         deleteMessage.rejected,
       ),
@@ -132,9 +130,6 @@ export const alertSlice = createSlice({
               break;
             case createConversation.rejected.type:
               state.message = "No se pudo crear la conversación";
-              break;
-            case createMessage.rejected.type:
-              state.message = "No se pudo enviar el mensaje";
               break;
             case patchMessage.rejected.type:
               state.message = "No se pudo actualizar el mensaje";
@@ -163,6 +158,9 @@ export const alertSlice = createSlice({
         uploadProfileImage.fulfilled,
         uploadListingImage.fulfilled,
         uploadNewListingImage.fulfilled,
+        // CHAT (Conversaciones y Mensajes)
+        // Conversaciones
+        fetchConversations.fulfilled,
       ),
       (state, action) => {
         state.showMessage = true;
@@ -174,6 +172,10 @@ export const alertSlice = createSlice({
 
           case me.fulfilled.type:
             state.message = "welcome";
+            break;
+
+          case fetchConversations.fulfilled.type:
+            state.message = "conversations_loaded";
             break;
 
           default:

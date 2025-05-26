@@ -1,55 +1,82 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { get, post, patch, del } from "../../utils/axios.util";
 import { ApiResponse } from "../../utils/apiResponse.util";
-import { chatMessage, chatUser } from "../../interfaces/chat.interfaces";
+import {
+  socketMessage,
+  Conversacion,
+  conversacionBase,
+  Mensaje,
+} from "../../interfaces/chat.interfaces";
 import { PURGE } from "redux-persist";
+import type { RootState } from "../index";
 
 const MESSAGE_SERVICE = import.meta.env.VITE_MESSAGE_SERVICE;
 const conversationEndpoint = "conversation";
 const messageEndpoint = "message";
 
 interface ChatState {
-  conversations: chatUser[];
-  conversation: chatUser | null;
-  messages: chatMessage[];
-  message: chatMessage | null;
+  isConnected?: boolean;
+  conversaciones: Conversacion[];
+  conversacionActiva: Conversacion | null;
+  mensajes: Mensaje[];
+  mensaje: Mensaje | null;
   chatLoading: boolean;
   chatError: string | null;
-  // Viejos
-  isConnected?: boolean;
-  users: chatUser[];
-  selectedUser: chatUser | null;
-  loading: boolean;
-  error: string | null;
 }
 
 const initialState: ChatState = {
-  conversations: [],
-  conversation: null,
-  messages: [],
-  message: null,
+  isConnected: false,
+  conversaciones: [],
+  conversacionActiva: null,
+  mensajes: [],
+  mensaje: null,
   chatLoading: false,
   chatError: null,
-  //Viejos
-  isConnected: false,
-  //messages: [] as chatMessage[],
-  users: [] as chatUser[],
-  selectedUser: null as chatUser | null,
-  loading: false,
-  error: null,
 };
 
 // --- Async Thunks ---
 
 export const createConversation = createAsyncThunk(
   "chat/createConversation",
-  async (data: Partial<chatUser>, { rejectWithValue }) => {
+  async (
+    conversacionInicial: Partial<conversacionBase>,
+    { getState, rejectWithValue },
+  ) => {
     try {
-      const response = await post(
-        `${MESSAGE_SERVICE}/${conversationEndpoint}`,
-        data,
+      const state = getState() as RootState;
+      const nombre_completo = state.auth.nombre_completo;
+      const imagen_perfil = state.auth.imagen_perfil;
+      const conversaciones = state.chat.conversaciones;
+
+      const existingConversacion = conversaciones.find(
+        conversacion =>
+          conversacion.destinatario === conversacionInicial.destinatario ||
+          conversacion.remitente === conversacionInicial.destinatario,
       );
-      return response;
+      if (!existingConversacion) {
+        const response = await post(
+          `${MESSAGE_SERVICE}/${conversationEndpoint}`,
+          {
+            destinatario: conversacionInicial.destinatario,
+            imagen_perfil_remitente: imagen_perfil,
+            imagen_perfil_destinatario:
+              conversacionInicial.imagen_perfil_destinatario,
+            nombre_remitente: nombre_completo,
+            nombre_destinatario: conversacionInicial.nombre_destinatario,
+          },
+        );
+        return response;
+      } else {
+        // Si la conversación ya existe, simplemente la retornamos
+        // y no hacemos nada más
+        const response: ApiResponse<Conversacion> = {
+          data: existingConversacion,
+          statusCode: 200,
+          message: "Conversación existente",
+        };
+
+        return response;
+      }
     } catch (error: unknown) {
       return rejectWithValue({
         status: (error as { response?: { status: number } }).response?.status,
@@ -90,27 +117,10 @@ export const fetchConversationById = createAsyncThunk(
   },
 );
 
-export const createMessage = createAsyncThunk(
-  "chat/createMessage",
-  async (data: Partial<chatMessage>, { rejectWithValue }) => {
-    try {
-      const response = await post(
-        `${MESSAGE_SERVICE}/${messageEndpoint}`,
-        data,
-      );
-      return response;
-    } catch (error: unknown) {
-      return rejectWithValue({
-        status: (error as { response?: { status: number } }).response?.status,
-      });
-    }
-  },
-);
-
 export const patchMessage = createAsyncThunk(
   "chat/patchMessage",
   async (
-    { id_mensaje, data }: { id_mensaje: number; data: Partial<chatMessage> },
+    { id_mensaje, data }: { id_mensaje: number; data: Partial<Mensaje> },
     { rejectWithValue },
   ) => {
     try {
@@ -150,65 +160,92 @@ export const chatSlice = createSlice({
     setConnected: (state, action: PayloadAction<boolean>) => {
       state.isConnected = action.payload;
     },
-    setMessages: (state, action: PayloadAction<chatMessage[]>) => {
-      state.messages = action.payload;
+    setConversacionActiva: (state, action: PayloadAction<Conversacion>) => {
+      state.conversacionActiva = action.payload;
+      state.mensajes = action.payload.mensajes || [];
     },
-    addMessage: (state, action: PayloadAction<chatMessage>) => {
-      const newMessage = action.payload;
-
-      state.messages.push(newMessage);
+    addMensajeEntrante: (state, action: PayloadAction<socketMessage>) => {
+      const conversacionIngresada = action.payload;
+      const id_conversacion = conversacionIngresada.id_conversacion;
+      if (id_conversacion) {
+        // Si la conversación ya existe en la base de datos
+        const index = state.conversaciones.findIndex(
+          conversacion =>
+            conversacion.id_conversacion ===
+            conversacionIngresada.id_conversacion,
+        );
+        const nuevoMensaje: Mensaje = {
+          ...conversacionIngresada,
+          id_conversacion,
+          leido: false,
+          fecha_envio: new Date().toISOString(),
+        };
+        const conversacion: Conversacion = {
+          ...conversacionIngresada,
+          ultimo_mensaje: nuevoMensaje.mensaje,
+          fecha_creacion: new Date().toISOString(),
+        };
+        if (index !== -1) {
+          // Si la conversación ya está en mi listado
+          state.conversaciones[index] = {
+            ...state.conversaciones[index],
+            ...conversacion,
+            mensajes: [
+              ...(state.conversaciones[index].mensajes || []),
+              nuevoMensaje,
+            ],
+          };
+          if (
+            state.conversacionActiva &&
+            state.conversacionActiva.id_conversacion === id_conversacion
+          ) {
+            // Si la conversación activa es la misma, actualizamos los mensajes
+            state.conversacionActiva = state.conversaciones[index];
+            state.mensajes.push(nuevoMensaje);
+          }
+        } else {
+          // Si la conversación no está en mi listado, la agregamos
+          conversacion.mensajes = [nuevoMensaje];
+          state.conversaciones.push(conversacion);
+        }
+      } else {
+        // Si la conversación no existe en la base de datos
+      }
     },
-    removeMessage: (state, action: PayloadAction<number>) => {
-      const id_mensaje = action.payload;
-      const index = state.messages.findIndex(
-        message => message.id_mensaje === id_mensaje,
+    borrarConversacion: (
+      state,
+      action: PayloadAction<{ remitente?: string; destinatario?: string }>,
+    ) => {
+      const { remitente, destinatario } = action.payload;
+      const index = state.conversaciones.findIndex(
+        conversacion =>
+          conversacion.remitente === remitente &&
+          conversacion.destinatario === destinatario,
       );
       if (index !== -1) {
-        state.messages.splice(index, 1);
+        state.conversaciones.splice(index, 1);
+        if (state.conversacionActiva) {
+          state.conversacionActiva = null;
+        }
       }
     },
-    clearMessages: state => {
-      state.messages = [];
-    },
-    clearUsers: state => {
-      state.users = [];
-    },
-    clearSelectedUser: state => {
-      state.selectedUser = null;
-    },
-    addUser: (state, action: PayloadAction<chatUser>) => {
-      const newUser = action.payload;
-      const existingUser = state.users.find(user => user.uuid === newUser.uuid);
-      if (!existingUser) {
-        state.users.push(newUser);
-      } else {
-        const index = state.users.indexOf(existingUser);
-        state.users[index] = newUser;
+    addMensaje: (state, action: PayloadAction<Mensaje>) => {
+      const nuevoMensaje = action.payload;
+      nuevoMensaje.leido = false;
+      nuevoMensaje.fecha_envio = new Date().toISOString();
+      const conversacionActiva = state.conversacionActiva;
+      if (conversacionActiva) {
+        const index = state.conversaciones.findIndex(
+          conversacion =>
+            conversacion.id_conversacion === conversacionActiva.id_conversacion,
+        );
+        if (index !== -1) {
+          state.conversaciones[index].mensajes?.push(nuevoMensaje);
+          conversacionActiva.mensajes?.push(nuevoMensaje);
+          state.conversacionActiva = conversacionActiva;
+          state.mensajes.push(nuevoMensaje);
+        }
       }
-    },
-    addSelectedUser: (state, action: PayloadAction<chatUser>) => {
-      const newUser = action.payload;
-      const existingUser = state.users.find(user => user.uuid === newUser.uuid);
-      if (!existingUser) {
-        state.users.push(newUser);
-      } else {
-        const index = state.users.indexOf(existingUser);
-        state.users[index] = newUser;
-      }
-      state.selectedUser = newUser;
-    },
-    removeUser: (state, action: PayloadAction<string>) => {
-      const userId = action.payload;
-      const index = state.users.findIndex(user => user.uuid === userId);
-      if (index !== -1) {
-        state.users.splice(index, 1);
-      }
-    },
-    setUsers: (state, action: PayloadAction<chatUser[]>) => {
-      state.users = action.payload;
-    },
-    setSelectedUser: (state, action: PayloadAction<chatUser | null>) => {
-      state.selectedUser = action.payload;
     },
   },
   extraReducers: builder => {
@@ -220,8 +257,13 @@ export const chatSlice = createSlice({
       .addCase(
         createConversation.fulfilled,
         (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          const response = action.payload as ApiResponse<chatUser>;
-          state.conversation = response.data || null;
+          const response = action.payload as ApiResponse<Conversacion>;
+          const conversacion = response.data;
+          if (conversacion) {
+            state.conversaciones.push(conversacion);
+            state.conversacionActiva = conversacion;
+            state.mensajes = conversacion.mensajes || [];
+          }
           state.chatLoading = false;
           state.chatError = null;
         },
@@ -232,10 +274,26 @@ export const chatSlice = createSlice({
       .addCase(
         fetchConversations.fulfilled,
         (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          const response = action.payload as ApiResponse<chatUser[]>;
-          state.conversations = response.data || [];
-          state.chatLoading = false;
-          state.chatError = null;
+          const response = action.payload as ApiResponse<Conversacion[]>;
+          const conversaciones = response.data;
+          if (conversaciones) {
+            state.conversaciones = conversaciones;
+            const idConversacionActiva =
+              state.conversacionActiva?.id_conversacion;
+            if (idConversacionActiva) {
+              const activeConversation = state.conversaciones.find(
+                conversacion =>
+                  conversacion.id_conversacion === idConversacionActiva,
+              );
+              if (activeConversation) {
+                state.conversacionActiva = activeConversation;
+                state.mensajes = activeConversation.mensajes || [];
+              }
+            }
+
+            state.chatLoading = false;
+            state.chatError = null;
+          }
         },
       )
       .addCase(fetchConversationById.pending, state => {
@@ -244,20 +302,8 @@ export const chatSlice = createSlice({
       .addCase(
         fetchConversationById.fulfilled,
         (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          const response = action.payload as ApiResponse<chatUser>;
-          state.conversation = response.data || null;
-          state.chatLoading = false;
-          state.chatError = null;
-        },
-      )
-      .addCase(createMessage.pending, state => {
-        state.chatLoading = true;
-      })
-      .addCase(
-        createMessage.fulfilled,
-        (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          const response = action.payload as ApiResponse<chatMessage>;
-          state.message = response.data || null;
+          const response = action.payload as ApiResponse<Conversacion>;
+          state.conversacionActiva = response.data || null;
           state.chatLoading = false;
           state.chatError = null;
         },
@@ -268,8 +314,8 @@ export const chatSlice = createSlice({
       .addCase(
         patchMessage.fulfilled,
         (state, action: PayloadAction<ApiResponse<unknown>>) => {
-          const response = action.payload as ApiResponse<chatMessage>;
-          state.message = response.data || null;
+          const response = action.payload as ApiResponse<Mensaje>;
+          state.mensaje = response.data || null;
           state.chatLoading = false;
           state.chatError = null;
         },
@@ -278,7 +324,7 @@ export const chatSlice = createSlice({
         state.chatLoading = true;
       })
       .addCase(deleteMessage.fulfilled, state => {
-        state.message = null;
+        state.mensaje = null;
         state.chatLoading = false;
         state.chatError = null;
       })
@@ -288,16 +334,9 @@ export const chatSlice = createSlice({
 
 export const {
   setConnected,
-  setMessages,
-  addMessage,
-  removeMessage,
-  clearMessages,
-  clearUsers,
-  clearSelectedUser,
-  addUser,
-  addSelectedUser,
-  removeUser,
-  setUsers,
-  setSelectedUser,
+  setConversacionActiva,
+  addMensajeEntrante,
+  borrarConversacion,
+  addMensaje,
 } = chatSlice.actions;
 export default chatSlice.reducer;

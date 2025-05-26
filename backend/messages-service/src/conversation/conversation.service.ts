@@ -24,8 +24,13 @@ export class ConversationService {
         { remitente: uuid, remitente_borrado: false },
         { destinatario: uuid, destinatario_borrado: false },
       ],
-      order: { fecha_creacion: 'DESC' },
-      relations: ['mensajes'], // Relación con mensajes (debe estar definida en la entidad)
+      order: {
+        mensajes: {
+          fecha_envio: 'ASC', // Ordena los mensajes de cada conversación de forma ascendente
+        },
+        fecha_creacion: 'DESC', // Orden de las conversaciones
+      },
+      relations: ['mensajes'],
     });
     return conversations;
   }

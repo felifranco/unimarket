@@ -7,8 +7,8 @@ import { categories } from "../mocks/categories.json";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchListingsByUser } from "../store/listing/listingSlice";
-import { addSelectedUser } from "../store/chat/chatSlice";
-import { chatUser } from "../interfaces/chat.interfaces";
+import { createConversation } from "../store/chat/chatSlice";
+import { conversacionBase } from "../interfaces/chat.interfaces";
 
 const imagen_perfil_predeterminada =
   "assets/images/thumbs/vendors-two-icon1.png";
@@ -42,18 +42,12 @@ const VendorTwoDetails = () => {
 
   const handleChatNow = async () => {
     if (!uuid) return;
-    const newUserConversation: chatUser = {
-      uuid: uuid,
-      profile_picture: imagen_perfil
-        ? imagen_perfil
-        : imagen_perfil_predeterminada,
-      name: nombre_completo,
-      lastMessage: "",
-      time: "",
-      unread: 0,
-      online: false,
+    const newConversation: conversacionBase = {
+      destinatario: uuid,
+      imagen_perfil_destinatario: imagen_perfil,
+      nombre_destinatario: nombre_completo,
     };
-    await dispatch(addSelectedUser(newUserConversation));
+    await dispatch(createConversation(newConversation));
     navigateTo("/chat");
   };
 
