@@ -28,12 +28,12 @@ import { Message } from './message/entities/message.entity';
         database: configService.get<string>('database.database'),
         entities: [Conversation, Message],
         synchronize: true,
-        //ssl: true,
-        //extra: {
-        //  ssl: {
-        //    rejectUnauthorized: false,
-        //  },
-        //},
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
       }),
       inject: [ConfigService],
     }),

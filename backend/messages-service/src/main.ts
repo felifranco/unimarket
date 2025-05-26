@@ -36,7 +36,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   app.enableCors({
-    origin: '*',
+    origin: 'https://felifranco.github.io',
     credentials: true, // Permite cookies/autenticación si es necesario
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
