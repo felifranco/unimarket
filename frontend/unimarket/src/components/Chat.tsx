@@ -10,9 +10,11 @@ import { formatDate } from "../utils/app.util";
 import {
   setConnected,
   fetchConversations,
+  fetchConversationById,
   setConversacionActiva,
+  delConversacionActiva,
+  deleteConversation,
   addMensajeEntrante,
-  borrarConversacion,
   addMensaje,
 } from "../store/chat/chatSlice";
 import { useAppDispatch, useAppSelector } from "../hooks";
@@ -110,9 +112,13 @@ const Chat = () => {
     dispatch(fetchConversations());
   };
 
-  const handleFetchConversationById = () => {
-    console.log("Fetching conversation by ID");
-    //dispatch(fetchConversationById(id));
+  const handleFetchConversationById = (id: number) => {
+    dispatch(fetchConversationById({ id }));
+  };
+
+  const handleDeleteConversation = async (id_conversacion: number) => {
+    await dispatch(deleteConversation(id_conversacion));
+    dispatch(fetchConversations());
   };
 
   const handleSend = (e: React.FormEvent) => {
@@ -236,70 +242,94 @@ const Chat = () => {
             scrollBehavior: "smooth",
           }}
         >
-          <div className="p-10 border-bottom bg-white">
-            <h5 className="mb-0 fw-bold">Chats</h5>
+          <div className="p-10 border-bottom bg-white d-flex align-items-center gap-10">
+            <div className="flex-grow-1">
+              <h5 className="mb-0 fw-bold">Chats</h5>
+            </div>
+            <button
+              className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-main-600 hover-text-white hover-border-main-600 transition-2 flex-center gap-8`}
+              title="Sincrinizar conversaciones"
+              onClick={handleFetchConversations}
+            >
+              <span
+                className={`text-xl d-flex text-main-600 group-item-white transition-2`}
+              >
+                <i className={`ph-fill ph-arrows-clockwise text-lg`} />
+              </span>
+            </button>
+            <button
+              className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-${isConnected ? "danger" : "success"}-600 hover-text-white hover-border-${isConnected ? "danger" : "success"}-600 transition-2 flex-center gap-8`}
+              title={isConnected ? "Desconectar" : "Conectar"}
+              onClick={isConnected ? disconnectWebSocket : connectWebSocket}
+            >
+              <span
+                className={`text-xl d-flex text-${isConnected ? "success" : "danger"}-600 group-item-white transition-2`}
+              >
+                <i className={`ph ph-power text-lg`} />
+              </span>
+            </button>
           </div>
           <div className="flex-grow-1 overflow-auto">
             {conversaciones.map((conversacion: Conversacion) => {
-              let conversacionUuid = "";
-              let conversacionImagenPerfil = "";
-              let conversacionNombreCompleto = "";
-              let timestamp = "";
-              const en_linea = true;
-              const ultimo_mensaje = conversacion.ultimo_mensaje;
-              const no_leidos = 8;
+              const isSelected =
+                conversacionActiva?.id_conversacion ==
+                conversacion.id_conversacion;
 
-              let isSelected = false;
+              const soyRemitente = conversacion.remitente === uuid;
+              const conversacionImagenPerfil = soyRemitente
+                ? conversacion.imagen_perfil_destinatario
+                : conversacion.imagen_perfil_remitente;
+              const conversacionNombreCompleto = soyRemitente
+                ? conversacion.nombre_destinatario
+                : conversacion.nombre_remitente;
+              const timestamp = formatDate(
+                new Date(
+                  conversacion.fecha_creacion
+                    ? conversacion.fecha_creacion
+                    : "",
+                ),
+                "DD-MM-YYYY HH:mm",
+              );
+              const en_linea = false;
+              let ultimo_mensaje = conversacion.ultimo_mensaje;
+              if (
+                !ultimo_mensaje &&
+                conversacion.mensajes &&
+                conversacion.mensajes.length > 0
+              ) {
+                const uuidDestinatario = soyRemitente
+                  ? conversacion.destinatario
+                  : conversacion.remitente;
 
-              if (conversacion.remitente === uuid) {
-                conversacionUuid = conversacion.destinatario;
-                conversacionImagenPerfil =
-                  conversacion.imagen_perfil_destinatario
-                    ? conversacion.imagen_perfil_destinatario
-                    : imagenPerfilDefault;
-                conversacionNombreCompleto = conversacion.nombre_destinatario
-                  ? conversacion.nombre_destinatario
-                  : nombreCompletoDefault;
-                timestamp = formatDate(
-                  new Date(
-                    conversacion.fecha_creacion
-                      ? conversacion.fecha_creacion
-                      : "",
-                  ),
-                  "DD-MM-YYYY HH:mm",
-                );
-              } else {
-                conversacionUuid = conversacion.remitente;
-                conversacionImagenPerfil = conversacion.imagen_perfil_remitente
-                  ? conversacion.imagen_perfil_remitente
-                  : imagenPerfilDefault;
-                conversacionNombreCompleto = conversacion.nombre_remitente
-                  ? conversacion.nombre_remitente
-                  : nombreCompletoDefault;
-                timestamp = formatDate(
-                  new Date(
-                    conversacion.fecha_creacion
-                      ? conversacion.fecha_creacion
-                      : "",
-                  ),
-                  "DD-MM-YYYY HH:mm",
-                );
+                let searchLastMessage = true;
+                let indexLastMessage = conversacion.mensajes.length - 1;
+                while (searchLastMessage) {
+                  if (
+                    conversacion.mensajes[indexLastMessage].remitente ===
+                    uuidDestinatario
+                  ) {
+                    searchLastMessage = false;
+                    break;
+                  }
+                  indexLastMessage--;
+                }
+
+                ultimo_mensaje =
+                  conversacion.mensajes[indexLastMessage].mensaje;
               }
+              const no_leidos = 0;
 
-              isSelected = conversacionActiva?.remitente == conversacionUuid;
-              //? true
-              //: conversacion.destinatario == conversacionUuid;
               return (
                 <div
-                  key={conversacionUuid}
+                  key={conversacion.id_conversacion}
                   className={`d-flex align-items-center gap-10 p-10 chat-user-list-item ${isSelected ? "bg-main-50" : ""} pointer`}
                   style={{ cursor: "pointer" }}
                   onClick={() => dispatch(setConversacionActiva(conversacion))}
                 >
                   <div className="position-relative">
                     <img
-                      src={conversacionImagenPerfil}
-                      alt={conversacionNombreCompleto}
+                      src={conversacionImagenPerfil || imagenPerfilDefault}
+                      alt={conversacionNombreCompleto || nombreCompletoDefault}
                       className="rounded-circle"
                       width={48}
                       height={48}
@@ -381,66 +411,69 @@ const Chat = () => {
                   : ""}
               </div>
             </div>
-            <button
-              className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-main-600 hover-text-white hover-border-main-600 transition-2 flex-center gap-8`}
-              title="Borrar conversacion"
-              onClick={() =>
-                conversacionActiva &&
-                dispatch(
-                  borrarConversacion({
-                    remitente: conversacionActiva.remitente,
-                    destinatario: conversacionActiva.destinatario,
-                  }),
-                )
-              }
-            >
-              <span
-                className={`text-xl d-flex text-main-600 group-item-white transition-2`}
+            {conversacionActiva && false ? (
+              <button
+                className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-main-600 hover-text-white hover-border-main-600 transition-2 flex-center gap-8`}
+                title="Borrar conversacion"
+                onClick={() =>
+                  conversacionActiva.id_conversacion &&
+                  handleDeleteConversation(conversacionActiva.id_conversacion)
+                }
               >
-                <i className="ph ph-trash-simple" />
-              </span>
-            </button>
-            <button
-              className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-main-600 hover-text-white hover-border-main-600 transition-2 flex-center gap-8`}
-              title="Traer conversaciones"
-              onClick={handleFetchConversationById}
-            >
-              <span
-                className={`text-xl d-flex text-main-600 group-item-white transition-2`}
-              >
-                <i className={`ph-fill ph-arrows-down-up text-lg`} />
-              </span>
-            </button>
-            <button
-              className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-main-600 hover-text-white hover-border-main-600 transition-2 flex-center gap-8`}
-              title="Traer conversaciones"
-              onClick={handleFetchConversations}
-            >
-              <span
-                className={`text-xl d-flex text-main-600 group-item-white transition-2`}
-              >
-                <i className={`ph-fill ph-arrows-clockwise text-lg`} />
-              </span>
-            </button>
-            <button
-              className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-${isConnected ? "danger" : "success"}-600 hover-text-white hover-border-${isConnected ? "danger" : "success"}-600 transition-2 flex-center gap-8`}
-              title={isConnected ? "Desconectar" : "Conectar"}
-              onClick={isConnected ? disconnectWebSocket : connectWebSocket}
-            >
-              <span
-                className={`text-xl d-flex text-${isConnected ? "success" : "danger"}-600 group-item-white transition-2`}
-              >
-                <i className={`ph-fill ph-power text-lg`} />
-              </span>
-            </button>
-            <button
-              className="group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8"
-              title="Más opciones"
-            >
-              <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
-                <i className="ph-fill ph-dots-three-outline text-lg" />
-              </span>
-            </button>
+                <span
+                  className={`text-xl d-flex text-main-600 group-item-white transition-2`}
+                >
+                  <i className="ph ph-trash-simple" />
+                </span>
+              </button>
+            ) : null}
+            {conversacionActiva && (
+              <div className="dropdown">
+                <button
+                  className="group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8 dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  title="Más opciones"
+                >
+                  <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
+                    <i className="ph-fill ph-dots-three-outline text-lg" />
+                  </span>
+                </button>
+                <div
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenuButton"
+                >
+                  <button
+                    className="dropdown-item"
+                    onClick={() => {
+                      if (conversacionActiva.id_conversacion) {
+                        console.log(
+                          "Sincronizando conversación:",
+                          conversacionActiva.id_conversacion,
+                        );
+
+                        handleFetchConversationById(
+                          conversacionActiva.id_conversacion,
+                        );
+                      }
+                    }}
+                  >
+                    Sincronizar conversación
+                  </button>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => {
+                      dispatch(delConversacionActiva());
+                    }}
+                  >
+                    Quitar conversación
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
           {/* Mensajes */}
           <div

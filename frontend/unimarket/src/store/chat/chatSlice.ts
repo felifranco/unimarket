@@ -117,6 +117,22 @@ export const fetchConversationById = createAsyncThunk(
   },
 );
 
+export const deleteConversation = createAsyncThunk(
+  "chat/deleteConversation",
+  async (id_conversacion: number, { rejectWithValue }) => {
+    try {
+      const response = await del(
+        `${MESSAGE_SERVICE}/${conversationEndpoint}/${id_conversacion}`,
+      );
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
 export const patchMessage = createAsyncThunk(
   "chat/patchMessage",
   async (
@@ -164,6 +180,10 @@ export const chatSlice = createSlice({
       state.conversacionActiva = action.payload;
       state.mensajes = action.payload.mensajes || [];
     },
+    delConversacionActiva: state => {
+      state.conversacionActiva = null;
+      state.mensajes = [];
+    },
     addMensajeEntrante: (state, action: PayloadAction<socketMessage>) => {
       const conversacionIngresada = action.payload;
       const id_conversacion = conversacionIngresada.id_conversacion;
@@ -177,7 +197,7 @@ export const chatSlice = createSlice({
         const nuevoMensaje: Mensaje = {
           ...conversacionIngresada,
           id_conversacion,
-          leido: false,
+          leido_destinatario: false,
           fecha_envio: new Date().toISOString(),
         };
         const conversacion: Conversacion = {
@@ -231,7 +251,7 @@ export const chatSlice = createSlice({
     },
     addMensaje: (state, action: PayloadAction<Mensaje>) => {
       const nuevoMensaje = action.payload;
-      nuevoMensaje.leido = false;
+      nuevoMensaje.leido_remitente = true;
       nuevoMensaje.fecha_envio = new Date().toISOString();
       const conversacionActiva = state.conversacionActiva;
       if (conversacionActiva) {
@@ -303,7 +323,36 @@ export const chatSlice = createSlice({
         fetchConversationById.fulfilled,
         (state, action: PayloadAction<ApiResponse<unknown>>) => {
           const response = action.payload as ApiResponse<Conversacion>;
-          state.conversacionActiva = response.data || null;
+          const conversacion = response.data || null;
+          if (conversacion) {
+            state.conversacionActiva = conversacion;
+            state.mensajes = conversacion.mensajes ?? [];
+            const existingIndex = state.conversaciones.findIndex(
+              c => c.id_conversacion === conversacion.id_conversacion,
+            );
+            if (existingIndex !== -1) {
+              state.conversaciones[existingIndex] = conversacion;
+            }
+          }
+          state.chatLoading = false;
+          state.chatError = null;
+        },
+      )
+      .addCase(deleteConversation.pending, state => {
+        state.chatLoading = true;
+      })
+      .addCase(
+        deleteConversation.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<Conversacion>;
+          const conversacion = response.data || null;
+          if (conversacion && conversacion.id_conversacion) {
+            state.conversaciones = state.conversaciones.filter(
+              c => c.id_conversacion !== conversacion.id_conversacion,
+            );
+            state.conversacionActiva = null;
+            state.mensajes = [];
+          }
           state.chatLoading = false;
           state.chatError = null;
         },
@@ -335,6 +384,7 @@ export const chatSlice = createSlice({
 export const {
   setConnected,
   setConversacionActiva,
+  delConversacionActiva,
   addMensajeEntrante,
   borrarConversacion,
   addMensaje,

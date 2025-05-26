@@ -49,6 +49,7 @@ export interface Mensaje {
   adjunto_tipo?: string;
   adjunto_tamano?: number;
   fecha_envio?: string;
-  leido?: boolean;
+  leido_remitente?: boolean;
+  leido_destinatario?: boolean;
   conversacion?: Conversacion;
 }
