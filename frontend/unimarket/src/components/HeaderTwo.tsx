@@ -13,6 +13,7 @@ import { persistor } from "../store";
 interface optionInterface {
   to: string;
   badge?: number;
+  badgeColor?: string;
   color?: string;
   icon: string;
   icon_class?: string;
@@ -26,6 +27,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
 
   const logged = useAppSelector(state => state.auth.logged);
   const first_name = useAppSelector(state => state.auth.first_name);
+  const isConnected = useAppSelector(state => state.chat.isConnected);
 
   const [scroll, setScroll] = useState(false);
   useEffect(() => {
@@ -94,6 +96,14 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
       visible: logged,
     },
     {
+      to: "/chat",
+      icon: "ph ph-wechat-logo",
+      title: "chat",
+      visible: logged,
+      badge: 0,
+      badgeColor: isConnected ? "bg-success" : "bg-danger",
+    },
+    {
       to: "/cart",
       icon: "ph ph-shopping-cart-simple",
       title: "cart",
@@ -115,6 +125,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
   const Option = ({
     to,
     badge,
+    badgeColor = "bg-main-two-600",
     color = "text-white",
     icon,
     icon_class = "",
@@ -131,9 +142,11 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
           className={`text-2xl ${color} d-flex position-relative item-hover__text ${icon_class}`}
         >
           <i className={icon} />
-          {badge ? (
-            <span className="w-16 h-16 flex-center rounded-circle bg-main-two-600 text-white text-xs position-absolute top-n6 end-n4">
-              {badge}
+          {badge >= 0 ? (
+            <span
+              className={`w-16 h-16 flex-center rounded-circle ${badgeColor} text-white text-xs position-absolute top-n6 end-n4`}
+            >
+              {badge > 0 ? badge : ""}
             </span>
           ) : null}
         </span>

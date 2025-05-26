@@ -9,5 +9,8 @@
   "donation": "Donation",
   "rent": "Rent",
   "publication_date": "Publication Date",
-  "stock": "Stock"
+  "stock": "Stock",
+  "more_info": "More Info",
+  "register_for_info": "Register for More Info",
+  "edit": "Edit"
 }

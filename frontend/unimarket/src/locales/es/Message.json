@@ -19,5 +19,6 @@
   "error_upload_new_listing_image": "Error al subir la nueva imagen de la publicación",
   "error_delete_profile_image": "Error al eliminar la imagen de perfil",
   "error_delete_listing_image": "Error al eliminar la imagen de la publicación",
-  "error_move_listing_images": "Error al mover las imágenes de la publicación"
+  "error_move_listing_images": "Error al mover las imágenes de la publicación",
+  "conversations_loaded": "Conversaciones cargadas exitosamente"
 }

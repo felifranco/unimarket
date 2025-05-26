@@ -31,6 +31,7 @@ export class UsersService {
     return this.userRepo.find({
       select: [
         'id_usuario',
+        'uuid',
         'nombre_completo',
         'correo',
         'imagen_portada',
@@ -48,6 +49,7 @@ export class UsersService {
       where: { id_usuario: id },
       select: [
         'id_usuario',
+        'uuid',
         'nombre_completo',
         'correo',
         'imagen_portada',

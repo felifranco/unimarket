@@ -71,3 +71,33 @@ CREATE TABLE public.valoracion (
 	CONSTRAINT valoracion_usuario_fk FOREIGN KEY (id_usuario) REFERENCES public.usuario(id_usuario) ON DELETE RESTRICT,
 	CONSTRAINT valoracion_publicacion_fk FOREIGN KEY (id_publicacion) REFERENCES public.publicacion(id_publicacion) ON DELETE RESTRICT
 );
+
+CREATE TABLE conversacion (
+  id_conversacion SERIAL PRIMARY KEY,
+  remitente VARCHAR NOT NULL,
+  destinatario VARCHAR NOT NULL,
+  remitente_borrado BOOLEAN DEFAULT FALSE,
+  destinatario_borrado BOOLEAN DEFAULT FALSE,
+  imagen_perfil_remitente VARCHAR,
+  imagen_perfil_destinatario VARCHAR,
+  nombre_remitente VARCHAR,
+  nombre_destinatario VARCHAR,
+  fecha_creacion TIMESTAMP DEFAULT NOW(),
+  fecha_modificacion TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE mensaje (
+  id_mensaje SERIAL PRIMARY KEY,
+  id_conversacion INTEGER NOT NULL REFERENCES conversacion(id_conversacion) ON DELETE CASCADE,
+  remitente VARCHAR NOT NULL,
+  tipo VARCHAR NOT NULL,
+  mensaje TEXT NOT NULL,
+  adjunto_url VARCHAR,
+  adjunto_nombre VARCHAR,
+  adjunto_tipo VARCHAR,
+  adjunto_tamano INTEGER,
+  leido_remitente BOOLEAN DEFAULT FALSE,
+  leido_destinatario BOOLEAN DEFAULT FALSE,
+  fecha_envio TIMESTAMP DEFAULT NOW(),
+  fecha_modificacion TIMESTAMP DEFAULT NOW()
+);

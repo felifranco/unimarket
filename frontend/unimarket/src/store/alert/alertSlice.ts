@@ -26,6 +26,13 @@ import {
   deleteListingImage,
   moveListingImages,
 } from "../image/imageSlice";
+import {
+  fetchConversations,
+  fetchConversationById,
+  createConversation,
+  patchMessage,
+  deleteMessage,
+} from "../chat/chatSlice";
 import { getHttpErrorMessage } from "../../utils/errorApiResponse.util";
 import { PURGE } from "redux-persist";
 
@@ -62,9 +69,49 @@ export const alertSlice = createSlice({
       state.message = "come_back_soon";
     });
 
-    // LOGIN - REGISTER - ME
-    builder
-      .addMatcher(isAnyOf(login.rejected), (state, action) => {
+    // REJECTED
+    builder.addMatcher(
+      isAnyOf(
+        // LOGIN - REGISTER - ME
+        login.rejected,
+        register.rejected,
+        //me.rejected,
+        // USERS
+        fetchUsers.rejected,
+        fetchUserById.rejected,
+        patchUser.rejected,
+        // LISTING
+        fetchListings.rejected,
+        fetchMyListings.rejected,
+        fetchListingsByUser.rejected,
+        fetchListingById.rejected,
+        createListing.rejected,
+        patchListing.rejected,
+        deleteListing.rejected,
+        // REVIEW
+        fetchReviewsByListing.rejected,
+        fetchReviewById.rejected,
+        createReview.rejected,
+        patchReview.rejected,
+        patchLikeReview.rejected,
+        patchUnlikeReview.rejected,
+        // IMAGE
+        uploadProfileImage.rejected,
+        uploadListingImage.rejected,
+        uploadNewListingImage.rejected,
+        deleteProfileImage.rejected,
+        deleteListingImage.rejected,
+        moveListingImages.rejected,
+        // CHAT (Conversaciones y Mensajes)
+        // Conversaciones
+        fetchConversations.rejected,
+        fetchConversationById.rejected,
+        createConversation.rejected,
+        // Mensajes
+        patchMessage.rejected,
+        deleteMessage.rejected,
+      ),
+      (state, action) => {
         const response = action as PayloadAction<{
           status: number;
         }>;
@@ -73,347 +120,70 @@ export const alertSlice = createSlice({
         if (response.payload && response.payload.status) {
           state.message = getHttpErrorMessage(response.payload.status).title;
         } else {
-          state.message = "oops_problem_ocurred";
+          // Mensaje específico por acción
+          switch (action.type) {
+            case fetchConversations.rejected.type:
+              state.message = "No se pudieron cargar las conversaciones";
+              break;
+            case fetchConversationById.rejected.type:
+              state.message = "No se pudo cargar la conversación";
+              break;
+            case createConversation.rejected.type:
+              state.message = "No se pudo crear la conversación";
+              break;
+            case patchMessage.rejected.type:
+              state.message = "No se pudo actualizar el mensaje";
+              break;
+            case deleteMessage.rejected.type:
+              state.message = "No se pudo eliminar el mensaje";
+              break;
+            default:
+              state.message = "oops_problem_ocurred";
+          }
         }
-      })
-      .addMatcher(isAnyOf(register.fulfilled), state => {
-        state.showMessage = true;
-        state.type = "success";
-        state.message = "successfully_registered";
-      })
-      .addMatcher(isAnyOf(register.rejected), (state, action) => {
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        state.showMessage = true;
-        state.type = "danger";
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(me.fulfilled), state => {
-        state.showMessage = true;
-        state.type = "success";
-        state.message = "welcome";
-      })
-      .addMatcher(isAnyOf(me.rejected), state => {
-        state.showMessage = true;
-        state.type = "danger";
-        state.message = "oops_problem_ocurred";
-      });
+      },
+    );
 
-    // USERS
-    builder
-      .addMatcher(isAnyOf(fetchUsers.rejected), (state, action) => {
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        state.showMessage = true;
-        state.type = "danger";
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(fetchUserById.rejected), (state, action) => {
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        state.showMessage = true;
-        state.type = "danger";
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(patchUser.fulfilled), state => {
+    builder.addMatcher(
+      isAnyOf(
+        register.fulfilled,
+        me.fulfilled,
+        // USERS
+        patchUser.fulfilled,
+        // LISTING
+        createListing.fulfilled,
+        patchListing.fulfilled,
+        deleteListing.fulfilled,
+        // IMAGE
+        uploadProfileImage.fulfilled,
+        uploadListingImage.fulfilled,
+        uploadNewListingImage.fulfilled,
+        // CHAT (Conversaciones y Mensajes)
+        // Conversaciones
+        fetchConversations.fulfilled,
+      ),
+      (state, action) => {
         state.showMessage = true;
         state.type = "success";
-        state.message = "successful_operation";
-      })
-      .addMatcher(isAnyOf(patchUser.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      });
+        switch (action.type) {
+          case register.fulfilled.type:
+            state.message = "successfully_registered";
+            break;
 
-    // LISTING
-    builder
-      .addMatcher(isAnyOf(fetchListings.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(fetchMyListings.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(fetchListingsByUser.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(fetchListingById.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(createListing.fulfilled), state => {
-        state.showMessage = true;
-        state.type = "success";
-        state.message = "successful_operation";
-      })
-      .addMatcher(isAnyOf(createListing.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(patchListing.fulfilled), state => {
-        state.showMessage = true;
-        state.type = "success";
-        state.message = "successful_operation";
-      })
-      .addMatcher(isAnyOf(patchListing.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(deleteListing.fulfilled), state => {
-        state.showMessage = true;
-        state.type = "success";
-        state.message = "successful_operation";
-      })
-      .addMatcher(isAnyOf(deleteListing.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      });
+          case me.fulfilled.type:
+            state.message = "welcome";
+            break;
 
-    // REVIEW
-    builder
-      .addMatcher(isAnyOf(fetchReviewsByListing.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(fetchReviewById.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(createReview.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(patchReview.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(patchLikeReview.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      })
-      .addMatcher(isAnyOf(patchUnlikeReview.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "oops_problem_ocurred";
-        }
-      });
+          case fetchConversations.fulfilled.type:
+            state.message = "conversations_loaded";
+            break;
 
-    // IMAGE
-    builder
-      .addMatcher(isAnyOf(uploadProfileImage.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "error_upload_profile_image";
+          default:
+            state.message = "successful_operation";
+            break;
         }
-      })
-      .addMatcher(isAnyOf(uploadProfileImage.fulfilled), state => {
-        state.showMessage = true;
-        state.type = "success";
-        state.message = "successful_operation";
-      })
-      .addMatcher(isAnyOf(uploadListingImage.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "error_upload_listing_image";
-        }
-      })
-      .addMatcher(isAnyOf(uploadListingImage.fulfilled), state => {
-        state.showMessage = true;
-        state.type = "success";
-        state.message = "successful_operation";
-      })
-      .addMatcher(isAnyOf(uploadNewListingImage.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "error_upload_new_listing_image";
-        }
-      })
-      .addMatcher(isAnyOf(uploadNewListingImage.fulfilled), state => {
-        state.showMessage = true;
-        state.type = "success";
-        state.message = "successful_operation";
-      })
-      .addMatcher(isAnyOf(deleteProfileImage.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "error_delete_profile_image";
-        }
-      })
-      .addMatcher(isAnyOf(deleteListingImage.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "error_delete_listing_image";
-        }
-      })
-      .addMatcher(isAnyOf(moveListingImages.rejected), (state, action) => {
-        state.showMessage = true;
-        state.type = "danger";
-        const response = action as PayloadAction<{
-          status: number;
-        }>;
-        if (response.payload && response.payload.status) {
-          state.message = getHttpErrorMessage(response.payload.status).title;
-        } else {
-          state.message = "error_move_listing_images";
-        }
-      });
+      },
+    );
   },
 });
 
