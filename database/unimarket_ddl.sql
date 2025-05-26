@@ -96,7 +96,8 @@ CREATE TABLE mensaje (
   adjunto_nombre VARCHAR,
   adjunto_tipo VARCHAR,
   adjunto_tamano INTEGER,
+  leido_remitente BOOLEAN DEFAULT FALSE,
+  leido_destinatario BOOLEAN DEFAULT FALSE,
   fecha_envio TIMESTAMP DEFAULT NOW(),
-  fecha_modificacion TIMESTAMP DEFAULT NOW(),
-  leido BOOLEAN DEFAULT FALSE
+  fecha_modificacion TIMESTAMP DEFAULT NOW()
 );

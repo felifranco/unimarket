@@ -43,12 +43,4 @@ export class CreateMessageDto {
     required: false,
   })
   adjunto_tamano?: number;
-
-  @ApiProperty({
-    description: 'Indica si el mensaje fue leído',
-    example: false,
-    default: false,
-    required: false,
-  })
-  leido?: boolean;
 }

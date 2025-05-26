@@ -3,6 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  UpdateDateColumn,
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
@@ -41,6 +42,12 @@ export class Message {
   @Column({ type: 'int', nullable: true })
   adjunto_tamano: number;
 
+  @Column({ type: 'boolean', default: false })
+  leido_remitente: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  leido_destinatario: boolean;
+
   @CreateDateColumn({
     name: 'fecha_envio',
     type: 'timestamptz',
@@ -48,6 +55,10 @@ export class Message {
   })
   fecha_envio: Date;
 
-  @Column({ type: 'boolean', default: false })
-  leido: boolean;
+  @UpdateDateColumn({
+    name: 'fecha_modificacion',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  fecha_modificacion: Date;
 }

@@ -13,8 +13,34 @@ export class ConversationService {
   ) {}
 
   async create(uuid: string, createConversationDto: CreateConversationDto) {
-    const conversation = this.conversationRepo.create(createConversationDto);
-    return this.conversationRepo.save({ ...conversation, remitente: uuid });
+    const existingConversation = await this.conversationRepo.findOne({
+      where: [
+        { remitente: uuid, destinatario: createConversationDto.destinatario },
+        {
+          remitente: createConversationDto.destinatario,
+          destinatario: uuid,
+        },
+      ],
+    });
+    if (existingConversation) {
+      // Si ya existe una conversación entre los usuarios, devolver la existente
+      // Si la conversación ya estaba eliminada por el remitente, restaurarla
+      if (
+        existingConversation.remitente_borrado &&
+        existingConversation.remitente === uuid
+      ) {
+        existingConversation.remitente_borrado = false;
+      } else if (
+        existingConversation.destinatario_borrado &&
+        existingConversation.destinatario === uuid
+      ) {
+        existingConversation.destinatario_borrado = false;
+      }
+      return this.conversationRepo.save(existingConversation);
+    } else {
+      const conversation = this.conversationRepo.create(createConversationDto);
+      return this.conversationRepo.save({ ...conversation, remitente: uuid });
+    }
   }
 
   async findMine(uuid: string) {

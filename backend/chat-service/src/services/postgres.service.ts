@@ -70,7 +70,8 @@ export const insertarMensaje = ({
         adjunto_url,
         adjunto_nombre,
         adjunto_tipo,
-        adjunto_tamano
+        adjunto_tamano,
+        leido_remitente
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
     `,
       [
@@ -82,6 +83,7 @@ export const insertarMensaje = ({
         adjunto_nombre,
         adjunto_tipo,
         adjunto_tamano,
+        true, // Por defecto, el remitente lee su propio mensaje
       ],
     );
   } catch (err) {

@@ -33,6 +33,7 @@ export class MessageService {
     const message = this.messageRepo.create({
       ...createMessageDto,
       remitente: uuid,
+      leido_remitente: true, // Por defecto, el remitente lee su propio mensaje
     });
     return this.messageRepo.save(message);
   }

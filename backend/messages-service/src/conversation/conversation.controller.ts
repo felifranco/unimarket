@@ -29,9 +29,9 @@ export class ConversationController {
 
   @Post()
   @ApiOperation({
-    summary: 'Crear una nueva conversación',
+    summary: 'Crear una nueva conversación o devuelve una existente',
     description:
-      'Crea una conversación entre el usuario autenticado y otro usuario.',
+      'Crea una conversación entre el usuario autenticado y otro usuario. Si ya existe una conversación entre ellos, devuelve la existente.',
   })
   @ApiBody({
     type: CreateConversationDto,
