@@ -44,9 +44,13 @@ export const createConversation = createAsyncThunk(
   ) => {
     try {
       const state = getState() as RootState;
+      const uuid = state.auth.uuid;
       const nombre_completo = state.auth.nombre_completo;
       const imagen_perfil = state.auth.imagen_perfil;
       const conversaciones = state.chat.conversaciones;
+
+      // No se puede tener una conversación con uno mismo
+      if (uuid === conversacionInicial.destinatario) return;
 
       const existingConversacion = conversaciones.find(
         conversacion =>
@@ -54,6 +58,8 @@ export const createConversation = createAsyncThunk(
           conversacion.remitente === conversacionInicial.destinatario,
       );
       if (!existingConversacion) {
+        // Si la conversación no existe, creamos una nueva
+        console.log("No existe una conversación previa, creando una nueva");
         const response = await post(
           `${MESSAGE_SERVICE}/${conversationEndpoint}`,
           {
@@ -67,6 +73,10 @@ export const createConversation = createAsyncThunk(
         );
         return response;
       } else {
+        console.log(
+          "Ya existe una conversación previa, retornando la existente",
+          existingConversacion,
+        );
         // Si la conversación ya existe, simplemente la retornamos
         // y no hacemos nada más
         const response: ApiResponse<Conversacion> = {

@@ -26,6 +26,8 @@ const VendorTwoDetails = () => {
     setActive(!active);
   };
 
+  const uudiAuth = useAppSelector(state => state.auth.uuid);
+
   const {
     id_usuario,
     uuid,
@@ -82,19 +84,21 @@ const VendorTwoDetails = () => {
                       alt=""
                     />
                   </span>
-                  <div className="d-flex flex-column gap-24">
-                    <button
-                      type="button"
-                      className="text-uppercase group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8 w-100"
-                      onClick={handleChatNow}
-                    >
-                      {t("chat_now")}
-                      <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
-                        {" "}
-                        <i className="ph ph-wechat-logo" />
-                      </span>
-                    </button>
-                  </div>
+                  {uudiAuth !== uuid && (
+                    <div className="d-flex flex-column gap-24">
+                      <button
+                        type="button"
+                        className="text-uppercase group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8 w-100"
+                        onClick={handleChatNow}
+                      >
+                        {t("chat_now")}
+                        <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
+                          {" "}
+                          <i className="ph ph-wechat-logo" />
+                        </span>
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="mt-32">
                   <h6 className="text-white fw-semibold mb-12">
