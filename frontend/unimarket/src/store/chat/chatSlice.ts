@@ -286,7 +286,12 @@ export const chatSlice = createSlice({
       })
       .addCase(
         createConversation.fulfilled,
-        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+        (state, action: PayloadAction<ApiResponse<unknown> | undefined>) => {
+          if (!action.payload) {
+            state.chatLoading = false;
+            state.chatError = "No se pudo crear la conversación.";
+            return;
+          }
           const response = action.payload as ApiResponse<Conversacion>;
           const conversacion = response.data;
           if (conversacion) {
