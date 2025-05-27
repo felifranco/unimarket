@@ -1,0 +1,18 @@
+service: messages-service
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+
+functions:
+  messages-service:
+    handler: dist/main.handler
+    timeout: 30
+    events:
+      - http:
+          path: /
+          method: get
+
+plugins:
+  - serverless-offline
+

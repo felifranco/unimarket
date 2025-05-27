@@ -3,6 +3,8 @@ import { service } from "../../config/configurations";
 import { get, patch } from "../../utils/axios.util";
 import { ApiResponse } from "../../utils/apiResponse.util";
 import { userInterface } from "../../interfaces/users.interface";
+import { createConversation } from "../chat/chatSlice";
+import { conversacionBase } from "../../interfaces/chat.interfaces";
 import { PURGE } from "redux-persist";
 
 const USER_SERVICE = service.USER_SERVICE;
@@ -56,6 +58,42 @@ export const fetchUserById = createAsyncThunk(
   async ({ id_usuario }: { id_usuario: number }, { rejectWithValue }) => {
     try {
       const response = await get(`${USER_SERVICE}/${endpoint}/${id_usuario}`);
+      return response;
+    } catch (error: unknown) {
+      return rejectWithValue({
+        status: (error as { response?: { status: number } }).response?.status,
+      });
+    }
+  },
+);
+
+export const fetchUserByIdForChat = createAsyncThunk(
+  "users/fetchUserByIdForChat",
+  async (
+    { id_usuario }: { id_usuario: number },
+    { dispatch, rejectWithValue },
+  ) => {
+    try {
+      const response = (await get(
+        `${USER_SERVICE}/${endpoint}/${id_usuario}`,
+      )) as ApiResponse<userInterface>;
+
+      console.log("response", response);
+      if (response.data) {
+        const user: userInterface = response.data;
+        console.log("user", user);
+        if (user && user.uuid && user.imagen_perfil && user.nombre_completo) {
+          const conversationData: conversacionBase = {
+            destinatario: user.uuid,
+            imagen_perfil_destinatario: user.imagen_perfil,
+            nombre_destinatario: user.nombre_completo,
+          };
+          console.log("conversationData", conversationData);
+          // Dispatch action to create a conversation
+          dispatch(createConversation(conversationData));
+        }
+      }
+
       return response;
     } catch (error: unknown) {
       return rejectWithValue({

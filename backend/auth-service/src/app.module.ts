@@ -24,7 +24,7 @@ import { Auth } from './auth/entities/auth.entity';
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.database'),
         entities: [Auth],
-        synchronize: true,
+        //synchronize: true,
         ssl: true,
         extra: {
           ssl: {

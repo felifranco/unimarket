@@ -195,17 +195,23 @@ export const put = async (
  * @param url - Ruta relativa del endpoint.
  * @param headers - Cabeceras de la petición.
  */
-export const del = <ApiResponse>(
+export const del = async (
   url: string,
   headers?: Record<string, string>,
-): Promise<ApiResponse> =>
-  axiosInstance
-    .delete<ApiResponse>(url, {
-      headers: {
-        ...headers,
-      },
-    })
-    .then(res => res.data);
+): Promise<ApiResponse> => {
+  const res = await axiosInstance.delete<ApiResponse>(url, {
+    headers: {
+      ...headers,
+    },
+  });
+
+  const resBody = JSON.stringify(res.data);
+  try {
+    return JSON.parse(resBody) as ApiResponse;
+  } catch {
+    throw new Error(`Error parsing response: ${resBody}`);
+  }
+};
 
 /**
  * Permite hacer peticiones PATCH.

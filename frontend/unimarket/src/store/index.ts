@@ -16,6 +16,7 @@ import listingReducer from "./listing/listingSlice";
 import reviewReducer from "./review/reviewSlice";
 import alertReducer from "./alert/alertSlice";
 import imageReducer from "./image/imageSlice";
+import chatReducer from "./chat/chatSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   review: reviewReducer,
   alert: alertReducer,
   image: imageReducer,
+  chat: chatReducer,
 });
 
 const persistConfig = {

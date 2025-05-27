@@ -17,6 +17,7 @@ import PhosphorIconInit from "./helper/PhosphorIconInit";
 import VendorTwoPage from "./pages/VendorTwoPage";
 import VendorTwoDetailsPage from "./pages/VendorTwoDetailsPage";
 import WishlistPage from "./pages/WishlistPage";
+import ChatPage from "./pages/ChatPage";
 import Message from "./components/common/Message";
 import config from "./config/configurations";
 import { useAppDispatch, useAppSelector } from "./hooks";
@@ -56,6 +57,7 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/vendor" element={<VendorTwoPage />} />
         <Route path="/vendor-details" element={<VendorTwoDetailsPage />} />
+        <Route path="/chat" element={<ChatPage />} />
       </Routes>
       <Message />
     </BrowserRouter>

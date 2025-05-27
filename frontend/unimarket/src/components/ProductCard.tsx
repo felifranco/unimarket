@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { listingInterface } from "../interfaces/listings.interfaces";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchListingById } from "../store/listing/listingSlice";
+import { fetchUserByIdForChat } from "../store/user/userSlice";
 import { publicationTypes } from "../constants/post.constants";
 import { formatDate } from "../utils/app.util";
 
@@ -49,9 +50,11 @@ const ProductCard = (Product: listingInterface) => {
   const dispatch = useAppDispatch();
 
   const logged = useAppSelector(state => state.auth.logged);
+  const loggedIdUsuario = useAppSelector(state => state.auth.id_usuario);
 
   const {
     id_publicacion,
+    id_usuario,
     tipo_publicacion,
     titulo,
     estrellas = 0,
@@ -65,6 +68,8 @@ const ProductCard = (Product: listingInterface) => {
     imagen_portada,
     fecha_creacion,
   } = Product;
+
+  const itsMine = logged && id_usuario === loggedIdUsuario;
 
   let publication_type_label = null;
   switch (tipo_publicacion) {
@@ -89,13 +94,22 @@ const ProductCard = (Product: listingInterface) => {
     console.log("handleChat", id_publicacion);
   };
 
-  const handleAddToCart = () => {
-    console.log("handleAddToCart", id_publicacion);
-  };
-
   const handleOpenDetails = () => {
     console.log("handleOpenDetails", id_publicacion);
     if (id_publicacion) dispatch(fetchListingById({ id_publicacion }));
+  };
+
+  const handleOpenChat = () => {
+    console.log("handleOpenChat", id_usuario);
+    if (id_usuario) {
+      dispatch(fetchUserByIdForChat({ id_usuario }));
+    }
+  };
+
+  const handleEdit = async () => {
+    if (id_publicacion) {
+      await dispatch(fetchListingById({ id_publicacion }));
+    }
   };
 
   return (
@@ -226,13 +240,17 @@ const ProductCard = (Product: listingInterface) => {
           </span>
         </div>
         <Link
-          to="/cart"
+          to={logged ? (itsMine ? "/post" : "/chat") : "/register"}
           className="product-card__cart btn bg-gray-50 text-heading hover-bg-main-600 hover-text-white py-11 px-24 rounded-8 flex-center gap-8 fw-medium mt-20"
           tabIndex={0}
-          onClick={handleAddToCart}
+          onClick={logged ? (itsMine ? handleEdit : handleOpenChat) : undefined}
         >
-          {t("add_to_cart")}
-          <i className="ph ph-shopping-cart" />
+          {logged
+            ? itsMine
+              ? t("edit")
+              : t("more_info")
+            : t("register_for_info")}
+          <i className={`ph ${itsMine ? "ph-pencil" : "ph-wechat-logo"}`} />
         </Link>
       </div>
     </div>

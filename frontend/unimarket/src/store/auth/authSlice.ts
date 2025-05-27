@@ -16,6 +16,7 @@ interface AuthState {
   id_usuario: number;
   correo?: string;
   nombre_completo?: string;
+  imagen_perfil?: string;
   first_name?: string;
   username?: string;
   uuid?: string;
@@ -29,6 +30,7 @@ const initialState: AuthState = {
   id_usuario: 0,
   correo: undefined,
   nombre_completo: undefined,
+  imagen_perfil: undefined,
   first_name: undefined,
   username: undefined,
   uuid: undefined,
@@ -134,6 +136,7 @@ export const authSlice = createSlice({
           correo: string;
           nombre_completo: string;
           username: string;
+          imagen_perfil: string;
         }>;
         state.id_usuario = response.data?.id_usuario || 0;
         state.correo = response.data?.correo || undefined;
@@ -142,6 +145,7 @@ export const authSlice = createSlice({
           response.data?.nombre_completo.split(" ")[0] || undefined;
         state.username = response.data?.username || undefined;
         state.uuid = response.data?.uuid || undefined;
+        state.imagen_perfil = response.data?.imagen_perfil || undefined;
       },
     );
 

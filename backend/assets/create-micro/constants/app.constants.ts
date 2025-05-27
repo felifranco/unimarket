@@ -1,3 +1,16 @@
+export enum userStatus {
+  ACTIVO = 'activo',
+  INACTIVO = 'inactivo',
+  PENDIENTE = 'pendiente',
+  SUSPENDIDO = 'suspendido',
+  ELIMINADO = 'eliminado',
+  BLOQUEADO = 'bloqueado',
+}
+
+export const AppConstants = {
+  SALT_ROUNDS: 10,
+};
+
 export const defaultValues = {
   APP_PORT: 3000,
   NODE_ENV: 'development',

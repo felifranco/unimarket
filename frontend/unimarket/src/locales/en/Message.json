@@ -19,5 +19,6 @@
   "error_upload_new_listing_image": " Error uploading new listing image",
   "error_delete_profile_image": "Error deleting profile image",
   "error_delete_listing_image": "Error deleting listing image",
-  "error_move_listing_images": "Error moving listing images"
+  "error_move_listing_images": "Error moving listing images",
+  "conversations_loaded": "Conversations loaded successfully"
 }

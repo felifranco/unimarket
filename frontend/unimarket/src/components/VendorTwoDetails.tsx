@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { navigateTo } from "../helper/NavigateHelper";
 import ProductCard from "./ProductCard";
 import SellingProductCard from "./SellingProductCard";
 import { categories } from "../mocks/categories.json";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchListingsByUser } from "../store/listing/listingSlice";
+import { createConversation } from "../store/chat/chatSlice";
+import { conversacionBase } from "../interfaces/chat.interfaces";
 
 const imagen_perfil_predeterminada =
   "assets/images/thumbs/vendors-two-icon1.png";
@@ -23,8 +26,11 @@ const VendorTwoDetails = () => {
     setActive(!active);
   };
 
+  const uudiAuth = useAppSelector(state => state.auth.uuid);
+
   const {
     id_usuario,
+    uuid,
     nombre_completo,
     imagen_portada,
     imagen_perfil,
@@ -35,6 +41,17 @@ const VendorTwoDetails = () => {
     //telefono,
   } = useAppSelector(state => state.user.user);
   const listings = useAppSelector(state => state.listing.listings);
+
+  const handleChatNow = async () => {
+    if (!uuid) return;
+    const newConversation: conversacionBase = {
+      destinatario: uuid,
+      imagen_perfil_destinatario: imagen_perfil,
+      nombre_destinatario: nombre_completo,
+    };
+    await dispatch(createConversation(newConversation));
+    navigateTo("/chat");
+  };
 
   useEffect(() => {
     dispatch(fetchListingsByUser({ id_usuario }));
@@ -67,18 +84,21 @@ const VendorTwoDetails = () => {
                       alt=""
                     />
                   </span>
-                  <div className="d-flex flex-column gap-24">
-                    <button
-                      type="button"
-                      className="text-uppercase group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8 w-100"
-                    >
-                      {t("chat_now")}
-                      <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
-                        {" "}
-                        <i className="ph ph-wechat-logo" />
-                      </span>
-                    </button>
-                  </div>
+                  {uudiAuth !== uuid && (
+                    <div className="d-flex flex-column gap-24">
+                      <button
+                        type="button"
+                        className="text-uppercase group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8 w-100"
+                        onClick={handleChatNow}
+                      >
+                        {t("chat_now")}
+                        <span className="text-xl d-flex text-main-two-600 group-item-white transition-2">
+                          {" "}
+                          <i className="ph ph-wechat-logo" />
+                        </span>
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="mt-32">
                   <h6 className="text-white fw-semibold mb-12">

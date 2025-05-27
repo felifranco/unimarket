@@ -23,6 +23,7 @@
     "make:zip": "npm run prepare:zip && rm -f unimarket-images-service.zip && zip -r unimarket-images-service.zip dist node_modules package.json",
     "update:lambda": "aws lambda update-function-code --function-name unimarket-images-service --zip-file fileb://unimarket-images-service.zip",
     "deploy:lambda": "npm run make:zip && npm run update:lambda",
+    "serverless:offline-debug": "rm -rf dist && npm run build && npx serverless offline --debug",
     "serverless:offline": "rm -rf dist && npm run build && npx serverless offline",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\""
