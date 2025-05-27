@@ -29,6 +29,7 @@ export class UsersService {
 
   findAll() {
     return this.userRepo.find({
+      where: { estado: userStatus.ACTIVO },
       select: [
         'id_usuario',
         'uuid',
@@ -46,7 +47,7 @@ export class UsersService {
 
   findOne(id: number) {
     return this.userRepo.findOne({
-      where: { id_usuario: id },
+      where: { id_usuario: id, estado: userStatus.ACTIVO },
       select: [
         'id_usuario',
         'uuid',
@@ -64,7 +65,7 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepo.findOneBy({ id_usuario: id });
+    const user = await this.userRepo.findOneBy({ id_usuario: id, estado: userStatus.ACTIVO });
     if (!user) {
       return null;
     }
@@ -73,7 +74,7 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    const user = await this.userRepo.findOneBy({ id_usuario: id });
+    const user = await this.userRepo.findOneBy({ id_usuario: id, estado: userStatus.ACTIVO });
     if (!user) {
       return null;
     }

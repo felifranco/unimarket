@@ -26,7 +26,7 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.database'),
         entities: [Review],
-        synchronize: true,
+        //synchronize: true,
         ssl: true,
         extra: {
           ssl: {

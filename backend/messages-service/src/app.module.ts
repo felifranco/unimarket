@@ -18,16 +18,17 @@ import { Message } from './message/entities/message.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: configService.get<
-          'postgres' | 'mysql' | 'sqlite' | 'mariadb' | 'oracle' | 'mssql'
-        >('database.type', 'postgres'),
+        //type: configService.get<
+        //  'postgres' | 'mysql' | 'sqlite' | 'mariadb' | 'oracle' | 'mssql'
+        //>('database.type', 'postgres'),
+        type: 'postgres',
         host: configService.get<string>('database.host'),
         port: configService.get<number>('database.port'),
         username: configService.get<string>('database.username'),
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.database'),
         entities: [Conversation, Message],
-        synchronize: true,
+        //synchronize: true,
         ssl: true,
         extra: {
           ssl: {

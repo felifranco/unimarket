@@ -26,6 +26,19 @@ export class AuthService {
   ) {}
 
   async register(registerAuthDto: RegisterAuthDto) {
+    // Validar que el correo y el username no existan
+    const existingEmail = await this.authRepo.findOneBy({
+      correo: registerAuthDto.correo,
+    });
+    if (existingEmail) {
+      throw new Error('El correo electrónico ya está registrado');
+    }
+    const existingUsername = await this.authRepo.findOneBy({
+      username: registerAuthDto.username,
+    });
+    if (existingUsername) {
+      throw new Error('El nombre de usuario ya está registrado');
+    }
     // Crear un nuevo usuario con los datos proporcionados
     const hashedPassword = await hashPassword(registerAuthDto.password); // Hashear la contraseña
 
@@ -67,7 +80,10 @@ export class AuthService {
 
   async login(loginAuthDto: LoginAuthDto) {
     const { correo, password } = loginAuthDto;
-    const user = await this.authRepo.findOneBy({ correo });
+    const user = await this.authRepo.findOneBy({
+      correo,
+      estado: AuthStatus.ACTIVO,
+    });
     if (user && (await comparePassword(password, user.password_hash))) {
       return this.generateTokens(user);
     }
