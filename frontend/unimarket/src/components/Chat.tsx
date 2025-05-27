@@ -13,7 +13,7 @@ import {
   fetchConversationById,
   setConversacionActiva,
   delConversacionActiva,
-  deleteConversation,
+  //deleteConversation,
   addMensajeEntrante,
   addMensaje,
 } from "../store/chat/chatSlice";
@@ -116,10 +116,10 @@ const Chat = () => {
     dispatch(fetchConversationById({ id }));
   };
 
-  const handleDeleteConversation = async (id_conversacion: number) => {
+  /*  const handleDeleteConversation = async (id_conversacion: number) => {
     await dispatch(deleteConversation(id_conversacion));
     dispatch(fetchConversations());
-  };
+  }; */
 
   const handleSend = (e: React.FormEvent) => {
     if (!uuid) return;
@@ -411,7 +411,7 @@ const Chat = () => {
                   : ""}
               </div>
             </div>
-            {conversacionActiva && false ? (
+            {/* {conversacionActiva && false ? (
               <button
                 className={`group border border-white px-8 py-8 rounded-circle text-white text-sm hover-bg-main-600 hover-text-white hover-border-main-600 transition-2 flex-center gap-8`}
                 title="Borrar conversacion"
@@ -426,7 +426,7 @@ const Chat = () => {
                   <i className="ph ph-trash-simple" />
                 </span>
               </button>
-            ) : null}
+            ) : null} */}
             {conversacionActiva && (
               <div className="dropdown">
                 <button
