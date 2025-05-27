@@ -124,7 +124,7 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
 
   const Option = ({
     to,
-    badge,
+    badge = -1,
     badgeColor = "bg-main-two-600",
     color = "text-white",
     icon,
