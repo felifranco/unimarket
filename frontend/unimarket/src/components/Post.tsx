@@ -46,7 +46,7 @@ const Post = () => {
   const uuid = useAppSelector(state => state.auth.uuid);
   const listing = useAppSelector(state => state.listing.listing);
 
-  const { descripcion_producto: descripcion_producto_empty } = new_product;
+  //const { descripcion_producto: descripcion_producto_empty } = new_product;
 
   //const descripcion_producto = JSON.parse(descripcion_producto_empty);
   //console.log("descripcion_producto", descripcion_producto_empty, descripcion_producto);
@@ -79,6 +79,22 @@ const Post = () => {
   const [existenciasInput, setExistenciasInput] = useState(
     listing.existencias ? +listing.existencias : 0,
   );
+  const [product_description, setProductDescription] = useState<
+    NewProductType["product_description"]
+  >(
+    listing.descripcion_producto
+      ? JSON.parse(listing.descripcion_producto)
+      : {
+          paragraphs: [],
+          sections: [],
+        },
+  );
+  /* const [product_description, setProductDescription] = useState<
+    NewProductType["product_description"]
+  >({
+    paragraphs: [],
+    sections: [],
+  }); */
 
   const {
     id_publicacion,
@@ -95,14 +111,13 @@ const Post = () => {
     //insignia,
     imagenes,
     imagen_portada,
-    descripcion_producto,
     fecha_creacion,
     fecha_modificacion,
   } = productData;
 
-  const descripcion_producto_object = JSON.parse(
+  /* const descripcion_producto_object = JSON.parse(
     descripcion_producto ? descripcion_producto : descripcion_producto_empty,
-  );
+  ); */
 
   if (id_publicacion && id_publicacion > 0) {
     const defaultImages = images.filter(img => img == default_image).length;
@@ -135,10 +150,6 @@ const Post = () => {
     cleanUpload = fn;
   };
 
-  const handleSaveProductDescription = () => {
-    console.log("handleSaveProductDescription button clicked");
-  };
-
   const handleSave = async (formData: FormData) => {
     const titulo = formData.get("titulo") as string;
     const sku = formData.get("sku") as string;
@@ -168,6 +179,7 @@ const Post = () => {
       imagenes,
       imagen_portada,
       //insignia,
+      descripcion_producto: JSON.stringify(product_description),
     };
 
     if (id_publicacion && id_publicacion > 0) {
@@ -185,8 +197,6 @@ const Post = () => {
         createListing({
           listing: {
             ...data,
-            descripcion_producto:
-              '{"paragraphs":[{"type":"text","text":"Párrafo"},{"type":"list","items":["item1","item2"]}],"sections":[{"title":"Product Specifications","list":[{"type":"key-value","icon":"check","content":{"key":"Product Type","value":"Chips & Dips"}}]},{"title":"Nutrition Facts","list":[{"type":"key","icon":"check","content":{"key":"Total Fat 10g 13%"}}]},{"title":"More Details","list":[{"type":"value","icon":"check","content":{"value":"Lunarlon midsole delivers ultra-plush responsiveness"}}]}]}',
           },
         }),
       );
@@ -625,7 +635,7 @@ const Post = () => {
                   >
                     <div className="mb-40">
                       <h6 className="mb-24">{t("product_description")}</h6>
-                      {descripcion_producto_object.paragraphs.map(
+                      {product_description.paragraphs.map(
                         (
                           paragraph: {
                             type: string;
@@ -673,7 +683,7 @@ const Post = () => {
                         },
                       )}
                     </div>
-                    {descripcion_producto_object.sections.map(
+                    {product_description.sections.map(
                       (
                         section: {
                           title: string;
@@ -744,9 +754,14 @@ const Post = () => {
       <Modal
         id="editProductDescriptionModal"
         title={t("product_description")}
-        Content={<ProductDescription {...descripcion_producto_object} />}
+        Content={
+          <ProductDescription
+            paragraphs={product_description.paragraphs}
+            sections={product_description.sections}
+            onSave={setProductDescription}
+          />
+        }
         size="modal-xl"
-        onSave={handleSaveProductDescription}
       />
       <Modal
         id="uploadImageModal"
@@ -767,10 +782,199 @@ const Post = () => {
   );
 };
 
+// Cambia la definición para aceptar la función como prop
+interface ProductDescriptionProps {
+  paragraphs: NewProductType["product_description"]["paragraphs"];
+  sections: NewProductType["product_description"]["sections"];
+  onSave: (desc: any) => void;
+}
+
 const ProductDescription = ({
   paragraphs,
   sections,
-}: NewProductType["product_description"]) => {
+  onSave,
+}: ProductDescriptionProps) => {
+  const [description, setDescription] = useState({
+    paragraphs: paragraphs || [],
+    sections: sections || [],
+  });
+
+  // Agregar un nuevo párrafo
+  const handleAddParagraph = () => {
+    setDescription(prev => ({
+      ...prev,
+      paragraphs: [...prev.paragraphs, { type: "text", text: "Nuevo párrafo" }],
+    }));
+  };
+
+  const handleAddList = () => {
+    setDescription(prev => ({
+      ...prev,
+      paragraphs: [...prev.paragraphs, { type: "list", items: ["Nuevo ítem"] }],
+    }));
+  };
+
+  // Eliminar un párrafo
+  const handleDeleteParagraph = (index: number) => {
+    setDescription(prev => ({
+      ...prev,
+      paragraphs: prev.paragraphs.filter((_, i) => i !== index),
+    }));
+  };
+
+  // Agregar una nueva sección
+  const handleAddSection = () => {
+    setDescription(prev => ({
+      ...prev,
+      sections: [
+        ...prev.sections,
+        {
+          title: "Nueva sección",
+          list: [],
+        },
+      ],
+    }));
+  };
+
+  // Eliminar una sección
+  const handleDeleteSection = (index: number) => {
+    setDescription(prev => ({
+      ...prev,
+      sections: prev.sections.filter((_, i) => i !== index),
+    }));
+  };
+
+  // Editar texto de un párrafo
+  const handleEditParagraphText = (index: number, value: string) => {
+    setDescription(prev => ({
+      ...prev,
+      paragraphs: prev.paragraphs.map((p, i) =>
+        i === index ? { ...p, text: value } : p,
+      ),
+    }));
+  };
+
+  // Editar items de un párrafo tipo lista
+  const handleEditParagraphListItem = (
+    pIndex: number,
+    itemIndex: number,
+    value: string,
+  ) => {
+    setDescription(prev => ({
+      ...prev,
+      paragraphs: prev.paragraphs.map((p, i) =>
+        i === pIndex && p.type === "list"
+          ? {
+              ...p,
+              items: p.items?.map((item, idx) =>
+                idx === itemIndex ? value : item,
+              ),
+            }
+          : p,
+      ),
+    }));
+  };
+
+  // Agregar item a lista de párrafo
+  const handleAddParagraphListItem = (pIndex: number) => {
+    setDescription(prev => ({
+      ...prev,
+      paragraphs: prev.paragraphs.map((p, i) =>
+        i === pIndex && p.type === "list"
+          ? { ...p, items: [...(p.items || []), "Nuevo ítem"] }
+          : p,
+      ),
+    }));
+  };
+
+  // Eliminar item de lista de párrafo
+  const handleDeleteParagraphListItem = (pIndex: number, itemIndex: number) => {
+    setDescription(prev => ({
+      ...prev,
+      paragraphs: prev.paragraphs.map((p, i) =>
+        i === pIndex && p.type === "list"
+          ? { ...p, items: p.items?.filter((_, idx) => idx !== itemIndex) }
+          : p,
+      ),
+    }));
+  };
+
+  // Editar título de sección
+  const handleEditSectionTitle = (secIndex: number, value: string) => {
+    setDescription(prev => ({
+      ...prev,
+      sections: prev.sections.map((s, i) =>
+        i === secIndex ? { ...s, title: value } : s,
+      ),
+    }));
+  };
+
+  // Editar contenido de un item de sección
+  const handleEditSectionListItem = (
+    secIndex: number,
+    itemIndex: number,
+    keyOrValue: "key" | "value",
+    value: string,
+  ) => {
+    setDescription(prev => ({
+      ...prev,
+      sections: prev.sections.map((s, i) =>
+        i === secIndex
+          ? {
+              ...s,
+              list: s.list.map((item, idx) =>
+                idx === itemIndex
+                  ? {
+                      ...item,
+                      content: {
+                        ...item.content,
+                        [keyOrValue]: value,
+                      },
+                    }
+                  : item,
+              ),
+            }
+          : s,
+      ),
+    }));
+  };
+
+  // Agregar item a sección
+  const handleAddSectionListItem = (secIndex: number) => {
+    setDescription(prev => ({
+      ...prev,
+      sections: prev.sections.map((s, i) =>
+        i === secIndex
+          ? {
+              ...s,
+              list: [
+                ...s.list,
+                {
+                  type: "key-value",
+                  icon: "check",
+                  content: { key: "Nuevo key", value: "Nuevo value" },
+                },
+              ],
+            }
+          : s,
+      ),
+    }));
+  };
+
+  // Eliminar item de sección
+  const handleDeleteSectionListItem = (secIndex: number, itemIndex: number) => {
+    setDescription(prev => ({
+      ...prev,
+      sections: prev.sections.map((s, i) =>
+        i === secIndex
+          ? { ...s, list: s.list.filter((_, idx) => idx !== itemIndex) }
+          : s,
+      ),
+    }));
+  };
+
+  onSave(description);
+
   return (
     <div className="product-dContent__box">
       <div className="tab-content" id="pills-tabContent">
@@ -781,76 +985,227 @@ const ProductDescription = ({
           aria-labelledby="pills-description-tab"
           tabIndex={0}
         >
-          <div className="mb-40">
-            {paragraphs.map((paragraph, index) => {
+          <div className="mb-40 border hover-border-main-600 transition-1 p-10">
+            <div className="d-flex justify-content-between align-items-center mb-2">
+              <h6>Parrafos y listas</h6>
+              <div className="dropdown">
+                <button
+                  className="btn btn-sm btn-success rounded-pill flex-align d-inline-flex gap-8 px-48 dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  title="Más opciones"
+                >
+                  <i className="ph-fill ph-plus-circle text-lg" />
+                  Agregar
+                </button>
+                <div
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenuButton"
+                >
+                  <button
+                    className="dropdown-item"
+                    onClick={handleAddParagraph}
+                  >
+                    Párrafo
+                  </button>
+                  <button className="dropdown-item" onClick={handleAddList}>
+                    Lista
+                  </button>
+                </div>
+              </div>
+            </div>
+            {description.paragraphs.map((paragraph, index) => {
               let item = null;
               switch (paragraph.type) {
                 case "text":
                   item = (
-                    <p
+                    <div
                       key={index}
-                      className="text-gray-400"
-                      style={{ textAlign: "justify" }}
+                      className="d-flex align-items-center mb-2 gap-2"
                     >
-                      {paragraph.text}
-                    </p>
+                      <input
+                        type="text"
+                        className="form-control flex-grow-1"
+                        value={paragraph.text}
+                        onChange={e =>
+                          handleEditParagraphText(index, e.target.value)
+                        }
+                      />
+                      <button
+                        type="button"
+                        className="group border border-white px-8 py-8 rounded-circle text-danger text-sm hover-bg-danger-600 hover-text-white hover-border-danger-600 transition-2 flex-center gap-8"
+                        onClick={() => handleDeleteParagraph(index)}
+                      >
+                        <i className="ph-fill ph-trash-simple text-lg" />
+                      </button>
+                    </div>
                   );
                   break;
-
                 case "list":
                   item = (
-                    <ul key={index} className="list-inside mt-32 mb-32 ms-16">
-                      {paragraph.items?.map((item, pIndex) => (
-                        <li key={pIndex} className="text-gray-400 mb-4">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
+                    <div key={index} className="mb-2">
+                      <div className="d-flex align-items-center gap-2 mb-1">
+                        <span className="fw-semibold">Lista</span>
+                        <button
+                          type="button"
+                          className="group border border-white px-8 py-8 rounded-circle text-danger text-sm hover-bg-danger-600 hover-text-white hover-border-danger-600 transition-2 flex-center gap-8"
+                          onClick={() => handleDeleteParagraph(index)}
+                        >
+                          <i className="ph-fill ph-trash-simple text-lg" />
+                        </button>
+                      </div>
+                      <button
+                        type="button"
+                        className="bg-success-200 text-success-600 hover-bg-success-600 hover-text-white flex-center rounded-pill gap-5 px-10 mb-8"
+                        onClick={() => handleAddParagraphListItem(index)}
+                      >
+                        <i className="ph-fill ph-plus-circle text-lg" />
+                        Agregar elemento
+                      </button>
+                      <ul className="list-inside mt-2 mb-2 ms-3">
+                        {paragraph.items?.map((item, pIndex) => (
+                          <li
+                            key={pIndex}
+                            className="text-gray-400 mb-2 d-flex align-items-center gap-2"
+                          >
+                            <input
+                              type="text"
+                              className="form-control flex-grow-1"
+                              value={item}
+                              onChange={e =>
+                                handleEditParagraphListItem(
+                                  index,
+                                  pIndex,
+                                  e.target.value,
+                                )
+                              }
+                            />
+                            <button
+                              type="button"
+                              className="group border border-white px-8 py-8 rounded-circle text-danger text-sm hover-bg-danger-600 hover-text-white hover-border-danger-600 transition-2 flex-center gap-8"
+                              onClick={() =>
+                                handleDeleteParagraphListItem(index, pIndex)
+                              }
+                            >
+                              <i className="ph-fill ph-trash-simple text-lg" />
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   );
                   break;
-
                 default:
                   break;
               }
               return item;
             })}
           </div>
-          {sections.map((section, secIndex) => {
-            return (
-              <div key={secIndex} className="mb-40">
-                <h6 className="mb-24">{section.title}</h6>
-                <ul className="mt-32">
-                  {section.list.map((item, isecIndex) => {
-                    return (
-                      <li
-                        key={isecIndex}
-                        className="text-gray-400 mb-14 flex-align gap-14"
+          <div className="mb-40 border hover-border-main-600 transition-1 p-10">
+            <div className="d-flex justify-content-between align-items-center mb-2">
+              <h6>Secciones</h6>
+              <button
+                type="button"
+                className="btn btn-sm btn-success rounded-pill flex-align d-inline-flex gap-8 px-48"
+                onClick={handleAddSection}
+              >
+                <i className="ph-fill ph-plus-circle text-lg" />
+                Agregar sección
+              </button>
+            </div>
+            {description.sections.map((section, secIndex) => (
+              <div
+                key={secIndex}
+                className="mb-40 rounded-3 p-2 position-relative"
+              >
+                <button
+                  type="button"
+                  className="group border border-white px-8 py-8 rounded-circle text-danger text-sm hover-bg-danger-600 hover-text-white hover-border-danger-600 transition-2 flex-center gap-8 position-absolute end-0 top-0 m-2"
+                  onClick={() => handleDeleteSection(secIndex)}
+                >
+                  <i className="ph-fill ph-trash-simple text-lg" />
+                </button>
+                <input
+                  type="text"
+                  className="form-control mb-2 fw-semibold"
+                  value={section.title}
+                  onChange={e =>
+                    handleEditSectionTitle(secIndex, e.target.value)
+                  }
+                />
+                <div className="d-flex align-items-center gap-2 mb-2">
+                  <button
+                    type="button"
+                    className="bg-success-200 text-success-600 hover-bg-success-600 hover-text-white flex-center rounded-pill gap-5 px-10 my-8"
+                    onClick={() => handleAddSectionListItem(secIndex)}
+                  >
+                    <i className="ph-fill ph-plus-circle text-lg" />
+                    Agregar elemento
+                  </button>
+                </div>
+                <ul className="mt-2">
+                  {section.list.map((item, isecIndex) => (
+                    <li
+                      key={isecIndex}
+                      className="text-gray-400 mb-14 flex-align gap-14 align-items-center"
+                    >
+                      <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
+                        <i
+                          className={
+                            icons.find(x => x.label == item.icon)?.code
+                          }
+                        />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control d-inline-block w-auto me-2"
+                        style={{ maxWidth: 180, display: "inline-block" }}
+                        value={"key" in item.content ? item.content.key : ""}
+                        onChange={e =>
+                          handleEditSectionListItem(
+                            secIndex,
+                            isecIndex,
+                            "key",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Key"
+                      />
+                      <input
+                        type="text"
+                        className="form-control d-inline-block w-auto"
+                        style={{ maxWidth: 180, display: "inline-block" }}
+                        value={
+                          "value" in item.content ? item.content.value : ""
+                        }
+                        onChange={e =>
+                          handleEditSectionListItem(
+                            secIndex,
+                            isecIndex,
+                            "value",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Value"
+                      />
+                      <button
+                        type="button"
+                        className="group border border-white px-8 py-8 rounded-circle text-danger text-sm hover-bg-danger-600 hover-text-white hover-border-danger-600 transition-2 flex-center gap-8"
+                        onClick={() =>
+                          handleDeleteSectionListItem(secIndex, isecIndex)
+                        }
                       >
-                        <span className="w-20 h-20 bg-main-50 text-main-600 text-xs flex-center rounded-circle">
-                          <i
-                            className={
-                              icons.find(x => x.label == item.icon)?.code
-                            }
-                          />
-                        </span>
-                        <span className="text-heading fw-medium">
-                          {"key" in item.content ? item.content.key : ""}
-                          <span className="text-gray-500">
-                            {" "}
-                            {"value" in item.content
-                              ? item.type == "key-value"
-                                ? `: ${item.content.value}`
-                                : item.content.value
-                              : ""}
-                          </span>
-                        </span>
-                      </li>
-                    );
-                  })}
+                        <i className="ph-fill ph-trash-simple text-lg" />
+                      </button>
+                    </li>
+                  ))}
                 </ul>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </div>
