@@ -16,7 +16,7 @@ import {
   NewProductType,
   PublicationType,
 } from "../interfaces/post.interfaces";
-import new_product from "../mocks/new_product.json";
+//import new_product from "../mocks/new_product.json";
 import {
   createListing,
   patchListing,
@@ -786,7 +786,7 @@ const Post = () => {
 interface ProductDescriptionProps {
   paragraphs: NewProductType["product_description"]["paragraphs"];
   sections: NewProductType["product_description"]["sections"];
-  onSave: (desc: any) => void;
+  onSave: (desc: NewProductType["product_description"]) => void;
 }
 
 const ProductDescription = ({
