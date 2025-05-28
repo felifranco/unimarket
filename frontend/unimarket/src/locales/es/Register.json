@@ -11,5 +11,6 @@
   "confirm_password": "Confirmar contraseña",
   "enter_confirm_password": "Ingrese la contraseña nuevamente",
   "share_data_text": "Tu datos personales serán utilizados para procesar tu pedido, apoyar tu experiencia en este sitio web y para otros propósitos descritos en nuestra",
-  "privacy_policy": "Política de privacidad"
+  "privacy_policy": "Política de privacidad",
+  "loading": "Cargando"
 }

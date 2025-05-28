@@ -1,10 +1,11 @@
 {
   "login": "Log in",
-  "username_or_email": "Username or email address",
-  "enter_username": "Enter username",
+  "username_or_email": "Email address",
+  "enter_username": "Enter email address",
   "password": "Password",
   "enter_password": "Enter password",
   "log-in": "Log in",
   "remember-me": "Remember me",
-  "forgot-password": "Forgot your password?"
+  "forgot-password": "Forgot your password?",
+  "loading": "Loading"
 }

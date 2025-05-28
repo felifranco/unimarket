@@ -1,10 +1,11 @@
 {
   "login": "Iniciar sesión",
-  "username_or_email": "Nombre de usuario o dirección de correo electrónico",
-  "enter_username": "Escribe un nombre de usuario",
+  "username_or_email": "Dirección de correo electrónico",
+  "enter_username": "Escribe una dirección de correo electrónico",
   "password": "Contraseña",
   "enter_password": "Ingrese contraseña",
   "log-in": "Iniciar sesión",
   "remember-me": "Recuérdame",
-  "forgot-password": "¿Olvidaste tu contraseña?"
+  "forgot-password": "¿Olvidaste tu contraseña?",
+  "loading": "Cargando"
 }

@@ -11,6 +11,7 @@ const Register = () => {
 
   const dispatch = useAppDispatch();
 
+  const loading = useAppSelector(state => state.auth.loading);
   const registered = useAppSelector(state => state.auth.registered);
 
   const handleRegister = (formData: FormData) => {
@@ -114,7 +115,6 @@ const Register = () => {
                       id="password"
                       name="password"
                       placeholder={t("enter_password")}
-                      defaultValue="password"
                     />
                     <span
                       className="toggle-password position-absolute top-50 inset-inline-end-0 me-16 translate-middle-y cursor-pointer ph ph-eye-slash"
@@ -137,7 +137,6 @@ const Register = () => {
                       id="confirm_password"
                       name="confirm_password"
                       placeholder={t("enter_confirm_password")}
-                      defaultValue="confirm_password"
                     />
                     <span
                       className="toggle-password position-absolute top-50 inset-inline-end-0 me-16 translate-middle-y cursor-pointer ph ph-eye-slash"
@@ -159,8 +158,12 @@ const Register = () => {
                   </p>
                 </div>*/}
                 <div className="mt-48">
-                  <button type="submit" className="btn btn-main py-18 px-40">
-                    {t("register")}
+                  <button
+                    type="submit"
+                    className="btn btn-main py-18 px-40"
+                    disabled={loading}
+                  >
+                    {loading ? t("loading") : t("register")}
                   </button>
                 </div>
               </div>

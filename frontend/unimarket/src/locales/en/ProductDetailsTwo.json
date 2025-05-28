@@ -20,5 +20,10 @@
   "review_content": "Review Content",
   "submit_review": "Submit Review",
   "customers_feedback": "Customers Feedback",
-  "average_product_rating": "Average Product Rating"
+  "average_product_rating": "Average Product Rating",
+  "location": "Delivery location",
+  "visit_store": "Visit Store",
+  "edit": "Edit",
+  "more_info": "More Information",
+  "register_for_info": "Register for more information"
 }
