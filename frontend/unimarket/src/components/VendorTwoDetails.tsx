@@ -34,11 +34,11 @@ const VendorTwoDetails = () => {
     nombre_completo,
     imagen_portada,
     imagen_perfil,
-    //acerca_de,
+    acerca_de,
     estrellas,
     calificacion,
-    //correo,
-    //telefono,
+    correo,
+    telefono,
   } = useAppSelector(state => state.user.user);
   const listings = useAppSelector(state => state.listing.listings);
 
@@ -132,18 +132,55 @@ const VendorTwoDetails = () => {
                   </div>
                 </div>
                 <div className="mt-32 d-flex flex-column gap-8">
-                  <Link
-                    to="#"
+                  <a
+                    href="#collapseAboutStore"
                     className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseAboutStore"
                   >
                     {t("about_store")}
-                  </Link>
-                  <Link
-                    to="#"
+                  </a>
+                  <div className="collapse" id="collapseAboutStore">
+                    <div className="card card-body">{acerca_de}</div>
+                  </div>
+                  <a
+                    href="#collapseContactSeller"
                     className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseContactSeller"
                   >
                     {t("contact_seller")}
-                  </Link>
+                  </a>
+                  <div className="collapse" id="collapseContactSeller">
+                    <div className="card card-body d-flex flex-column gap-2">
+                      {correo && (
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <i
+                            className="ph ph-envelope-simple text-main-600 text-lg"
+                            title="Email"
+                          />
+                          <span className="text-gray-900 fw-medium">
+                            {correo}
+                          </span>
+                        </div>
+                      )}
+                      {telefono && (
+                        <div className="d-flex align-items-center gap-2">
+                          <i
+                            className="ph ph-phone text-main-600 text-lg"
+                            title="Teléfono"
+                          />
+                          <span className="text-gray-900 fw-medium">
+                            {telefono}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="border border-gray-50 rounded-8 p-24">

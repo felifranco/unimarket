@@ -29,9 +29,10 @@ const Account = () => {
     imagen_perfil,
     estrellas,
     calificacion,
-    //ubicacion,
-    //correo,
-    //telefono,
+    ubicacion,
+    acerca_de,
+    correo,
+    telefono,
   } = useAppSelector(state => state.user.user);
 
   //const followers = 480589;
@@ -45,6 +46,12 @@ const Account = () => {
 
   const [updateCover, setUpdateCover] = useState(false);
   const [url, setUrl] = useState("");
+
+  const [name, setName] = useState(nombre_completo || "");
+  const [about, setAbout] = useState(acerca_de || "");
+  const [email, setEmail] = useState(correo || "");
+  const [phone, setPhone] = useState(telefono || "");
+  const [location, setLocation] = useState(ubicacion || "");
 
   let cleanUpload: (() => void) | null = null;
 
@@ -71,6 +78,21 @@ const Account = () => {
       }),
     );
   }, [dispatch, id_usuario, url]);
+
+  const handleSaveAccountInfo = () => {
+    dispatch(
+      patchUser({
+        id_usuario,
+        data: {
+          nombre_completo: name,
+          acerca_de: about,
+          correo: email,
+          telefono: phone,
+          ubicacion: location,
+        },
+      }),
+    );
+  };
 
   useEffect(() => {
     if (url !== "") {
@@ -130,6 +152,8 @@ const Account = () => {
                     </button>
                     <button
                       type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#accountInfoModal"
                       onClick={handleEdit}
                       className="text-uppercase group border border-white px-16 py-8 rounded-pill text-white text-sm hover-bg-main-two-600 hover-text-white hover-border-main-two-600 transition-2 flex-center gap-8 w-100"
                     >
@@ -144,7 +168,7 @@ const Account = () => {
                 <div className="mt-32">
                   <h6 className="text-white fw-semibold mb-12">
                     <Link to="/vendor-details" className="">
-                      {nombre_completo}
+                      {name}
                     </Link>
                   </h6>
                   {/* <span className="text-xs text-white mb-12">
@@ -176,18 +200,66 @@ const Account = () => {
                   </div>
                 </div>
                 <div className="mt-32 d-flex flex-column gap-8">
-                  <Link
-                    to="#"
+                  <a
+                    href="#collapseAboutStore"
                     className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseAboutStore"
                   >
                     {t("about_store")}
-                  </Link>
-                  <Link
-                    to="#"
+                  </a>
+                  <div className="collapse" id="collapseAboutStore">
+                    <div className="card card-body">{about}</div>
+                  </div>
+                  <a
+                    href="#collapseContactSeller"
                     className="px-16 py-12 border text-white border-neutral-500 w-100 rounded-4 hover-bg-main-600 hover-border-main-600"
+                    data-bs-toggle="collapse"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseContactSeller"
                   >
                     {t("contact_info")}
-                  </Link>
+                  </a>
+                  <div className="collapse" id="collapseContactSeller">
+                    <div className="card card-body d-flex flex-column gap-2">
+                      {email && (
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <i
+                            className="ph ph-envelope-simple text-main-600 text-lg"
+                            title="Email"
+                          />
+                          <span className="text-gray-900 fw-medium">
+                            {email}
+                          </span>
+                        </div>
+                      )}
+                      {phone && (
+                        <div className="d-flex align-items-center gap-2">
+                          <i
+                            className="ph ph-phone text-main-600 text-lg"
+                            title="Teléfono"
+                          />
+                          <span className="text-gray-900 fw-medium">
+                            {phone}
+                          </span>
+                        </div>
+                      )}
+                      {location && (
+                        <div className="d-flex align-items-center gap-2 mt-2">
+                          <i
+                            className="ph ph-map-pin text-main-600 text-lg"
+                            title="Ubicación"
+                          />
+                          <span className="text-gray-900 fw-medium">
+                            {location}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="border border-gray-50 rounded-8 p-24">
@@ -333,7 +405,137 @@ const Account = () => {
           if (cleanUpload) cleanUpload();
         }}
       />
+      <Modal
+        id="accountInfoModal"
+        title={t("vendor_info")}
+        Content={
+          <AccountInfo
+            nombre_completo={nombre_completo}
+            acerca_de={acerca_de}
+            correo={correo}
+            telefono={telefono}
+            ubicacion={ubicacion}
+            setNombreCompleto={setName}
+            setAcercaDe={setAbout}
+            setCorreo={setEmail}
+            setTelefono={setPhone}
+            setUbicacion={setLocation}
+          />
+        }
+        size="modal-lg"
+        onSave={handleSaveAccountInfo}
+      />
     </section>
+  );
+};
+
+interface AccountInfoProps {
+  nombre_completo: string | undefined;
+  acerca_de: string | undefined;
+  correo: string | undefined;
+  telefono: string | undefined;
+  ubicacion: string | undefined;
+  setNombreCompleto: (value: string) => void;
+  setAcercaDe: (value: string) => void;
+  setCorreo: (value: string) => void;
+  setTelefono: (value: string) => void;
+  setUbicacion: (value: string) => void;
+}
+
+const AccountInfo = ({
+  nombre_completo,
+  acerca_de,
+  correo,
+  telefono,
+  ubicacion,
+  setNombreCompleto,
+  setAcercaDe,
+  setCorreo,
+  setTelefono,
+  setUbicacion,
+}: AccountInfoProps) => {
+  const [localNombreCompleto, setLocalNombreCompleto] = useState(
+    nombre_completo || "",
+  );
+  const [localAcercaDe, setLocalAcercaDe] = useState(acerca_de || "");
+  const [localCorreo, setLocalCorreo] = useState(correo || "");
+  const [localTelefono, setLocalTelefono] = useState(telefono || "");
+  const [localUbicacion, setLocalUbicacion] = useState(ubicacion || "");
+
+  setNombreCompleto(localNombreCompleto);
+  setAcercaDe(localAcercaDe);
+  setCorreo(localCorreo);
+  setTelefono(localTelefono);
+  setUbicacion(localUbicacion);
+
+  return (
+    <form className="account-info-form">
+      <div className="mb-3">
+        <label htmlFor="nombreCompleto" className="form-label fw-semibold">
+          Nombre completo
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="nombreCompleto"
+          value={localNombreCompleto}
+          onChange={e => setLocalNombreCompleto(e.target.value)}
+          placeholder="Tu nombre completo"
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="acercaDe" className="form-label fw-semibold">
+          Acerca de
+        </label>
+        <textarea
+          className="form-control"
+          id="acercaDe"
+          rows={3}
+          value={localAcercaDe}
+          onChange={e => setLocalAcercaDe(e.target.value)}
+          placeholder="Cuéntanos sobre ti o tu tienda..."
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="correo" className="form-label fw-semibold">
+          Correo electrónico
+        </label>
+        <input
+          type="email"
+          className="form-control"
+          id="correo"
+          value={localCorreo}
+          onChange={e => setLocalCorreo(e.target.value)}
+          placeholder="ejemplo@correo.com"
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="telefono" className="form-label fw-semibold">
+          Teléfono
+        </label>
+        <input
+          type="tel"
+          className="form-control"
+          id="telefono"
+          value={localTelefono}
+          onChange={e => setLocalTelefono(e.target.value)}
+          placeholder="Ej: 555-123-4567"
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="ubicacion" className="form-label fw-semibold">
+          Ubicación
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="ubicacion"
+          value={localUbicacion}
+          onChange={e => setLocalUbicacion(e.target.value)}
+          placeholder="Ciudad, País"
+        />
+      </div>
+    </form>
   );
 };
 
