@@ -53,7 +53,12 @@ export class Auth {
   @Column({ nullable: true, type: 'varchar', length: 50 })
   estado: string;
 
-  @Column({ nullable: true, type: 'varchar', length: 500 })
+  @Column({
+    name: 'refresh_token',
+    nullable: true,
+    type: 'varchar',
+    length: 500,
+  })
   refreshToken: string;
 
   @CreateDateColumn({ type: 'timestamptz' })
