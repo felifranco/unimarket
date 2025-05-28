@@ -84,6 +84,12 @@ const HeaderTwo = ({ category }: { category: boolean }) => {
       visible: true,
     },
     {
+      to: "/register",
+      icon: "ph ph-user-plus",
+      title: "register",
+      visible: !logged,
+    },
+    {
       to: "/wishlist",
       icon: "ph ph-heart",
       title: "whishlist",

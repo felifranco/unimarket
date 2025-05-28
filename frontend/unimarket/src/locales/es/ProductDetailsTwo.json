@@ -20,5 +20,10 @@
   "review_content": "Contenido de la reseña",
   "submit_review": "Enviar reseña",
   "customers_feedback": "Opiniones de los clientes",
-  "average_product_rating": "Calificación promedio del producto"
+  "average_product_rating": "Calificación promedio del producto",
+  "location": "Lugar de entrega",
+  "visit_store": "Visitar tienda",
+  "edit": "Editar",
+  "more_info": "Más información",
+  "register_for_info": "Registrarse para más información"
 }

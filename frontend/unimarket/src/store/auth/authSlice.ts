@@ -20,6 +20,7 @@ interface AuthState {
   first_name?: string;
   username?: string;
   uuid?: string;
+  loading: boolean;
 }
 
 const initialState: AuthState = {
@@ -34,6 +35,7 @@ const initialState: AuthState = {
   first_name: undefined,
   username: undefined,
   uuid: undefined,
+  loading: false,
 };
 
 export const login = createAsyncThunk(
@@ -108,23 +110,36 @@ export const authSlice = createSlice({
   },
   extraReducers: builder => {
     //LOGIN
-    builder.addCase(
-      login.fulfilled,
-      (state, action: PayloadAction<ApiResponse<unknown>>) => {
-        const response = action.payload as ApiResponse<{
-          accessToken: string;
-          refreshToken: string;
-        }>;
-        state.accessToken = response.data?.accessToken || null;
-        state.refreshToken = response.data?.refreshToken || null;
-        state.logged = true;
-      },
-    );
+    builder
+      .addCase(login.pending, state => {
+        state.loading = true;
+        state.logged = false;
+        state.accessToken = null;
+        state.refreshToken = null;
+      })
+      .addCase(
+        login.fulfilled,
+        (state, action: PayloadAction<ApiResponse<unknown>>) => {
+          const response = action.payload as ApiResponse<{
+            accessToken: string;
+            refreshToken: string;
+          }>;
+          state.accessToken = response.data?.accessToken || null;
+          state.refreshToken = response.data?.refreshToken || null;
+          state.logged = true;
+        },
+      );
 
     //REGISTER
-    builder.addCase(register.fulfilled, state => {
-      state.registered = true;
-    });
+    builder
+      .addCase(register.pending, state => {
+        state.loading = true;
+        state.registered = false;
+      })
+      .addCase(register.fulfilled, state => {
+        state.registered = true;
+        state.loading = false;
+      });
 
     //ME
     builder.addCase(

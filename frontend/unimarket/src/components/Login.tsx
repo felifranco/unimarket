@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppSelector } from "../hooks";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../hooks";
 import { login, me } from "../store/auth/authSlice";
@@ -9,6 +9,7 @@ import { navigateTo } from "../helper/NavigateHelper";
 const Login = () => {
   const { t } = useTranslation("Login");
 
+  const loading = useAppSelector(state => state.auth.loading);
   const logged = useAppSelector(state => state.auth.logged);
   const first_name = useAppSelector(state => state.auth.first_name);
 
@@ -75,7 +76,6 @@ const Login = () => {
                       id="password"
                       name="password"
                       placeholder={t("enter_password")}
-                      defaultValue="password"
                     />
                     <span
                       className="toggle-password position-absolute top-50 inset-inline-end-0 me-16 translate-middle-y cursor-pointer ph ph-eye-slash"
@@ -85,10 +85,13 @@ const Login = () => {
                 </div>
                 <div className="mb-24 mt-48">
                   <div className="flex-align gap-48 flex-wrap">
-                    <button className="btn btn-main py-18 px-40">
-                      {t("log-in")}
+                    <button
+                      className="btn btn-main py-18 px-40"
+                      disabled={loading}
+                    >
+                      {loading ? t("loading") : t("log-in")}
                     </button>
-                    <div className="form-check common-check">
+                    {/* <div className="form-check common-check">
                       <input
                         className="form-check-input"
                         type="checkbox"
@@ -102,17 +105,17 @@ const Login = () => {
                       >
                         {t("remember-me")}
                       </label>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
-                <div className="mt-48">
+                {/* <div className="mt-48">
                   <Link
                     to="#"
                     className="text-danger-600 text-sm fw-semibold hover-text-decoration-underline"
                   >
                     {t("forgot-password")}
                   </Link>
-                </div>
+                </div> */}
               </div>
             </div>
             {/* Login Card End */}

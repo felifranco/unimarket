@@ -93,40 +93,46 @@ export const privateRoutes = async (app: FastifyInstance) => {
     });
   });
 
+  // Subir imagen de una nueva publicación
+  app.post(`/${ROUTE_PREFIX}/chat`, async function (request, reply) {
+    return handleFileUpload({
+      directories: ['users', 'uuid', 'chat', 'id_conversacion'],
+      request,
+      reply,
+    });
+  });
+
   // Trasladar imagenes a de una nueva publicación a una recién creada
   // Se usa para mover las imagenes de la carpeta new a la carpeta de la publicación
-  app.put(
-    `/${ROUTE_PREFIX}/listings/new`,
-    async function (request, reply) {
-      const {uuid} = request.query as {uuid?: string};
-      const {listingUuid} = request.query as {listingUuid?: string};
+  app.put(`/${ROUTE_PREFIX}/listings/new`, async function (request, reply) {
+    const {uuid} = request.query as {uuid?: string};
+    const {listingUuid} = request.query as {listingUuid?: string};
 
-      if (!uuid) {
-        return reply
-          .code(BAD_REQUEST.status)
-          .send(
-            apiResponse(undefined, 'UUID no proporcionado', BAD_REQUEST.status),
-          );
-      }
+    if (!uuid) {
+      return reply
+        .code(BAD_REQUEST.status)
+        .send(
+          apiResponse(undefined, 'UUID no proporcionado', BAD_REQUEST.status),
+        );
+    }
 
-      if (!listingUuid) {
-        return reply
-          .code(BAD_REQUEST.status)
-          .send(
-            apiResponse(
-              undefined,
-              'Listing UUID no proporcionado',
-              BAD_REQUEST.status,
-            ),
-          );
-      }
+    if (!listingUuid) {
+      return reply
+        .code(BAD_REQUEST.status)
+        .send(
+          apiResponse(
+            undefined,
+            'Listing UUID no proporcionado',
+            BAD_REQUEST.status,
+          ),
+        );
+    }
 
-      const oldPath = `users/${uuid}/listings/new`;
-      const newPath = `users/${uuid}/listings/${listingUuid}`;
+    const oldPath = `users/${uuid}/listings/new`;
+    const newPath = `users/${uuid}/listings/${listingUuid}`;
 
-      return renameS3Folder({oldPath, newPath});
-    },
-  );
+    return renameS3Folder({oldPath, newPath});
+  });
 
   // Eliminar imagen de perfil o portada
   app.delete(`/${ROUTE_PREFIX}/profile/:uuid`, async function (request, reply) {
@@ -157,45 +163,48 @@ export const privateRoutes = async (app: FastifyInstance) => {
   });
 
   // Eliminar imagen de una publicación
-  app.delete(`/${ROUTE_PREFIX}/listings/:uuid`, async function (request, reply) {
-    const {uuid} = request.params as {uuid: string};
-    const {listingUuid} = request.query as {listingUuid?: string};
-    const {filename} = request.query as {filename?: string};
+  app.delete(
+    `/${ROUTE_PREFIX}/listings/:uuid`,
+    async function (request, reply) {
+      const {uuid} = request.params as {uuid: string};
+      const {listingUuid} = request.query as {listingUuid?: string};
+      const {filename} = request.query as {filename?: string};
 
-    if (!uuid) {
-      return reply
-        .code(BAD_REQUEST.status)
-        .send(
-          apiResponse(undefined, 'UUID no proporcionado', BAD_REQUEST.status),
-        );
-    }
+      if (!uuid) {
+        return reply
+          .code(BAD_REQUEST.status)
+          .send(
+            apiResponse(undefined, 'UUID no proporcionado', BAD_REQUEST.status),
+          );
+      }
 
-    if (!listingUuid) {
-      return reply
-        .code(BAD_REQUEST.status)
-        .send(
-          apiResponse(
-            undefined,
-            'Listing UUID no proporcionado',
-            BAD_REQUEST.status,
-          ),
-        );
-    }
+      if (!listingUuid) {
+        return reply
+          .code(BAD_REQUEST.status)
+          .send(
+            apiResponse(
+              undefined,
+              'Listing UUID no proporcionado',
+              BAD_REQUEST.status,
+            ),
+          );
+      }
 
-    if (!filename) {
-      return reply
-        .code(BAD_REQUEST.status)
-        .send(
-          apiResponse(
-            undefined,
-            'Nombre de archivo no proporcionado',
-            BAD_REQUEST.status,
-          ),
-        );
-    }
+      if (!filename) {
+        return reply
+          .code(BAD_REQUEST.status)
+          .send(
+            apiResponse(
+              undefined,
+              'Nombre de archivo no proporcionado',
+              BAD_REQUEST.status,
+            ),
+          );
+      }
 
-    return removeImageFromS3({
-      path: `users/${uuid}/listings/${listingUuid}/${filename}`,
-    });
-  });
+      return removeImageFromS3({
+        path: `users/${uuid}/listings/${listingUuid}/${filename}`,
+      });
+    },
+  );
 };

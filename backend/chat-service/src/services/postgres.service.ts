@@ -9,6 +9,9 @@ const pool = new Pool({
   database: process.env.DB_DATABASE,
   max: 2, // Limita conexiones por Lambda
   idleTimeoutMillis: 10000,
+  ssl: {
+        rejectUnauthorized: false, // Solo para pruebas/desarrollo, no recomendado en producción
+         },
 });
 
 export const insertConversacion = async ({

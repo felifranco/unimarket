@@ -82,7 +82,7 @@ export const fetchUserByIdForChat = createAsyncThunk(
       if (response.data) {
         const user: userInterface = response.data;
         console.log("user", user);
-        if (user && user.uuid && user.imagen_perfil && user.nombre_completo) {
+        if (user && user.uuid && user.nombre_completo) {
           const conversationData: conversacionBase = {
             destinatario: user.uuid,
             imagen_perfil_destinatario: user.imagen_perfil,

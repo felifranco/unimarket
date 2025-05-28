@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import { formatDate, timeAgo } from "../utils/app.util";
 import { reviewInterface } from "../interfaces/reviews.interface";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { fetchUserById } from "../store/user/userSlice";
+import { fetchUserByIdForChat } from "../store/user/userSlice";
+import { fetchListingById } from "../store/listing/listingSlice";
 import {
   createReview,
   fetchReviewsByListing,
@@ -19,11 +22,13 @@ const ProductDetailsTwo = () => {
   const [starsReview, setStarsReview] = useState<number>(0);
 
   const logged = useAppSelector(state => state.auth.logged);
+  const loggedIdUsuario = useAppSelector(state => state.auth.id_usuario);
   const listing = useAppSelector(state => state.listing.listing);
   const reviews = useAppSelector(state => state.review.reviews);
 
   const {
     id_publicacion,
+    id_usuario,
     tipo_publicacion,
     titulo,
     estrellas,
@@ -37,7 +42,10 @@ const ProductDetailsTwo = () => {
     fecha_creacion,
     imagenes,
     descripcion_producto: descripcion_producto_text,
+    ubicacion,
   } = listing;
+
+  const itsMine = logged && id_usuario === loggedIdUsuario;
 
   const images = imagenes ? JSON.parse(imagenes) : [];
 
@@ -46,10 +54,10 @@ const ProductDetailsTwo = () => {
     : null;
 
   // increment & decrement
-  const [quantity, setQuantity] = useState(1);
-  const incrementQuantity = () => setQuantity(quantity + 1);
-  const decrementQuantity = () =>
-    setQuantity(quantity > 1 ? quantity - 1 : quantity);
+  //const [quantity, setQuantity] = useState(1);
+  //const incrementQuantity = () => setQuantity(quantity + 1);
+  //const decrementQuantity = () =>
+  //  setQuantity(quantity > 1 ? quantity - 1 : quantity);
 
   const [mainImage, setMainImage] = useState(images[0]);
 
@@ -78,6 +86,24 @@ const ProductDetailsTwo = () => {
       dispatch(fetchReviewsByListing({ id_publicacion }));
       setStarsReview(0);
     }
+  };
+
+  const handleOpenChat = () => {
+    console.log("handleOpenChat", id_usuario);
+    if (id_usuario) {
+      dispatch(fetchUserByIdForChat({ id_usuario }));
+    }
+  };
+
+  const handleEdit = async () => {
+    if (id_publicacion) {
+      await dispatch(fetchListingById({ id_publicacion }));
+    }
+  };
+
+  const handleOpenStore = () => {
+    if (!id_usuario) return;
+    dispatch(fetchUserById({ id_usuario }));
   };
 
   useEffect(() => {
@@ -177,13 +203,11 @@ const ProductDetailsTwo = () => {
                     </div>
                   ) : null}
                   <span className="mt-32 pt-32 text-gray-700 border-top border-gray-100 d-block" />
-                  <Link
-                    to="/https://www.whatsapp.com"
-                    className="btn btn-black flex-center gap-8 rounded-8 py-16"
-                  >
-                    <i className="ph ph-chat-circle text-lg" />
-                    {t("request_more_information")}
-                  </Link>
+                  <div className="flex-align gap-8 mt-32">
+                    <span className="text-gray-500">{t("location")}:</span>
+                    {ubicacion}
+                  </div>
+                  <span className="mt-32 pt-32 text-gray-700 border-top border-gray-100 d-block" />
                 </div>
               </div>
             </div>
@@ -200,7 +224,7 @@ const ProductDetailsTwo = () => {
                 <span className="text-xl d-flex">
                   <i className="ph ph-location" />
                 </span>
-                <div className="d-flex rounded-4 overflow-hidden">
+                {/* <div className="d-flex rounded-4 overflow-hidden">
                   <button
                     onClick={decrementQuantity}
                     type="button"
@@ -222,7 +246,7 @@ const ProductDetailsTwo = () => {
                   >
                     <i className="ph ph-plus" />
                   </button>
-                </div>
+                </div> */}
               </div>
               {tipo_publicacion === "sale" ? (
                 <div className="mb-32">
@@ -233,17 +257,28 @@ const ProductDetailsTwo = () => {
                 </div>
               ) : null}
               <Link
-                to="#"
+                to={logged ? (itsMine ? "/post" : "/chat") : "/register"}
                 className="btn btn-main flex-center gap-8 rounded-8 py-16 fw-normal mt-48"
+                onClick={
+                  logged ? (itsMine ? handleEdit : handleOpenChat) : undefined
+                }
               >
-                <i className="ph ph-shopping-cart-simple text-lg" />
-                {t("add_to_cart")}
+                <i
+                  className={`ph ${itsMine ? "ph-pencil" : "ph-wechat-logo"} text-lg`}
+                />
+                {logged
+                  ? itsMine
+                    ? t("edit")
+                    : t("more_info")
+                  : t("register_for_info")}
               </Link>
               <Link
-                to="#"
-                className="btn btn-outline-main rounded-8 py-16 fw-normal mt-16 w-100"
+                to="/vendor-details"
+                onClick={handleOpenStore}
+                className="btn btn-outline-main rounded-8 gap-8 py-16 fw-normal mt-16 w-100"
               >
-                {t("buy_now")}
+                <i className="ph ph-storefront text-lg" />
+                {t("visit_store")}
               </Link>
               <div className="mt-32">
                 <div className="px-16 py-8 bg-main-50 rounded-8 flex-between gap-24 mb-14">
@@ -263,7 +298,7 @@ const ProductDetailsTwo = () => {
                   </span>
                 </div>
               </div>
-              <div className="mt-32">
+              {/* <div className="mt-32">
                 <div className="px-32 py-16 rounded-8 border border-gray-100 flex-between gap-8">
                   <Link to="#" className="d-flex text-main-600 text-28">
                     <i className="ph-fill ph-chats-teardrop" />
@@ -314,7 +349,7 @@ const ProductDetailsTwo = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -611,7 +646,7 @@ const ProductDetailsTwo = () => {
                         ) : null}
                       </div>
                     </div>
-                    <div className="col-lg-6">
+                    {/* <div className="col-lg-6">
                       <div className="ms-xxl-5">
                         <h6 className="mb-24">{t("customers_feedback")}</h6>
                         <div className="d-flex flex-wrap gap-44">
@@ -832,7 +867,7 @@ const ProductDetailsTwo = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

@@ -86,7 +86,7 @@ const Chat = () => {
 
       ws.current.onopen = () => {
         dispatch(setConnected(true));
-        dispatch(fetchConversations());
+        //dispatch(fetchConversations());
       };
 
       ws.current.onmessage = event => {
@@ -406,13 +406,13 @@ const Chat = () => {
                       nombreCompletoDefault)
                   : ""}
               </div>
-              <div className="small text-success">
+              {/* <div className="small text-success">
                 {conversacionActiva
                   ? conversacionActiva.en_linea
                     ? "En línea"
                     : "Desconectado"
                   : ""}
-              </div>
+              </div> */}
             </div>
             {/* {conversacionActiva && false ? (
               <button
