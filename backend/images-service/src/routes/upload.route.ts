@@ -59,7 +59,9 @@ const handleFileUpload = async ({
 };
 
 export async function uploadRoutes(app: FastifyInstance) {
-  app.register(multipart);
+  app.register(multipart, {
+    limits: {fileSize: 10 * 1024 * 1024}, // 10 MB
+  });
 
   app.register(jwtPlugin);
 
