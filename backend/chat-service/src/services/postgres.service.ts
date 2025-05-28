@@ -72,7 +72,7 @@ export const insertarMensaje = ({
         adjunto_tipo,
         adjunto_tamano,
         leido_remitente
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);
     `,
       [
         id_conversacion,

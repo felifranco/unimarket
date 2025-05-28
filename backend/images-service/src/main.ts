@@ -37,7 +37,7 @@ async function bootstrap() {
   // Configuración de CORS para permitir solicitudes desde cualquier origen.
   // Para producción, se recomienda restringir el origen.
   await app.register(cors, {
-    origin: true,
+    origin: ['https://felifranco.github.io'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['*'],
     credentials: true,

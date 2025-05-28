@@ -166,18 +166,22 @@ Los contratos API (API Contracts) son acuerdos formales que describen cómo se d
 ```mermaid
 graph TD;
   A["Frontend (React)"] -->|REST API| B[API Gateway]
+  A --> |WebSocket| L[API Gateway WebSocket]
   B -->|Autenticación| C[Auth Service]
   B -->|Usuarios| D[User Service]
   B -->|Publicaciones| E[Listings Service]
-  B -->|Transacciones| F[Transaction Service]
-  B -->|Mensajería| G[Messaging Service]
-  B -->|Valoraciones| H[Review Service]
-  B -->|Administración| I[Admin Service]
-  C -->|PostgreSQL| J[(DB Usuarios)]
-  D -->|PostgreSQL| K[(DB Perfiles)]
-  E -->|MongoDB| L[(DB Publicaciones)]
-  F -->|PostgreSQL| M[(DB Transacciones)]
-  G -->|MongoDB| N[(DB Mensajes)]
-  H -->|PostgreSQL| O[(DB Reviews)]
+  B -->|Comentario| G[Review Service]
+  B -->|Mensajería| H[Messaging Service]
+  B -->|Imagen| K[Image Service]
+  C --> J[(PostgreSQL)]
+  D --> J
+  E --> J
+  G --> J
+  H --> J
+  L -->|Mensaje| M[Chat Service]
+  M --> J
+  M -->|Sesión| N[(DynamoDB)]
+  K -->|Imagen| O[(Bucket S3)]
+    
 
 ```
