@@ -303,7 +303,7 @@ const Chat = () => {
 
                 let searchLastMessage = true;
                 let indexLastMessage = conversacion.mensajes.length - 1;
-                while (searchLastMessage) {
+                while (indexLastMessage >= 0 && searchLastMessage) {
                   if (
                     conversacion.mensajes[indexLastMessage].remitente ===
                     uuidDestinatario
@@ -311,11 +311,14 @@ const Chat = () => {
                     searchLastMessage = false;
                     break;
                   }
+                  if (indexLastMessage === 0) break;
                   indexLastMessage--;
                 }
 
                 ultimo_mensaje =
-                  conversacion.mensajes[indexLastMessage].mensaje;
+                  indexLastMessage >= 0
+                    ? conversacion.mensajes[indexLastMessage].mensaje
+                    : "";
               }
               const no_leidos = 0;
 
