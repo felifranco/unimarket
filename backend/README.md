@@ -39,6 +39,13 @@ Fuente: [https://stateofjs.com/en-US](https://2024.stateofjs.com/en-US/other-too
     - [🔶 Modificación a DTOs](#-modificación-a-dtos)
   - [📌 Variables de entorno](#-variables-de-entorno)
 - [JWT](#jwt)
+- [Publicación en ECR](#publicación-en-ecr)
+  - [Auth Service](#auth-service)
+    - [Local](#local)
+  - [Listing Service](#listing-service)
+  - [Review Service](#review-service)
+- [KUBERNETES](#kubernetes)
+  - [MiniKube](#minikube)
 - [Referencias](#referencias)
 
 ## 📌 Nuevo microservicio con NestJS
@@ -357,6 +364,195 @@ npm i @nestjs/jwt @nestjs/passport passport passport-jwt bcryptjs
 npm i -D @types/passport-jwt @types/bcryptjs
 ```
 
+# Publicación en ECR
+
+```shell
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 905418366148.dkr.ecr.us-east-1.amazonaws.com
+```
+
+## Auth Service
+
+```shell
+rm -r dist
+```
+
+```shell
+npm run build
+```
+
+```shell
+docker build -t unimarket/auth_service --file lambda.Dockerfile .
+```
+
+```shell
+docker tag unimarket/auth_service:latest 905418366148.dkr.ecr.us-east-1.amazonaws.com/unimarket/auth_service:latest
+```
+
+```shell
+docker push 905418366148.dkr.ecr.us-east-1.amazonaws.com/unimarket/auth_service:latest
+```
+
+### Local
+
+```shell
+rm -r dist
+```
+
+Asegurarse que la conexión a la base de datos no utilice SSL
+
+```shell
+npm run build
+```
+
+```shell
+docker build -t local/auth_service --file lambda.Dockerfile .
+```
+
+```shell
+docker run --name auth_service_lambda -p 9000:8080 -e DB_TYPE=postgres -e DB_HOST=172.17.0.3 -e DB_PORT=5432 -e DB_USER=postgres -e DB_PASS=pass123 -e DB_DATABASE=postgres -e "JWT_SECRET=kuDrl&r0sug7zAy0pi70" -e JWT_EXPIRATION_TIME="100m" -e JWT_REFRESH_EXPIRATION_TIME="120m" local/auth_service:latest
+```
+
+```shell
+curl --location 'http://localhost:9000/2015-03-31/functions/function/invocations' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "path": "/auth/login",
+    "httpMethod": "POST",
+    "requestContext": {},
+    "body":"{\"correo\": \"ffranco@mail.com\",\"password\": \"abc123\"}",
+    "headers": {
+        "accept": "/*",
+        "Content-Type": "application/json"
+    }
+}'
+```
+
+## Listing Service
+
+```shell
+rm -r dist
+```
+
+```shell
+npm run build
+```
+
+```shell
+docker build -t unimarket/listing-service --file lambda.Dockerfile .
+```
+
+```shell
+docker tag unimarket/listing-service:latest 905418366148.dkr.ecr.us-east-1.amazonaws.com/unimarket/listing-service:latest
+```
+
+```shell
+docker push 905418366148.dkr.ecr.us-east-1.amazonaws.com/unimarket/listing-service:latest
+```
+
+## Review Service
+
+```shell
+rm -r dist
+```
+
+```shell
+npm run build
+```
+
+```shell
+docker build -t unimarket/review-service --file lambda.Dockerfile .
+```
+
+```shell
+docker tag unimarket/review-service:latest 905418366148.dkr.ecr.us-east-1.amazonaws.com/unimarket/review-service:latest
+```
+
+```shell
+docker push 905418366148.dkr.ecr.us-east-1.amazonaws.com/unimarket/review-service:latest
+```
+
+# KUBERNETES
+
+```shell
+npm run install:prod && npm run prune_me
+```
+
+```shell
+npm run build
+```
+
+```shell
+docker build -t f64franco/unimarket/auth-service
+```
+
+```shell
+docker run --name unimarket-auth-service -p 3010:3000 -e APP_PORT=3000 -e NODE_ENV=production -e DB_TYPE=postgres -e DB_HOST=172.17.0.3 -e DB_PORT=5432 -e DB_USER=postgres -e DB_PASS=pass123 -e DB_DATABASE=postgres -e "JWT_SECRET=kuDrl&r0sug7zAy0pi70" -e JWT_EXPIRATION_TIME="100m" -e JWT_REFRESH_EXPIRATION_TIME="120m" f64franco/unimarket/auth-service
+```
+
+PROD
+```shell
+docker run --name unimarket-auth-service -p 3000:3000 -e APP_PORT=3000 -e NODE_ENV=production -e DB_TYPE=postgres -e DB_HOST="unimarket.cpamg46ggn7h.us-east-1.rds.amazonaws.com" -e DB_PORT=5432 -e DB_USER=postgres -e DB_PASS="MagIch_JEfroCHuzEBr2" -e DB_DATABASE=postgres -e "JWT_SECRET=kuDrl&r0sug7zAy0pi70" -e JWT_EXPIRATION_TIME="100m" -e JWT_REFRESH_EXPIRATION_TIME="120m" f64franco/unimarket-auth-service:prod-latest
+```
+
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```
+## MiniKube
+
+```shell
+minikube start --driver=docker
+```
+
+```shell
+minikube kubectl version
+```
+
+```shell
+$ minikube docker-env
+$ eval $(minikube -p minikube docker-env)
+$ docker build --tag tickets_micro:fase1 ./
+$ docker images
+$ kubectl create deployment ticketsmicro --image=tickets_micro:fase1 --port=3000
+$ kubectl get pods
+$ kubectl get service
+$ kubectl get deployments
+$ kubectl expose deployment ticketsmicro --type=NodePort
+$ kubectl get service
+$ minikube service ticketsmicro --url
+```
+
+```shell
+    - cd "$KUBERNETES_FILES"
+    - kubectl delete --namespace $NAMESPACE -f main-deployment.yaml || exit_code_deployment=$?
+    - kubectl apply --namespace $NAMESPACE -f main-deployment.yaml
+    #- kubectl apply --namespace $NAMESPACE -f main-service.yaml
+    - echo "Deployed to namespace $NAMESPACE =)"
+```
+
+```shell
+kubectl delete -f tickets_deployment.yaml
+kubectl delete service tickets-deployment
+```
+
+
+
 # Referencias
 
 https://docs.nestjs.com/techniques/database#async-configuration
+https://medium.com/the-nobodys-of-tech/nestjs-fastify-aws-lambda-86e5c460cf57
