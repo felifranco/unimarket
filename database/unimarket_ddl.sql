@@ -15,8 +15,8 @@ CREATE TABLE public.usuario (
 	rol varchar(100),
 	estado varchar(50),
 	refresh_token varchar(500),
-	fecha_creacion timestamptz NULL,
-	fecha_modificacion timestamptz NULL
+	fecha_creacion timestamptz DEFAULT NOW(),
+	fecha_modificacion timestamptz DEFAULT NOW()
 );
 
 CREATE TABLE public.publicacion (
@@ -41,8 +41,8 @@ CREATE TABLE public.publicacion (
 	insignia varchar NULL,
 	imagenes varchar NULL,
 	imagen_portada varchar NULL,
-	fecha_creacion timestamptz NULL,
-	fecha_modificacion timestamptz NULL
+	fecha_creacion timestamptz DEFAULT NOW(),
+	fecha_modificacion timestamptz DEFAULT NOW()
 );
 
 CREATE TABLE public.comentario (
@@ -55,8 +55,8 @@ CREATE TABLE public.comentario (
 	estrellas numeric NULL,
 	likes numeric NULL,
 	estado varchar NULL,
-	fecha_creacion timestamptz NULL,
-	fecha_modificacion timestamptz NULL
+	fecha_creacion timestamptz DEFAULT NOW(),
+	fecha_modificacion timestamptz DEFAULT NOW()
 );
 
 CREATE TABLE public.valoracion (
@@ -66,8 +66,8 @@ CREATE TABLE public.valoracion (
 	puntuacion numeric NOT NULL,
 	comentario varchar NULL,
 	estado varchar NULL,
-	fecha_creacion timestamptz NULL,
-	fecha_modificacion timestamptz NULL
+	fecha_creacion timestamptz DEFAULT NOW(),
+	fecha_modificacion timestamptz DEFAULT NOW()
 );
 
 CREATE TABLE conversacion (
@@ -97,5 +97,6 @@ CREATE TABLE mensaje (
   leido_remitente BOOLEAN DEFAULT FALSE,
   leido_destinatario BOOLEAN DEFAULT FALSE,
   fecha_envio timestamptz DEFAULT NOW(),
-  fecha_modificacion timestamptz DEFAULT NOW()
+  fecha_modificacion timestamptz DEFAULT NOW(),
+  fecha_creacion timestamptz DEFAULT NOW()
 );
