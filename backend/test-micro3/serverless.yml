@@ -1,0 +1,17 @@
+service: main-service
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+
+functions:
+  main:
+    handler: dist/main.handler
+    timeout: 30
+    events:
+      - http:
+          path: /
+          method: get
+
+plugins:
+  - serverless-offline

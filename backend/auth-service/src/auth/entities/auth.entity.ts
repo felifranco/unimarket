@@ -11,54 +11,25 @@ export class Auth {
   @PrimaryGeneratedColumn()
   id_usuario: number;
 
-  @Column({ type: 'varchar', length: 36, unique: true })
-  uuid: string;
-
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 255 })
   nombre_completo: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', unique: true })
   correo: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', unique: true })
   username: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  imagen_portada: string;
-
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  imagen_perfil: string;
-
-  @Column({ type: 'varchar', length: 300, nullable: true })
-  acerca_de: string;
-
-  @Column({ type: 'varchar', length: 150, nullable: true })
-  ubicacion: string;
-
-  @Column({ type: 'varchar', length: 20, nullable: true })
-  telefono: string;
-
-  @Column({ default: 0 })
-  estrellas: number;
-
-  @Column({ default: 0 })
-  calificacion: number;
-
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar' })
   password_hash: string;
 
-  @Column({ nullable: true, type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', nullable: true })
   rol: string;
 
-  @Column({ nullable: true, type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', nullable: true })
   estado: string;
 
-  @Column({
-    name: 'refresh_token',
-    nullable: true,
-    type: 'varchar',
-    length: 500,
-  })
+  @Column({ type: 'varchar', nullable: true })
   refreshToken: string;
 
   @CreateDateColumn({ type: 'timestamptz' })

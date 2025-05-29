@@ -6,7 +6,7 @@ provider:
 
 functions:
   auth:
-    handler: dist/main.handler
+    handler: dist/index.handler
     timeout: 30
     events:
       - http:

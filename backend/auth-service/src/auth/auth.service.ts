@@ -2,58 +2,45 @@ import { UnauthorizedException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { PayloadAuthDto } from './dto/payload-auth.dto';
+//import { PayloadAuthDto } from './dto/payload-auth.dto';
 import { RefreshTokenAuthDto } from './dto/refresh-token-auth.dto';
 import { Auth } from './entities/auth.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AuthStatus, defaultValues } from 'src/constants/app.constants';
-import { hashPassword, comparePassword } from 'src/utils/hash.util';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import { v4 as uuidv4 } from 'uuid';
-
-// Explicitly type uuidv4 to avoid 'any' or 'error' type issues
-const uuidv4Typed = uuidv4 as () => string;
+//import { AuthStatus, defaultValues } from 'src/constants/app.constants';
+import { /* hashPassword, */ comparePassword } from 'src/utils/hash.util';
+//import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(Auth)
     private readonly authRepo: Repository<Auth>,
-    private jwtService: JwtService,
-    private configService: ConfigService,
+    //private jwtService: JwtService,
   ) {}
 
-  async register(registerAuthDto: RegisterAuthDto) {
-    // Validar que el correo y el username no existan
-    const existingEmail = await this.authRepo.findOneBy({
-      correo: registerAuthDto.correo,
-    });
-    if (existingEmail) {
-      throw new Error('El correo electrónico ya está registrado');
-    }
-    const existingUsername = await this.authRepo.findOneBy({
-      username: registerAuthDto.username,
-    });
-    if (existingUsername) {
-      throw new Error('El nombre de usuario ya está registrado');
-    }
-    // Crear un nuevo usuario con los datos proporcionados
-    const hashedPassword = await hashPassword(registerAuthDto.password); // Hashear la contraseña
+  //async register(registerAuthDto: RegisterAuthDto) {
+  //  console.log('auth.service.ts - register()');
+  //  // Crear un nuevo usuario con los datos proporcionados
+  //  const hashedPassword = await hashPassword(registerAuthDto.password); // Hashear la contraseña
+  //
+  //  const newAuth = this.authRepo.create({
+  //    nombre_completo: registerAuthDto.nombre_completo,
+  //    correo: registerAuthDto.correo,
+  //    username: registerAuthDto.username,
+  //    password_hash: hashedPassword,
+  //    estado: AuthStatus.ACTIVO, // Estado por defecto
+  //  });
+  //  await this.authRepo.save(newAuth); // Guardar el usuario en la base de datos
+  //  return;
+  //}
 
-    const newAuth = this.authRepo.create({
-      uuid: uuidv4Typed(),
-      nombre_completo: registerAuthDto.nombre_completo,
-      correo: registerAuthDto.correo,
-      username: registerAuthDto.username,
-      password_hash: hashedPassword,
-      estado: AuthStatus.ACTIVO, // Estado por defecto
-    });
-    await this.authRepo.save(newAuth); // Guardar el usuario en la base de datos
-    return;
+  register(registerAuthDto: RegisterAuthDto): Promise<any> {
+    // Implementa la lógica de registro aquí
+    console.log('registerAuthDto - service: ', registerAuthDto);
+    return { message: 'Usuario registrado exitosamente' };
   }
-
+  /*
   async generateTokens(user: Auth) {
     const payloadAuthDto: PayloadAuthDto = {
       id_usuario: user.id_usuario,
@@ -61,13 +48,12 @@ export class AuthService {
     };
 
     // Generar accessToken con tiempo de expiración corto
-    const accessToken = this.jwtService.sign(payloadAuthDto);
+    const accessToken = this.jwtService.sign(payloadAuthDto, {
+      expiresIn: '100m',
+    });
     // Generar refreshToken con tiempo de expiración más largo
     const refreshToken = this.jwtService.sign(payloadAuthDto, {
-      expiresIn: this.configService.get<string>(
-        'jwtRefresh.expiresIn',
-        defaultValues.JWT_REFRESH_EXPIRATION_TIME,
-      ),
+      expiresIn: '2d',
     });
 
     // Guardar el refreshToken en la base de datos
@@ -76,6 +62,10 @@ export class AuthService {
     await this.authRepo.save(user);
 
     return { accessToken, refreshToken };
+  }*/
+
+  generateTokens(user: Auth) {
+    return user;
   }
 
   async login(loginAuthDto: LoginAuthDto) {

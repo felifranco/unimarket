@@ -1,0 +1,21 @@
+import { Handler } from 'aws-lambda';
+import serverlessExpress from '@codegenie/serverless-express';
+import { bootstrap } from 'src/main';
+
+let cachedHandler: Handler;
+
+async function initExpress() {
+  console.log('lambda.ts - initExpress()');
+  const expressApp = await bootstrap();
+
+  console.log('lambda.ts - initExpress(end)');
+  return serverlessExpress({ app: expressApp });
+}
+
+export const handler: Handler = async (event, context, callback) => {
+  console.log('lambda.ts - handler()', { event });
+  cachedHandler = cachedHandler ?? (await initExpress());
+
+  console.log('lambda.ts - handler(end)');
+  return cachedHandler(event, context, callback);
+};

@@ -1,0 +1,6 @@
+{
+    "compilerOptions": {
+      "builder": "esbuild",
+      "assets": ["src/**/*.hbs", "src/**/*.html"]
+    }
+  }

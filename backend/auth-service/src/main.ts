@@ -1,4 +1,4 @@
-import { Server } from 'http';
+import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ExpressAdapter } from '@nestjs/platform-express';
@@ -11,7 +11,15 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 let lambdaProxy: Server;
 
-let bootstrapPromise: Promise<{ app: any; server: Server }> | null = null;
+export async function bootstrap(): Promise<NestApp> {
+  console.log('main.ts - bootstrap(init)');
+  const serverOptions: FastifyServerOptions = { logger: true };
+  const instance: FastifyInstance = fastify(serverOptions);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter(instance),
+    { logger: !process.env.AWS_EXECUTION_ENV ? new Logger() : console },
+  );
 
 async function bootstrap() {
   const server = express();
@@ -44,15 +52,26 @@ async function bootstrap() {
 
   await app.init();
 
-  return { app, server: serverlessExpress.createServer(server, null, []) };
+  console.log('main.ts - bootstrap(end)');
+
+  return { app, instance };
 }
 
-// Inicializar solo una vez y reutilizar
-function getBootstrapPromise() {
-  if (!bootstrapPromise) {
-    bootstrapPromise = bootstrap();
-  }
-  return bootstrapPromise;
+// Instrucción para ejecutar local o como módulo
+if (require.main === module) {
+  bootstrap()
+    .then(async (obj) => {
+      try {
+        console.log('main.ts - require.main== module');
+        await obj.app.listen(configurations().appPort);
+      } catch (error) {
+        console.error('Error while starting the server:', error);
+        process.exit(1);
+      }
+    })
+    .catch((error) => {
+      console.error('Error during application bootstrap:', error);
+    });
 }
 
 getBootstrapPromise()

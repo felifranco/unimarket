@@ -24,7 +24,9 @@ export class AuthController {
   @Post('register')
   @CommonResponses()
   register(@Body() registerAuthDto: RegisterAuthDto) {
+    console.log('Register DTO:', registerAuthDto);
     return this.authService.register(registerAuthDto);
+    //return { message: 'Controller OK' };
   }
 
   @Post('login')

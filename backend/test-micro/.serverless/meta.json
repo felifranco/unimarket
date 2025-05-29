@@ -1,0 +1,94 @@
+{
+  "/home/feli/Documentos/Repos/GitHub/unimarket/backend/test-micro/serverless.yml": {
+    "versionFramework": "4.14.3",
+    "servicePath": "/home/feli/Documentos/Repos/GitHub/unimarket/backend/test-micro/serverless.yml",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "auth-service",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs22.x",
+        "stage": "dev",
+        "region": "us-east-1",
+        "versionFunctions": true
+      },
+      "functions": {
+        "auth": {
+          "handler": "dist/main.handler",
+          "timeout": 30,
+          "events": [
+            {
+              "http": {
+                "path": "/",
+                "method": "get"
+              }
+            },
+            {
+              "http": {
+                "path": "auth/",
+                "method": "get"
+              }
+            },
+            {
+              "http": {
+                "path": "auth/register",
+                "method": "post"
+              }
+            },
+            {
+              "http": {
+                "path": "auth/refresh",
+                "method": "post"
+              }
+            },
+            {
+              "http": {
+                "path": "auth/me",
+                "method": "get"
+              }
+            }
+          ]
+        }
+      },
+      "plugins": [
+        "serverless-offline"
+      ]
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "nodejs22.x",
+      "stage": "dev",
+      "region": "us-east-1",
+      "versionFunctions": true
+    },
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "error": {
+      "message": "Serverless plugin \"serverless-offline\" not found. Make sure it's installed and listed in the \"plugins\" section of your serverless config file. Use the --debug flag to learn more.",
+      "stack": "ServerlessError2: Serverless plugin \"serverless-offline\" not found. Make sure it's installed and listed in the \"plugins\" section of your serverless config file. Use the --debug flag to learn more.\n    at PluginManager.resolveServicePlugins (file:///home/feli/.serverless/releases/4.14.3/package/dist/sf-core.js:1241:2914)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async PluginManager.loadAllPlugins (file:///home/feli/.serverless/releases/4.14.3/package/dist/sf-core.js:1241:1292)\n    at async Serverless.init (file:///home/feli/.serverless/releases/4.14.3/package/dist/sf-core.js:1248:9843)\n    at async runFramework (file:///home/feli/.serverless/releases/4.14.3/package/dist/sf-core.js:1275:839)\n    at async TraditionalRunner.run (file:///home/feli/.serverless/releases/4.14.3/package/dist/sf-core.js:1271:28313)\n    at async route (file:///home/feli/.serverless/releases/4.14.3/package/dist/sf-core.js:1302:2779)\n    at async Object.run (file:///home/feli/.serverless/releases/4.14.3/package/dist/sf-core.js:1303:3661)\n    at async run2 (file:///home/feli/.serverless/releases/4.14.3/package/dist/sf-core.js:1303:4815)",
+      "code": "PLUGIN_NOT_FOUND"
+    },
+    "serviceRawFile": "service: auth-service\n\nprovider:\n  name: aws\n  runtime: nodejs22.x\n\nfunctions:\n  auth:\n    handler: dist/main.handler\n    timeout: 30\n    events:\n      - http:\n          path: /\n          method: get\n      - http:\n          path: auth/\n          method: get\n      - http:\n          path: auth/register\n          method: post\n      - http:\n          path: auth/refresh\n          method: post\n      - http:\n          path: auth/me\n          method: get\n\nplugins:\n  - serverless-offline\n",
+    "command": [
+      "offline"
+    ],
+    "options": {},
+    "orgId": "fdd5991b-fb5a-4912-acf1-adf2b4935842",
+    "orgName": "f64franco",
+    "userId": "VKgSt4lcZpT0YLrczt",
+    "userName": "f64franco",
+    "serviceProviderAwsAccountId": "905418366148",
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  }
+}
